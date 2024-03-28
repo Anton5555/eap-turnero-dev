@@ -14,8 +14,9 @@ const Page = () => (
         height={628}
       />
 
-      <div className="z-1 absolute h-full w-full bg-gradient-linear"></div>
+      <a className="z-1 absolute h-full w-full bg-gradient-linear"></a>
     </div>
+
     <div className="mt-4 flex flex-1 flex-col lg:mt-0">
       <div className="mx-auto w-full max-w-lg space-y-6">
         <div className="flex flex-col items-center space-y-6">
@@ -27,6 +28,11 @@ const Page = () => (
             height={51}
           />
 
+          <div className="flex w-10/12 flex-row justify-center gap-6">
+            <div className="flex w-full flex-col rounded-full border-b-[3px] border-green"></div>
+            <div className="border-gray10 flex w-full flex-col rounded-full border-b-[3px]"></div>
+          </div>
+
           <H4 className="hidden lg:flex">
             ¡Agenda citas online con profesionales de tu programa de asistencia
             al empleado!{" "}
@@ -34,7 +40,9 @@ const Page = () => (
 
           <H4 className="lg:hidden">Inicia sesión para comenzar!</H4>
 
-          <H6 className="hidden lg:flex">Inicia sesión para comenzar</H6>
+          <H6 className="text-blackAlt hidden lg:flex">
+            Inicia sesión para comenzar
+          </H6>
         </div>
 
         <div className="flex justify-center">
