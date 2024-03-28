@@ -21,7 +21,7 @@ const Input = React.forwardRef<
     <input
       type={type}
       className={cn(
-        "align-center block h-12 w-full rounded-full border-0 px-4 py-1.5 leading-5 text-black shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green",
+        "align-center block h-12 w-full rounded-full border-0 px-4 py-1.5 leading-5 text-black shadow-sm ring-1 ring-inset ring-black placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green focus:placeholder:text-green",
         className,
         errorText &&
           "text-orange ring-orange focus:ring-inset focus:ring-orange",

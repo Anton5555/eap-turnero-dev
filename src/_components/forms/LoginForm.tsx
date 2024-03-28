@@ -47,7 +47,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <form
-      className="w-11/12 space-y-5"
+      className="w-11/12 space-y-5 lg:w-10/12"
       onSubmit={handleSubmit((data) => mutation.mutate(data))}
     >
       <Input

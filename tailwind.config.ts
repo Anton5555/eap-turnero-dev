@@ -13,6 +13,7 @@ export default {
         orange: '#FC5859',
         cream: '#FEF7F7',
         black: '#1C1C1C',
+        blackAlt: '#070707',
         grey40: '#999999',
         grey20: '#00000033',
         grey10: '#0000001A',
