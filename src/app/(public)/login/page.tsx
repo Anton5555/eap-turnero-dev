@@ -1,43 +1,44 @@
 import LoginForm from "~/_components/forms/LoginForm";
 import Image from "next/image";
+import H4 from "~/_components/common/titles/H4";
+import H6 from "~/_components/common/titles/H6";
 
 const Page = () => (
-  <div className="flex min-h-full flex-1">
-    <div className="relative hidden w-0 flex-1 lg:block">
+  <div className="flex flex-col lg:flex-row lg:justify-between">
+    <div className="relative flex h-3/4 overflow-hidden lg:flex-col">
       <Image
-        className="absolute inset-0 h-full w-full object-cover"
+        className="w-full lg:rounded-2xl lg:object-cover"
         src="/login.png"
         alt="login image"
-        width={200}
-        height={200}
+        width={642}
+        height={628}
       />
-    </div>
 
-    <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-      <div className="mx-auto w-full max-w-sm lg:w-96">
-        <div>
+      <div className="z-1 absolute h-full w-full bg-gradient-linear"></div>
+    </div>
+    <div className="mt-4 flex flex-1 flex-col lg:mt-0">
+      <div className="mx-auto w-full max-w-lg space-y-6">
+        <div className="flex flex-col items-center space-y-6">
           <Image
             className="h-10 w-auto"
             src="/logo.png"
             alt="eap latina logo"
-            width={50}
-            height={20}
+            width={107}
+            height={51}
           />
 
-          <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-green">
+          <H4 className="hidden lg:flex">
             ¡Agenda citas online con profesionales de tu programa de asistencia
             al empleado!{" "}
-          </h2>
+          </H4>
 
-          <p className="mt-2 text-sm leading-6 text-gray-500">
-            Inicia sesión para comenzar
-          </p>
+          <H4 className="lg:hidden">Inicia sesión para comenzar!</H4>
+
+          <H6 className="hidden lg:flex">Inicia sesión para comenzar</H6>
         </div>
 
-        <div className="mt-10">
-          <div>
-            <LoginForm />
-          </div>
+        <div className="flex justify-center">
+          <LoginForm />
 
           <div className="mt-10">
             <div className="relative">

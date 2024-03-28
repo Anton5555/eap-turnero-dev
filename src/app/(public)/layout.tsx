@@ -1,7 +1,7 @@
 import React from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => (
-  <section className="items-center md:mx-4 md:my-6 md:justify-between">
+  <section className="items-center lg:mx-4 lg:my-6 lg:justify-between">
     {children}
   </section>
 );
