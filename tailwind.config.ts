@@ -21,7 +21,10 @@ export default {
         white20: '#FFFFFF33',
         white10: '#FFFFFF1A',
         white5: '#FFFFFF0D'
-      }
+      },
+      backgroundImage: theme => ({
+        'gradient-linear': 'linear-gradient(180.81deg, rgba(217, 217, 217, 0) 24.75%, #009D7D 123.9%)',
+      }),
     },
   },
   plugins: [ 
