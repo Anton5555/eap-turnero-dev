@@ -9,8 +9,8 @@ const Page = () => (
     <div className="relative flex h-3/4 overflow-hidden lg:flex-col">
       <Image
         className="w-full lg:rounded-2xl lg:object-cover"
-        src="/login.png"
-        alt="login image"
+        src="/welcome.png"
+        alt="welcome page image"
         width={642}
         height={628}
       />
@@ -28,24 +28,35 @@ const Page = () => (
             height={51}
           />
 
-          <H4 className="justify-center lg:justify-start">
-            ¡Te damos la bienvenida!
-          </H4>
+          <div className="flex w-10/12 flex-row justify-center gap-6">
+            <div className="border-gray10 flex w-full flex-col rounded-full border-b-[3px]"></div>
+            <div className="flex w-full flex-col rounded-full border-b-[3px] border-green"></div>
+          </div>
 
-          <H6 className="justify-center lg:justify-start">
-            En esta plataforma encontrarás una amplia selección de profesionales
-            que te ayudarán a potenciar tu bienestar integral.
-            <br />
-            Agenda 100% online tus citas con profesionales de salud mental,
-            física, legal y financiera.
-            <br />
-            <span className="text-bold">¿Comenzamos?</span>
-          </H6>
+          <div className="justify-center space-y-6 lg:justify-start">
+            <H4>¡Te damos la bienvenida!</H4>
+
+            <H6>
+              En esta plataforma encontrarás una amplia selección de
+              profesionales que te ayudarán a potenciar tu bienestar integral.
+              <br />
+              <br />
+              Agenda 100% online tus citas con profesionales de salud mental,
+              física, legal y financiera.
+              <br />
+              <br />
+              <span className="text-bold">¿Comenzamos?</span>
+            </H6>
+          </div>
         </div>
 
-        <div className="flex justify-center lg:justify-end">
-          <Button variant="ghost">Omitir</Button>
-          <Button variant="default">Continuar</Button>
+        <div className="flex flex-col justify-center lg:justify-end">
+          <Button variant="ghost" className="w-full">
+            Omitir
+          </Button>
+          <Button variant="default" className="mt-2 w-full">
+            Siguiente
+          </Button>
         </div>
       </div>
     </div>
