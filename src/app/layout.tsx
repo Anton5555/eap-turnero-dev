@@ -1,7 +1,8 @@
 import "~/styles/globals.css";
 
 import { Lato as FontSans } from "next/font/google";
-import Providers from "./providers";
+import { QueryProvider, SessionProvider } from "./providers";
+import { getServerSession } from "next-auth";
 
 const inter = FontSans({
   subsets: ["latin"],
@@ -15,12 +16,17 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => (
-  <html lang="en">
-    <body className={`font-sans ${inter.variable} lg:px-6 lg:py-8`}>
-      <Providers>{children}</Providers>
-    </body>
-  </html>
-);
+const RootLayout = async ({ children }: { children: React.ReactNode }) => {
+  const session = await getServerSession();
+  return (
+    <html lang="en">
+      <body className={`font-sans ${inter.variable} lg:px-6 lg:py-8`}>
+        <QueryProvider>
+          <SessionProvider session={session}>{children}</SessionProvider>
+        </QueryProvider>
+      </body>
+    </html>
+  );
+};
 
 export default RootLayout;

@@ -1,6 +1,7 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SessionProvider } from "next-auth/react";
 
 const makeQueryClient = () =>
   new QueryClient({
@@ -21,7 +22,7 @@ const getQueryClient = () => {
   }
 };
 
-const Providers = ({ children }: { children: React.ReactNode }) => {
+const QueryProvider = ({ children }: { children: React.ReactNode }) => {
   const queryClient = getQueryClient();
 
   return (
@@ -29,4 +30,4 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default Providers;
+export { QueryProvider, SessionProvider };
