@@ -7,10 +7,9 @@ import { z } from "zod";
 import { Input } from "../common/Input";
 import Link from "next/link";
 import { Button } from "../common/Button";
-import login from "~/app/api/auth";
 import H4 from "../common/titles/H4";
-import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 const loginFormSchema = z.object({
   email: z.string().trim().email({ message: "Ingresa un email válido" }),
@@ -33,22 +32,32 @@ const LoginForm: React.FC = () => {
     resolver: zodResolver(loginFormSchema),
   });
 
-  const mutation = useMutation({
-    mutationFn: login,
-    onError: (error) => {
-      if (error.message === "Usuario no encontrado")
-        setError("email", { message: error.message });
-      else if (error.message === "Contraseña incorrecta")
-        setError("password", { message: error.message });
-      else console.error(error);
-    },
-    onSuccess: () => router.push("/welcome"),
-  });
+  const onSubmit = async (data: Inputs) => {
+    const { email, password } = data;
+
+    const response = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (!response?.error) {
+      router.push("/welcome");
+      router.refresh();
+    }
+
+    if (response?.error === "Contraseña incorrecta")
+      setError("password", { message: response.error });
+    if (response?.error === "Usuario no encontrado")
+      setError("email", { message: response.error });
+    // TODO: Handle other errors
+    else console.error(response?.error);
+  };
 
   return (
     <form
       className="w-11/12 space-y-5 lg:w-10/12"
-      onSubmit={handleSubmit((data) => mutation.mutate(data))}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <Input
         type="email"
@@ -60,7 +69,7 @@ const LoginForm: React.FC = () => {
       />
 
       <H4 className="hidden text-base font-semibold text-black lg:flex">
-        *Recuerda que tu email debe ser{" "}
+        *Recuerda que tu email debe ser{"   "}
         <span className="text-green"> corporativo</span>
       </H4>
 
