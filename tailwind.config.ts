@@ -13,6 +13,7 @@ export default {
         orange: '#FC5859',
         cream: '#FEF7F7',
         black: '#1C1C1C',
+        blackAlt: '#070707',
         grey40: '#999999',
         grey20: '#00000033',
         grey10: '#0000001A',
@@ -21,8 +22,13 @@ export default {
         white20: '#FFFFFF33',
         white10: '#FFFFFF1A',
         white5: '#FFFFFF0D'
-      }
+      },
+      backgroundImage: theme => ({
+        'gradient-linear': 'linear-gradient(180.81deg, rgba(217, 217, 217, 0) 24.75%, #009D7D 123.9%)',
+      }),
     },
   },
-  plugins: [],
+  plugins: [ 
+    require('@tailwindcss/forms'),  
+  ],
 } satisfies Config;
