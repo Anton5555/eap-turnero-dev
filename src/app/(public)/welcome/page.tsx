@@ -30,6 +30,7 @@ const Page = () => (
 
           <div className="flex w-10/12 flex-row justify-center gap-6">
             <div className="border-gray10 flex w-full flex-col rounded-full border-b-[3px]"></div>
+
             <div className="flex w-full flex-col rounded-full border-b-[3px] border-green"></div>
           </div>
 
@@ -54,6 +55,7 @@ const Page = () => (
           <Button variant="ghost" className="w-full">
             Omitir
           </Button>
+
           <Button variant="default" className="mt-2 w-full">
             Siguiente
           </Button>
