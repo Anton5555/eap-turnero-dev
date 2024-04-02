@@ -3,12 +3,10 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const LoginAdapter = (credentials: Record<"email" | "password", string> | undefined) => {
-  return {
+const LoginAdapter = (credentials: Record<"email" | "password", string> | undefined) => ({
     Username: credentials?.email,
     Password: credentials?.password,
-  };
-}
+});
 
 type User = {
   mail: string;
@@ -85,8 +83,8 @@ const handler = NextAuth({
           name: user.nombre,
           // accessToken: token,
         };
+
         else return null;
-        
       },
     }),
   ],
