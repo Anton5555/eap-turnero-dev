@@ -56,7 +56,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <form
-      className="w-11/12 space-y-5 lg:w-10/12"
+      className="w-full justify-center space-y-5 lg:max-w-sm"
       onSubmit={handleSubmit(onSubmit)}
     >
       <Input
@@ -68,9 +68,9 @@ const LoginForm: React.FC = () => {
         errorText={errors.email?.message}
       />
 
-      <H4 className="hidden text-base font-semibold text-black lg:flex">
-        *Recuerda que tu email debe ser{"   "}
-        <span className="text-green"> corporativo</span>
+      <H4 className="hidden text-base font-semibold text-black lg:block">
+        *Recuerda que tu email debe ser{" "}
+        <span className="text-green">corporativo</span>
       </H4>
 
       <Input

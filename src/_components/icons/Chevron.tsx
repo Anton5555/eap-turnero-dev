@@ -1,15 +1,9 @@
 interface IconProps {
-  direction?: "up" | "down";
   width?: number;
   height?: number;
 }
 
-//TODO: flip the arrow when direction = up
-const ChevronIcon: React.FC<IconProps> = ({
-  direction = "down",
-  width = 10,
-  height = 8,
-}) => (
+const ChevronIcon: React.FC<IconProps> = ({ width = 10, height = 8 }) => (
   <svg
     width={width}
     height={height}

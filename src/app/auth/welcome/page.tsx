@@ -9,19 +9,20 @@ import Link from "next/link";
 
 const Page = () => (
   <div className="flex flex-col lg:flex-row lg:justify-between">
-    <div className="relative flex h-3/4 overflow-hidden lg:flex-col">
+    <div className="relative flex h-56 overflow-hidden lg:h-full lg:flex-col lg:rounded-2xl">
       <Image
-        className="w-full lg:rounded-2xl lg:object-cover"
+        className="w-full object-cover"
         src="/welcome.png"
         alt="welcome page image"
         width={642}
         height={628}
       />
 
-      <div className="z-1 absolute h-full w-full bg-gradient-linear"></div>
+      <a className="z-1 absolute h-full w-full bg-gradient-linear"></a>
     </div>
-    <div className="mt-4 flex flex-1 flex-col lg:mt-0">
-      <div className="mx-auto w-full max-w-lg space-y-6">
+
+    <div className="mx-6 mt-4 flex flex-1 flex-col items-center justify-center lg:mx-0 lg:mt-0">
+      <div className="max-h-lhv mx-auto flex max-w-lg flex-grow flex-col justify-between">
         <div className="flex flex-col items-center space-y-6">
           <Image
             className="h-10 w-auto"
@@ -31,36 +32,39 @@ const Page = () => (
             height={51}
           />
 
-          <div className="flex w-10/12 flex-row justify-center gap-6">
-            <div className="flex w-full flex-col rounded-full border-b-[3px] border-gray10"></div>
-
+          <div className="flex w-full max-w-sm flex-row justify-center gap-6">
             <div className="flex w-full flex-col rounded-full border-b-[3px] border-green"></div>
+
+            <div className="flex w-full flex-col rounded-full border-b-[3px] border-gray10"></div>
           </div>
 
-          <div className="justify-center space-y-6 lg:justify-start">
-            <H4>¡Te damos la bienvenida!</H4>
+          <div className="max-w-sm justify-center space-y-6">
+            <H4 className=" text-center">¡Te damos la bienvenida!</H4>
 
-            <H6>
+            <H6 className="text-center font-normal lg:text-start">
               En esta plataforma encontrarás una amplia selección de
               profesionales que te ayudarán a potenciar tu bienestar integral.
               <br />
               <br />
               Agenda 100% online tus citas con profesionales de salud mental,
               física, legal y financiera.
-              <br />
-              <br />
-              <span className="text-bold">¿Comenzamos?</span>
             </H6>
+
+            <H6 className="text-center font-bold">¿Comenzamos?</H6>
           </div>
         </div>
 
-        <div className="flex flex-col justify-center lg:justify-end">
-          <Button variant="ghost" className="w-full">
+        {/* TODO: move this buttons to the end of the page in mobile and remove padding top */}
+        <div className="flex flex-col pt-6 lg:flex-row lg:items-end lg:justify-end lg:gap-x-4 lg:pt-0">
+          <Button variant="ghost" className="w-full lg:w-auto">
             Omitir
           </Button>
 
-          <Link href={"/dashboard"}>
-            <Button variant="default" className="mt-2 w-full">
+          <Link href={"/platform"}>
+            <Button
+              variant="default"
+              className="mt-2 w-full font-normal lg:w-auto"
+            >
               Siguiente
             </Button>
           </Link>
