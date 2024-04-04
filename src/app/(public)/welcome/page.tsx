@@ -3,6 +3,9 @@ import Image from "next/image";
 import H4 from "~/_components/common/titles/H4";
 import H6 from "~/_components/common/titles/H6";
 import { Button } from "~/_components/common/Button";
+import Link from "next/link";
+
+// TODO: Add message to validate account if coming from SignUp page
 
 const Page = () => (
   <div className="flex flex-col lg:flex-row lg:justify-between">
@@ -29,7 +32,7 @@ const Page = () => (
           />
 
           <div className="flex w-10/12 flex-row justify-center gap-6">
-            <div className="border-gray10 flex w-full flex-col rounded-full border-b-[3px]"></div>
+            <div className="flex w-full flex-col rounded-full border-b-[3px] border-gray10"></div>
 
             <div className="flex w-full flex-col rounded-full border-b-[3px] border-green"></div>
           </div>
@@ -56,9 +59,11 @@ const Page = () => (
             Omitir
           </Button>
 
-          <Button variant="default" className="mt-2 w-full">
-            Siguiente
-          </Button>
+          <Link href={"/dashboard"}>
+            <Button variant="default" className="mt-2 w-full">
+              Siguiente
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
