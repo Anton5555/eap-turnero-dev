@@ -4,5 +4,5 @@ export const config = {
   pages: {
     signIn: '/auth/login',
   },
-  matcher: ["/dashboard"],
+  matcher: ["/platform"],
 };
