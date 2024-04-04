@@ -56,7 +56,7 @@ const authOptions: AuthOptions = {
         email: { type: 'email' },
         password: { type: 'password' },
       },
-      async authorize (credentials) {
+      async authorize(credentials) {
         const response = await fetch(`${API_URL}/login/authenticate`, {
           method: "POST",
           headers: {
@@ -82,6 +82,7 @@ const authOptions: AuthOptions = {
           id: eapUser.idpaciente,
           email: eapUser.mail,
           name: eapUser.nombre,
+          lastName: eapUser.apellido1,
           image: eapUser.img ?? '',
           accessToken: token,
         }
