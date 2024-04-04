@@ -12,6 +12,7 @@ import { useSession, signOut } from "next-auth/react";
 import H6 from "../common/titles/H6";
 import ExitIcon from "../icons/Exit";
 import Profile from "./Profile";
+import NotificationsMenu from "./NotificationsMenu";
 
 // TODO: change the current nav item to the one that is active in the app
 const navigation = [
@@ -121,14 +122,13 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
             />
           </div>
 
-          <div className="hidden gap-x-4 lg:flex">
-            <div className="flex">
+          <div className="flex items-center lg:gap-x-6">
+            <div className="hidden lg:flex">
               <Profile />
             </div>
 
-            <div className="flex">
-              {/* Notifications dropdown */}
-              Notifications
+            <div className="flex items-center">
+              <NotificationsMenu />
             </div>
           </div>
         </div>
@@ -137,9 +137,9 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           <Menu />
         </div>
 
-        <div className="pt-10">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6">{children}</div>
-        </div>
+        <main className="py-10 lg:pl-20">
+          <div className="px-4 sm:px-6 lg:px-8">{children}</div>
+        </main>
       </div>
     </>
   );
