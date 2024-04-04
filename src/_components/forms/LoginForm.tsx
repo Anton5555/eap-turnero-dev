@@ -42,7 +42,7 @@ const LoginForm: React.FC = () => {
     });
 
     if (!response?.error) {
-      router.push("/welcome");
+      router.push("/auth/welcome");
       router.refresh();
     }
 
