@@ -86,6 +86,7 @@ const authOptions: AuthOptions = {
           image: eapUser.img ?? '',
           accessToken: token,
         }
+        
         if (user) return user as User;
 
         else return null;

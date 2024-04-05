@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 const Page = async () => {
+  //  TODO: remove redirection when fixed in the middleware
   const session = await getServerSession();
   if (session?.user) redirect("/platform");
 

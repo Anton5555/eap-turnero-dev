@@ -74,7 +74,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
         </li>
         <li className="mt-auto lg:hidden">
           <div>
-            {/* Help info */}
+            {/* TODO: insert Contact info component when done */}
             Help info
           </div>
 
