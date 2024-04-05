@@ -33,9 +33,9 @@ const Page = () => (
           />
 
           <div className="flex w-full max-w-sm flex-row justify-center gap-6">
-            <div className="flex w-full flex-col rounded-full border-b-[3px] border-green"></div>
-
             <div className="flex w-full flex-col rounded-full border-b-[3px] border-gray10"></div>
+
+            <div className="flex w-full flex-col rounded-full border-b-[3px] border-green"></div>
           </div>
 
           <div className="max-w-sm justify-center space-y-6">
