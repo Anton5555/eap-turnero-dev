@@ -1,5 +1,6 @@
-import NextAuth from "next-auth";
+import NextAuth, { type AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { User } from "~/types/User";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -8,7 +9,7 @@ const LoginAdapter = (credentials: Record<"email" | "password", string> | undefi
     Password: credentials?.password,
 });
 
-type User = {
+type EAPUser = {
   mail: string;
   idpaciente: number;
   sede: number;
@@ -20,6 +21,7 @@ type User = {
   telefono: null | string;
   movil: null | string;
   tipo: string;
+  img: null | string;
   dni: null | string;
   nombre: string;
   apellido1: string;
@@ -35,18 +37,17 @@ type User = {
 };
 
 type AuthenticatedUser = {
-  user: User;
+  user: EAPUser;
   token: string;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const handler = NextAuth({
+const authOptions: AuthOptions = {
   session: {
     strategy: "jwt",
   },
 
   pages: {
-    signIn: "/login",
+    signIn: "/auth/login",
   },
    
   providers: [
@@ -55,7 +56,7 @@ const handler = NextAuth({
         email: { type: 'email' },
         password: { type: 'password' },
       },
-      async authorize (credentials, req) {
+      async authorize(credentials) {
         const response = await fetch(`${API_URL}/login/authenticate`, {
           method: "POST",
           headers: {
@@ -75,14 +76,18 @@ const handler = NextAuth({
 
         const userData: AuthenticatedUser = await response.json() as AuthenticatedUser;
 
-        const { user, token } =  userData;
+        const { user: eapUser, token } =  userData;
 
-        if (user) return {
-          id: user.idpaciente,
-          email: user.mail,
-          name: user.nombre,
-          // accessToken: token,
-        };
+        const user: User = {
+          id: eapUser.idpaciente,
+          email: eapUser.mail,
+          name: eapUser.nombre,
+          lastName: eapUser.apellido1,
+          image: eapUser.img ?? '',
+          accessToken: token,
+        }
+        
+        if (user) return user as User;
 
         else return null;
       },
@@ -90,13 +95,17 @@ const handler = NextAuth({
   ],
   callbacks: {
     async jwt({ token, user }) {
-      return { ...token, ...user };  
+      if (user) token.user = user as User;
+      return token;
     },
     async session({ session, token }) {
-      session.user = token;
+      session.user = token.user;
       return session;
     },
   },
-});
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
