@@ -14,7 +14,7 @@ const Page = async () => {
       <div className="relative flex h-56 items-start overflow-hidden lg:h-full lg:flex-col lg:rounded-2xl">
         <Image
           className="w-full object-cover"
-          src="/login.png"
+          src="/login.webp"
           alt="login image"
           width={642}
           height={628}
@@ -28,7 +28,7 @@ const Page = async () => {
           <div className="flex flex-col items-center space-y-6">
             <Image
               className="h-10 w-auto"
-              src="/logo.png"
+              src="/logo.webp"
               alt="eap latina logo"
               width={107}
               height={51}

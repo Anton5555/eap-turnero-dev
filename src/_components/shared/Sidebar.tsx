@@ -36,7 +36,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
         <li className="flex items-center justify-between gap-x-4 lg:hidden">
           <Image
             className="h-12 w-auto"
-            src="/portal-de-bienestar.png"
+            src="/portal-de-bienestar.webp"
             alt="Portal de bienestar Logo"
             width={118}
             height={51}
@@ -115,7 +115,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           <div className="hidden lg:flex">
             <Image
               className="h-12 w-auto"
-              src="/portal-de-bienestar.png"
+              src="/portal-de-bienestar.webp"
               alt="Portal de bienestar Logo"
               width={118}
               height={51}
