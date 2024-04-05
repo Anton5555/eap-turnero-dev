@@ -24,7 +24,10 @@ export default {
         white20: '#FFFFFF33',
         white10: '#FFFFFF1A',
         white5: '#FFFFFF0D',
-        green10: '#7CA8831A'
+        green10: '#7CA8831A',
+      },
+      boxShadow: {
+        'custom-light': '-4px 5px 10px 0px #4A4A4A0D',
       },
       backgroundImage: theme => ({
         'gradient-linear': 'linear-gradient(180.81deg, rgba(217, 217, 217, 0) 24.75%, #009D7D 123.9%)',
