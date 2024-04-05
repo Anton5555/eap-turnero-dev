@@ -9,9 +9,6 @@ export default withAuth(
       if (req?.nextauth?.token) return NextResponse.redirect(new URL("/platform", req.url));
       else return NextResponse.redirect(new URL("/auth/login", req.url));
     }
-
-    if (pathname.startsWith("/platform") && !req?.nextauth?.token) 
-      return NextResponse.redirect(new URL("/auth/login", req.url));
     
     /** 
      * TODO: fix redirection in here and remove it from the login and signup pages
