@@ -11,7 +11,7 @@ const SignUpAdapter = (data: Inputs) => ({
     pais: data.country,
     sede: data.office,
     empresa: 28,
-    tipo: 2,
+    tipo: 1,
     pdp: 'N',
 });
 
