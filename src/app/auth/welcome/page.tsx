@@ -12,7 +12,7 @@ const Page = () => (
     <div className="relative flex h-56 overflow-hidden lg:h-full lg:flex-col lg:rounded-2xl">
       <Image
         className="w-full object-cover"
-        src="/welcome.png"
+        src="/welcome.webp"
         alt="welcome page image"
         width={642}
         height={628}
@@ -26,16 +26,16 @@ const Page = () => (
         <div className="flex flex-col items-center space-y-6">
           <Image
             className="h-10 w-auto"
-            src="/logo.png"
+            src="/logo.webp"
             alt="eap latina logo"
             width={107}
             height={51}
           />
 
           <div className="flex w-full max-w-sm flex-row justify-center gap-6">
-            <div className="flex w-full flex-col rounded-full border-b-[3px] border-green"></div>
-
             <div className="flex w-full flex-col rounded-full border-b-[3px] border-gray10"></div>
+
+            <div className="flex w-full flex-col rounded-full border-b-[3px] border-green"></div>
           </div>
 
           <div className="max-w-sm justify-center space-y-6">
