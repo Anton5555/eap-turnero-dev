@@ -98,7 +98,7 @@ const LoginForm: React.FC = () => {
       <div className="flex justify-center">
         <H4 className="text-base font-semibold text-black">
           ¿No tienes usuario?{" "}
-          <Link href={""} className="text-green">
+          <Link href={"auth/signup"} className="text-green">
             Registrarte
           </Link>
         </H4>
