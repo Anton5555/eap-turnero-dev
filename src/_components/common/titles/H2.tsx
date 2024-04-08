@@ -1,8 +1,8 @@
 import React from "react";
-import { type ITitleProps } from "./ITitleProps";
+import { type ICommonComponentProps } from "./ICommonComponentProps";
 import cn from "~/lib/utils";
 
-const H2: React.FC<ITitleProps> = ({ children, className }) => (
+const H2: React.FC<ICommonComponentProps> = ({ children, className }) => (
   <h2 className={cn("text-6xl font-bold", className)}>{children}</h2>
 );
 

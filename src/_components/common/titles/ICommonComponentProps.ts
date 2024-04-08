@@ -1,4 +1,4 @@
-export interface ITitleProps {
+export interface ICommonComponentProps {
     children: React.ReactNode;
     className?: string;
 }
