@@ -17,9 +17,9 @@ const AppointmentList: React.FC<AppointmentListProps> = ({ appointments }) => {
         </PlatformContainer>
       </>
     );
-  } else {
-    return <div>APPOINTMENTS LIST</div>;
   }
+
+  return <div>APPOINTMENTS LIST</div>;
 };
 
 export default AppointmentList;
