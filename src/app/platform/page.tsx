@@ -1,7 +1,6 @@
 import AppointmentList from "~/_components/appointments/AppointmentList";
 import PlatformContainer from "~/_components/common/PlatformContainer";
-import H3 from "~/_components/common/titles/H3";
-import H6 from "~/_components/common/titles/H6";
+import { H3, H6 } from "~/_components/common/Typography";
 
 const Page = () => {
   const appointments: Array<string> = [];

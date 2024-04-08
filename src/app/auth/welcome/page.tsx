@@ -1,9 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import H4 from "~/_components/common/titles/H4";
-import H6 from "~/_components/common/titles/H6";
 import { Button } from "~/_components/common/Button";
 import Link from "next/link";
+import { H4, H6 } from "~/_components/common/Typography";
 
 // TODO: Add message to validate account if coming from SignUp page
 

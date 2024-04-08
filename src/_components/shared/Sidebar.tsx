@@ -9,10 +9,10 @@ import BarsIcon from "../icons/Bars";
 import CloseIcon from "../icons/Close";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import H6 from "../common/titles/H6";
 import ExitIcon from "../icons/Exit";
 import Profile from "./Profile";
 import NotificationsMenu from "./NotificationsMenu";
+import { H6 } from "../common/Typography";
 
 // TODO: change the current nav item to the one that is active in the app
 const navigation = [

@@ -1,9 +1,8 @@
 import LoginForm from "~/_components/forms/LoginForm";
 import Image from "next/image";
-import H4 from "~/_components/common/titles/H4";
-import H6 from "~/_components/common/titles/H6";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { H4, H6 } from "~/_components/common/Typography";
 
 const Page = async () => {
   //  TODO: remove redirection when fixed in the middleware

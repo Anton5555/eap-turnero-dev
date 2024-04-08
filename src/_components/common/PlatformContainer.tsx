@@ -1,8 +1,12 @@
 import React from "react";
 import cn from "~/lib/utils";
-import { type ICommonComponentProps } from "./titles/ICommonComponentProps";
 
-const PlatformContainer: React.FC<ICommonComponentProps> = ({
+export interface PlatformContainerProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+const PlatformContainer: React.FC<PlatformContainerProps> = ({
   children,
   className,
 }) => (

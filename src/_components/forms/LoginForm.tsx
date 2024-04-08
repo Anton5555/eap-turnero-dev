@@ -7,9 +7,9 @@ import { z } from "zod";
 import { Input } from "../common/Input";
 import Link from "next/link";
 import { Button } from "../common/Button";
-import H4 from "../common/titles/H4";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { H4 } from "../common/Typography";
 
 const loginFormSchema = z.object({
   email: z.string().trim().email({ message: "Ingresa un email válido" }),
