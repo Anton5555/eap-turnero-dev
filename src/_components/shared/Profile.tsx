@@ -17,7 +17,9 @@ const Profile = () => {
         <span className="sr-only">Open user menu</span>
 
         <Image
-          src={session?.user?.image ?? ""}
+          src={
+            !!session?.user?.image ? session.user.image : "/default-avatar.webp"
+          }
           alt="User profile"
           width={32}
           height={32}
