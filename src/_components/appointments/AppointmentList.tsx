@@ -18,7 +18,7 @@ const AppointmentList: React.FC<AppointmentListProps> = ({ appointments }) => {
       </>
     );
   } else {
-    return <div></div>;
+    return <div>APPOINTMENTS LIST</div>;
   }
 };
 
