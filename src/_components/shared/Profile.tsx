@@ -11,7 +11,6 @@ import UserIcon from "../icons/User";
 const Profile = () => {
   const { data: session } = useSession();
 
-  console.log(session?.user?.image ?? "/default-avatar.webp");
   return (
     <Menu as="div" className="relative">
       <Menu.Button className="-m-1.5 flex items-center gap-x-4 p-1.5">
