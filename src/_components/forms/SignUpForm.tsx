@@ -64,7 +64,6 @@ const SignUpForm: React.FC = () => {
       */
     },
     onSuccess: () => {
-      console.log("success");
       router.push("/auth/welcome");
       router.refresh();
     },

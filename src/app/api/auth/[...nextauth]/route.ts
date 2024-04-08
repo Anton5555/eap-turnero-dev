@@ -4,9 +4,11 @@ import { User } from "~/types/User";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-const LoginAdapter = (credentials: Record<"email" | "password", string> | undefined) => ({
-    Username: credentials?.email,
-    Password: credentials?.password,
+const LoginAdapter = (
+  credentials: Record<"email" | "password", string> | undefined,
+) => ({
+  Username: credentials?.email,
+  Password: credentials?.password,
 });
 
 type EAPUser = {
@@ -49,12 +51,12 @@ const authOptions: AuthOptions = {
   pages: {
     signIn: "/auth/login",
   },
-   
+
   providers: [
     CredentialsProvider({
       credentials: {
-        email: { type: 'email' },
-        password: { type: 'password' },
+        email: { type: "email" },
+        password: { type: "password" },
       },
       async authorize(credentials) {
         const response = await fetch(`${API_URL}/login/authenticate`, {
@@ -66,31 +68,32 @@ const authOptions: AuthOptions = {
         });
 
         if (!response.ok) {
-          if (response.status === 401)
-            throw new Error("Contraseña incorrecta");
+          if (response.status === 401) throw new Error("Contraseña incorrecta");
           else if (response.status === 404)
             throw new Error("Usuario no encontrado");
           else if (response.status === 412)
-            throw new Error("Debe asociarse el familiar al empleado. Contacte con EAP por favor.");
+            throw new Error(
+              "Debe asociarse el familiar al empleado. Contacte con EAP por favor.",
+            );
 
           throw new Error("Error al iniciar sesión");
         }
 
-        const userData: AuthenticatedUser = await response.json() as AuthenticatedUser;
+        const userData: AuthenticatedUser =
+          (await response.json()) as AuthenticatedUser;
 
-        const { user: eapUser, token } =  userData;
+        const { user: eapUser, token } = userData;
 
         const user: User = {
           id: eapUser.idpaciente,
           email: eapUser.mail,
           name: eapUser.nombre,
           lastName: eapUser.apellido1,
-          image: eapUser.img ?? '',
+          image: eapUser.img ?? "",
           accessToken: token,
-        }
-        
-        if (user) return user as User;
+        };
 
+        if (user) return user as User;
         else return null;
       },
     }),
@@ -105,7 +108,7 @@ const authOptions: AuthOptions = {
       return session;
     },
   },
-}
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const handler = NextAuth(authOptions);
