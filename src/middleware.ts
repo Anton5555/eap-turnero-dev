@@ -3,11 +3,11 @@ import { withAuth } from "next-auth/middleware"
 
 export default withAuth(
   function middleware(req) {
-    const pathname = req.nextUrl.pathname;
+    const { pathname } = req.nextUrl;
 
     if (pathname === "/") {
       if (req?.nextauth?.token) return NextResponse.redirect(new URL("/platform", req.url));
-      else return NextResponse.redirect(new URL("/auth/login", req.url));
+      return NextResponse.redirect(new URL("/auth/login", req.url));
     }
     
     /** 
