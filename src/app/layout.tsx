@@ -32,6 +32,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
         <QueryProvider>
           <SessionProvider session={session}>{children}</SessionProvider>
         </QueryProvider>
+
         <Toaster />
       </body>
     </html>

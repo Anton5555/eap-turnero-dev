@@ -28,6 +28,7 @@ const signup = async (data: Inputs) => {
   );
 
   if (!response.ok) throw new Error("Error al registrarte");
+
   return response;
 };
 
