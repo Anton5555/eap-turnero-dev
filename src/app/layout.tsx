@@ -3,6 +3,7 @@ import "~/styles/globals.css";
 import { Lato, Inter } from "next/font/google";
 import { QueryProvider, SessionProvider } from "./providers";
 import { getServerSession } from "next-auth";
+import Toaster from "~/_components/shared/toaster/toaster";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
         <QueryProvider>
           <SessionProvider session={session}>{children}</SessionProvider>
         </QueryProvider>
+        <Toaster />
       </body>
     </html>
   );
