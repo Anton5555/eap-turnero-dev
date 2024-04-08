@@ -4,12 +4,12 @@ import SignUpForm from "~/_components/forms/SignUpForm";
 
 const Page = async () => {
   return (
-    <div className="flex flex-col lg:flex-row lg:justify-between">
-      <div className="relative flex h-56 items-start overflow-hidden lg:h-full lg:flex-col lg:rounded-2xl">
+    <div className="flex flex-col items-center lg:flex-row lg:justify-between">
+      <div className="relative flex h-56 items-center overflow-hidden lg:h-full lg:flex-col lg:rounded-2xl">
         <Image
           className="w-full object-cover"
-          src="/login.png"
-          alt="login image"
+          src="/signup.webp"
+          alt="signup image"
           width={642}
           height={628}
         />
@@ -28,28 +28,17 @@ const Page = async () => {
               height={51}
             />
 
-            <div className="flex w-full max-w-sm flex-row justify-center gap-6">
+            <div className="flex w-full flex-row justify-center gap-6 lg:max-w-sm">
               <div className="flex w-full flex-col rounded-full border-b-[3px] border-green"></div>
 
               <div className="flex w-full flex-col rounded-full border-b-[3px] border-gray10"></div>
             </div>
 
-            <H4 className="hidden lg:flex">Crea tu cuenta ahora</H4>
+            <H4 className="text-left">Crea tu cuenta ahora</H4>
           </div>
 
           <div className="flex items-center justify-center">
             <SignUpForm />
-
-            <div className="mt-10">
-              <div className="relative">
-                <div
-                  className="absolute inset-0 flex items-center"
-                  aria-hidden="true"
-                >
-                  <div className="w-full border-t border-gray-200" />
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
