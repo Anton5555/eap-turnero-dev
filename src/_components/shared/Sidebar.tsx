@@ -13,6 +13,7 @@ import ExitIcon from "../icons/Exit";
 import Profile from "./Profile";
 import NotificationsMenu from "./NotificationsMenu";
 import { H6 } from "../common/Typography";
+import Logo from "./Logo";
 
 // TODO: change the current nav item to the one that is active in the app
 const navigation = [
@@ -24,8 +25,6 @@ type SidebarProps = {
   children: React.ReactNode;
 };
 
-// TODO: improve logo quality
-
 const Sidebar: React.FC<SidebarProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const { data: session } = useSession();
@@ -34,13 +33,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
     <nav className="flex flex-1 flex-col">
       <ul role="list" className="flex flex-1 flex-col gap-y-7">
         <li className="flex items-center justify-between gap-x-4 lg:hidden">
-          <Image
-            className="h-12 w-auto"
-            src="/portal-de-bienestar.webp"
-            alt="Portal de bienestar Logo"
-            width={118}
-            height={51}
-          />
+          <Logo width={82} height={39} />
 
           <button onClick={() => setSidebarOpen(false)}>
             <CloseIcon />
@@ -54,7 +47,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
         </li>
 
         <li>
-          <ul role="list" className="-mx-2 space-y-4 lg:mt-8">
+          <ul role="list" className=" space-y-4 lg:mt-8">
             {navigation.map((item) => (
               <li key={item.name}>
                 <Link
@@ -95,7 +88,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
   return (
     <>
       {sidebarOpen && (
-        <div className="absolute left-0 top-0 z-20 flex h-screen w-80 flex-col gap-y-5 overflow-y-auto bg-white px-6 py-4 duration-200">
+        <div className="absolute left-0 top-0 z-20 flex h-screen w-80 flex-col gap-y-5 overflow-y-auto bg-white px-2 py-4 duration-200">
           <Menu />
         </div>
       )}
@@ -113,13 +106,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           </button>
 
           <div className="hidden lg:flex">
-            <Image
-              className="h-12 w-auto"
-              src="/portal-de-bienestar.webp"
-              alt="Portal de bienestar Logo"
-              width={118}
-              height={51}
-            />
+            <Logo />
           </div>
 
           <div className="flex items-center lg:gap-x-6">
