@@ -1,9 +1,20 @@
+import { getServerSession } from "next-auth";
 import AppointmentList from "~/_components/appointments/AppointmentList";
 import PlatformContainer from "~/_components/common/PlatformContainer";
 import { H3, H6 } from "~/_components/common/Typography";
+import { headers } from "next/headers";
 
-const Page = () => {
+const Page = async () => {
   const appointments: Array<string> = [];
+
+  const session = await getServerSession();
+
+  const token = await fetch("http://localhost:3000/api/proxy", {
+    method: "PATCH",
+    headers: headers(),
+  });
+
+  console.log(await token.json());
 
   return (
     <main>
