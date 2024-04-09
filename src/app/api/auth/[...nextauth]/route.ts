@@ -93,8 +93,7 @@ const authOptions: AuthOptions = {
           accessToken: token,
         };
 
-        if (user) return user as User;
-        else return null;
+        return user ? (user as User) : null;
       },
     }),
   ],

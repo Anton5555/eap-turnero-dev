@@ -11,15 +11,15 @@ const Page = () => (
       </div>
 
       <div className="mx-auto grid max-w-2xl grid-cols-1 grid-rows-1 items-start gap-x-8 gap-y-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-        <div className="shadow-custom-light rounded-3xl bg-white px-4 py-8 lg:col-span-2 lg:row-span-4 lg:row-end-1 xl:px-16 xl:pb-20 xl:pt-16">
+        <div className="rounded-3xl bg-white px-4 py-8 shadow-custom-light lg:col-span-2 lg:row-span-4 lg:row-end-1 xl:px-16 xl:pb-20 xl:pt-16">
           CITAS PENDIENTES
         </div>
 
-        <div className="shadow-custom-light -mx-4 rounded-3xl bg-white px-4 py-8 lg:col-span-1 lg:row-span-2 xl:px-16 xl:pb-20 xl:pt-16">
+        <div className="-mx-4 rounded-3xl bg-white px-4 py-8 shadow-custom-light lg:col-span-1 lg:row-span-2 xl:px-16 xl:pb-20 xl:pt-16">
           CALENDARIO
         </div>
 
-        <div className="shadow-custom-light -mx-4 rounded-3xl bg-white px-4 py-8 lg:col-span-1 lg:row-span-2 xl:px-16 xl:pb-20 xl:pt-16">
+        <div className="-mx-4 rounded-3xl bg-white px-4 py-8 shadow-custom-light lg:col-span-1 lg:row-span-2 xl:px-16 xl:pb-20 xl:pt-16">
           Contactanos
         </div>
       </div>
