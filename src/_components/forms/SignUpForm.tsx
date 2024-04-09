@@ -19,7 +19,7 @@ const signupFormSchema = z
     name: z.string().min(1, { message: "Ingresa tu nombre" }),
     lastName: z.string().min(1, { message: "Ingresa tu apellido" }),
     country: z.string().min(1, { message: "Selecciona tu país" }),
-    office: z.string().min(1, { message: "Selecciona tu sede" }),
+    location: z.string().min(1, { message: "Selecciona tu sede" }),
     email: z.string().email({ message: "Ingresa un email válido" }),
     password: z
       .string()
@@ -118,15 +118,15 @@ const SignUpForm: React.FC = () => {
       />
 
       <Select
-        id="office"
-        {...register("office")}
+        id="location"
+        {...register("location")}
         options={[
           { value: 1, label: "Buenos Aires" },
           { value: 2, label: "Rosario" },
         ]}
         label="Sede"
         placeholder="Selecciona tu sede"
-        errorText={errors.office?.message}
+        errorText={errors.location?.message}
       />
 
       <Input

@@ -9,7 +9,7 @@ const SignUpAdapter = (data: Inputs) => ({
   mail: data.email,
   password: data.password,
   pais: data.country,
-  sede: data.office,
+  sede: data.location,
   empresa: 28,
   tipo: 1,
   pdp: "N",
