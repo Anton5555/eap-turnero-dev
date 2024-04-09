@@ -71,7 +71,12 @@ const authOptions: AuthOptions = {
           if (response.status === 401) throw new Error("Contraseña incorrecta");
           else if (response.status === 404)
             throw new Error("Usuario no encontrado");
-          else throw new Error("Error al iniciar sesión");
+          else if (response.status === 412)
+            throw new Error(
+              "Debe asociarse el familiar al empleado. Contacte con EAP por favor.",
+            );
+
+          throw new Error("Error al iniciar sesión");
         }
 
         const userData: AuthenticatedUser =
@@ -88,8 +93,7 @@ const authOptions: AuthOptions = {
           accessToken: token,
         };
 
-        if (user) return user as User;
-        else return null;
+        return user ? (user as User) : null;
       },
     }),
   ],
