@@ -10,6 +10,7 @@ import { Button } from "../common/Button";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { H4 } from "../common/Typography";
+import { useToast } from "../shared/toaster/useToast";
 
 const loginFormSchema = z.object({
   email: z.string().trim().email({ message: "Ingresa un email válido" }),
@@ -22,6 +23,7 @@ type Inputs = z.infer<typeof loginFormSchema>;
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
+  const { toast } = useToast();
 
   const {
     register,
@@ -44,14 +46,18 @@ const LoginForm: React.FC = () => {
     if (!response?.error) {
       router.push("/auth/welcome");
       router.refresh();
+      return;
     }
 
     if (response?.error === "Contraseña incorrecta")
-      setError("password", { message: response.error });
+      setError("password", { message: response?.error });
     if (response?.error === "Usuario no encontrado")
-      setError("email", { message: response.error });
-    // TODO: Handle other errors
-    else console.error(response?.error);
+      setError("email", { message: response?.error });
+    else
+      toast({
+        title: response?.error ?? "Error al iniciar sesión",
+        variant: "destructive",
+      });
   };
 
   return (
@@ -98,7 +104,7 @@ const LoginForm: React.FC = () => {
       <div className="flex justify-center">
         <H4 className="text-base font-semibold text-black">
           ¿No tienes usuario?{" "}
-          <Link href={""} className="text-green">
+          <Link href={"/auth/signup"} className="text-green">
             Registrarte
           </Link>
         </H4>
