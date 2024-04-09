@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Button } from "~/_components/common/Button";
 import Link from "next/link";
 import { H4, H6 } from "~/_components/common/Typography";
+import Logo from "~/_components/shared/Logo";
 
 // TODO: Add message to validate account if coming from SignUp page
 
@@ -23,13 +24,7 @@ const Page = () => (
     <div className="mx-6 mt-4 flex flex-1 flex-col items-center justify-center lg:mx-0 lg:mt-0">
       <div className="max-h-lhv mx-auto flex max-w-lg flex-grow flex-col justify-between">
         <div className="flex flex-col items-center space-y-6">
-          <Image
-            className="h-10 w-auto"
-            src="/logo.webp"
-            alt="eap latina logo"
-            width={107}
-            height={51}
-          />
+          <Logo width={107} height={51} />
 
           <div className="flex w-full max-w-sm flex-row justify-center gap-6">
             <div className="flex w-full flex-col rounded-full border-b-[3px] border-gray10"></div>
