@@ -31,11 +31,11 @@ type EAPUser = {
   huso: null | string;
   tipousuarioportal: string;
   a_b: string;
-  puesto: string;
+  puesto: null | string;
   turnoonline: string;
   password: null | string;
   paises: null | string;
-  services: any[];
+  services: Array<{ code: string; name: string }>;
 };
 
 type AuthenticatedUser = {
@@ -90,6 +90,12 @@ const authOptions: AuthOptions = {
           name: eapUser.nombre,
           lastName: eapUser.apellido1,
           image: eapUser.img ?? "",
+          company: parseInt(eapUser.empresa),
+          location: eapUser.sede,
+          userType:
+            eapUser.tipousuarioportal === "empleado" ? "employee" : "family",
+          services: eapUser.services.map((service) => service.code),
+          puesto: eapUser.puesto ? parseInt(eapUser.puesto) : undefined,
           accessToken: token,
         };
 

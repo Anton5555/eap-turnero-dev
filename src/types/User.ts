@@ -4,5 +4,10 @@ export type User = {
   name: string;
   lastName: string;
   image: string;
+  company: number;
+  location: number;
+  userType: "employee" | "family";
+  services: string[];
+  puesto?: number;
   accessToken: string;
 };
