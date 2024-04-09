@@ -6,7 +6,6 @@ const PATCH = async (req: NextRequest) => {
     req,
   });
 
-  console.log(token);
   if (!token)
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
 
