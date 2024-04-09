@@ -9,10 +9,10 @@ import BarsIcon from "../icons/Bars";
 import CloseIcon from "../icons/Close";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import H6 from "../common/titles/H6";
 import ExitIcon from "../icons/Exit";
 import Profile from "./Profile";
 import NotificationsMenu from "./NotificationsMenu";
+import { H6 } from "../common/Typography";
 
 // TODO: change the current nav item to the one that is active in the app
 const navigation = [
@@ -137,9 +137,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           <Menu />
         </div>
 
-        <main className="py-10 lg:pl-20">
-          <div className="px-4 sm:px-6 lg:px-8">{children}</div>
-        </main>
+        <main className="lg:py-10 lg:pl-20">{children}</main>
       </div>
     </>
   );
