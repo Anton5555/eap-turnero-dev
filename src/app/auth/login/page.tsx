@@ -3,6 +3,7 @@ import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { H4, H6 } from "~/_components/common/Typography";
+import Logo from "~/_components/shared/Logo";
 
 const Page = async () => {
   //  TODO: remove redirection when fixed in the middleware
@@ -26,13 +27,7 @@ const Page = async () => {
       <div className="mt-4 flex flex-1 flex-col items-center justify-center lg:mt-0">
         <div className="mx-auto max-w-lg space-y-6">
           <div className="flex flex-col items-center space-y-6">
-            <Image
-              className="h-10 w-auto"
-              src="/logo.webp"
-              alt="eap latina logo"
-              width={107}
-              height={51}
-            />
+            <Logo width={107} height={51} />
 
             <div className="flex w-full max-w-sm flex-row justify-center gap-6">
               <div className="flex w-full flex-col rounded-full border-b-[3px] border-green"></div>
