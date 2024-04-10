@@ -85,7 +85,7 @@ const authOptions: AuthOptions = {
         const { user: eapUser, token } = userData;
 
         const user: User = {
-          id: eapUser.idpaciente,
+          id: eapUser.idpaciente.toString(),
           email: eapUser.mail,
           name: eapUser.nombre,
           lastName: eapUser.apellido1,

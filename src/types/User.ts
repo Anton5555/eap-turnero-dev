@@ -1,5 +1,5 @@
 export type User = {
-  id: number;
+  id: string;
   email: string;
   name: string;
   lastName: string;
@@ -8,6 +8,6 @@ export type User = {
   location: number;
   userType: "employee" | "family";
   services: string[];
-  puesto?: number;
+  position?: number;
   accessToken: string;
 };
