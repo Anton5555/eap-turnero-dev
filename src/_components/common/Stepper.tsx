@@ -27,13 +27,11 @@ const Stepper: React.FC<StepperProps> = ({
                 <div className="h-0.5 w-full bg-green" />
               </div>
 
-              <a
-                href="#"
-                className="relative flex h-8 w-8 items-center justify-center rounded-full bg-green hover:bg-indigo-900"
-              >
+              <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-green">
                 <CheckIcon aria-hidden="true" />
+
                 <span className="sr-only">Step {step}</span>
-              </a>
+              </div>
             </>
           ) : step === currentStep ? (
             <>
@@ -44,8 +42,7 @@ const Stepper: React.FC<StepperProps> = ({
                 <div className="h-0.5 w-full bg-gray-200" />
               </div>
 
-              <a
-                href="#"
+              <div
                 className="relative flex h-8 w-8 items-center justify-center rounded-full border-2 border-green bg-white"
                 aria-current="step"
               >
@@ -53,7 +50,7 @@ const Stepper: React.FC<StepperProps> = ({
                   className="h-2.5 w-2.5 rounded-full bg-green"
                   aria-hidden="true"
                 />
-              </a>
+              </div>
             </>
           ) : (
             <>
@@ -64,13 +61,12 @@ const Stepper: React.FC<StepperProps> = ({
                 <div className="h-0.5 w-full bg-gray-200" />
               </div>
 
-              <a
-                href="#"
+              <div
                 className="relative flex h-8 w-8 items-center justify-center rounded-full border-2 bg-white"
                 aria-current="step"
               >
                 <span className="h-2.5 w-2.5 rounded-full" aria-hidden="true" />
-              </a>
+              </div>
             </>
           )}
         </li>
