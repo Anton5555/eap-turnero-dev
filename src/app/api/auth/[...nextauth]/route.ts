@@ -95,7 +95,7 @@ const authOptions: AuthOptions = {
           userType:
             eapUser.tipousuarioportal === "empleado" ? "employee" : "family",
           services: eapUser.services.map((service) => service.code),
-          puesto: eapUser.puesto ? parseInt(eapUser.puesto) : undefined,
+          position: eapUser.puesto ? parseInt(eapUser.puesto) : undefined,
           accessToken: token,
         };
 
