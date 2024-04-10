@@ -1,5 +1,5 @@
 import Image from "next/image";
-import H4 from "~/_components/common/titles/H4";
+import { H4 } from "~/_components/common/Typography";
 import SignUpForm from "~/_components/forms/SignUpForm";
 
 const Page = async () => (
