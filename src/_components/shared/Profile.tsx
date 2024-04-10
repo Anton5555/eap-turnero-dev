@@ -27,7 +27,8 @@ const Profile = () => {
         />
 
         <span className="font-inter text-sm text-[#1F384C]">
-          {`${session?.user?.name} ${session?.user?.lastName}`}
+          {session?.user?.lastName &&
+            `${session?.user?.name} ${session?.user?.lastName}`}
         </span>
 
         <ChevronIcon />
