@@ -1,5 +1,4 @@
-import { getToken } from "next-auth/jwt";
-import { NextRequest } from "next/server";
+import { ContractService } from "~/types/services";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -17,23 +16,6 @@ interface OriginalData {
   TIPOPROC: number;
   PUESTO: number;
   NOMBREPUESTO: string;
-  rn: number;
-}
-
-export interface ContractService {
-  id: number;
-  companyId: number;
-  serviceId: number;
-  areaId: number;
-  area: string;
-  serviceName: string;
-  specialtyId: number;
-  specialty: string;
-  locationId: number;
-  locationName: string;
-  processType: number;
-  position: number;
-  positionName: string;
   rn: number;
 }
 
@@ -56,30 +38,30 @@ const parseData = (data: OriginalData[]) => {
   }));
 };
 
-const GET = async (req: NextRequest) => {
-  const token = await getToken({ req });
-  const searchParams = req.nextUrl.searchParams;
-  const query = searchParams.get("query");
+const getContractServices = async (props: {
+  companyId: number;
+  locationId: number;
+  positionId: number;
+  accessToken: string;
+}) => {
+  const { companyId, locationId, positionId, accessToken } = props;
 
   const headers = new Headers();
-  headers.append("Authorization", token?.user.accessToken!);
+  headers.append("Authorization", accessToken);
 
   const response = await fetch(
-    `${API_URL}/Patient/getContractServices?empresa=1032&sede=642&puesto=-1`,
+    `${API_URL}/Patient/getContractServices?empresa=${companyId}&sede=${locationId}&puesto=${positionId}`,
     {
       method: "GET",
-      headers: headers,
+      headers,
     },
   );
 
-  if (!response.ok)
-    throw new Error("Error al obtener los servicios de contrato");
+  if (!response.ok) throw new Error("Error al obtener los servicios");
 
   const data = await response.json();
 
-  const parsedData: ContractService[] = parseData(data);
-
-  return Response.json(parsedData);
+  return parseData(data) as ContractService[];
 };
 
-export { GET };
+export { getContractServices };
