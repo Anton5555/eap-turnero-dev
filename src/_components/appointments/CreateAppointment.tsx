@@ -1,7 +1,6 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { ContractService } from "~/app/api/services/route";
 import PlatformContainer from "../common/PlatformContainer";
 import { Button } from "../common/Button";
 import { H3, H6 } from "../common/Typography";
@@ -10,6 +9,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { getContractServices } from "~/lib/api/services";
 import { getProfessionals } from "~/lib/api/professionals";
+import { ContractService } from "~/types/services";
 
 const CreateAppointment = () => {
   const { data: session } = useSession();
