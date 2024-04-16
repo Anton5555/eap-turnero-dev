@@ -6,9 +6,9 @@ export const metadata = {
 };
 
 const Layout = ({ children }: { children: React.ReactNode }) => (
-  <section className="h-screen w-screen bg-grayBg">
+  <section className="h-full w-screen bg-grayBg">
     <Sidebar>
-      <div className="mx-auto lg:max-w-7xl lg:space-y-4 lg:px-8 lg:py-4">
+      <div className="mx-auto lg:space-y-4 lg:px-8 lg:py-4 xl:max-w-screen-2xl">
         {children}
       </div>
     </Sidebar>

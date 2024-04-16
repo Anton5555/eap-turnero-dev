@@ -124,7 +124,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           <Menu />
         </div>
 
-        <main className="lg:py-10 lg:pl-20">{children}</main>
+        <main className="lg:pl-20">{children}</main>
       </div>
     </>
   );

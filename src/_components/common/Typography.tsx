@@ -17,7 +17,9 @@ const H2: React.FC<TypographyProps> = ({ children, className }) => (
 );
 
 const H3: React.FC<TypographyProps> = ({ children, className }) => (
-  <h3 className={cn("text-4xl font-bold", className)}>{children}</h3>
+  <h3 className={cn("text-2xl font-bold lg:text-4xl", className)}>
+    {children}
+  </h3>
 );
 
 const H4: React.FC<TypographyProps> = ({ children, className }) => (
