@@ -12,7 +12,7 @@ const Page = async () => {
   const session = await getServerSession();
 
   return (
-    <div className="flex flex-col items-center lg:flex-row lg:justify-between">
+    <div className="flex flex-col lg:flex-row lg:justify-between">
       <div className="relative flex h-56 overflow-hidden lg:h-full lg:flex-col lg:rounded-2xl">
         <Image
           className="w-full object-cover"
@@ -25,19 +25,19 @@ const Page = async () => {
         <a className="z-1 absolute h-full w-full bg-gradient-linear"></a>
       </div>
 
-      <div className="mx-6 mt-4 flex flex-1 flex-col items-center justify-center lg:mx-0 lg:mt-0">
-        <div className="max-h-lhv mx-auto flex max-w-lg flex-grow flex-col justify-between">
+      <div className="mx-6 mt-4 flex h-[calc(90dvh)] flex-1 flex-col items-center lg:mx-0 lg:mt-0">
+        <div className="mx-auto flex  max-w-lg flex-grow flex-col justify-between">
           <div className="flex flex-col items-center space-y-6">
             <Logo width={107} height={51} />
 
             <div className="flex w-full max-w-sm flex-row justify-center gap-6">
-              <div className="flex w-full flex-col rounded-full border-b-[3px] border-gray10"></div>
+              <div className="border-gray/10 flex w-full flex-col rounded-full border-b-[3px]"></div>
 
               <div className="flex w-full flex-col rounded-full border-b-[3px] border-green"></div>
             </div>
 
             <div className="max-w-sm justify-center space-y-6">
-              <H4 className=" text-center">¡Te damos la bienvenida!</H4>
+              <H4 className="text-center">¡Te damos la bienvenida!</H4>
 
               <H6 className="text-center font-normal lg:text-start">
                 En esta plataforma encontrarás una amplia selección de
