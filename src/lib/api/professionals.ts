@@ -35,7 +35,7 @@ const getProfessionals = async (props: {
     {
       method: "POST",
       headers: headers,
-      body: JSON.stringify([1]),
+      body: JSON.stringify([3]),
     },
   );
 
