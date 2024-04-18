@@ -10,21 +10,39 @@ interface OriginalData {
   paises: string | null;
 }
 
-const parseData = (data: OriginalData[]): Professional[] => {
-  return data.map((item) => ({
+interface SubSpecialtyData {
+  value: {
+    ID: number;
+    ESPECIALIDAD: number;
+    SUB_ESPECIALIDAD: string;
+  }[];
+}
+
+const parseData = (
+  data: OriginalData[],
+  subSpecialties: SubSpecialtyData | null,
+): Professional[] =>
+  data.map((item) => ({
     id: item.EmpID,
     name: item.NAME,
-    subSpecialty: item.subEsp,
+    subSpecialties:
+      item.subEsp
+        ?.split(",")
+        .map(
+          (id) =>
+            subSpecialties?.value.find((s) => s.ID === Number(id))
+              ?.SUB_ESPECIALIDAD as string,
+        ) ?? undefined,
   }));
-};
 
 const getProfessionals = async (props: {
   locationId: number;
   serviceId: number;
   specialtyId: number;
   accessToken: string;
+  modalityId: number;
 }) => {
-  const { locationId, serviceId, specialtyId, accessToken } = props;
+  const { locationId, serviceId, specialtyId, accessToken, modalityId } = props;
 
   const headers = new Headers();
   headers.append("Authorization", accessToken);
@@ -34,8 +52,8 @@ const getProfessionals = async (props: {
     `${API_URL}/profesional/getProfesionalesByModalidadesServicio?sede=${locationId}&servicio=${serviceId}&especialidad=${specialtyId}`,
     {
       method: "POST",
-      headers: headers,
-      body: JSON.stringify([3]),
+      headers,
+      body: JSON.stringify([modalityId]),
     },
   );
 
@@ -43,7 +61,25 @@ const getProfessionals = async (props: {
 
   const data = await response.json();
 
-  return parseData(data) as Professional[];
+  let subSpecialties;
+  if (data.some((professional: OriginalData) => professional.subEsp)) {
+    const subEspecialtiesResponse = await fetch(
+      `${API_URL}/misc/getParamDepartamentoSub`,
+      {
+        method: "GET",
+        headers,
+      },
+    );
+
+    if (!subEspecialtiesResponse.ok)
+      throw new Error("Error al obtener las subespecialidades");
+
+    subSpecialties = (await subEspecialtiesResponse.json()) as SubSpecialtyData;
+  }
+
+  const professionals = parseData(data, subSpecialties ?? null);
+
+  return professionals;
 };
 
 export { getProfessionals };
