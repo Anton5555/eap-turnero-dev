@@ -1,8 +1,6 @@
 "use client";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import PlatformContainer from "../common/PlatformContainer";
 import { Button } from "../common/Button";
 import { H3, H6 } from "../common/Typography";
 import Stepper from "../common/Stepper";
@@ -12,7 +10,6 @@ import { getContractServices } from "~/lib/api/services";
 import { getProfessionals } from "~/lib/api/professionals";
 import { ContractService } from "~/types/services";
 import { Professional } from "~/types/professionals";
-import Calendar from "./Calendar";
 import cn, { timeRanges } from "~/lib/utils";
 import { endOfMonth, format, startOfMonth } from "date-fns";
 import { createAppointment, getFreeAppointments } from "~/lib/api/appointments";
@@ -22,7 +19,6 @@ import { useToast } from "../shared/toaster/useToast";
 import ConfirmationDialog from "./ConfirmationDialog";
 import { useRouter } from "next/navigation";
 import Filters from "./CreateAppointmentComponents/Filters";
-import ProfessionalInfo from "./CreateAppointmentComponents/ProfessionalInfo";
 import ServiceSelection from "./CreateAppointmentComponents/ServiceSelection";
 import DateSelection from "./CreateAppointmentComponents/DateSelection";
 import TimeSelection from "./CreateAppointmentComponents/TimeSelection";
