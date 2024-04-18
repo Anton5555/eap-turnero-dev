@@ -75,7 +75,7 @@ const SignUpForm: React.FC = () => {
 
   return (
     <form
-      className="w-full justify-center space-y-5 lg:max-w-sm"
+      className="w-80 justify-center space-y-5"
       onSubmit={handleSubmit(onSubmit)}
     >
       <Input

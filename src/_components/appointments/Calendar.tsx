@@ -21,7 +21,8 @@ const currentDay = new Date();
 const currentMonth = currentDay.getMonth();
 const currentYear = currentDay.getFullYear();
 
-const currentMonths = [
+// TODO: Implement a better way to handle months in the caption component
+const months = [
   { value: 0, label: "Enero" },
   { value: 1, label: "Febrero" },
   { value: 2, label: "Marzo" },
@@ -34,7 +35,7 @@ const currentMonths = [
   { value: 9, label: "Octubre" },
   { value: 10, label: "Noviembre" },
   { value: 11, label: "Diciembre" },
-];
+] as const;
 
 const years = [{ value: currentYear }, { value: currentYear + 1 }];
 
@@ -55,19 +56,19 @@ const CaptionLabel: React.FC<
       aria-atomic="true"
     >
       <Select
-        options={currentMonths.map((m) => ({
-          ...m,
+        options={months.map((month) => ({
+          ...month,
           disabled:
             displayMonth.getFullYear() === currentYear &&
-            currentDay.getMonth() > m.value,
+            currentDay.getMonth() > month.value,
         }))}
-        className="h-9 w-3/4 rounded-lg bg-[#F8F7FA] pl-3 pr-0 text-sm font-bold text-green ring-0 lg:h-10"
+        className="bg-ultralightGray h-9 w-3/4 rounded-lg pl-3 pr-0 text-sm font-bold text-green ring-0 lg:h-10"
         onChange={(e) => onMonthClick(e.target.value)}
       />
 
       <Select
         options={years}
-        className="-ml-5 h-9 w-7/12 rounded-lg bg-[#F8F7FA] pl-2 pr-0 text-sm font-bold text-green ring-0 lg:h-10"
+        className="bg-ultralightGray -ml-5 h-9 w-7/12 rounded-lg pl-2 pr-0 text-sm font-bold text-green ring-0 lg:h-10"
         onChange={(e) => onYearClick(e.target.value)}
       />
 
@@ -127,7 +128,9 @@ const CustomCaption = (props: CaptionProps) => {
     </div>
   );
 };
+
 type CalendarProps = React.ComponentProps<typeof DayPicker>;
+const SUNDAY = 0;
 
 const Calendar: React.FC<
   CalendarProps & {
@@ -144,7 +147,7 @@ const Calendar: React.FC<
 }) => (
   <DayPicker
     locale={es}
-    weekStartsOn={0}
+    weekStartsOn={SUNDAY}
     disabled={(date) => date.getDate() < currentDay.getDate()}
     onDayClick={onDayClick}
     onMonthChange={onMonthChange}
@@ -170,7 +173,7 @@ const Calendar: React.FC<
       caption_label: "flex flex-row justify-between lg:justify-center",
       table: "w-full max-w-none border-collapse space-y-1",
       head_row:
-        "flex border-b-[0.5px] border-b-[#E5E5E5] pb-2 lg:border-none lg:hidden justify-between ",
+        "flex border-b-[0.5px] border-b-lightGray pb-2 lg:border-none lg:hidden justify-between ",
       head_cell:
         "lg:text-gray40 text-black font-semibold capitalize w-12 md:w-16 lg:w-16 xl:w-28 lg:font-bold",
       row: "flex w-full mt-2",

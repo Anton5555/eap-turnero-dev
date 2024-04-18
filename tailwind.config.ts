@@ -15,7 +15,10 @@ export default {
         black: "#1C1C1C",
         blackAlt: "#070707",
         gray40: "#999999",
+        lightGray: "#F3F2F5",
+        ultralightGray: "#F8F7FA",
         grayBg: "#F9F9F9",
+        darkBlue: "#1F384C",
       },
       boxShadow: {
         "custom-light": "-4px 5px 10px 0px #4A4A4A0D",

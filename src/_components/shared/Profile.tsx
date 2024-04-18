@@ -26,7 +26,7 @@ const Profile = () => {
           className="rounded-full"
         />
 
-        <span className="font-inter text-sm text-[#1F384C]">
+        <span className="text-darkBlue font-inter text-sm">
           {session?.user?.lastName &&
             `${session?.user?.name} ${session?.user?.lastName}`}
         </span>
