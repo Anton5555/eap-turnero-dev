@@ -1,9 +1,15 @@
+import AppointmentCreatedDialog from "~/_components/appointments/AppointmentCreatedDialog";
 import AppointmentList from "~/_components/appointments/AppointmentList";
 import PlatformContainer from "~/_components/common/PlatformContainer";
 import { H3, H6 } from "~/_components/common/Typography";
 
-const Page = async () => {
+const Page = ({
+  searchParams,
+}: {
+  searchParams: { professional: string; dateFrom: string; dateTo: string };
+}) => {
   const appointments: Array<string> = [];
+  const { professional, dateFrom, dateTo } = searchParams;
 
   return (
     <main>
@@ -23,6 +29,14 @@ const Page = async () => {
         <PlatformContainer className="hidden lg:col-span-1 lg:row-span-2 lg:grid">
           Contactanos
         </PlatformContainer>
+
+        {professional && dateFrom && dateTo && (
+          <AppointmentCreatedDialog
+            professional={professional}
+            dateFrom={new Date(dateFrom)}
+            dateTo={new Date(dateTo)}
+          />
+        )}
       </div>
     </main>
   );
