@@ -12,7 +12,7 @@ const PlatformContainer: React.FC<PlatformContainerProps> = ({
 }) => (
   <div
     className={cn(
-      "shadow-custom-light rounded-3xl bg-white lg:grid lg:min-h-[calc(50dvh)] lg:gap-x-8 lg:gap-y-8 lg:rounded-3xl lg:px-4 lg:py-8",
+      "rounded-3xl bg-white shadow-custom-light lg:grid lg:gap-x-8 lg:gap-y-8 lg:rounded-3xl lg:p-6",
       className,
     )}
   >
