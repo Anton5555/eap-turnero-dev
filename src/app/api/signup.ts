@@ -1,4 +1,5 @@
 import { type Inputs } from "~/_components/forms/SignUpForm";
+import { locations } from "~/lib/utils";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const CREATE_USER_TOKEN = process.env.NEXT_PUBLIC_CREATE_USER_TOKEN;
@@ -8,16 +9,16 @@ const SignUpAdapter = (data: Inputs) => ({
   apellido1: data.lastName,
   mail: data.email,
   password: data.password,
-  pais: data.country,
-  sede: data.office,
-  empresa: 28,
-  tipo: 1,
-  pdp: "N",
+  sede: data.location,
+  empresa: 898,
+  pais: locations.find(
+    (location) => location.value.toString() === data.location,
+  )?.country,
 });
 
 const signup = async (data: Inputs) => {
   const response = await fetch(
-    `${API_URL}/Account/updateuser?token=${CREATE_USER_TOKEN}`,
+    `${API_URL}/Account/createUser?token=${CREATE_USER_TOKEN}`,
     {
       method: "POST",
       headers: {
@@ -27,7 +28,12 @@ const signup = async (data: Inputs) => {
     },
   );
 
-  if (!response.ok) throw new Error("Error al registrarte");
+  if (!response.ok) {
+    if (response.status === 403)
+      throw new Error("Ya existe un usuario con este mail");
+
+    throw new Error("Error al registrarte");
+  }
 
   return response;
 };
