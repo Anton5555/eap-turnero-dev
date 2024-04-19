@@ -43,7 +43,7 @@ type AuthenticatedUser = {
   token: string;
 };
 
-const authOptions: AuthOptions = {
+export const authOptions: AuthOptions = {
   session: {
     strategy: "jwt",
   },
@@ -93,7 +93,7 @@ const authOptions: AuthOptions = {
           accessToken: token,
         };
 
-        return user ? (user as User) : null;
+        return user ? user : null;
       },
     }),
   ],
