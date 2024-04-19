@@ -19,6 +19,7 @@ export default {
         ultralightGray: "#F8F7FA",
         grayBg: "#F9F9F9",
         darkBlue: "#1F384C",
+        red600: "#E02424",
       },
       boxShadow: {
         "custom-light": "-4px 5px 10px 0px #4A4A4A0D",
