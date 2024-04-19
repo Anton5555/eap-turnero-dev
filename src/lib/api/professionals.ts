@@ -82,4 +82,30 @@ const getProfessionals = async (props: {
   return professionals;
 };
 
-export { getProfessionals };
+const getProfessionalSapUser = async (props: {
+  professionalId: number;
+  accessToken: string;
+}) => {
+  const { professionalId, accessToken } = props;
+
+  const headers = new Headers();
+  headers.append("Authorization", accessToken);
+
+  // FIXME: Change the endpoint to the real one when backend provides it
+  const response = await fetch(
+    `${API_URL}/profesional/getSapUserByProfesional?profesional=${professionalId}`,
+    {
+      method: "GET",
+      headers,
+    },
+  );
+
+  if (!response.ok)
+    throw new Error("Error al obtener el usuario SAP del profesional");
+
+  const data = await response.json();
+
+  return data;
+};
+
+export { getProfessionals, getProfessionalSapUser };
