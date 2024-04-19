@@ -7,7 +7,7 @@ interface TypographyProps {
 }
 
 const H1: React.FC<TypographyProps> = ({ children, className }) => (
-  <h1 className={cn("text-7xl font-black text-green", className)}>
+  <h1 className={cn("text-4xl font-black text-green lg:text-7xl", className)}>
     {children}
   </h1>
 );
