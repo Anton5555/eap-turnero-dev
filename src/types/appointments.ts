@@ -6,3 +6,13 @@ export type FreeAppointment = {
 export type FreeAppointmentsByDay = {
   [dayOfMonth: number]: FreeAppointment[];
 };
+
+export type Appointment = {
+  id: number;
+  start: Date;
+  end: Date;
+  specialty: string;
+  modality: string;
+  professional: string;
+  professionalId: number;
+};
