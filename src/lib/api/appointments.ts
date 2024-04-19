@@ -1,16 +1,17 @@
-import { FreeAppointmentsByDay } from "~/types/appointments";
+import { Appointment, FreeAppointmentsByDay } from "~/types/appointments";
 import { createCase, getActiveCase } from "./cases";
+import { getProfessionalSapUser } from "./professionals";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-interface OriginalData {
+interface OriginalFreeAppointmentsData {
   id: number;
   fechadesde: string;
   fechahasta: string;
 }
 
-const parseData = async (
-  data: OriginalData[],
+const parseFreeAppointmentsData = async (
+  data: OriginalFreeAppointmentsData[],
 ): Promise<FreeAppointmentsByDay> =>
   data.reduce((freeAppointmentsByDay, item) => {
     const dateFrom = new Date(item.fechadesde);
@@ -52,6 +53,29 @@ const CreateAppointmentAdapter = (props: {
   zonahoraria: props.timezone,
   modalidadcita: props.modalityId,
 });
+
+interface OriginalAppointmentsData {
+  UNIQUEID: number;
+  FS_FECHAINICIO: string;
+  FS_FECHAFIN: string;
+  ESPECIALIDAD: string;
+  MODALIDAD: string;
+  NOMBRE: string;
+  EMPID: number;
+}
+
+const parseAppointmentsData = (
+  data: OriginalAppointmentsData[],
+): Appointment[] =>
+  data.map((item) => ({
+    id: item.UNIQUEID,
+    start: new Date(item.FS_FECHAINICIO),
+    end: new Date(item.FS_FECHAFIN),
+    specialty: item.ESPECIALIDAD,
+    modality: item.MODALIDAD,
+    professional: item.NOMBRE,
+    professionalId: item.EMPID,
+  }));
 
 const getFreeAppointments = async (props: {
   dateFrom: string;
@@ -110,7 +134,7 @@ const getFreeAppointments = async (props: {
 
   const data = await response.json();
 
-  const freeAppointments = await parseData(data);
+  const freeAppointments = await parseFreeAppointmentsData(data);
 
   return { freeAppointments, agendaId };
 };
@@ -207,4 +231,65 @@ const createAppointment = async (props: {
   return response;
 };
 
-export { getFreeAppointments, createAppointment };
+const getAppointmentsByPatient = async (props: {
+  id: string;
+  timezone: string;
+  accessToken: string;
+}): Promise<Appointment[]> => {
+  const { id, timezone, accessToken } = props;
+
+  const headers = new Headers();
+  headers.append("Authorization", accessToken);
+
+  const response = await fetch(
+    `${API_URL}/Patient/getAppointmentsByPatient?patientId=${id}&zonahoraria=${timezone}`,
+    {
+      method: "GET",
+      headers,
+    },
+  );
+
+  if (!response.ok) throw new Error("Error al obtener las citas del paciente");
+
+  const data = await response.json();
+
+  return parseAppointmentsData(data);
+};
+
+const deleteAppointment = async (props: {
+  accessToken: string;
+  appointmentId: number;
+  professionalId: number;
+}) => {
+  const { accessToken, appointmentId, professionalId } = props;
+
+  // FIXME: replace hardcoded professionalSapUser with the real one (waiting for backend to provide it)
+  const sapUser = "mcattaneo";
+
+  // const sapUser = await getProfessionalSapUser({
+  //   professionalId,
+  //   accessToken,
+  // });
+
+  const headers = new Headers();
+  headers.append("Authorization", accessToken);
+
+  const response = await fetch(
+    `${API_URL}/appointments/deleteAppointment?idappointment=${appointmentId}&sapuser=${sapUser}&deletereasonid=-1&deleteprocessifempty=true`,
+    {
+      method: "POST",
+      headers,
+    },
+  );
+
+  if (!response.ok) throw new Error("Error al eliminar la cita");
+
+  return response;
+};
+
+export {
+  getFreeAppointments,
+  createAppointment,
+  getAppointmentsByPatient,
+  deleteAppointment,
+};
