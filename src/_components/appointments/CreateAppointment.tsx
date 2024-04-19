@@ -311,6 +311,8 @@ const CreateAppointment = () => {
               services={services}
               selectedService={selectedService}
               handleServiceSelect={handleServiceSelect}
+              isLoading={isLoadingServices}
+              error={errorServices}
             />
           )}
 
