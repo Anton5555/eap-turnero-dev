@@ -15,16 +15,11 @@ export const env = createEnv({
       process.env.VERCEL ? z.string() : z.string().url()
     ),
     API_URL: z.string().url(),
+    CREATE_USER_TOKEN: z.string(),
   },
 
-  /**
-   * Specify your client-side environment variables schema here. This way you can ensure the app
-   * isn't built with invalid env vars. To expose them to the client, prefix them with
-   * `NEXT_PUBLIC_`.
-   */
   client: {
     NEXT_PUBLIC_API_URL: z.string().url(),
-    // NEXT_PUBLIC_CLIENTVAR: z.string(),
   },
 
   runtimeEnv: {
@@ -33,6 +28,7 @@ export const env = createEnv({
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     API_URL: process.env.API_URL,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    CREATE_USER_TOKEN: process.env.NEXT_PUBLIC_CREATE_USER_TOKEN,
   },
 
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,

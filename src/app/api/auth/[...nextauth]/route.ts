@@ -1,8 +1,9 @@
 import NextAuth, { type AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { User } from "~/types/User";
+import { env } from "~/env";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = env.NEXT_PUBLIC_API_URL;
 
 const LoginAdapter = (
   credentials: Record<"email" | "password", string> | undefined,

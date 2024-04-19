@@ -1,8 +1,9 @@
 import { Appointment, FreeAppointmentsByDay } from "~/types/appointments";
 import { createCase, getActiveCase } from "./cases";
 import { getProfessionalSapUser } from "./professionals";
+import { env } from "~/env";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = env.NEXT_PUBLIC_API_URL;
 
 interface OriginalFreeAppointmentsData {
   id: number;
