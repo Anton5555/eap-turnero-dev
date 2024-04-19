@@ -20,7 +20,7 @@ const Page = ({
       </div>
 
       <div className="mx-auto mt-0 grid grid-cols-1 grid-rows-1 items-start gap-x-8 gap-y-8 lg:mt-4 lg:max-w-none lg:grid-cols-3">
-        <AppointmentList appointments={appointments} />
+        <AppointmentList />
 
         <PlatformContainer className="hidden lg:col-span-1 lg:row-span-2 lg:grid">
           AGENDAR CITA
