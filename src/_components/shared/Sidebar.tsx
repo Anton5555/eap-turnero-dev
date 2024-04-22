@@ -74,7 +74,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           <Link
             href="#"
             onClick={() => signOut()}
-            className="group -mx-2 flex items-center gap-x-2 p-2 text-[#334155]"
+            className="text-darkBlue group -mx-2 flex items-center gap-x-2 p-2"
           >
             <ExitIcon />
 
@@ -124,7 +124,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           <Menu />
         </div>
 
-        <main className="lg:py-10 lg:pl-20">{children}</main>
+        <main className="lg:pl-20">{children}</main>
       </div>
     </>
   );

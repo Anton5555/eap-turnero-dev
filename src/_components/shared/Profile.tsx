@@ -26,8 +26,9 @@ const Profile = () => {
           className="rounded-full"
         />
 
-        <span className="font-inter text-sm text-[#1F384C]">
-          {`${session?.user?.name} ${session?.user?.lastName}`}
+        <span className="text-darkBlue font-inter text-sm">
+          {session?.user?.lastName &&
+            `${session?.user?.name} ${session?.user?.lastName}`}
         </span>
 
         <ChevronIcon />
@@ -45,7 +46,7 @@ const Profile = () => {
         <Menu.Items className="absolute right-0 z-10 mt-2.5 w-72 origin-top-right rounded-md bg-white p-4 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
           <Menu.Item>
             <Button
-              className="h-7 w-full justify-start gap-x-2 rounded bg-green10 text-black"
+              className="h-7 w-full justify-start gap-x-2 rounded bg-green/10 text-black"
               variant={"ghost"}
               onClick={() => signOut()}
             >
