@@ -47,11 +47,13 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
                 {appointment.start.toLocaleTimeString("es-AR", {
                   hour: "2-digit",
                   minute: "2-digit",
+                  hour12: false,
                 })}{" "}
                 a{" "}
                 {appointment.end.toLocaleTimeString("es-AR", {
                   hour: "2-digit",
                   minute: "2-digit",
+                  hour12: false,
                 })}
                 hs
               </h3>
@@ -66,11 +68,13 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
                 {appointment.start.toLocaleTimeString("es-AR", {
                   hour: "2-digit",
                   minute: "2-digit",
+                  hour12: false,
                 })}{" "}
                 a{" "}
                 {appointment.end.toLocaleTimeString("es-AR", {
                   hour: "2-digit",
                   minute: "2-digit",
+                  hour12: false,
                 })}
               </h3>
             </div>

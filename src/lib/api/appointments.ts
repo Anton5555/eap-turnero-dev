@@ -247,6 +247,7 @@ const getAppointmentsByPatient = async (props: {
     {
       method: "GET",
       headers,
+      cache: "no-store",
     },
   );
 

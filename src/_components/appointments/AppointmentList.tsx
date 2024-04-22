@@ -4,48 +4,33 @@ import { useSession } from "next-auth/react";
 import PlatformContainer from "../common/PlatformContainer";
 import AppointmentsEmpty from "./AppointmentsEmpty";
 import { Appointment } from "~/types/appointments";
-import {
-  deleteAppointment,
-  getAppointmentsByPatient,
-} from "~/lib/api/appointments";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteAppointment } from "~/lib/api/appointments";
+import { useMutation } from "@tanstack/react-query";
 import AppointmentCard from "./AppointmentCard";
-import { H1, H3, H6 } from "../common/Typography";
+import { H1, H6 } from "../common/Typography";
 import Link from "next/link";
 import { Button } from "../common/Button";
 import { useState } from "react";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 import { useToast } from "../shared/toaster/useToast";
+import { useRouter } from "next/navigation";
 
-const AppointmentList: React.FC = () => {
+const AppointmentList: React.FC<{
+  appointments: Appointment[];
+}> = ({ appointments }) => {
   const { data: session } = useSession();
+  const router = useRouter();
 
-  const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedAppointment, setSelectedAppointment] =
     useState<Appointment | null>(null);
 
-  const {
-    data: appointments,
-    isLoading: isLoading,
-    error: error,
-  } = useQuery<Appointment[], Error>({
-    queryKey: ["appointmentsByPatient"],
-    queryFn: () =>
-      getAppointmentsByPatient({
-        id: session?.user.id!,
-        accessToken: session?.user.accessToken!,
-        timezone: "Argentina Standard Time",
-      }),
-    enabled: !!session?.user.accessToken && !!session?.user.id,
-  });
-
-  const mutation = useMutation({
+  const { mutate, error } = useMutation({
     mutationFn: deleteAppointment,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["appointmentsByPatient"] });
+      router.refresh();
 
       toast({
         title: "Cita eliminada con éxito",
@@ -59,7 +44,7 @@ const AppointmentList: React.FC = () => {
   });
 
   const handleSubmit = () => {
-    mutation.mutate({
+    mutate({
       accessToken: session?.user.accessToken!,
       appointmentId: selectedAppointment!.id,
       professionalId: selectedAppointment?.professionalId!,
@@ -78,14 +63,7 @@ const AppointmentList: React.FC = () => {
     setSelectedAppointment(null);
   };
 
-  if (isLoading)
-    return (
-      <PlatformContainer className="rounded-2xl lg:col-span-2 lg:row-span-4 lg:row-end-1 lg:grid lg:min-h-0 lg:py-6">
-        <H6 className="text-center">Cargando...</H6>
-      </PlatformContainer>
-    );
-
-  if (!isLoading && !appointments?.length)
+  if (!appointments?.length)
     return (
       <>
         <div className="flex h-[calc(90dvh)] justify-center lg:hidden">
