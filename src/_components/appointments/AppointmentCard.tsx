@@ -2,6 +2,8 @@ import { Appointment } from "~/types/appointments";
 import PlatformContainer from "../common/PlatformContainer";
 import Image from "next/image";
 import { Button } from "../common/Button";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 
 interface AppointmentCardProps {
   appointment: Appointment;
@@ -36,46 +38,12 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
 
               <h3 className="hidden lg:flex">
                 <span className="first-letter:capitalize">
-                  {appointment.start.toLocaleDateString("es-AR", {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                  {`${format(appointment.start, "EEEE d 'de' LLLL 'de' yyyy', de' H:mm", { locale: es })} a ${format(appointment.end, "H:mm")}hs`}
                 </span>
-                , de{" "}
-                {appointment.start.toLocaleTimeString("es-AR", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: false,
-                })}{" "}
-                a{" "}
-                {appointment.end.toLocaleTimeString("es-AR", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: false,
-                })}
-                hs
               </h3>
 
               <h3 className="first-letter:capitalize lg:hidden">
-                {appointment.start.toLocaleDateString("es-AR", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}
-                ,{""}
-                {appointment.start.toLocaleTimeString("es-AR", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: false,
-                })}{" "}
-                a{" "}
-                {appointment.end.toLocaleTimeString("es-AR", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: false,
-                })}
+                {`${format(appointment.start, "d 'de' LLL 'de' yyyy', ' H:mm", { locale: es })} a ${format(appointment.end, "H:mm")}`}
               </h3>
             </div>
           </div>

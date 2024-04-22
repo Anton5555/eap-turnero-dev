@@ -6,7 +6,6 @@ import { H3, H6 } from "../common/Typography";
 import Stepper from "../common/Stepper";
 import React, { useState } from "react";
 import { useSession } from "next-auth/react";
-import { getContractServices } from "~/lib/api/services";
 import { getProfessionals } from "~/lib/api/professionals";
 import { ContractService } from "~/types/services";
 import { Professional } from "~/types/professionals";
@@ -181,9 +180,8 @@ const CreateAppointment: React.FC<{
       patientId: Number(user.id),
       agendaId: agendaId!,
       processType: selectedService?.processType!,
-      // TODO: replace hardcoded timezone with info from backend when done for dateFrom and dateTo
-      dateFrom: `${format(selectedTime!.dateFrom, "yyyy-MM-dd")} ${selectedTime!.dateFrom.toLocaleTimeString("es-AR")}`,
-      dateTo: `${format(selectedTime!.dateTo, "yyyy-MM-dd")} ${selectedTime!.dateTo.toLocaleTimeString("es-AR")}`,
+      dateFrom: `${format(selectedTime!.dateFrom, "yyyy-MM-dd")} ${format(selectedTime!.dateFrom, "HH:mm")}`,
+      dateTo: `${format(selectedTime!.dateTo, "yyyy-MM-dd")} ${format(selectedTime!.dateTo, "HH:mm")}`,
       timezone: user.timezone,
       modalityId: modalityFilter,
       accessToken: user.accessToken!,

@@ -3,6 +3,8 @@ import React, { Fragment } from "react";
 import CloseIcon from "../icons/Close";
 import { Button } from "../common/Button";
 import CalendarIcon from "../icons/Calendar";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 
 interface ConfirmationDialogProps {
   open: boolean;
@@ -71,18 +73,11 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
                     </p>
 
                     <p className="text-lg leading-5 first-letter:uppercase">
-                      {date.toLocaleDateString("es-AR", {
-                        weekday: "long",
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}{" "}
-                      a las{" "}
-                      {date.toLocaleTimeString("es-AR", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                      hs
+                      {format(
+                        date,
+                        "EEEE d 'de' LLLL 'del' yyyy 'a las' H:mm'hs'",
+                        { locale: es },
+                      )}
                     </p>
                   </div>
                 </div>

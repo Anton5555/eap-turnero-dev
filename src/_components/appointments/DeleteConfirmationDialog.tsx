@@ -3,6 +3,8 @@ import React, { Fragment } from "react";
 import { Button } from "../common/Button";
 import CancelIcon from "../icons/Cancel";
 import CloseIcon from "../icons/Close";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 
 interface DeleteConfirmationDialogProps {
   open: boolean;
@@ -64,7 +66,7 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
                     </p>
 
                     <p className="text-lg leading-5 text-green">
-                      {professional} {date.toLocaleDateString("es-AR")}
+                      {professional} {format(date, "dd/MM/yyyy")}
                     </p>
 
                     <p className="text-lg leading-5">
