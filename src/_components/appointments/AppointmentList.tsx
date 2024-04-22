@@ -12,7 +12,7 @@ const AppointmentList: React.FC<AppointmentListProps> = ({ appointments }) => {
         <div className="flex h-[calc(90dvh)] justify-center lg:hidden">
           <AppointmentsEmpty />
         </div>
-        <PlatformContainer className="hidden justify-center rounded-none lg:col-span-2 lg:row-span-4 lg:row-end-1 lg:grid lg:rounded-3xl">
+        <PlatformContainer className="hidden justify-center rounded-none lg:col-span-2 lg:row-span-4 lg:row-end-1 lg:grid">
           <AppointmentsEmpty />
         </PlatformContainer>
       </>
