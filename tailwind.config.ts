@@ -8,6 +8,7 @@ export default {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
         inter: ["var(--font-inter)"],
+        openSans: ["var(--font-open-sans)"],
       },
       colors: {
         green: "#009D7D",
