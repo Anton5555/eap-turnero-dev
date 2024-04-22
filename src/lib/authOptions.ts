@@ -53,8 +53,6 @@ const authOptions: AuthOptions = {
 
         const { user: eapUser, token } = userData;
 
-        console.log(eapUser);
-
         const user: User = {
           id: eapUser.idpaciente.toString(),
           email: eapUser.mail,
