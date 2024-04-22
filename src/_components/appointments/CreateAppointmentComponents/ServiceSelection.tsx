@@ -8,25 +8,13 @@ const ServiceSelection = (props: {
   services: ContractService[];
   selectedService: ContractService | null;
   handleServiceSelect: (service: ContractService) => void;
-  isLoading: boolean;
-  error: Error | null;
 }) => {
-  const { services, selectedService, handleServiceSelect, isLoading, error } =
-    props;
+  const { services, selectedService, handleServiceSelect } = props;
 
-  if (isLoading)
+  if (!services?.length)
     return (
       <PlatformContainer className="rounded-2xl lg:min-h-0 lg:py-6">
-        <H6 className="text-center">Cargando...</H6>
-      </PlatformContainer>
-    );
-
-  if (!isLoading && !services?.length)
-    return (
-      <PlatformContainer className="rounded-2xl lg:min-h-0 lg:py-6">
-        <H6 className="text-center">
-          {error ? error.message : "No se encontraron servicios"}
-        </H6>
+        <H6 className="text-center">No se encontraron servicios</H6>
       </PlatformContainer>
     );
 

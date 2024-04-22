@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button } from "../common/Button";
 import { H3, H6 } from "../common/Typography";
 import Stepper from "../common/Stepper";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useSession } from "next-auth/react";
 import { getContractServices } from "~/lib/api/services";
 import { getProfessionals } from "~/lib/api/professionals";
@@ -24,7 +24,9 @@ import DateSelection from "./CreateAppointmentComponents/DateSelection";
 import TimeSelection from "./CreateAppointmentComponents/TimeSelection";
 import ProfessionalSelection from "./CreateAppointmentComponents/ProfessionalSelection";
 
-const CreateAppointment = () => {
+const CreateAppointment: React.FC<{
+  services: ContractService[];
+}> = ({ services }) => {
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -67,26 +69,6 @@ const CreateAppointment = () => {
 
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
     useState(false);
-
-  const {
-    data: services,
-    isLoading: isLoadingServices,
-    error: errorServices,
-  } = useQuery<ContractService[], Error>({
-    queryKey: ["services"],
-    queryFn: () =>
-      getContractServices({
-        companyId: user.company,
-        locationId: user.location,
-        positionId: user.position!,
-        accessToken: user.accessToken,
-      }),
-    enabled:
-      !!user.company &&
-      !!user.location &&
-      !!user.position &&
-      !!user.accessToken,
-  });
 
   const {
     data: professionals,
@@ -311,8 +293,6 @@ const CreateAppointment = () => {
               services={services}
               selectedService={selectedService}
               handleServiceSelect={handleServiceSelect}
-              isLoading={isLoadingServices}
-              error={errorServices}
             />
           )}
 
@@ -385,10 +365,7 @@ const CreateAppointment = () => {
         </div>
 
         <div className="flex w-full flex-col space-y-2 lg:hidden">
-          <Button
-            className="h-12 w-full"
-            onClick={() => setCurrentStep(currentStep + 1)}
-          >
+          <Button className="h-12 w-full" onClick={nextStep}>
             Siguiente
           </Button>
 
