@@ -16,13 +16,13 @@ const Page = async ({
   if (!session) return;
 
   const {
-    user: { accessToken, id },
+    user: { accessToken, id, timezone },
   } = session;
 
   const appointments = await getAppointmentsByPatient({
     id,
     accessToken,
-    timezone: "Argentina Standard Time",
+    timezone,
   });
 
   const { professional, dateFrom, dateTo } = searchParams;

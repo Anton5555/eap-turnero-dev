@@ -9,6 +9,7 @@ export type User = {
   userType: "employee" | "family";
   services: string[];
   position?: number;
+  timezone: string;
   accessToken: string;
 };
 
@@ -29,7 +30,7 @@ type EAPUser = {
   nombre: string;
   apellido1: string;
   apellido2: null | string;
-  huso: null | string;
+  huso: string;
   tipousuarioportal: string;
   a_b: string;
   puesto: null | string;

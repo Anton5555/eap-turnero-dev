@@ -53,6 +53,8 @@ const authOptions: AuthOptions = {
 
         const { user: eapUser, token } = userData;
 
+        console.log(eapUser);
+
         const user: User = {
           id: eapUser.idpaciente.toString(),
           email: eapUser.mail,
@@ -65,6 +67,7 @@ const authOptions: AuthOptions = {
             eapUser.tipousuarioportal === "empleado" ? "employee" : "family",
           services: eapUser.services.map((service) => service.code),
           position: eapUser.puesto ? parseInt(eapUser.puesto) : undefined,
+          timezone: eapUser.huso,
           accessToken: token,
         };
 
