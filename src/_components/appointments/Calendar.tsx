@@ -163,7 +163,7 @@ const Calendar: React.FC<
     captionLayout="dropdown-buttons"
     fromYear={currentYear}
     toYear={currentYear + 1}
-    className={cn("font-['Open_Sans'] text-base text-black", className)}
+    className={cn("font-openSans text-base text-black", className)}
     classNames={{
       months:
         "flex justify-center space-y-4 sm:space-x-4 sm:space-y-0 pb-4 lg:pb-0",
@@ -175,12 +175,12 @@ const Calendar: React.FC<
       head_row:
         "flex border-b-[0.5px] border-b-light-gray pb-2 lg:border-none lg:hidden justify-between ",
       head_cell:
-        "lg:text-dark-gray text-black font-semibold capitalize w-12 md:w-16 lg:w-16 xl:w-28 lg:font-bold",
-      row: "flex w-full mt-2",
-      cell: "h-12 w-12 lg:h-10 md:w-16 lg:w-16 xl:w-28 pointer-events-none cursor-default text-center lg:text-base font-normal p-0 relative [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent focus-within:relative focus-within:z-20",
+        "lg:text-dark-gray text-black font-semibold capitalize w-12 md:w-16 lg:w-16 xl:w-24 2xl:w-28 lg:font-bold",
+      row: "flex w-full mt-2 justify-between",
+      cell: "h-12 w-12 lg:h-10 md:w-16 lg:w-16 xl:w-24 2xl:w-28 pointer-events-none cursor-default text-center lg:text-base font-normal p-0 relative [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent focus-within:relative focus-within:z-20",
       day: cn(
         buttonVariants({ variant: "ghost" }),
-        "h-12 w-12 lg:h-10 md:w-16 lg:w-16 xl:w-28 p-0 font-normal mx-auto aria-selected:opacity-100 hover:bg-transparent hover:text-black",
+        "h-12 w-12 lg:h-10 md:w-16 lg:w-16 xl:w-24 2xl:w-28 p-0 font-normal mx-auto aria-selected:opacity-100 hover:bg-transparent hover:text-black",
       ),
       day_selected:
         "bg-green/50 text-white hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
