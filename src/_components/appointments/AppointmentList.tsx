@@ -14,10 +14,12 @@ import { useState } from "react";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 import { useToast } from "../shared/toaster/useToast";
 import { useRouter } from "next/navigation";
+import cn from "~/lib/utils";
 
 const AppointmentList: React.FC<{
   appointments: Appointment[];
-}> = ({ appointments }) => {
+  className?: string;
+}> = ({ appointments, className }) => {
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -71,7 +73,9 @@ const AppointmentList: React.FC<{
           {error ? <H6>{error.message}</H6> : <AppointmentsEmpty />}
         </div>
 
-        <PlatformContainer className="hidden justify-center rounded-none lg:col-span-2 lg:row-span-4 lg:row-end-1 lg:grid">
+        <PlatformContainer
+          className={cn("hidden justify-center rounded-none ", className)}
+        >
           {error ? (
             <H6 className="text-center">{error.message}</H6>
           ) : (
@@ -83,7 +87,12 @@ const AppointmentList: React.FC<{
 
   return (
     <>
-      <div className="flex flex-col justify-between lg:col-span-2 lg:row-span-4 lg:row-end-1 lg:grid lg:justify-normal lg:space-y-8">
+      <div
+        className={cn(
+          "flex flex-col justify-between lg:justify-between lg:space-y-8",
+          className,
+        )}
+      >
         <div className="m-4 space-y-4 lg:m-0 lg:space-y-0">
           <div className="block space-y-2 lg:hidden">
             <H1>Agenda</H1>

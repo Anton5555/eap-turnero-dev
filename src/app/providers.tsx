@@ -16,10 +16,10 @@ let browserQueryClient: QueryClient | undefined = undefined;
 
 const getQueryClient = () => {
   if (typeof window === "undefined") return makeQueryClient();
-  else {
-    if (!browserQueryClient) browserQueryClient = makeQueryClient();
-    return browserQueryClient;
-  }
+
+  if (!browserQueryClient) browserQueryClient = makeQueryClient();
+
+  return browserQueryClient;
 };
 
 const QueryProvider = ({ children }: { children: React.ReactNode }) => {
