@@ -4,6 +4,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 import { H5 } from "../common/Typography";
 import { Button } from "../common/Button";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 
 interface AppointmentCreatedDialogProps {
   professional: string;
@@ -50,23 +52,11 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
 
                   <p className="text-sm lg:text-base">
                     Tienes una cita programada para el{" "}
-                    {dateFrom.toLocaleDateString("es-AR", {
-                      weekday: "long",
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                    , de{" "}
-                    {dateFrom.toLocaleTimeString("es-AR", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}{" "}
-                    a{" "}
-                    {dateTo.toLocaleTimeString("es-AR", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                    , con {professional}
+                    {`${format(
+                      dateFrom,
+                      "EEEE d 'de' LLLL 'de' yyyy', de' H:mm",
+                      { locale: es },
+                    )} a ${format(dateTo, "H:mm")}hs, con ${professional}`}
                   </p>
 
                   <p className="text-sm lg:text-base">

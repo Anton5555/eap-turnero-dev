@@ -1,8 +1,9 @@
 import { ContractService } from "~/types/services";
+import { env } from "~/env";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = env.NEXT_PUBLIC_API_URL;
 
-interface OriginalData {
+interface OriginalServiceData {
   ID: number;
   ID_EMPRESA: number;
   IDSERVICIO: number;
@@ -19,22 +20,22 @@ interface OriginalData {
   rn: number;
 }
 
-const parseData = (data: OriginalData[]) => {
-  return data.map((item) => ({
-    id: item.ID,
-    companyId: item.ID_EMPRESA,
-    serviceId: item.IDSERVICIO,
-    areaId: item.IDAREA,
-    area: item.AREA,
-    serviceName: item.NOMBRESERVICIO,
-    specialtyId: item.IDESPECIALIDAD,
-    specialty: item.ESPECIALIDAD,
-    locationId: item.IDSEDE,
-    locationName: item.NOMBRESEDE,
-    processType: item.TIPOPROC,
-    position: item.PUESTO,
-    positionName: item.NOMBREPUESTO,
-    rn: item.rn,
+const parseData = (originalServices: OriginalServiceData[]) => {
+  return originalServices.map((service) => ({
+    id: service.ID,
+    companyId: service.ID_EMPRESA,
+    serviceId: service.IDSERVICIO,
+    areaId: service.IDAREA,
+    area: service.AREA,
+    serviceName: service.NOMBRESERVICIO,
+    specialtyId: service.IDESPECIALIDAD,
+    specialty: service.ESPECIALIDAD,
+    locationId: service.IDSEDE,
+    locationName: service.NOMBRESEDE,
+    processType: service.TIPOPROC,
+    position: service.PUESTO,
+    positionName: service.NOMBREPUESTO,
+    rn: service.rn,
   }));
 };
 
@@ -49,19 +50,18 @@ const getContractServices = async (props: {
   const headers = new Headers();
   headers.append("Authorization", accessToken);
 
-  const response = await fetch(
-    `${API_URL}/Patient/getContractServices?empresa=${companyId}&sede=${locationId}&puesto=${positionId}`,
-    {
-      method: "GET",
-      headers,
-    },
-  );
+  const requestUrl = `${API_URL}/Patient/getContractServices?empresa=${companyId}&sede=${locationId}&puesto=${positionId}`;
+
+  const response = await fetch(requestUrl, {
+    method: "GET",
+    headers,
+  });
 
   if (!response.ok) throw new Error("Error al obtener los servicios");
 
-  const data = await response.json();
+  const servicesOriginalData = (await response.json()) as OriginalServiceData[];
 
-  return parseData(data) as ContractService[];
+  return parseData(servicesOriginalData) as ContractService[];
 };
 
 export { getContractServices };

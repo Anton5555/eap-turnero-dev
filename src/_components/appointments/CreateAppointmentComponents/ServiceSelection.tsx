@@ -11,6 +11,13 @@ const ServiceSelection = (props: {
 }) => {
   const { services, selectedService, handleServiceSelect } = props;
 
+  if (!services?.length)
+    return (
+      <PlatformContainer className="rounded-2xl lg:min-h-0 lg:py-6">
+        <H6 className="text-center">No se encontraron servicios</H6>
+      </PlatformContainer>
+    );
+
   return (
     <ul className="space-y-6 lg:w-full">
       {services?.map((service) => (
