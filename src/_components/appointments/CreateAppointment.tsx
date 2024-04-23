@@ -369,7 +369,10 @@ const CreateAppointment = () => {
         </div>
 
         <div className="hidden justify-end gap-8 pt-4 lg:flex">
-          <Link href="#" onClick={() => setCurrentStep(currentStep - 1)}>
+          <Link
+            href="#"
+            onClick={() => currentStep !== 1 && setCurrentStep(currentStep - 1)}
+          >
             <ArrowIcon direction="left" />
           </Link>
 
@@ -389,7 +392,7 @@ const CreateAppointment = () => {
           <Button
             className="h-12 w-full"
             variant="outline"
-            onClick={() => setCurrentStep(currentStep - 1)}
+            onClick={() => currentStep !== 1 && setCurrentStep(currentStep - 1)}
           >
             Atrás
           </Button>
