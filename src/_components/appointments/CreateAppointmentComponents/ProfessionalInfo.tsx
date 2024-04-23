@@ -9,7 +9,7 @@ const ProfessionalInfo = (professional: Professional) => (
     </H6>
 
     {professional.subSpecialties && (
-      <p className="font-lato text-sm leading-4 text-gray40 lg:text-base lg:leading-5">
+      <p className="font-lato text-dark-gray text-sm leading-4 lg:text-base lg:leading-5">
         {professional.subSpecialties[0]}
       </p>
     )}

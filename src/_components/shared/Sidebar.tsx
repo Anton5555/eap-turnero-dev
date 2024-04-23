@@ -4,7 +4,6 @@ import React from "react";
 import HomeIcon from "../icons/Home";
 import UserIcon from "../icons/User";
 import cn from "~/lib/utils";
-import Image from "next/image";
 import BarsIcon from "../icons/Bars";
 import CloseIcon from "../icons/Close";
 import Link from "next/link";
@@ -14,11 +13,11 @@ import Profile from "./Profile";
 import NotificationsMenu from "./NotificationsMenu";
 import { H6 } from "../common/Typography";
 import Logo from "./Logo";
+import { usePathname } from "next/navigation";
 
-// TODO: change the current nav item to the one that is active in the app
 const navigation = [
-  { name: "Inicio", href: "#", icon: HomeIcon, current: true },
-  { name: "Perfil", href: "#", icon: UserIcon, current: false },
+  { name: "Inicio", href: "/platform", icon: HomeIcon, path: "platform" },
+  { name: "Perfil", href: "#", icon: UserIcon, path: "profile" },
 ];
 
 type SidebarProps = {
@@ -28,6 +27,9 @@ type SidebarProps = {
 const Sidebar: React.FC<SidebarProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const { data: session } = useSession();
+
+  const pathname = usePathname();
+  const currentPathRoot = pathname.split("/")[1];
 
   const Menu: React.FC = () => (
     <nav className="flex flex-1 flex-col">
@@ -48,18 +50,23 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
 
         <li>
           <ul role="list" className=" space-y-4 lg:mt-8">
-            {navigation.map((item) => (
-              <li key={item.name}>
+            {navigation.map((navigationItem) => (
+              <li key={navigationItem.name}>
                 <Link
-                  href={item.href}
+                  href={navigationItem.href}
                   className={cn(
-                    item.current ? "text-green" : "text-black hover:text-green",
+                    navigationItem.path === currentPathRoot
+                      ? "text-green"
+                      : "text-black hover:text-green",
                     "group flex flex-row items-center gap-x-3 p-2 font-bold leading-5 lg:flex-col lg:gap-x-0 lg:gap-y-1",
                   )}
                 >
-                  <item.icon active={item.current} aria-hidden="true" />
+                  <navigationItem.icon
+                    active={navigationItem.path === currentPathRoot}
+                    aria-hidden="true"
+                  />
 
-                  <span>{item.name}</span>
+                  <span>{navigationItem.name}</span>
                 </Link>
               </li>
             ))}
@@ -74,7 +81,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           <Link
             href="#"
             onClick={() => signOut()}
-            className="text-veryDarkBlue group -mx-2 flex items-center gap-x-2 p-2"
+            className="text-very-dark-blue group -mx-2 flex items-center gap-x-2 p-2"
           >
             <ExitIcon />
 

@@ -1,14 +1,30 @@
+import { getServerSession } from "next-auth";
 import AppointmentCreatedDialog from "~/_components/appointments/AppointmentCreatedDialog";
 import AppointmentList from "~/_components/appointments/AppointmentList";
 import PlatformContainer from "~/_components/common/PlatformContainer";
 import { H3, H6 } from "~/_components/common/Typography";
+import { getAppointmentsByPatient } from "~/lib/api/appointments";
+import authOptions from "~/lib/authOptions";
 
-const Page = ({
+const Page = async ({
   searchParams,
 }: {
   searchParams: { professional: string; dateFrom: string; dateTo: string };
 }) => {
-  const appointments: Array<string> = [];
+  const session = await getServerSession(authOptions);
+
+  if (!session) return;
+
+  const {
+    user: { accessToken, id, timezone },
+  } = session;
+
+  const appointments = await getAppointmentsByPatient({
+    id,
+    accessToken,
+    timezone,
+  });
+
   const { professional, dateFrom, dateTo } = searchParams;
 
   return (

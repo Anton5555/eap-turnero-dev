@@ -1,6 +1,6 @@
 import "~/styles/globals.css";
 
-import { Lato, Inter } from "next/font/google";
+import { Lato, Inter, Open_Sans } from "next/font/google";
 import { QueryProvider, SessionProvider } from "./providers";
 import { getServerSession } from "next-auth";
 import Toaster from "~/_components/shared/toaster/toaster";
@@ -17,6 +17,11 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+const openSans = Open_Sans({
+  subsets: ["latin"],
+  variable: "--font-open-sans",
+});
+
 export const metadata = {
   title: "EAP Latina",
   description: "",
@@ -28,7 +33,9 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <html lang="es">
-      <body className={`font-sans ${lato.variable} ${inter.variable}`}>
+      <body
+        className={`font-sans ${lato.variable} ${inter.variable} ${openSans.variable}`}
+      >
         <QueryProvider>
           <SessionProvider session={session}>{children}</SessionProvider>
         </QueryProvider>

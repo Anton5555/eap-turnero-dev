@@ -30,7 +30,7 @@ const TimeSelection = (props: {
           {freeAppointmentsTimes.map((times, index) => (
             <Button
               key={index}
-              className="h-10 w-full font-['Open_Sans'] text-base font-normal lg:h-12"
+              className="font-openSans h-10 w-full text-base font-normal lg:h-12"
               variant={times === selectedTime ? "default" : "secondary"}
               onClick={() => onTimeSelect(times)}
             >
