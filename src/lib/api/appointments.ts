@@ -131,9 +131,12 @@ const getFreeAppointments = async (props: {
       "Error al obtener las citas libres de la agenda del profesional",
     );
 
-  const data = await response.json();
+  const freeAppointmentsOriginalData =
+    (await response.json()) as OriginalFreeAppointmentsData[];
 
-  const freeAppointments = await parseFreeAppointmentsData(data);
+  const freeAppointments = await parseFreeAppointmentsData(
+    freeAppointmentsOriginalData,
+  );
 
   return { freeAppointments, agendaId };
 };
@@ -250,9 +253,10 @@ const getAppointmentsByPatient = async (props: {
 
   if (!response.ok) throw new Error("Error al obtener las citas del paciente");
 
-  const data = await response.json();
+  const appointmentsOriginalData =
+    (await response.json()) as OriginalAppointmentsData[];
 
-  return parseAppointmentsData(data);
+  return parseAppointmentsData(appointmentsOriginalData);
 };
 
 const deleteAppointment = async (props: {

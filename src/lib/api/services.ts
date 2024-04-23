@@ -59,9 +59,9 @@ const getContractServices = async (props: {
 
   if (!response.ok) throw new Error("Error al obtener los servicios");
 
-  const data = await response.json();
+  const servicesOriginalData = (await response.json()) as OriginalServiceData[];
 
-  return parseData(data) as ContractService[];
+  return parseData(servicesOriginalData) as ContractService[];
 };
 
 export { getContractServices };

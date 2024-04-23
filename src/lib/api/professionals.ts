@@ -59,12 +59,14 @@ const getProfessionals = async (props: {
 
   if (!response.ok) throw new Error("Error al obtener los profesionales");
 
-  const data = await response.json();
+  const professionals = (await response.json()) as OriginalProfessionalData[];
 
   let subSpecialties;
 
   if (
-    data.some((professional: OriginalProfessionalData) => professional.subEsp)
+    professionals.some(
+      (professional: OriginalProfessionalData) => professional.subEsp,
+    )
   ) {
     const subSpecialtiesResponse = await fetch(
       `${API_URL}/misc/getParamDepartamentoSub`,
@@ -80,9 +82,12 @@ const getProfessionals = async (props: {
     subSpecialties = (await subSpecialtiesResponse.json()) as SubSpecialtyData;
   }
 
-  const professionals = parseData(data, subSpecialties ?? null);
+  const professionalsWithSubspecialties = parseData(
+    professionals,
+    subSpecialties ?? null,
+  );
 
-  return professionals;
+  return professionalsWithSubspecialties;
 };
 
 const getProfessionalSapUser = async (props: {
