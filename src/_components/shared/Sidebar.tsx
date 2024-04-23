@@ -50,23 +50,23 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
 
         <li>
           <ul role="list" className=" space-y-4 lg:mt-8">
-            {navigation.map((item) => (
-              <li key={item.name}>
+            {navigation.map((navigationItem) => (
+              <li key={navigationItem.name}>
                 <Link
-                  href={item.href}
+                  href={navigationItem.href}
                   className={cn(
-                    item.path === currentPathRoot
+                    navigationItem.path === currentPathRoot
                       ? "text-green"
                       : "text-black hover:text-green",
                     "group flex flex-row items-center gap-x-3 p-2 font-bold leading-5 lg:flex-col lg:gap-x-0 lg:gap-y-1",
                   )}
                 >
-                  <item.icon
-                    active={item.path === currentPathRoot}
+                  <navigationItem.icon
+                    active={navigationItem.path === currentPathRoot}
                     aria-hidden="true"
                   />
 
-                  <span>{item.name}</span>
+                  <span>{navigationItem.name}</span>
                 </Link>
               </li>
             ))}
@@ -81,7 +81,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           <Link
             href="#"
             onClick={() => signOut()}
-            className="group -mx-2 flex items-center gap-x-2 p-2 text-darkBlue"
+            className="text-dark-blue group -mx-2 flex items-center gap-x-2 p-2"
           >
             <ExitIcon />
 

@@ -3,7 +3,7 @@ import { env } from "~/env";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
 
-interface OriginalData {
+interface OriginalProfessionalData {
   EmpID: number;
   NAME: string;
   PAIS: string;
@@ -20,14 +20,14 @@ interface SubSpecialtyData {
 }
 
 const parseData = (
-  data: OriginalData[],
+  originalProfessionalsData: OriginalProfessionalData[],
   subSpecialties: SubSpecialtyData | null,
 ): Professional[] =>
-  data.map((item) => ({
-    id: item.EmpID,
-    name: item.NAME,
+  originalProfessionalsData.map((professional) => ({
+    id: professional.EmpID,
+    name: professional.NAME,
     subSpecialties:
-      item.subEsp
+      professional.subEsp
         ?.split(",")
         .map(
           (id) =>
@@ -49,21 +49,22 @@ const getProfessionals = async (props: {
   headers.append("Authorization", accessToken);
   headers.append("Content-Type", "application/json");
 
-  const response = await fetch(
-    `${API_URL}/profesional/getProfesionalesByModalidadesServicio?sede=${locationId}&servicio=${serviceId}&especialidad=${specialtyId}`,
-    {
-      method: "POST",
-      headers,
-      body: JSON.stringify([modalityId]),
-    },
-  );
+  const requestUrl = `${API_URL}/profesional/getProfesionalesByModalidadesServicio?sede=${locationId}&servicio=${serviceId}&especialidad=${specialtyId}`;
+
+  const response = await fetch(requestUrl, {
+    method: "POST",
+    headers,
+    body: JSON.stringify([modalityId]),
+  });
 
   if (!response.ok) throw new Error("Error al obtener los profesionales");
 
   const data = await response.json();
 
   let subSpecialties;
-  if (data.some((professional: OriginalData) => professional.subEsp)) {
+  if (
+    data.some((professional: OriginalProfessionalData) => professional.subEsp)
+  ) {
     const subEspecialtiesResponse = await fetch(
       `${API_URL}/misc/getParamDepartamentoSub`,
       {

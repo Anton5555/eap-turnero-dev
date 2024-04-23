@@ -14,9 +14,9 @@ interface OriginalFreeAppointmentsData {
 const parseFreeAppointmentsData = async (
   data: OriginalFreeAppointmentsData[],
 ): Promise<FreeAppointmentsByDay> =>
-  data.reduce((freeAppointmentsByDay, item) => {
-    const dateFrom = new Date(item.fechadesde);
-    const dateTo = new Date(item.fechahasta);
+  data.reduce((freeAppointmentsByDay, originalFreeAppointmentsByDay) => {
+    const dateFrom = new Date(originalFreeAppointmentsByDay.fechadesde);
+    const dateTo = new Date(originalFreeAppointmentsByDay.fechahasta);
 
     const dayOfMonth = dateFrom.getDate();
 
@@ -66,16 +66,16 @@ interface OriginalAppointmentsData {
 }
 
 const parseAppointmentsData = (
-  data: OriginalAppointmentsData[],
+  originalAppointments: OriginalAppointmentsData[],
 ): Appointment[] =>
-  data.map((item) => ({
-    id: item.UNIQUEID,
-    start: new Date(item.FS_FECHAINICIO),
-    end: new Date(item.FS_FECHAFIN),
-    specialty: item.ESPECIALIDAD,
-    modality: item.MODALIDAD,
-    professional: item.NOMBRE,
-    professionalId: item.EMPID,
+  originalAppointments.map((appointment) => ({
+    id: appointment.UNIQUEID,
+    start: new Date(appointment.FS_FECHAINICIO),
+    end: new Date(appointment.FS_FECHAFIN),
+    specialty: appointment.ESPECIALIDAD,
+    modality: appointment.MODALIDAD,
+    professional: appointment.NOMBRE,
+    professionalId: appointment.EMPID,
   }));
 
 const getFreeAppointments = async (props: {
@@ -102,13 +102,12 @@ const getFreeAppointments = async (props: {
   const headers = new Headers();
   headers.append("Authorization", accessToken);
 
-  const responseAgendas = await fetch(
-    `${API_URL}/misc/getActiveAgendasByEmpId?empId=${employeeId}&esp=${specialtyId}&servicio=${serviceId}&aten=3`,
-    {
-      method: "GET",
-      headers,
-    },
-  );
+  const getAgendasReqUrl = `${API_URL}/misc/getActiveAgendasByEmpId?empId=${employeeId}&esp=${specialtyId}&servicio=${serviceId}&aten=3`;
+
+  const responseAgendas = await fetch(getAgendasReqUrl, {
+    method: "GET",
+    headers,
+  });
 
   if (!responseAgendas.ok)
     throw new Error("Error al obtener la agenda del profesional");
@@ -120,13 +119,12 @@ const getFreeAppointments = async (props: {
 
   const agendaId = dataAgenda.value[0].DocEntry;
 
-  const response = await fetch(
-    `${API_URL}/appointments/getFreeAppointmentsByAgenda?fechadesde=${dateFrom}&fechahasta=${dateTo}&idagenda=${agendaId}&modalidad=${modalityId}&zonahoraria=${timezone}`,
-    {
-      method: "GET",
-      headers,
-    },
-  );
+  const getAppointmentsReqUrl = `${API_URL}/appointments/getFreeAppointmentsByAgenda?fechadesde=${dateFrom}&fechahasta=${dateTo}&idagenda=${agendaId}&modalidad=${modalityId}&zonahoraria=${timezone}`;
+
+  const response = await fetch(getAppointmentsReqUrl, {
+    method: "GET",
+    headers,
+  });
 
   if (!response.ok)
     throw new Error(
@@ -242,14 +240,13 @@ const getAppointmentsByPatient = async (props: {
   const headers = new Headers();
   headers.append("Authorization", accessToken);
 
-  const response = await fetch(
-    `${API_URL}/Patient/getAppointmentsByPatient?patientId=${id}&zonahoraria=${timezone}`,
-    {
-      method: "GET",
-      headers,
-      cache: "no-store",
-    },
-  );
+  const requestUrl = `${API_URL}/Patient/getAppointmentsByPatient?patientId=${id}&zonahoraria=${timezone}`;
+
+  const response = await fetch(requestUrl, {
+    method: "GET",
+    headers,
+    cache: "no-store",
+  });
 
   if (!response.ok) throw new Error("Error al obtener las citas del paciente");
 
@@ -276,13 +273,12 @@ const deleteAppointment = async (props: {
   const headers = new Headers();
   headers.append("Authorization", accessToken);
 
-  const response = await fetch(
-    `${API_URL}/appointments/deleteAppointment?idappointment=${appointmentId}&sapuser=${sapUser}&deletereasonid=-1&deleteprocessifempty=true`,
-    {
-      method: "POST",
-      headers,
-    },
-  );
+  const requestUrl = `${API_URL}/appointments/deleteAppointment?idappointment=${appointmentId}&sapuser=${sapUser}&deletereasonid=-1&deleteprocessifempty=true`;
+
+  const response = await fetch(requestUrl, {
+    method: "POST",
+    headers,
+  });
 
   if (!response.ok) throw new Error("Error al eliminar la cita");
 
