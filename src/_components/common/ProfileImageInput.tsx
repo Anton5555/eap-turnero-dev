@@ -46,13 +46,13 @@ const ProfileImageInput = React.forwardRef<
       <div className="space-y-2">
         <Button
           variant="outline"
-          className="border-mediumGray rounded leading-3 text-darkGray"
+          className="border-light-grayish-blue text-ultra-dark-gray rounded leading-3"
           onClick={() => inputRef?.current?.click()}
         >
           Subir imagen
         </Button>
 
-        <p className="text-sm leading-4 text-darkBlue">
+        <p className="text-dark-blue text-sm leading-4">
           JPG o PNG.
           <br />1 MB max.
         </p>

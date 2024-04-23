@@ -42,7 +42,7 @@ const Page = async () => {
 
             <H4 className="lg:hidden">Inicia sesión para comenzar!</H4>
 
-            <H6 className="text-ultra-dark-gray hidden lg:flex">
+            <H6 className="hidden text-black lg:flex">
               Inicia sesión para comenzar
             </H6>
           </div>

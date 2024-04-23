@@ -25,7 +25,7 @@ const Page = async () => {
         </div>
 
         <div className="space-y-6">
-          <p className="font-darkGray font-inter text-sm leading-4">
+          <p className="font-ultra-dark-gray font-inter text-sm leading-4">
             Editá tu perfil aquí
           </p>
 

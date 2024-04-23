@@ -66,7 +66,7 @@ const EditProfileForm: React.FC<{ genders: Gender[] }> = ({ genders }) => {
             type="text"
             id="name"
             placeholder="Nombre"
-            className="ring-mediumGray"
+            className="ring-light-grayish-blue"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
             {...register("name")}
           />
@@ -76,7 +76,7 @@ const EditProfileForm: React.FC<{ genders: Gender[] }> = ({ genders }) => {
             type="text"
             id="lastName"
             placeholder="Apellido"
-            className="ring-mediumGray"
+            className="ring-light-grayish-blue"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
             {...register("lastName")}
           />
@@ -86,7 +86,7 @@ const EditProfileForm: React.FC<{ genders: Gender[] }> = ({ genders }) => {
             type="email"
             id="email"
             placeholder="Email"
-            className="ring-mediumGray"
+            className="ring-light-grayish-blue"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
             {...register("email")}
           />
@@ -99,7 +99,7 @@ const EditProfileForm: React.FC<{ genders: Gender[] }> = ({ genders }) => {
             {...register("location")}
             options={locations}
             value={selectedLocation}
-            className="ring-mediumGray"
+            className="ring-light-grayish-blue"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
           />
 
@@ -112,7 +112,7 @@ const EditProfileForm: React.FC<{ genders: Gender[] }> = ({ genders }) => {
               label: gender.name,
             }))}
             value={selectedGender}
-            className="ring-mediumGray"
+            className="ring-light-grayish-blue"
             placeholder="No aplica"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
           />
@@ -122,7 +122,7 @@ const EditProfileForm: React.FC<{ genders: Gender[] }> = ({ genders }) => {
             type="date"
             id="birthdate"
             {...register("birthdate")}
-            className="ring-mediumGray"
+            className="ring-light-grayish-blue"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
           />
         </div>
