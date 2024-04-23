@@ -12,9 +12,9 @@ const Page = async () => {
 
   return (
     <div className="flex flex-col lg:flex-row lg:justify-between">
-      <div className="relative flex h-56 items-start overflow-hidden lg:h-full lg:flex-col lg:rounded-2xl">
+      <div className="relative flex h-52 items-start overflow-hidden lg:h-full lg:flex-col lg:rounded-2xl">
         <Image
-          className="w-full object-cover"
+          className="object-cover"
           src="/login.webp"
           alt="login image"
           width={642}
@@ -42,7 +42,7 @@ const Page = async () => {
 
             <H4 className="lg:hidden">Inicia sesión para comenzar!</H4>
 
-            <H6 className="hidden text-blackAlt lg:flex">
+            <H6 className="text-ultra-dark-gray hidden lg:flex">
               Inicia sesión para comenzar
             </H6>
           </div>

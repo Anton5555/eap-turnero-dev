@@ -8,7 +8,7 @@ const AppointmentsEmpty = () => (
     <div className="mt-auto flex flex-col items-center justify-center">
       <PlusIcon />
 
-      <H6 className="mt-2 flex-row text-center text-gray40">
+      <H6 className="text-dark-gray mt-2 flex-row text-center">
         No tienes citas pendientes
         <br />
         Presiona aquí para agendar tu cita online

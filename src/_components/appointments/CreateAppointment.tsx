@@ -4,9 +4,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button } from "../common/Button";
 import { H3, H6 } from "../common/Typography";
 import Stepper from "../common/Stepper";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useSession } from "next-auth/react";
-import { getContractServices } from "~/lib/api/services";
 import { getProfessionals } from "~/lib/api/professionals";
 import { ContractService } from "~/types/services";
 import { Professional } from "~/types/professionals";
@@ -24,9 +23,16 @@ import DateSelection from "./CreateAppointmentComponents/DateSelection";
 import TimeSelection from "./CreateAppointmentComponents/TimeSelection";
 import ProfessionalSelection from "./CreateAppointmentComponents/ProfessionalSelection";
 
-const CreateAppointment = () => {
+const CreateAppointment: React.FC<{
+  services: ContractService[];
+}> = ({ services }) => {
   const router = useRouter();
   const { data: session } = useSession();
+
+  if (!session) return;
+
+  const { user } = session;
+
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -49,7 +55,7 @@ const CreateAppointment = () => {
   } | null>(null);
 
   const [locationFilter, setLocationFilter] = useState<number | null>(
-    session?.user.location ?? null,
+    user.location ?? null,
   );
 
   const [modalityFilter, setModalityFilter] = useState<number>(3);
@@ -64,26 +70,6 @@ const CreateAppointment = () => {
     useState(false);
 
   const {
-    data: services,
-    isLoading: isLoadingServices,
-    error: errorServices,
-  } = useQuery<ContractService[], Error>({
-    queryKey: ["services"],
-    queryFn: () =>
-      getContractServices({
-        companyId: session?.user.company!,
-        locationId: session?.user.location!,
-        positionId: session?.user.position!,
-        accessToken: session?.user.accessToken!,
-      }),
-    enabled:
-      !!session?.user.company &&
-      !!session?.user.location &&
-      !!session?.user.position &&
-      !!session?.user.accessToken,
-  });
-
-  const {
     data: professionals,
     isLoading: isLoadingProfessionals,
     error: errorProfessionals,
@@ -96,10 +82,10 @@ const CreateAppointment = () => {
     ],
     queryFn: () =>
       getProfessionals({
-        locationId: locationFilter ?? session?.user.location!,
+        locationId: locationFilter ?? user.location!,
         serviceId: selectedService!.serviceId,
         specialtyId: selectedService?.specialtyId!,
-        accessToken: session?.user.accessToken!,
+        accessToken: user.accessToken,
         modalityId: modalityFilter,
       }),
     enabled: !!selectedService,
@@ -126,9 +112,8 @@ const CreateAppointment = () => {
             ? `${format(new Date(), "yyyy-MM-dd")} ${timeRangeFilter?.start ?? "00:00:00"}`
             : `${format(startOfMonth(currentMonth), "yyyy-MM-dd")} ${timeRangeFilter?.start ?? "00:00:00"}`,
         dateTo: `${format(endOfMonth(currentMonth), "yyyy-MM-dd")} ${timeRangeFilter?.end ?? "23:59:59"}`,
-        // TODO: replace hardcoded timezone with info from backend when done
-        timezone: "Argentina Standard Time",
-        accessToken: session?.user.accessToken!,
+        timezone: user.timezone,
+        accessToken: user.accessToken,
         employeeId: selectedProfessional!.id,
         specialtyId: selectedService?.specialtyId!,
         serviceId: selectedService!.serviceId,
@@ -140,9 +125,9 @@ const CreateAppointment = () => {
 
   const mutation = useMutation({
     mutationFn: createAppointment,
-    onError: (error) => {
+    onError: ({ message }) => {
       toast({
-        title: error.message,
+        title: message,
         variant: "destructive",
       });
     },
@@ -192,21 +177,20 @@ const CreateAppointment = () => {
 
   const handleSubmit = () =>
     mutation.mutate({
-      patientId: Number(session?.user.id),
+      patientId: Number(user.id),
       agendaId: agendaId!,
       processType: selectedService?.processType!,
-      // TODO: replace hardcoded timezone with info from backend when done for dateFrom, dateTo and timezone
-      dateFrom: `${format(selectedTime!.dateFrom, "yyyy-MM-dd")} ${selectedTime!.dateFrom.toLocaleTimeString("es-AR")}`,
-      dateTo: `${format(selectedTime!.dateTo, "yyyy-MM-dd")} ${selectedTime!.dateTo.toLocaleTimeString("es-AR")}`,
-      timezone: "Argentina Standard Time",
+      dateFrom: `${format(selectedTime!.dateFrom, "yyyy-MM-dd")} ${format(selectedTime!.dateFrom, "HH:mm")}`,
+      dateTo: `${format(selectedTime!.dateTo, "yyyy-MM-dd")} ${format(selectedTime!.dateTo, "HH:mm")}`,
+      timezone: user.timezone,
       modalityId: modalityFilter,
-      accessToken: session?.user.accessToken!,
+      accessToken: user.accessToken!,
       areaId: selectedService?.areaId!,
       serviceId: selectedService?.serviceId!,
       specialtyId: selectedService?.specialtyId!,
-      companyId: session?.user.company!,
-      locationId: session?.user.location!,
-      positionId: session?.user.position!,
+      companyId: user.company!,
+      locationId: user.location!,
+      positionId: user.position!,
       // FIXME: replace hardcoded professionalSapUser with the real one (waiting for backend to provide it)
       professionalSapUser: "mcattaneo",
     });
@@ -281,7 +265,7 @@ const CreateAppointment = () => {
 
         {currentStep > 1 && (
           <Filters
-            defaultLocation={session?.user.location}
+            defaultLocation={user.location}
             defaultModality={modalityFilter}
             onApply={(
               location: number | null,
@@ -382,10 +366,7 @@ const CreateAppointment = () => {
         </div>
 
         <div className="flex w-full flex-col space-y-2 lg:hidden">
-          <Button
-            className="h-12 w-full"
-            onClick={() => setCurrentStep(currentStep + 1)}
-          >
+          <Button className="h-12 w-full" onClick={nextStep}>
             Siguiente
           </Button>
 

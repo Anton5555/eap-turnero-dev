@@ -50,9 +50,9 @@ const SignUpForm: React.FC = () => {
 
   const mutation = useMutation({
     mutationFn: signup,
-    onError: (error) => {
+    onError: ({ message }) => {
       toast({
-        title: error.message,
+        title: message,
         variant: "destructive",
       });
 

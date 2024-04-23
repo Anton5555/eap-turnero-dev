@@ -1,12 +1,12 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
-import CloseIcon from "../icons/Close";
 import { Button } from "../common/Button";
-import CalendarIcon from "../icons/Calendar";
+import CancelIcon from "../icons/Cancel";
+import CloseIcon from "../icons/Close";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 
-interface ConfirmationDialogProps {
+interface DeleteConfirmationDialogProps {
   open: boolean;
   onClose: () => void;
   onConfirm: () => void;
@@ -14,7 +14,7 @@ interface ConfirmationDialogProps {
   date: Date;
 }
 
-const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
+const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
   open,
   onClose,
   onConfirm,
@@ -46,7 +46,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <Dialog.Panel className="relative transform overflow-hidden rounded-2xl bg-white px-4 pb-4 pt-5 shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+            <Dialog.Panel className="relative transform overflow-hidden rounded-2xl bg-white px-4 pb-4 pt-5 shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl sm:p-6">
               <div className="absolute right-0 top-0 pr-4 pt-4 ">
                 <button type="button" onClick={onClose}>
                   <span className="sr-only">Cerrar</span>
@@ -54,45 +54,41 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
                   <CloseIcon aria-hidden="true" />
                 </button>
               </div>
-              <div className="py-6 lg:px-12">
+
+              <div className="py-6 lg:px-8">
                 <div className="mt-3 text-center sm:ml-4 sm:mt-0">
-                  <div className="mt-2 flex flex-col items-center space-y-2">
+                  <div className="mt-2 flex flex-col items-center space-y-4">
                     <div className="bg-light-gray flex h-28 w-28 items-center justify-center rounded-full">
-                      <CalendarIcon />
+                      <CancelIcon aria-hidden="true" />
                     </div>
 
                     <p className="text-2xl font-semibold leading-7">
-                      ¿Quieres confirmar tu cita?
+                      ¿Seguro que quieres cancelar esta sesión?
+                    </p>
+
+                    <p className="text-lg leading-5 text-green">
+                      {professional} {format(date, "dd/MM/yyyy")}
                     </p>
 
                     <p className="text-lg leading-5">
-                      Su cita con{" "}
-                      <span className="font-black text-green">
-                        {professional}
-                      </span>
-                    </p>
-
-                    <p className="text-lg leading-5 first-letter:uppercase">
-                      {format(
-                        date,
-                        "EEEE d 'de' LLLL 'del' yyyy 'a las' H:mm'hs'",
-                        { locale: es },
-                      )}
+                      La cita quedará sin efecto y tendrás que volver a
+                      coordinar para obtener un turno
                     </p>
                   </div>
                 </div>
               </div>
+
               <div className="mt-5 flex flex-col-reverse justify-center gap-y-2 lg:flex-row lg:gap-y-0 lg:space-x-4">
                 <Button
-                  variant={"outline"}
+                  variant="outline"
                   className="font-lato border-green text-green hover:bg-green/40 hover:text-white"
                   onClick={onClose}
                 >
-                  Cancelar
+                  Volver
                 </Button>
 
                 <Button className="font-lato" onClick={onConfirm}>
-                  Agendar
+                  Cancelar cita
                 </Button>
               </div>
             </Dialog.Panel>
@@ -103,4 +99,4 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
   </Transition.Root>
 );
 
-export default ConfirmationDialog;
+export default DeleteConfirmationDialog;

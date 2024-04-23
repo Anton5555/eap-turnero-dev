@@ -35,7 +35,7 @@ const Filters: React.FC<{
         options={locations}
         id="location"
         defaultValue={defaultLocation}
-        className="h-9 w-80 rounded-md ring-lightGray lg:w-40"
+        className="ring-light-gray h-9 w-80 rounded-md lg:w-40"
         placeholder="País"
       />
 
@@ -43,14 +43,14 @@ const Filters: React.FC<{
         options={modalities}
         id="modality"
         defaultValue={defaultModality}
-        className="h-9 w-80 rounded-md ring-lightGray lg:w-40"
+        className="ring-light-gray h-9 w-80 rounded-md lg:w-40"
       />
 
       <Select
         options={timeRanges}
         id="timeRange"
         placeholder="Disponibilidad"
-        className="h-9 w-80 rounded-md ring-lightGray lg:w-40"
+        className="ring-light-gray h-9 w-80 rounded-md lg:w-40"
       />
 
       <Button className="h-9 w-80" variant={"outline"} type="submit">
@@ -58,7 +58,7 @@ const Filters: React.FC<{
       </Button>
     </form>
   );
-  
+
   return (
     <>
       <div className="flex justify-end lg:hidden">
