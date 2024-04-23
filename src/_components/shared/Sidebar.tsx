@@ -4,7 +4,6 @@ import React from "react";
 import HomeIcon from "../icons/Home";
 import UserIcon from "../icons/User";
 import cn from "~/lib/utils";
-import Image from "next/image";
 import BarsIcon from "../icons/Bars";
 import CloseIcon from "../icons/Close";
 import Link from "next/link";
@@ -65,6 +64,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
             ))}
           </ul>
         </li>
+
         <li className="mt-auto lg:hidden">
           <div>
             {/* TODO: insert Contact info component when done */}
@@ -74,7 +74,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           <Link
             href="#"
             onClick={() => signOut()}
-            className="text-darkBlue group -mx-2 flex items-center gap-x-2 p-2"
+            className="group -mx-2 flex items-center gap-x-2 p-2 text-darkBlue"
           >
             <ExitIcon />
 
