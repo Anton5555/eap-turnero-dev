@@ -62,13 +62,13 @@ const CaptionLabel: React.FC<
             displayMonth.getFullYear() === currentYear &&
             currentDay.getMonth() > month.value,
         }))}
-        className="bg-ultralightGray h-9 w-3/4 rounded-lg pl-3 pr-0 text-sm font-bold text-green ring-0 lg:h-10"
+        className="bg-ultra-light-gray h-9 w-3/4 rounded-lg pl-3 pr-0 text-sm font-bold text-green ring-0 lg:h-10"
         onChange={(e) => onMonthClick(e.target.value)}
       />
 
       <Select
         options={years}
-        className="bg-ultralightGray -ml-5 h-9 w-7/12 rounded-lg pl-2 pr-0 text-sm font-bold text-green ring-0 lg:h-10"
+        className="bg-ultra-light-gray -ml-5 h-9 w-7/12 rounded-lg pl-2 pr-0 text-sm font-bold text-green ring-0 lg:h-10"
         onChange={(e) => onYearClick(e.target.value)}
       />
 
@@ -173,9 +173,9 @@ const Calendar: React.FC<
       caption_label: "flex flex-row justify-between lg:justify-center",
       table: "w-full max-w-none border-collapse space-y-1",
       head_row:
-        "flex border-b-[0.5px] border-b-lightGray pb-2 lg:border-none lg:hidden justify-between ",
+        "flex border-b-[0.5px] border-b-light-gray pb-2 lg:border-none lg:hidden justify-between ",
       head_cell:
-        "lg:text-gray40 text-black font-semibold capitalize w-12 md:w-16 lg:w-16 xl:w-28 lg:font-bold",
+        "lg:text-dark-gray text-black font-semibold capitalize w-12 md:w-16 lg:w-16 xl:w-28 lg:font-bold",
       row: "flex w-full mt-2",
       cell: "h-12 w-12 lg:h-10 md:w-16 lg:w-16 xl:w-28 pointer-events-none cursor-default text-center lg:text-base font-normal p-0 relative [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent focus-within:relative focus-within:z-20",
       day: cn(

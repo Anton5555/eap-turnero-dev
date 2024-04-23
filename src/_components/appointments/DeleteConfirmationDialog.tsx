@@ -54,10 +54,11 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
                   <CloseIcon aria-hidden="true" />
                 </button>
               </div>
+
               <div className="py-6 lg:px-8">
                 <div className="mt-3 text-center sm:ml-4 sm:mt-0">
                   <div className="mt-2 flex flex-col items-center space-y-4">
-                    <div className="flex h-28 w-28 items-center justify-center rounded-full bg-lightGray">
+                    <div className="bg-light-gray flex h-28 w-28 items-center justify-center rounded-full">
                       <CancelIcon aria-hidden="true" />
                     </div>
 
@@ -76,6 +77,7 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
                   </div>
                 </div>
               </div>
+
               <div className="mt-5 flex flex-col-reverse justify-center gap-y-2 lg:flex-row lg:gap-y-0 lg:space-x-4">
                 <Button
                   variant="outline"

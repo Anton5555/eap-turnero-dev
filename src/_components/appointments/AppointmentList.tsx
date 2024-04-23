@@ -24,6 +24,7 @@ const AppointmentList: React.FC<{
   const { toast } = useToast();
 
   const [isOpen, setIsOpen] = useState(false);
+
   const [selectedAppointment, setSelectedAppointment] =
     useState<Appointment | null>(null);
 
@@ -114,6 +115,7 @@ const AppointmentList: React.FC<{
           </Link>
         </div>
       </div>
+
       {isOpen && selectedAppointment && (
         <DeleteConfirmationDialog
           open={isOpen}
