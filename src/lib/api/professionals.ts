@@ -63,11 +63,11 @@ const getProfessionals = async (props: {
 
   let subSpecialties;
 
-  if (
-    professionals.some(
-      (professional: OriginalProfessionalData) => professional.subEsp,
-    )
-  ) {
+  const professionalHasSubSpecialties = professionals.some(
+    (professional) => professional.subEsp,
+  );
+
+  if (professionalHasSubSpecialties) {
     const subSpecialtiesResponse = await fetch(
       `${API_URL}/misc/getParamDepartamentoSub`,
       {
