@@ -37,9 +37,9 @@ const AppointmentList: React.FC<{
         title: "Cita eliminada con éxito",
       });
     },
-    onError: (error) =>
+    onError: ({ message }) =>
       toast({
-        title: error.message,
+        title: message,
         variant: "destructive",
       }),
   });

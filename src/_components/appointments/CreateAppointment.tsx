@@ -125,9 +125,9 @@ const CreateAppointment: React.FC<{
 
   const mutation = useMutation({
     mutationFn: createAppointment,
-    onError: (error) => {
+    onError: ({ message }) => {
       toast({
-        title: error.message,
+        title: message,
         variant: "destructive",
       });
     },
