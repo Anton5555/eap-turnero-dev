@@ -62,10 +62,11 @@ const getProfessionals = async (props: {
   const data = await response.json();
 
   let subSpecialties;
+
   if (
     data.some((professional: OriginalProfessionalData) => professional.subEsp)
   ) {
-    const subEspecialtiesResponse = await fetch(
+    const subSpecialtiesResponse = await fetch(
       `${API_URL}/misc/getParamDepartamentoSub`,
       {
         method: "GET",
@@ -73,10 +74,10 @@ const getProfessionals = async (props: {
       },
     );
 
-    if (!subEspecialtiesResponse.ok)
+    if (!subSpecialtiesResponse.ok)
       throw new Error("Error al obtener las subespecialidades");
 
-    subSpecialties = (await subEspecialtiesResponse.json()) as SubSpecialtyData;
+    subSpecialties = (await subSpecialtiesResponse.json()) as SubSpecialtyData;
   }
 
   const professionals = parseData(data, subSpecialties ?? null);
