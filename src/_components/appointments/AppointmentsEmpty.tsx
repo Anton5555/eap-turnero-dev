@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "../common/Button";
 import { H6 } from "../common/Typography";
 import PlusIcon from "../icons/Plus";
@@ -7,19 +8,24 @@ const AppointmentsEmpty = () => (
     <div className="mt-auto flex flex-col items-center justify-center">
       <PlusIcon />
 
-      <H6 className="mt-2 flex-row text-center text-gray40">
+      <H6 className="text-dark-gray mt-2 flex-row text-center">
         No tienes citas pendientes
         <br />
         Presiona aquí para agendar tu cita online
       </H6>
     </div>
 
-    <Button
-      className="mx-auto mt-auto w-full font-normal lg:w-auto"
-      variant="default"
+    <Link
+      href="/platform/appointment/create"
+      className="mx-auto mt-auto w-full lg:w-auto"
     >
-      + Agendar tu cita online
-    </Button>
+      <Button
+        className="mx-auto mt-auto w-full font-normal lg:w-auto"
+        variant="default"
+      >
+        + Agendar tu cita online
+      </Button>
+    </Link>
   </div>
 );
 

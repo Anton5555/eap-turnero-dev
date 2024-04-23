@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { H4 } from "~/_components/common/Typography";
 import SignUpForm from "~/_components/forms/SignUpForm";
+import Logo from "~/_components/shared/Logo";
 
 const Page = async () => (
   <div className="flex flex-col items-center lg:flex-row lg:justify-between">
@@ -19,18 +20,12 @@ const Page = async () => (
     <div className="mt-4 flex flex-1 flex-col items-center justify-center lg:mt-0">
       <div className="mx-auto max-w-lg space-y-6">
         <div className="flex flex-col items-center space-y-6">
-          <Image
-            className="h-10 w-auto"
-            src="/logo.png"
-            alt="eap latina logo"
-            width={107}
-            height={51}
-          />
+          <Logo width={107} height={51} />
 
           <div className="flex w-full flex-row justify-center gap-6 lg:max-w-sm">
             <div className="flex w-full flex-col rounded-full border-b-[3px] border-green"></div>
 
-            <div className="flex w-full flex-col rounded-full border-b-[3px] border-gray10"></div>
+            <div className="border-gray/10 flex w-full flex-col rounded-full border-b-[3px]"></div>
           </div>
 
           <H4 className="text-left">Crea tu cuenta ahora</H4>

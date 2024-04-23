@@ -6,7 +6,11 @@ const Select = React.forwardRef<
   {
     label?: string;
     errorText?: string;
-    options: Array<{ value: string | number; label: string }>;
+    options: Array<{
+      value: string | number;
+      label?: string;
+      disabled?: boolean;
+    }>;
     placeholder?: string;
   } & React.SelectHTMLAttributes<HTMLSelectElement>
 >(({ className, label, errorText, options, ...props }, ref) => (
@@ -36,8 +40,12 @@ const Select = React.forwardRef<
       </option>
 
       {options.map((item) => (
-        <option key={item.value} value={item.value}>
-          {item.label}
+        <option
+          key={item.value}
+          value={item.value}
+          disabled={item.disabled ?? false}
+        >
+          {item.label ?? item.value}
         </option>
       ))}
     </select>

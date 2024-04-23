@@ -6,8 +6,12 @@ export const metadata = {
 };
 
 const Layout = ({ children }: { children: React.ReactNode }) => (
-  <section className="h-screen w-screen bg-grayBg">
-    <Sidebar>{children}</Sidebar>
+  <section className="bg-gray-bg h-full w-screen">
+    <Sidebar>
+      <div className="mx-auto lg:space-y-4 lg:px-8 lg:py-4 xl:max-w-screen-2xl">
+        {children}
+      </div>
+    </Sidebar>
   </section>
 );
 

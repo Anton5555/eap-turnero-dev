@@ -7,17 +7,21 @@ interface TypographyProps {
 }
 
 const H1: React.FC<TypographyProps> = ({ children, className }) => (
-  <h1 className={cn("text-7xl font-black text-green", className)}>
+  <h1 className={cn("text-4xl font-black text-green lg:text-7xl", className)}>
     {children}
   </h1>
 );
 
 const H2: React.FC<TypographyProps> = ({ children, className }) => (
-  <h2 className={cn("text-6xl font-bold", className)}>{children}</h2>
+  <h2 className={cn("text-2xl font-black text-green lg:text-6xl", className)}>
+    {children}
+  </h2>
 );
 
 const H3: React.FC<TypographyProps> = ({ children, className }) => (
-  <h3 className={cn("text-4xl font-bold", className)}>{children}</h3>
+  <h3 className={cn("text-2xl font-bold lg:text-4xl", className)}>
+    {children}
+  </h3>
 );
 
 const H4: React.FC<TypographyProps> = ({ children, className }) => (
@@ -27,7 +31,9 @@ const H4: React.FC<TypographyProps> = ({ children, className }) => (
 );
 
 const H5: React.FC<TypographyProps> = ({ children, className }) => (
-  <h5 className={cn("text-2xl font-semibold", className)}>{children}</h5>
+  <h5 className={cn("text-2xl font-semibold text-green", className)}>
+    {children}
+  </h5>
 );
 
 const H6: React.FC<TypographyProps> = ({ children, className }) => (

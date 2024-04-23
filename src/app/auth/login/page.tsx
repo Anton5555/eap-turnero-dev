@@ -32,7 +32,7 @@ const Page = async () => {
             <div className="flex w-full max-w-sm flex-row justify-center gap-6">
               <div className="flex w-full flex-col rounded-full border-b-[3px] border-green"></div>
 
-              <div className="flex w-full flex-col rounded-full border-b-[3px] border-gray10"></div>
+              <div className="border-gray/10 flex w-full flex-col rounded-full border-b-[3px]"></div>
             </div>
 
             <H4 className="hidden lg:flex">
@@ -42,7 +42,7 @@ const Page = async () => {
 
             <H4 className="lg:hidden">Inicia sesión para comenzar!</H4>
 
-            <H6 className="hidden text-blackAlt lg:flex">
+            <H6 className="text-ultra-dark-gray hidden lg:flex">
               Inicia sesión para comenzar
             </H6>
           </div>
