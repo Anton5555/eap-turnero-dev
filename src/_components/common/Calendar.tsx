@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+
 import {
   CaptionProps,
   DayContentProps,
@@ -13,6 +13,8 @@ import { es } from "date-fns/locale";
 import cn from "~/lib/utils";
 import { buttonVariants } from "~/_components/common/Button";
 import { format } from "date-fns";
+import ChevronLeft from "../icons/ChevronLeft";
+import ChevronRight from "../icons/ChevronRight";
 
 function CustomCaption(props: CaptionProps) {
   const { goToMonth, nextMonth, previousMonth } = useNavigation();
@@ -23,7 +25,7 @@ function CustomCaption(props: CaptionProps) {
         disabled={!previousMonth}
         onClick={() => previousMonth && goToMonth(previousMonth)}
       >
-        <ChevronLeft className="h-4 w-4 opacity-50 transition-all hover:opacity-100" />
+        <ChevronLeft />
       </button>
       <h2 className="capitalize">
         {format(props.displayMonth, "LLLL", { locale: es })}
@@ -32,7 +34,7 @@ function CustomCaption(props: CaptionProps) {
         disabled={!nextMonth}
         onClick={() => nextMonth && goToMonth(nextMonth)}
       >
-        <ChevronRight className="h-4 w-4 opacity-50 transition-all hover:opacity-100" />
+        <ChevronRight />
       </button>
     </div>
   );
@@ -115,8 +117,8 @@ function Calendar({
       }}
       locale={es}
       components={{
-        IconLeft: () => <ChevronLeft className="h-4 w-4" />,
-        IconRight: () => <ChevronRight className="h-4 w-4" />,
+        IconLeft: () => <ChevronLeft />,
+        IconRight: () => <ChevronRight />,
         Caption: CustomCaption,
         DayContent: CustomDayContent,
       }}
