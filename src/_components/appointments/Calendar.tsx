@@ -129,14 +129,13 @@ const CustomCaption = (props: CaptionProps) => {
   );
 };
 
-type CalendarProps = React.ComponentProps<typeof DayPicker>;
+type CalendarProps = React.ComponentProps<typeof DayPicker> & {
+  availableDays: string[];
+};
+
 const SUNDAY = 0;
 
-const Calendar: React.FC<
-  CalendarProps & {
-    availableDays: string[];
-  }
-> = ({
+const Calendar: React.FC<CalendarProps> = ({
   availableDays,
   className,
   classNames,

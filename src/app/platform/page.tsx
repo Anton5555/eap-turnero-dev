@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import AppointmentCreatedDialog from "~/_components/appointments/AppointmentCreatedDialog";
 import AppointmentList from "~/_components/appointments/AppointmentList";
-import { Calendar } from "~/_components/common/Calendar";
+import NextAppointmentsCalendar from "~/_components/common/NextAppointmentsCalendar";
 import PlatformContainer from "~/_components/common/PlatformContainer";
 import { H3, H5, H6 } from "~/_components/common/Typography";
 import { getAppointmentsByPatient } from "~/lib/api/appointments";
@@ -46,7 +46,7 @@ const Page = async ({
           <PlatformContainer className="gap-5 lg:flex lg:flex-col">
             <H5>Próximas citas</H5>
 
-            <Calendar
+            <NextAppointmentsCalendar
               daysWithEvents={appointments.map(({ start }) => start)}
               showOutsideDays={false}
               className="self-center p-0"
