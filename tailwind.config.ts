@@ -17,8 +17,11 @@ export default {
         gray40: "#999999",
         lightGray: "#F3F2F5",
         ultralightGray: "#F8F7FA",
+        mediumGray: "#CBD5E1",
+        darkGray: "#4F4F4F",
         grayBg: "#F9F9F9",
-        darkBlue: "#1F384C",
+        veryDarkBlue: "#1F384C",
+        darkBlue: "#64748B",
       },
       boxShadow: {
         "custom-light": "-4px 5px 10px 0px #4A4A4A0D",
