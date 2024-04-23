@@ -1,6 +1,6 @@
 import { Inputs } from "~/_components/forms/EditProfileForm";
 import { env } from "~/env";
-import { FamilyRelative } from "~/types/User";
+import { FamilyRelative, Gender } from "~/types/users";
 
 const API_URL = env.API_URL;
 
@@ -53,6 +53,33 @@ const getFamilyRelatives = async (props: {
   return mapApiDataToFamilyRelatives(data);
 };
 
+type GenderApiData = {
+  fs_id: number;
+  fs_descripcion: string;
+};
+
+const parseGendersData = (data: GenderApiData[]): Gender[] =>
+  data.map((gender) => ({
+    id: gender.fs_id,
+    name: gender.fs_descripcion,
+  }));
+
+const getGenders = async (accessToken: string) => {
+  const headers = new Headers();
+  headers.append("Authorization", accessToken);
+
+  const response = await fetch(`${API_URL}/Patient/getSexoList`, {
+    method: "GET",
+    headers,
+  });
+
+  if (!response.ok) throw new Error("Error al recuperar los géneros");
+
+  const data = await response.json();
+
+  return parseGendersData(data);
+};
+
 const UpdateUserAdapter = (data: Inputs) => ({
   nombre: data.name,
   apellido1: data.lastName,
@@ -82,4 +109,41 @@ const updateUser = async (props: { data: Inputs; accessToken: string }) => {
   return response;
 };
 
-export { getFamilyRelatives };
+const getUserImage = async (imageId: string) => {
+  const response = await fetch(
+    `${API_URL}/Patient/getUserImage?imgName=${imageId}`,
+    { method: "GET" },
+  );
+
+  if (!response.ok) throw new Error("Error al recuperar la imagen del usuario");
+
+  return response;
+};
+
+const updateUserImage = async (props: { image: File; patientId: string }) => {
+  const { image, patientId } = props;
+
+  const formData = new FormData();
+  formData.append("file", image);
+
+  const response = await fetch(
+    `${API_URL}/api/Patient/updatePatientImg?consultantId=${patientId}`,
+    {
+      method: "POST",
+      body: formData,
+    },
+  );
+
+  if (!response.ok)
+    throw new Error("Error al actualizar la imagen del usuario");
+
+  return response;
+};
+
+export {
+  getFamilyRelatives,
+  updateUser,
+  getGenders,
+  getUserImage,
+  updateUserImage,
+};
