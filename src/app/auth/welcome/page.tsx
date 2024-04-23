@@ -15,7 +15,7 @@ const Page = async () => {
     <div className="flex flex-col lg:flex-row lg:justify-between">
       <div className="relative flex h-56 items-start overflow-hidden lg:h-full lg:flex-col lg:rounded-2xl">
         <Image
-          className="w-full object-cover"
+          className="object-cover"
           src="/welcome.webp"
           alt="welcome page image"
           width={642}
