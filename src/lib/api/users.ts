@@ -1,8 +1,9 @@
-import { Inputs } from "~/_components/forms/EditProfileForm";
+import { format } from "date-fns";
+import { EditProfileInputs } from "~/_components/forms/EditProfileForm";
 import { env } from "~/env";
 import { FamilyRelative, Gender } from "~/types/users";
 
-const API_URL = env.API_URL;
+const API_URL = env.NEXT_PUBLIC_API_URL;
 
 type FamilyRelativeApiData = {
   IDPaciente: number;
@@ -80,27 +81,92 @@ const getGenders = async (accessToken: string) => {
   return parseGendersData(data);
 };
 
-const UpdateUserAdapter = (data: Inputs) => ({
-  nombre: data.name,
-  apellido1: data.lastName,
-  mail: data.email,
-  pais: data.location,
-  sexo: data.gender,
-  fecha_nacimiento: data.birthdate,
-});
-
-const updateUser = async (props: { data: Inputs; accessToken: string }) => {
-  const { data, accessToken } = props;
+const getUserImage = async (props: { accessToken: string; image: string }) => {
+  const { accessToken, image } = props;
 
   const headers = new Headers();
   headers.append("Authorization", accessToken);
 
+  const response = await fetch(
+    `${API_URL}/Patient/getUserImage?imgName=${image}`,
+    { method: "GET", headers },
+  );
+
+  if (!response.ok) throw new Error("Error al recuperar la imagen del usuario");
+
+  const imageData = await response.blob();
+
+  const imageUrl = URL.createObjectURL(imageData);
+
+  return imageUrl;
+};
+
+type UpdateUserRequest = {
+  nombre: string;
+  apellido1: string;
+  mail: string;
+  sede: number;
+  empresa: number;
+  fecha_nacimiento?: string;
+  sexo?: number;
+  tipo: number;
+  pdp: string;
+};
+
+const UpdateUserAdapter = (props: {
+  editProfileData: EditProfileInputs;
+  userTypeId: number;
+}) => {
+  const { editProfileData, userTypeId } = props;
+
+  const userData: UpdateUserRequest = {
+    nombre: editProfileData.name,
+    apellido1: editProfileData.lastName,
+    mail: editProfileData.email,
+    sede: Number(editProfileData.location),
+    empresa: 898,
+    tipo: userTypeId,
+    pdp: "N",
+  };
+
+  if (editProfileData.birthdate)
+    userData.fecha_nacimiento = format(editProfileData.birthdate, "yyyy-MM-dd");
+
+  if (editProfileData.gender !== "0")
+    userData.sexo = Number(editProfileData.gender);
+
+  return userData;
+};
+
+const updateUser = async (props: {
+  editProfileData: EditProfileInputs;
+  accessToken: string;
+  image: File | undefined;
+  patientId: string;
+  userTypeId: number;
+}) => {
+  const { editProfileData, accessToken, image, patientId, userTypeId } = props;
+
+  const headers = new Headers();
+  headers.append("Authorization", accessToken);
+  headers.append("Content-Type", "application/json");
+
+  if (image)
+    await updateUserImage({
+      image,
+      patientId: patientId,
+      accessToken,
+    });
+
+  const updateUserRequestData: UpdateUserRequest = UpdateUserAdapter({
+    editProfileData,
+    userTypeId,
+  });
+
   const response = await fetch(`${API_URL}/Account/updateuser`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(UpdateUserAdapter(data)),
+    headers,
+    body: JSON.stringify(updateUserRequestData),
   });
 
   if (!response.ok)
@@ -109,27 +175,24 @@ const updateUser = async (props: { data: Inputs; accessToken: string }) => {
   return response;
 };
 
-const getUserImage = async (imageId: string) => {
-  const response = await fetch(
-    `${API_URL}/Patient/getUserImage?imgName=${imageId}`,
-    { method: "GET" },
-  );
-
-  if (!response.ok) throw new Error("Error al recuperar la imagen del usuario");
-
-  return response;
-};
-
-const updateUserImage = async (props: { image: File; patientId: string }) => {
-  const { image, patientId } = props;
+const updateUserImage = async (props: {
+  image: File;
+  patientId: string;
+  accessToken: string;
+}) => {
+  const { image, patientId, accessToken } = props;
 
   const formData = new FormData();
   formData.append("file", image);
 
+  const headers = new Headers();
+  headers.append("Authorization", accessToken);
+
   const response = await fetch(
-    `${API_URL}/api/Patient/updatePatientImg?consultantId=${patientId}`,
+    `${API_URL}/Patient/updatePatientImg?consultantId=${patientId}`,
     {
       method: "POST",
+      headers,
       body: formData,
     },
   );
@@ -144,6 +207,6 @@ export {
   getFamilyRelatives,
   updateUser,
   getGenders,
-  getUserImage,
   updateUserImage,
+  getUserImage,
 };
