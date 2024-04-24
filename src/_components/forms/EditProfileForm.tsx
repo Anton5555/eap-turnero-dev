@@ -1,74 +1,120 @@
 "use client";
+
 import { z } from "zod";
 import { useToast } from "../shared/toaster/useToast";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../common/Input";
 import { Select } from "../common/Select";
 import { Button } from "../common/Button";
 import ProfileImageInput from "../common/ProfileImageInput";
-import { Gender } from "~/types/users";
-import { useSession } from "next-auth/react";
-import { locations } from "~/lib/utils";
+import { Gender, User } from "~/types/users";
+import useUserImage from "~/lib/useUserImage";
+import { locations } from "~/lib/constants";
+import { useState } from "react";
+import DatePicker from "../common/DatePicker";
+import { useMutation } from "@tanstack/react-query";
+import { updateUser } from "~/lib/api/users";
 
-const signupFormSchema = z.object({
+const editProfileSchema = z.object({
   name: z.string().min(1, { message: "Ingresa tu nombre" }),
   lastName: z.string().min(1, { message: "Ingresa tu apellido" }),
   email: z.string().email({ message: "Ingresa un email válido" }),
-  location: z.number(),
-  gender: z.number(),
-  birthdate: z.string(),
+  location: z.string(),
+  gender: z.string().optional(),
+  birthdate: z.date().optional(),
 });
 
-export type Inputs = z.infer<typeof signupFormSchema>;
+export type EditProfileInputs = z.infer<typeof editProfileSchema>;
 
-const EditProfileForm: React.FC<{ genders: Gender[] }> = ({ genders }) => {
-  const { data: session } = useSession();
+const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
+  genders,
+  user,
+}) => {
+  const {
+    name,
+    lastName,
+    email,
+    location,
+    gender,
+    birthdate,
+    accessToken,
+    image,
+    userTypeId,
+  } = user;
 
-  if (!session) return;
   const { toast } = useToast();
 
-  const {
-    user: { name, lastName, email, location, gender, birthdate },
-  } = session;
+  const imageUrl = useUserImage({ accessToken, image });
+  const [newUserImage, setNewUserImage] = useState<File | undefined>();
 
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isSubmitting },
-  } = useForm<Inputs>({
-    resolver: zodResolver(signupFormSchema),
+    control,
+    formState: { errors },
+  } = useForm<EditProfileInputs>({
+    resolver: zodResolver(editProfileSchema),
     defaultValues: {
       name,
       lastName: lastName,
       email,
-      location,
-      gender,
-      birthdate: birthdate?.toLocaleDateString(),
+      location: location.toString(),
+      gender: gender?.toString(),
+      birthdate:
+        birthdate && new Date(birthdate) > new Date("1901-01-01")
+          ? new Date(birthdate)
+          : undefined,
     },
   });
 
   const [selectedLocation, selectedGender] = watch(["location", "gender"]);
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-  };
+  const mutation = useMutation({
+    mutationFn: updateUser,
+    onError: ({ message }) =>
+      toast({
+        title: message,
+        variant: "destructive",
+      }),
+    onSuccess: () => {
+      // TODO: Refresh user data (jwt token)
+      toast({
+        title: "Datos actualizados con éxito",
+      });
+    },
+  });
+
+  const onSubmit = (formData: EditProfileInputs) =>
+    mutation.mutate({
+      editProfileData: formData,
+      accessToken,
+      image: newUserImage,
+      patientId: user.id,
+      userTypeId,
+    });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 font-inter">
-      <ProfileImageInput initialImage={null} />
+      <ProfileImageInput
+        image={
+          newUserImage ? URL.createObjectURL(newUserImage as File) : imageUrl
+        }
+        onImageChange={setNewUserImage}
+      />
 
       <div className="items-center space-y-4 lg:grid lg:grid-rows-2">
-        <div className="lg:grid lg:grid-cols-3 lg:space-x-4">
+        <div className="lg:grid lg:grid-cols-3 lg:space-x-4 ">
           <Input
             label="Nombre"
             type="text"
             id="name"
             placeholder="Nombre"
-            className="ring-light-grayish-blue"
+            className="text-sm leading-4 ring-light-grayish-blue"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
             {...register("name")}
+            errorText={errors.name?.message}
           />
 
           <Input
@@ -76,9 +122,10 @@ const EditProfileForm: React.FC<{ genders: Gender[] }> = ({ genders }) => {
             type="text"
             id="lastName"
             placeholder="Apellido"
-            className="ring-light-grayish-blue"
-            labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
+            className="text-sm leading-4 ring-light-grayish-blue"
+            labelClassName="text-orange mb-2 font-medium"
             {...register("lastName")}
+            errorText={errors.lastName?.message}
           />
 
           <Input
@@ -86,9 +133,10 @@ const EditProfileForm: React.FC<{ genders: Gender[] }> = ({ genders }) => {
             type="email"
             id="email"
             placeholder="Email"
-            className="ring-light-grayish-blue"
+            className="text-sm leading-4 ring-light-grayish-blue"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
             {...register("email")}
+            errorText={errors.email?.message}
           />
         </div>
 
@@ -99,8 +147,9 @@ const EditProfileForm: React.FC<{ genders: Gender[] }> = ({ genders }) => {
             {...register("location")}
             options={locations}
             value={selectedLocation}
-            className="ring-light-grayish-blue"
+            className="text-sm leading-4 ring-light-grayish-blue"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
+            errorText={errors.location?.message}
           />
 
           <Select
@@ -112,23 +161,33 @@ const EditProfileForm: React.FC<{ genders: Gender[] }> = ({ genders }) => {
               label: gender.name,
             }))}
             value={selectedGender}
-            className="ring-light-grayish-blue"
+            className="text-sm leading-4 ring-light-grayish-blue"
             placeholder="No aplica"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
           />
 
-          <Input
-            label="Fecha de nacimiento"
-            type="date"
-            id="birthdate"
-            {...register("birthdate")}
-            className="ring-light-grayish-blue"
-            labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
+          <Controller
+            control={control}
+            name="birthdate"
+            render={({ field: { value, onChange } }) => (
+              <DatePicker
+                label="Fecha de nacimiento"
+                name="birthdate"
+                className="text-sm leading-4 ring-light-grayish-blue"
+                labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
+                value={value}
+                onChange={onChange}
+              />
+            )}
           />
         </div>
       </div>
 
-      <Button type="submit">{isSubmitting ? "Guardando..." : "Guardar"}</Button>
+      <div className="flex flex-row justify-end">
+        <Button type="submit" className="font-lato font-normal">
+          Guardar
+        </Button>
+      </div>
     </form>
   );
 };
