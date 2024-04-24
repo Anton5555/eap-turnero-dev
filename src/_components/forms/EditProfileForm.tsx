@@ -105,7 +105,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
       />
 
       <div className="items-center space-y-4 lg:grid lg:grid-rows-2">
-        <div className="lg:grid lg:grid-cols-3 lg:space-x-4 ">
+        <div className="space-y-4 lg:grid lg:grid-cols-3 lg:space-x-4 lg:space-y-0">
           <Input
             label="Nombre"
             type="text"
@@ -123,7 +123,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
             id="lastName"
             placeholder="Apellido"
             className="text-sm leading-4 ring-light-grayish-blue"
-            labelClassName="text-orange mb-2 font-medium"
+            labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
             {...register("lastName")}
             errorText={errors.lastName?.message}
           />
@@ -140,7 +140,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
           />
         </div>
 
-        <div className="lg:grid lg:grid-cols-3 lg:space-x-4">
+        <div className="space-y-4 lg:grid lg:grid-cols-3 lg:space-x-4 lg:space-y-0">
           <Select
             label="País"
             id="location"
@@ -184,7 +184,10 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
       </div>
 
       <div className="flex flex-row justify-end">
-        <Button type="submit" className="font-lato font-normal">
+        <Button
+          type="submit"
+          className="font-lato w-full font-normal lg:w-auto"
+        >
           Guardar
         </Button>
       </div>

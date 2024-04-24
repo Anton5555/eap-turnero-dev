@@ -15,7 +15,7 @@ const Page = async () => {
 
   return (
     <main>
-      <div className="mx-auto lg:max-w-7xl lg:space-y-12 lg:px-8 lg:py-4">
+      <div className="mx-auto space-y-6 p-4 lg:max-w-7xl lg:space-y-12 lg:px-8 lg:py-4">
         <div className="space-y-4">
           <H3 className="text-green">Información personal</H3>
 
