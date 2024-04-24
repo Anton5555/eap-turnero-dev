@@ -1,7 +1,7 @@
 import { Transition, Dialog } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { Select } from "~/_components/common/Select";
-import { locations, modalities, timeRanges } from "~/lib/utils";
+import { locations, modalities, timeRanges } from "~/lib/constants";
 import { H2 } from "~/_components/common/Typography";
 import { Button } from "~/_components/common/Button";
 
@@ -35,7 +35,7 @@ const Filters: React.FC<{
         options={locations}
         id="location"
         defaultValue={defaultLocation}
-        className="ring-light-gray h-9 w-80 rounded-md lg:w-40"
+        className="h-9 w-80 rounded-md ring-light-gray lg:w-40"
         placeholder="País"
       />
 
@@ -43,14 +43,14 @@ const Filters: React.FC<{
         options={modalities}
         id="modality"
         defaultValue={defaultModality}
-        className="ring-light-gray h-9 w-80 rounded-md lg:w-40"
+        className="h-9 w-80 rounded-md ring-light-gray lg:w-40"
       />
 
       <Select
         options={timeRanges}
         id="timeRange"
         placeholder="Disponibilidad"
-        className="ring-light-gray h-9 w-80 rounded-md lg:w-40"
+        className="h-9 w-80 rounded-md ring-light-gray lg:w-40"
       />
 
       <Button className="h-9 w-80" variant={"outline"} type="submit">
