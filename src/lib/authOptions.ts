@@ -63,6 +63,7 @@ const authOptions: AuthOptions = {
           location: eapUser.sede,
           userType:
             eapUser.tipousuarioportal === "empleado" ? "employee" : "family",
+          userTypeId: parseInt(eapUser.tipo),
           services: eapUser.services.map((service) => service.code),
           position: eapUser.puesto ? parseInt(eapUser.puesto) : undefined,
           timezone: eapUser.huso,

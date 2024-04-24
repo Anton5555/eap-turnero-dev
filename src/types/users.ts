@@ -7,6 +7,7 @@ export type User = {
   company: number;
   location: number;
   userType: "employee" | "family";
+  userTypeId: number;
   services: string[];
   position?: number;
   timezone: string;
