@@ -4,14 +4,13 @@ import { H6 } from "../common/Typography";
 import PlusIcon from "../icons/Plus";
 
 const AppointmentsEmpty = () => (
-  <div className="flex w-11/12 flex-col justify-center">
+  <div className="flex flex-col justify-center">
     <div className="mt-auto flex flex-col items-center justify-center">
       <PlusIcon />
 
-      <H6 className="text-dark-gray mt-2 flex-row text-center">
-        No tienes citas pendientes
-        <br />
-        Presiona aquí para agendar tu cita online
+      <H6 className="text-dark-gray my-4 flex-row text-center">
+        <p className="mb-2">No tienes citas pendientes.</p>
+        <p className="mb-3">Presiona aquí para agendar tu cita online.</p>
       </H6>
     </div>
 
@@ -23,7 +22,7 @@ const AppointmentsEmpty = () => (
         className="mx-auto mt-auto w-full font-normal lg:w-auto"
         variant="default"
       >
-        + Agendar tu cita online
+        + Agenda tu cita online
       </Button>
     </Link>
   </div>
