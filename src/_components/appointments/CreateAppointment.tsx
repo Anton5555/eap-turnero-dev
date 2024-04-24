@@ -251,7 +251,7 @@ const CreateAppointment: React.FC<{
       <div className="m-4 space-y-4 lg:m-0">
         <Stepper steps={4} currentStep={currentStep} />
 
-        <div className="block space-y-2">
+        <div className="block space-y-4">
           <H3 className="text-green">
             {currentStep === 1 ? "Área de atención" : "Agenda tu próxima cita"}
           </H3>
