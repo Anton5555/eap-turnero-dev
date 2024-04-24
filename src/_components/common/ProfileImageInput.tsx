@@ -4,18 +4,13 @@ import { useRef, useState } from "react";
 import React from "react";
 import { Button } from "./Button";
 
-// component with an image on the left and an input button on the right that receives a file
-
 const ProfileImageInput = React.forwardRef<
   HTMLInputElement,
   {
-    initialImage: File | null;
+    image?: string;
+    onImageChange: (image: File) => void;
   } & React.InputHTMLAttributes<HTMLInputElement>
->(({ initialImage, ...props }, ref) => {
-  const [image, setImage] = useState(
-    initialImage && URL.createObjectURL(initialImage),
-  );
-
+>(({ image, onImageChange, ...props }, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -39,20 +34,20 @@ const ProfileImageInput = React.forwardRef<
           if (!e.target.files) return;
 
           const file = e.target.files[0];
-          if (file) setImage(URL.createObjectURL(file));
+          if (file) onImageChange(file);
         }}
       />
 
       <div className="space-y-2">
         <Button
           variant="outline"
-          className="border-light-grayish-blue text-ultra-dark-gray rounded leading-3"
+          className="rounded border-light-grayish-blue leading-3 text-ultra-dark-gray"
           onClick={() => inputRef?.current?.click()}
         >
           Subir imagen
         </Button>
 
-        <p className="text-dark-blue text-sm leading-4">
+        <p className="text-sm leading-4 text-dark-blue">
           JPG o PNG.
           <br />1 MB max.
         </p>

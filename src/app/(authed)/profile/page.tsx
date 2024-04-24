@@ -9,11 +9,9 @@ const Page = async () => {
 
   if (!session) return;
 
-  const {
-    user: { accessToken },
-  } = session;
+  const { user } = session;
 
-  const genders = await getGenders(accessToken);
+  const genders = await getGenders(user.accessToken);
 
   return (
     <main>
@@ -29,7 +27,7 @@ const Page = async () => {
             Editá tu perfil aquí
           </p>
 
-          <EditProfileForm genders={genders} />
+          <EditProfileForm genders={genders} user={user} />
         </div>
       </div>
     </main>

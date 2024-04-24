@@ -1,15 +1,28 @@
 "use client";
 
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import React, { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import Image from "next/image";
 import ChevronIcon from "../icons/Chevron";
 import { Button } from "../common/Button";
 import UserIcon from "../icons/User";
+import useUserImage from "~/lib/useUserImage";
 
-const Profile = () => {
-  const { data: session } = useSession();
+type ProfileProps = {
+  name: string;
+  lastName: string;
+  accessToken: string;
+  image?: string;
+};
+
+const Profile: React.FC<ProfileProps> = ({
+  name,
+  lastName,
+  accessToken,
+  image,
+}) => {
+  const imageUrl = useUserImage({ accessToken, image });
 
   return (
     <Menu as="div" className="relative">
@@ -17,18 +30,15 @@ const Profile = () => {
         <span className="sr-only">Open user menu</span>
 
         <Image
-          src={
-            !!session?.user?.image ? session.user.image : "/default-avatar.webp"
-          }
+          src={imageUrl ?? "/default-avatar.webp"}
           alt="User profile"
           width={32}
           height={32}
           className="rounded-full"
         />
 
-        <span className="text-very-dark-blue font-inter text-sm">
-          {session?.user?.lastName &&
-            `${session?.user?.name} ${session?.user?.lastName}`}
+        <span className="font-inter text-sm text-very-dark-blue">
+          {`${name} ${lastName}`}
         </span>
 
         <ChevronIcon />
