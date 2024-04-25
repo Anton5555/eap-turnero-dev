@@ -20,11 +20,13 @@ const Page = async ({
     user: { accessToken, id, timezone },
   } = session;
 
-  const appointments = await getAppointmentsByPatient({
-    id,
-    accessToken,
-    timezone,
-  });
+  const appointments = (
+    await getAppointmentsByPatient({
+      id,
+      accessToken,
+      timezone,
+    })
+  ).filter((appointment) => appointment.start > new Date());
 
   const { professional, dateFrom, dateTo } = searchParams;
 
