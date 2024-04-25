@@ -2,6 +2,7 @@ import { type AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { AuthenticatedUser, User } from "~/types/users";
 import { env } from "~/env";
+import { parseJwt } from "./utils";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
 
@@ -77,9 +78,14 @@ const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) token.user = user as User;
+
       return token;
     },
     async session({ session, token }) {
+      session.expires = new Date(
+        parseJwt(token.user.accessToken).exp * 1000,
+      ).toISOString();
+
       session.user = token.user;
       return session;
     },
