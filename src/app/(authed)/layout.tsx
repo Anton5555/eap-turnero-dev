@@ -17,7 +17,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
   } = session;
 
   return (
-    <section className="h-full w-screen bg-gray-bg">
+    <section className="h-full min-h-screen w-screen bg-gray-bg">
       <Sidebar userData={{ name, lastName, image, accessToken }}>
         <div className="mx-auto lg:space-y-4 lg:px-8 lg:py-4 xl:max-w-screen-2xl">
           {children}
