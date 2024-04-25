@@ -100,6 +100,7 @@ const authOptions: AuthOptions = {
     async jwt({ token, user, trigger }) {
       if (user) token.user = user as User;
 
+      // Manual validation for token renewal
       if (
         trigger !== "signIn" &&
         trigger !== "signUp" &&
@@ -107,9 +108,8 @@ const authOptions: AuthOptions = {
       ) {
         let updateToken = false;
 
-        // If the trigger is "update", always update the token (called from updateProfile for example)
+        // If the trigger is "update", always update the token
         if (trigger === "update") updateToken = true;
-        // The trigger when called from the session provider is undefined
         else {
           const parsedJwtToken = parseJwt(token.user.accessToken);
 
@@ -139,7 +139,9 @@ const authOptions: AuthOptions = {
         parsedJwtToken.exp * 1000,
       ).toISOString();
 
-      // This is the expiry date of the session, it takes care of the automatic logout if expired
+      // This is the expiry date of the session, next-auth takes care of the automatic logout if expired
+      // We set it to the expiry date of the token because next-auth default one keeps updating all the time
+      // and we want to keep the session alive as long as the token from the api is valid
       session.expires = expiryDateISOString;
 
       session.user = token.user;
