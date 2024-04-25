@@ -37,7 +37,11 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
         className={`font-sans ${lato.variable} ${inter.variable} ${openSans.variable}`}
       >
         <QueryProvider>
-          <SessionProvider session={session} refetchInterval={60 * 60}>
+          <SessionProvider
+            session={session}
+            refetchInterval={60 * 60}
+            refetchOnWindowFocus={false}
+          >
             {children}
           </SessionProvider>
         </QueryProvider>

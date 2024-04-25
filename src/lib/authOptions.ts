@@ -25,6 +25,24 @@ const parseUser = (authenticatedUser: AuthenticatedUser): User => {
   };
 };
 
+const renewToken = async (token: string) => {
+  const headers = new Headers();
+  headers.append("Authorization", token);
+
+  const response = await fetch(`${API_URL}/token/renewToken`, {
+    method: "GET",
+    headers,
+  });
+
+  if (response.ok) {
+    const userData = (await response.json()) as AuthenticatedUser;
+
+    const user = parseUser(userData);
+
+    return user;
+  }
+};
+
 const LoginAdapter = (
   credentials: Record<"email" | "password", string> | undefined,
 ) => ({
@@ -87,25 +105,28 @@ const authOptions: AuthOptions = {
         trigger !== "signUp" &&
         token.user.accessToken
       ) {
-        const parsedJwtToken = parseJwt(token.user.accessToken);
-        const expires = parsedJwtToken.exp * 1000;
+        let updateToken = false;
 
-        if (expires > Date.now()) {
-          const headers = new Headers();
-          headers.append("Authorization", token.user.accessToken);
+        // If the trigger is "update", always update the token (called from updateProfile for example)
+        if (trigger === "update") updateToken = true;
+        // The trigger when called from the session provider is undefined
+        else {
+          const parsedJwtToken = parseJwt(token.user.accessToken);
 
-          const response = await fetch(`${API_URL}/token/renewToken`, {
-            method: "GET",
-            headers,
-          });
+          // Get the expiry date in milliseconds
+          const expires = parsedJwtToken.exp * 1000;
 
-          if (response.ok) {
-            const userData = (await response.json()) as AuthenticatedUser;
+          // Subtract 10 hours from the expiry date to get the last update date
+          const lastUpdate = expires - 10 * 60 * 60 * 1000;
 
-            const user = parseUser(userData);
+          // If the token was last updated more than 10 minutes ago, update it
+          if (Date.now() - lastUpdate > 10 * 60 * 1000) updateToken = true;
+        }
 
-            token.user = user;
-          }
+        if (updateToken) {
+          const user = await renewToken(token.user.accessToken);
+
+          if (user) token.user = user;
         }
       }
 
@@ -113,10 +134,12 @@ const authOptions: AuthOptions = {
     },
     async session({ session, token }) {
       const parsedJwtToken = parseJwt(token.user.accessToken);
+
       const expiryDateISOString = new Date(
         parsedJwtToken.exp * 1000,
       ).toISOString();
 
+      // This is the expiry date of the session, it takes care of the automatic logout if expired
       session.expires = expiryDateISOString;
 
       session.user = token.user;
