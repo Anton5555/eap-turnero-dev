@@ -19,8 +19,8 @@ const ProfileImageInput = React.forwardRef<
         <Image
           src={image || "/default-avatar.webp"}
           alt="User image"
-          layout="fill"
-          objectFit="cover"
+          width={96}
+          height={96}
         />
       </div>
 
@@ -41,7 +41,7 @@ const ProfileImageInput = React.forwardRef<
       <div className="space-y-2">
         <Button
           variant="outline"
-          className="rounded border-light-grayish-blue leading-3 text-ultra-dark-gray"
+          className="border-light-grayish-blue rounded leading-3 text-ultra-dark-gray"
           onClick={() => inputRef?.current?.click()}
         >
           Subir imagen

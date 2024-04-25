@@ -1,22 +1,19 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import HomeIcon from "../icons/Home";
 import UserIcon from "../icons/User";
 import cn from "~/lib/utils";
 import BarsIcon from "../icons/Bars";
 import CloseIcon from "../icons/Close";
 import Link from "next/link";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import ExitIcon from "../icons/Exit";
 import Profile from "./Profile";
 import NotificationsMenu from "./NotificationsMenu";
 import { H6 } from "../common/Typography";
 import Logo from "./Logo";
 import { usePathname } from "next/navigation";
-import { env } from "~/env";
-
-const API_URL = env.NEXT_PUBLIC_API_URL;
 
 const navigation = [
   { name: "Inicio", href: "/platform", icon: HomeIcon, path: "platform" },
@@ -34,7 +31,7 @@ type SidebarProps = {
 };
 
 const Sidebar: React.FC<SidebarProps> = ({ children, userData }) => {
-  const { name, image } = userData;
+  const { name } = userData;
 
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
@@ -92,7 +89,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, userData }) => {
           <Link
             href="#"
             onClick={() => signOut()}
-            className="group -mx-2 flex items-center gap-x-2 p-2 text-very-dark-blue"
+            className="text-very-dark-blue group -mx-2 flex items-center gap-x-2 p-2"
           >
             <ExitIcon />
 
