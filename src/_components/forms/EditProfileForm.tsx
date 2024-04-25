@@ -15,6 +15,7 @@ import { useState } from "react";
 import DatePicker from "../common/DatePicker";
 import { useMutation } from "@tanstack/react-query";
 import { updateUser } from "~/lib/api/users";
+import { useSession } from "next-auth/react";
 
 const editProfileSchema = z.object({
   name: z.string().min(1, { message: "Ingresa tu nombre" }),
@@ -44,6 +45,8 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
   } = user;
 
   const { toast } = useToast();
+
+  const { update } = useSession();
 
   const imageUrl = useUserImage({ accessToken, image });
   const [newUserImage, setNewUserImage] = useState<File | undefined>();
@@ -79,7 +82,8 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
         variant: "destructive",
       }),
     onSuccess: () => {
-      // TODO: Refresh user data (jwt token)
+      update();
+
       toast({
         title: "Datos actualizados con éxito",
       });
@@ -111,7 +115,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
             type="text"
             id="name"
             placeholder="Nombre"
-            className="text-sm leading-4 ring-light-grayish-blue"
+            className="ring-light-grayish-blue text-sm leading-4"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
             {...register("name")}
             errorText={errors.name?.message}
@@ -122,7 +126,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
             type="text"
             id="lastName"
             placeholder="Apellido"
-            className="text-sm leading-4 ring-light-grayish-blue"
+            className="ring-light-grayish-blue text-sm leading-4"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
             {...register("lastName")}
             errorText={errors.lastName?.message}
@@ -133,7 +137,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
             type="email"
             id="email"
             placeholder="Email"
-            className="text-sm leading-4 ring-light-grayish-blue"
+            className="ring-light-grayish-blue text-sm leading-4"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
             {...register("email")}
             errorText={errors.email?.message}
@@ -147,7 +151,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
             {...register("location")}
             options={locations}
             value={selectedLocation}
-            className="text-sm leading-4 ring-light-grayish-blue"
+            className="ring-light-grayish-blue text-sm leading-4"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
             errorText={errors.location?.message}
           />
@@ -161,7 +165,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
               label: gender.name,
             }))}
             value={selectedGender}
-            className="text-sm leading-4 ring-light-grayish-blue"
+            className="ring-light-grayish-blue text-sm leading-4"
             placeholder="No aplica"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
           />
@@ -173,7 +177,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
               <DatePicker
                 label="Fecha de nacimiento"
                 name="birthdate"
-                className="text-sm leading-4 ring-light-grayish-blue"
+                className="ring-light-grayish-blue text-sm leading-4"
                 labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
                 value={value}
                 onChange={onChange}
