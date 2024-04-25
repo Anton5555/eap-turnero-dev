@@ -8,7 +8,7 @@ const useUserImage = (props: {
   const { accessToken, image } = props;
 
   const { data: imageUrl } = useQuery({
-    queryKey: ["userImage"],
+    queryKey: ["userImage", image],
     queryFn: () => getUserImage({ accessToken, image: image! }),
     enabled: !!image,
   });
