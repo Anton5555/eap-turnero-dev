@@ -81,7 +81,7 @@ const CreateCaseAdapter = (props: {
   sede: props.locationId,
 });
 
-const getActiveCase = async (props: {
+const getActiveCaseId = async (props: {
   areaId: number;
   serviceId: number;
   specialtyId: number;
@@ -105,8 +105,9 @@ const getActiveCase = async (props: {
   if (!response.ok) throw new Error("Error al obtener el caso activo");
 
   const responseBody = await response.json();
+  if (!responseBody) return undefined;
 
-  return responseBody.idproceso;
+  return responseBody.idproceso as number;
 };
 
 const createCase = async (props: {
@@ -169,7 +170,7 @@ const createCase = async (props: {
 
   const responseBody = await response.json();
 
-  return responseBody.caso.idproceso;
+  return responseBody.caso.idproceso as number;
 };
 
-export { getActiveCase, createCase };
+export { getActiveCaseId, createCase };

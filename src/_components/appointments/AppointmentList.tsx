@@ -50,7 +50,7 @@ const AppointmentList: React.FC<{
     mutate({
       accessToken: session?.user.accessToken!,
       appointmentId: selectedAppointment!.id,
-      professionalId: selectedAppointment?.professionalId!,
+      employeeId: selectedAppointment?.professionalId!,
     });
 
     setIsOpen(false);

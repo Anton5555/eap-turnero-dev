@@ -92,17 +92,16 @@ const getProfessionals = async (props: {
 };
 
 const getProfessionalSapUser = async (props: {
-  professionalId: number;
+  employeeId: number;
   accessToken: string;
 }) => {
-  const { professionalId, accessToken } = props;
+  const { employeeId, accessToken } = props;
 
   const headers = new Headers();
   headers.append("Authorization", accessToken);
 
-  // FIXME: Change the endpoint to the real one when backend provides it
   const response = await fetch(
-    `${API_URL}/profesional/getSapUserByProfesional?profesional=${professionalId}`,
+    `${API_URL}/misc/getUserCodeByEmpId?empid=${employeeId}`,
     {
       method: "GET",
       headers,
@@ -114,7 +113,9 @@ const getProfessionalSapUser = async (props: {
 
   const responseBody = await response.json();
 
-  return responseBody;
+  const sapUser = responseBody.value[0].USER_CODE;
+
+  return sapUser as string;
 };
 
 export { getProfessionals, getProfessionalSapUser };
