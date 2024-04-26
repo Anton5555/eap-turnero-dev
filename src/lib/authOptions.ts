@@ -1,12 +1,12 @@
 import { type AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { AuthenticatedUser, User } from "~/types/users";
+import { AuthenticatedUserApiData, User } from "~/types/users";
 import { env } from "~/env";
 import { parseJwt } from "./utils";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
 
-const parseUser = (authenticatedUser: AuthenticatedUser): User => {
+const parseUser = (authenticatedUser: AuthenticatedUserApiData): User => {
   const { user: eapUser, token } = authenticatedUser;
 
   return {
@@ -14,13 +14,18 @@ const parseUser = (authenticatedUser: AuthenticatedUser): User => {
     email: eapUser.mail,
     name: eapUser.nombre,
     lastName: eapUser.apellido1,
-    image: eapUser.img ?? "",
+    imageName: eapUser.img ?? "",
     company: parseInt(eapUser.empresa),
     location: eapUser.sede,
     userType: eapUser.tipousuarioportal === "empleado" ? "employee" : "family",
+    userTypeId: parseInt(eapUser.tipo),
     services: eapUser.services.map((service) => service.code),
     position: eapUser.puesto ? parseInt(eapUser.puesto) : undefined,
     timezone: eapUser.huso,
+    birthdate: eapUser.fecha_nacimiento
+      ? new Date(eapUser.fecha_nacimiento)
+      : undefined,
+    gender: eapUser.sexo ?? undefined,
     accessToken: token,
   };
 };
@@ -35,7 +40,7 @@ const renewToken = async (token: string) => {
   });
 
   if (response.ok) {
-    const userData = (await response.json()) as AuthenticatedUser;
+    const userData = (await response.json()) as AuthenticatedUserApiData;
 
     const user = parseUser(userData);
 
@@ -76,10 +81,9 @@ const authOptions: AuthOptions = {
 
         if (!response.ok) {
           if (response.status === 401) throw new Error("Contraseña incorrecta");
-
-          if (response.status === 404) throw new Error("Usuario no encontrado");
-
-          if (response.status === 412)
+          else if (response.status === 404)
+            throw new Error("Usuario no encontrado");
+          else if (response.status === 412)
             throw new Error(
               "Debe asociarse el familiar al empleado. Contacte con EAP por favor.",
             );
@@ -87,8 +91,8 @@ const authOptions: AuthOptions = {
           throw new Error("Error al iniciar sesión");
         }
 
-        const userData: AuthenticatedUser =
-          (await response.json()) as AuthenticatedUser;
+        const userData: AuthenticatedUserApiData =
+          (await response.json()) as AuthenticatedUserApiData;
 
         const user = parseUser(userData);
 

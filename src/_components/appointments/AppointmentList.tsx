@@ -69,12 +69,15 @@ const AppointmentList: React.FC<{
   if (!appointments?.length)
     return (
       <>
-        <div className="flex h-[calc(90dvh)] justify-center lg:hidden">
+        <div className="flex h-[calc(90dvh)] w-full flex-col justify-center lg:hidden">
           {error ? <H6>{error.message}</H6> : <AppointmentsEmpty />}
         </div>
 
         <PlatformContainer
-          className={cn("hidden justify-center rounded-none ", className)}
+          className={cn(
+            "hidden h-[calc(50dvh)] justify-center rounded-none",
+            className,
+          )}
         >
           {error ? (
             <H6 className="text-center">{error.message}</H6>

@@ -5,14 +5,15 @@ const Input = React.forwardRef<
   HTMLInputElement,
   {
     label?: string;
+    labelClassName?: string;
     errorText?: string;
   } & React.InputHTMLAttributes<HTMLInputElement>
->(({ className, label, errorText, type, ...props }, ref) => (
+>(({ className, label, errorText, labelClassName, type, ...props }, ref) => (
   <div>
     {label && (
       <label
         htmlFor={props.name}
-        className="mb-4 block text-lg font-bold leading-5"
+        className={cn("mb-4 block text-lg font-bold leading-5", labelClassName)}
       >
         {label}
       </label>
@@ -26,8 +27,8 @@ const Input = React.forwardRef<
         errorText &&
           "text-orange ring-orange focus:ring-inset focus:ring-orange focus:placeholder:text-orange",
       )}
-      ref={ref}
       {...props}
+      ref={ref}
       aria-invalid={!!errorText}
       aria-describedby={errorText}
     />

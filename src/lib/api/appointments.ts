@@ -5,32 +5,34 @@ import { env } from "~/env";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
 
-interface OriginalFreeAppointmentsData {
+interface FreeAppointmentsApiData {
   id: number;
   fechadesde: string;
   fechahasta: string;
 }
 
 const parseFreeAppointmentsData = async (
-  data: OriginalFreeAppointmentsData[],
+  freeAppointments: FreeAppointmentsApiData[],
 ): Promise<FreeAppointmentsByDay> =>
-  data.reduce((freeAppointmentsByDay, originalFreeAppointmentsByDay) => {
-    const dateFrom = new Date(originalFreeAppointmentsByDay.fechadesde);
-    const dateTo = new Date(originalFreeAppointmentsByDay.fechahasta);
+  freeAppointments.reduce(
+    (freeAppointmentsByDay, originalFreeAppointmentsByDay) => {
+      const dateFrom = new Date(originalFreeAppointmentsByDay.fechadesde);
+      const dateTo = new Date(originalFreeAppointmentsByDay.fechahasta);
 
-    const dayOfMonth = dateFrom.getDate();
+      const dayOfMonth = dateFrom.getDate();
 
-    if (!freeAppointmentsByDay[dayOfMonth]) {
-      freeAppointmentsByDay[dayOfMonth] = [];
-    }
+      if (!freeAppointmentsByDay[dayOfMonth])
+        freeAppointmentsByDay[dayOfMonth] = [];
 
-    freeAppointmentsByDay[dayOfMonth]?.push({
-      start: dateFrom,
-      end: dateTo,
-    });
+      freeAppointmentsByDay[dayOfMonth]?.push({
+        start: dateFrom,
+        end: dateTo,
+      });
 
-    return freeAppointmentsByDay;
-  }, [] as FreeAppointmentsByDay);
+      return freeAppointmentsByDay;
+    },
+    [] as FreeAppointmentsByDay,
+  );
 
 const CreateAppointmentAdapter = (props: {
   professionalSapUser: string;
@@ -55,7 +57,7 @@ const CreateAppointmentAdapter = (props: {
   modalidadcita: props.modalityId,
 });
 
-interface OriginalAppointmentsData {
+interface AppointmentsApiData {
   UNIQUEID: number;
   FS_FECHAINICIO: string;
   FS_FECHAFIN: string;
@@ -65,10 +67,10 @@ interface OriginalAppointmentsData {
   EMPID: number;
 }
 
-const parseAppointmentsData = (
-  originalAppointments: OriginalAppointmentsData[],
+const parseAppointmentsApiData = (
+  appointments: AppointmentsApiData[],
 ): Appointment[] =>
-  originalAppointments.map((appointment) => ({
+  appointments.map((appointment) => ({
     id: appointment.UNIQUEID,
     start: new Date(appointment.FS_FECHAINICIO),
     end: new Date(appointment.FS_FECHAFIN),
@@ -131,11 +133,11 @@ const getFreeAppointments = async (props: {
       "Error al obtener las citas libres de la agenda del profesional",
     );
 
-  const freeAppointmentsOriginalData =
-    (await response.json()) as OriginalFreeAppointmentsData[];
+  const freeAppointmentsApiData =
+    (await response.json()) as FreeAppointmentsApiData[];
 
   const freeAppointments = await parseFreeAppointmentsData(
-    freeAppointmentsOriginalData,
+    freeAppointmentsApiData,
   );
 
   return { freeAppointments, agendaId };
@@ -253,10 +255,9 @@ const getAppointmentsByPatient = async (props: {
 
   if (!response.ok) throw new Error("Error al obtener las citas del paciente");
 
-  const appointmentsOriginalData =
-    (await response.json()) as OriginalAppointmentsData[];
+  const appointmentsApiData = (await response.json()) as AppointmentsApiData[];
 
-  return parseAppointmentsData(appointmentsOriginalData);
+  return parseAppointmentsApiData(appointmentsApiData);
 };
 
 const deleteAppointment = async (props: {

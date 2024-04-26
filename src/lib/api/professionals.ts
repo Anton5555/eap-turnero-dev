@@ -3,7 +3,7 @@ import { env } from "~/env";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
 
-interface OriginalProfessionalData {
+interface ProfessionalApiData {
   EmpID: number;
   NAME: string;
   PAIS: string;
@@ -11,7 +11,7 @@ interface OriginalProfessionalData {
   paises: string | null;
 }
 
-interface SubSpecialtyData {
+interface SubSpecialtiesApiData {
   value: {
     ID: number;
     ESPECIALIDAD: number;
@@ -20,10 +20,10 @@ interface SubSpecialtyData {
 }
 
 const parseData = (
-  originalProfessionalsData: OriginalProfessionalData[],
-  subSpecialties: SubSpecialtyData | null,
+  professionals: ProfessionalApiData[],
+  subSpecialties: SubSpecialtiesApiData | null,
 ): Professional[] =>
-  originalProfessionalsData.map((professional) => ({
+  professionals.map((professional) => ({
     id: professional.EmpID,
     name: professional.NAME,
     subSpecialties:
@@ -59,7 +59,7 @@ const getProfessionals = async (props: {
 
   if (!response.ok) throw new Error("Error al obtener los profesionales");
 
-  const professionals = (await response.json()) as OriginalProfessionalData[];
+  const professionals = (await response.json()) as ProfessionalApiData[];
 
   let subSpecialties;
 
@@ -79,7 +79,8 @@ const getProfessionals = async (props: {
     if (!subSpecialtiesResponse.ok)
       throw new Error("Error al obtener las subespecialidades");
 
-    subSpecialties = (await subSpecialtiesResponse.json()) as SubSpecialtyData;
+    subSpecialties =
+      (await subSpecialtiesResponse.json()) as SubSpecialtiesApiData;
   }
 
   const professionalsWithSubspecialties = parseData(
@@ -111,9 +112,9 @@ const getProfessionalSapUser = async (props: {
   if (!response.ok)
     throw new Error("Error al obtener el usuario SAP del profesional");
 
-  const data = await response.json();
+  const responseBody = await response.json();
 
-  return data;
+  return responseBody;
 };
 
 export { getProfessionals, getProfessionalSapUser };
