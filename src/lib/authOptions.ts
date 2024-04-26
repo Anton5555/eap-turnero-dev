@@ -1,12 +1,12 @@
 import { type AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { AuthenticatedUser, User } from "~/types/users";
+import { AuthenticatedUserApiData, User } from "~/types/users";
 import { env } from "~/env";
 import { parseJwt } from "./utils";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
 
-const parseUser = (authenticatedUser: AuthenticatedUser): User => {
+const parseUser = (authenticatedUser: AuthenticatedUserApiData): User => {
   const { user: eapUser, token } = authenticatedUser;
 
   return {
@@ -14,7 +14,7 @@ const parseUser = (authenticatedUser: AuthenticatedUser): User => {
     email: eapUser.mail,
     name: eapUser.nombre,
     lastName: eapUser.apellido1,
-    image: eapUser.img ?? "",
+    imageName: eapUser.img ?? "",
     company: parseInt(eapUser.empresa),
     location: eapUser.sede,
     userType: eapUser.tipousuarioportal === "empleado" ? "employee" : "family",
@@ -40,7 +40,7 @@ const renewToken = async (token: string) => {
   });
 
   if (response.ok) {
-    const userData = (await response.json()) as AuthenticatedUser;
+    const userData = (await response.json()) as AuthenticatedUserApiData;
 
     const user = parseUser(userData);
 
@@ -91,8 +91,8 @@ const authOptions: AuthOptions = {
           throw new Error("Error al iniciar sesión");
         }
 
-        const userData: AuthenticatedUser =
-          (await response.json()) as AuthenticatedUser;
+        const userData: AuthenticatedUserApiData =
+          (await response.json()) as AuthenticatedUserApiData;
 
         const user = parseUser(userData);
 

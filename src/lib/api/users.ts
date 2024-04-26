@@ -15,10 +15,10 @@ type FamilyRelativeApiData = {
   Convive: string;
 };
 
-const mapApiDataToFamilyRelatives = (
-  data: FamilyRelativeApiData[],
+const parseFamilyRelativesApiData = (
+  familyRelatives: FamilyRelativeApiData[],
 ): FamilyRelative[] =>
-  data.map((familyRelative) => ({
+  familyRelatives.map((familyRelative) => ({
     id: familyRelative.IdPacienteFam,
     patientId: familyRelative.IDPaciente,
     line: familyRelative.Line,
@@ -49,9 +49,9 @@ const getFamilyRelatives = async (props: {
   if (!response.ok)
     throw new Error("Error recuperando los datos de los familiares");
 
-  const data = await response.json();
+  const familyRelativesApiData = await response.json();
 
-  return mapApiDataToFamilyRelatives(data);
+  return parseFamilyRelativesApiData(familyRelativesApiData);
 };
 
 type GenderApiData = {
@@ -59,8 +59,8 @@ type GenderApiData = {
   fs_descripcion: string;
 };
 
-const parseGendersData = (data: GenderApiData[]): Gender[] =>
-  data.map((gender) => ({
+const parseGendersApiData = (genders: GenderApiData[]): Gender[] =>
+  genders.map((gender) => ({
     id: gender.fs_id,
     name: gender.fs_descripcion,
   }));
@@ -76,19 +76,22 @@ const getGenders = async (accessToken: string) => {
 
   if (!response.ok) throw new Error("Error al recuperar los géneros");
 
-  const data = await response.json();
+  const gendersApiData = await response.json();
 
-  return parseGendersData(data);
+  return parseGendersApiData(gendersApiData);
 };
 
-const getUserImage = async (props: { accessToken: string; image: string }) => {
-  const { accessToken, image } = props;
+const getUserImage = async (props: {
+  accessToken: string;
+  imageName: string;
+}) => {
+  const { accessToken, imageName } = props;
 
   const headers = new Headers();
   headers.append("Authorization", accessToken);
 
   const response = await fetch(
-    `${API_URL}/Patient/getUserImage?imgName=${image}`,
+    `${API_URL}/Patient/getUserImage?imgName=${imageName}`,
     { method: "GET", headers },
   );
 
@@ -188,14 +191,13 @@ const updateUserImage = async (props: {
   const headers = new Headers();
   headers.append("Authorization", accessToken);
 
-  const response = await fetch(
-    `${API_URL}/Patient/updatePatientImg?consultantId=${patientId}`,
-    {
-      method: "POST",
-      headers,
-      body: formData,
-    },
-  );
+  const requestUrl = `${API_URL}/Patient/updatePatientImg?consultantId=${patientId}`;
+
+  const response = await fetch(requestUrl, {
+    method: "POST",
+    headers,
+    body: formData,
+  });
 
   if (!response.ok)
     throw new Error("Error al actualizar la imagen del usuario");
