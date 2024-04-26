@@ -3,7 +3,7 @@ export type User = {
   email: string;
   name: string;
   lastName: string;
-  image: string;
+  imageName: string;
   company: number;
   location: number;
   userType: "employee" | "family";
@@ -60,7 +60,7 @@ type EAPUser = {
   services: Array<{ code: string; name: string }>;
 };
 
-export type AuthenticatedUser = {
+export type AuthenticatedUserApiData = {
   user: EAPUser;
   token: string;
 };

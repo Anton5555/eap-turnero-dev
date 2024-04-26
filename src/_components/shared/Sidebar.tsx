@@ -22,16 +22,16 @@ const navigation = [
 
 type SidebarProps = {
   children: React.ReactNode;
-  userData: {
+  user: {
     name: string;
     lastName: string;
     accessToken: string;
-    image?: string;
+    imageName?: string;
   };
 };
 
-const Sidebar: React.FC<SidebarProps> = ({ children, userData }) => {
-  const { name } = userData;
+const Sidebar: React.FC<SidebarProps> = ({ children, user }) => {
+  const { name } = user;
 
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
@@ -89,7 +89,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, userData }) => {
           <Link
             href="#"
             onClick={() => signOut()}
-            className="text-very-dark-blue group -mx-2 flex items-center gap-x-2 p-2"
+            className="group -mx-2 flex items-center gap-x-2 p-2 text-very-dark-blue"
           >
             <ExitIcon />
 
@@ -126,7 +126,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, userData }) => {
 
           <div className="flex items-center lg:gap-x-6">
             <div className="hidden lg:flex">
-              <Profile {...userData} />
+              <Profile {...user} />
             </div>
 
             <div className="flex items-center">

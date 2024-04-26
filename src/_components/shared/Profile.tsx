@@ -13,16 +13,16 @@ type ProfileProps = {
   name: string;
   lastName: string;
   accessToken: string;
-  image?: string;
+  imageName?: string;
 };
 
 const Profile: React.FC<ProfileProps> = ({
   name,
   lastName,
   accessToken,
-  image,
+  imageName,
 }) => {
-  const imageUrl = useUserImage({ accessToken, image });
+  const imageUrl = useUserImage({ accessToken, imageName });
 
   return (
     <Menu as="div" className="relative">

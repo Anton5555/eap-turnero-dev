@@ -13,12 +13,12 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
   if (!session) return;
 
   const {
-    user: { image, name, lastName, accessToken },
+    user: { imageName, name, lastName, accessToken },
   } = session;
 
   return (
     <section className="h-full min-h-screen w-screen bg-gray-bg">
-      <Sidebar userData={{ name, lastName, image, accessToken }}>
+      <Sidebar user={{ name, lastName, imageName, accessToken }}>
         <div className="mx-auto lg:space-y-4 lg:px-8 lg:py-4 xl:max-w-screen-2xl">
           {children}
         </div>

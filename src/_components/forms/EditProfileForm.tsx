@@ -40,7 +40,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
     gender,
     birthdate,
     accessToken,
-    image,
+    imageName,
     userTypeId,
   } = user;
 
@@ -48,7 +48,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
 
   const { update } = useSession();
 
-  const imageUrl = useUserImage({ accessToken, image });
+  const imageUrl = useUserImage({ accessToken, imageName });
   const [newUserImage, setNewUserImage] = useState<File | undefined>();
 
   const {
@@ -102,7 +102,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 font-inter">
       <ProfileImageInput
-        image={
+        imageUrl={
           newUserImage ? URL.createObjectURL(newUserImage as File) : imageUrl
         }
         onImageChange={setNewUserImage}
@@ -115,7 +115,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
             type="text"
             id="name"
             placeholder="Nombre"
-            className="ring-light-grayish-blue text-sm leading-4"
+            className="text-sm leading-4 ring-light-grayish-blue"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
             {...register("name")}
             errorText={errors.name?.message}
@@ -126,7 +126,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
             type="text"
             id="lastName"
             placeholder="Apellido"
-            className="ring-light-grayish-blue text-sm leading-4"
+            className="text-sm leading-4 ring-light-grayish-blue"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
             {...register("lastName")}
             errorText={errors.lastName?.message}
@@ -137,7 +137,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
             type="email"
             id="email"
             placeholder="Email"
-            className="ring-light-grayish-blue text-sm leading-4"
+            className="text-sm leading-4 ring-light-grayish-blue"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
             {...register("email")}
             errorText={errors.email?.message}
@@ -151,7 +151,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
             {...register("location")}
             options={locations}
             value={selectedLocation}
-            className="ring-light-grayish-blue text-sm leading-4"
+            className="text-sm leading-4 ring-light-grayish-blue"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
             errorText={errors.location?.message}
           />
@@ -165,7 +165,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
               label: gender.name,
             }))}
             value={selectedGender}
-            className="ring-light-grayish-blue text-sm leading-4"
+            className="text-sm leading-4 ring-light-grayish-blue"
             placeholder="No aplica"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
           />
@@ -177,7 +177,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
               <DatePicker
                 label="Fecha de nacimiento"
                 name="birthdate"
-                className="ring-light-grayish-blue text-sm leading-4"
+                className="text-sm leading-4 ring-light-grayish-blue"
                 labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
                 value={value}
                 onChange={onChange}

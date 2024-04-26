@@ -7,17 +7,17 @@ import { Button } from "./Button";
 const ProfileImageInput = React.forwardRef<
   HTMLInputElement,
   {
-    image?: string;
+    imageUrl?: string;
     onImageChange: (image: File) => void;
   } & React.InputHTMLAttributes<HTMLInputElement>
->(({ image, onImageChange, ...props }, ref) => {
+>(({ imageUrl, onImageChange, ...props }, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <div className="flex items-center space-x-4">
       <div className="relative h-24 w-24 overflow-hidden rounded-lg">
         <Image
-          src={image || "/default-avatar.webp"}
+          src={imageUrl || "/default-avatar.webp"}
           alt="User image"
           width={96}
           height={96}
@@ -41,7 +41,7 @@ const ProfileImageInput = React.forwardRef<
       <div className="space-y-2">
         <Button
           variant="outline"
-          className="border-light-grayish-blue rounded leading-3 text-ultra-dark-gray"
+          className="rounded border-light-grayish-blue leading-3 text-ultra-dark-gray"
           onClick={() => inputRef?.current?.click()}
         >
           Subir imagen

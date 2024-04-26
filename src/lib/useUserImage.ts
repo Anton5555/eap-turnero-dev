@@ -3,14 +3,14 @@ import { getUserImage } from "./api/users";
 
 const useUserImage = (props: {
   accessToken: string;
-  image: string | undefined;
+  imageName: string | undefined;
 }) => {
-  const { accessToken, image } = props;
+  const { accessToken, imageName } = props;
 
   const { data: imageUrl } = useQuery({
-    queryKey: ["userImage", image],
-    queryFn: () => getUserImage({ accessToken, image: image! }),
-    enabled: !!image,
+    queryKey: ["userImage", imageName],
+    queryFn: () => getUserImage({ accessToken, imageName: imageName! }),
+    enabled: !!imageName,
   });
 
   return imageUrl;
