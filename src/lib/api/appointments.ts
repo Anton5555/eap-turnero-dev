@@ -21,9 +21,8 @@ const parseFreeAppointmentsData = async (
 
       const dayOfMonth = dateFrom.getDate();
 
-      if (!freeAppointmentsByDay[dayOfMonth]) {
+      if (!freeAppointmentsByDay[dayOfMonth])
         freeAppointmentsByDay[dayOfMonth] = [];
-      }
 
       freeAppointmentsByDay[dayOfMonth]?.push({
         start: dateFrom,
