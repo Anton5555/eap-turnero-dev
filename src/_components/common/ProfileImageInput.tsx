@@ -3,6 +3,9 @@ import { Input } from "./Input";
 import { useRef, useState } from "react";
 import React from "react";
 import { Button } from "./Button";
+import { useToast } from "../shared/toaster/useToast";
+
+const allowedFileTypes = ["image/png", "image/jpeg", "image/jpg"];
 
 const ProfileImageInput = React.forwardRef<
   HTMLInputElement,
@@ -12,6 +15,7 @@ const ProfileImageInput = React.forwardRef<
   } & React.InputHTMLAttributes<HTMLInputElement>
 >(({ imageUrl, onImageChange, ...props }, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
 
   return (
     <div className="flex items-center space-x-4">
@@ -28,19 +32,39 @@ const ProfileImageInput = React.forwardRef<
         {...props}
         ref={inputRef}
         type="file"
-        accept="image/jpeg, image/png, image/jpg"
+        accept={allowedFileTypes.join(",")}
         className="hidden"
         onChange={(e) => {
-          if (!e.target.files) return;
+          if (!e.target.files?.[0]) return;
 
           const file = e.target.files[0];
-          if (file) onImageChange(file);
+
+          if (!allowedFileTypes.includes(file.type)) {
+            toast({
+              title: "Por favor selecciona un archivo de imagen válido",
+              variant: "destructive",
+            });
+
+            return;
+          }
+
+          if (file.size > 1e6) {
+            toast({
+              title: "La imagen es demasiado grande",
+              variant: "destructive",
+            });
+
+            return;
+          }
+
+          onImageChange(file);
         }}
       />
 
       <div className="space-y-2">
         <Button
           variant="outline"
+          type="button"
           className="rounded border-light-grayish-blue leading-3 text-ultra-dark-gray"
           onClick={() => inputRef?.current?.click()}
         >
