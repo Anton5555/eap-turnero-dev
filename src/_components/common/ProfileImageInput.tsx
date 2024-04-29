@@ -41,7 +41,7 @@ const ProfileImageInput = React.forwardRef<
 
           if (!allowedFileTypes.includes(file.type)) {
             toast({
-              title: "Por favor selecciona un archivo de imagen válido",
+              title: "Por favor, selecciona un archivo de imagen válido",
               variant: "destructive",
             });
 
