@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 import { getProfessionals } from "~/lib/api/professionals";
 import { ContractService } from "~/types/services";
 import { Professional } from "~/types/professionals";
-import cn, { timeRanges } from "~/lib/utils";
+import cn from "~/lib/utils";
 import { endOfMonth, format, startOfMonth } from "date-fns";
 import { createAppointment, getFreeAppointments } from "~/lib/api/appointments";
 import Link from "next/link";
@@ -22,6 +22,7 @@ import ServiceSelection from "./CreateAppointmentComponents/ServiceSelection";
 import DateSelection from "./CreateAppointmentComponents/DateSelection";
 import TimeSelection from "./CreateAppointmentComponents/TimeSelection";
 import ProfessionalSelection from "./CreateAppointmentComponents/ProfessionalSelection";
+import { timeRanges } from "~/lib/constants";
 
 const CreateAppointment: React.FC<{
   services: ContractService[];
@@ -251,7 +252,7 @@ const CreateAppointment: React.FC<{
       <div className="m-4 space-y-4 lg:m-0">
         <Stepper steps={4} currentStep={currentStep} />
 
-        <div className="block space-y-2">
+        <div className="block space-y-4">
           <H3 className="text-green">
             {currentStep === 1 ? "Área de atención" : "Agenda tu próxima cita"}
           </H3>

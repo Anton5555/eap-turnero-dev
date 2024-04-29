@@ -3,7 +3,7 @@ import { env } from "~/env";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
 
-interface OriginalServiceData {
+interface ServiceApiData {
   ID: number;
   ID_EMPRESA: number;
   IDSERVICIO: number;
@@ -20,8 +20,8 @@ interface OriginalServiceData {
   rn: number;
 }
 
-const parseData = (originalServices: OriginalServiceData[]) => {
-  return originalServices.map((service) => ({
+const parseData = (services: ServiceApiData[]) => {
+  return services.map((service) => ({
     id: service.ID,
     companyId: service.ID_EMPRESA,
     serviceId: service.IDSERVICIO,
@@ -59,9 +59,9 @@ const getContractServices = async (props: {
 
   if (!response.ok) throw new Error("Error al obtener los servicios");
 
-  const servicesOriginalData = (await response.json()) as OriginalServiceData[];
+  const servicesApiData = (await response.json()) as ServiceApiData[];
 
-  return parseData(servicesOriginalData) as ContractService[];
+  return parseData(servicesApiData) as ContractService[];
 };
 
 export { getContractServices };

@@ -26,5 +26,5 @@ export const config = {
     signIn: "/auth/login",
     signUp: "/auth/signup",
   },
-  matcher: ["/", "/platform", "/platform/:path*"],
+  matcher: ["/", "/platform", "/platform/:path*", "/profile"],
 };

@@ -104,9 +104,9 @@ const getActiveCase = async (props: {
 
   if (!response.ok) throw new Error("Error al obtener el caso activo");
 
-  const data = await response.json();
+  const responseBody = await response.json();
 
-  return data.idproceso;
+  return responseBody.idproceso;
 };
 
 const createCase = async (props: {
@@ -167,9 +167,9 @@ const createCase = async (props: {
 
   if (!response.ok) throw new Error("Error al crear el caso");
 
-  const data = await response.json();
+  const responseBody = await response.json();
 
-  return data.caso.idproceso;
+  return responseBody.caso.idproceso;
 };
 
 export { getActiveCase, createCase };
