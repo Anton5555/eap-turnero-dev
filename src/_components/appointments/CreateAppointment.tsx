@@ -135,6 +135,7 @@ const CreateAppointment: React.FC<{
       router.push(
         `/platform?professional=${selectedProfessional?.name}&dateFrom=${selectedTime?.dateFrom}&dateTo=${selectedTime?.dateTo}`,
       );
+
       router.refresh();
     },
   });
