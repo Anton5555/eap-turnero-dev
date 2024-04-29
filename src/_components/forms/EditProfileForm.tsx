@@ -16,6 +16,7 @@ import DatePicker from "../common/DatePicker";
 import { useMutation } from "@tanstack/react-query";
 import { updateUser } from "~/lib/api/users";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const editProfileSchema = z.object({
   name: z.string().min(1, { message: "Ingresa tu nombre" }),
@@ -45,6 +46,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
   } = user;
 
   const { toast } = useToast();
+  const router = useRouter();
 
   const { update } = useSession();
 
@@ -81,8 +83,10 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
         title: message,
         variant: "destructive",
       }),
-    onSuccess: () => {
-      update();
+    onSuccess: async () => {
+      await update();
+
+      router.refresh();
 
       toast({
         title: "Datos actualizados con éxito",

@@ -58,6 +58,7 @@ const LoginAdapter = (
 const authOptions: AuthOptions = {
   session: {
     strategy: "jwt",
+    maxAge: 60 * 60 * 10,
   },
 
   pages: {
