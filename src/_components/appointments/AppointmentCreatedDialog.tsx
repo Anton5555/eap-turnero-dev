@@ -76,7 +76,7 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
                   </p>
                 </div>
 
-                <div className="mt-5 flex flex-col-reverse justify-center gap-y-2 lg:flex-row lg:gap-y-0 lg:space-x-4">
+                <div className="mt-5 flex justify-center lg:flex-row">
                   <Button className="font-lato" onClick={() => setOpen(false)}>
                     Finalizar
                   </Button>
