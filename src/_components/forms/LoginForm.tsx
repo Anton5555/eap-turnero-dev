@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "../common/Input";
@@ -10,7 +10,11 @@ import { Button } from "../common/Button";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { H4 } from "../common/Typography";
-import { useToast } from "../shared/toaster/useToast";
+import { toast } from "sonner";
+import { activateAccount } from "~/lib/api/users";
+import { useMutation } from "@tanstack/react-query";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const loginFormSchema = z.object({
   email: z.string().trim().email({ message: "Ingresa un email válido" }),
@@ -21,9 +25,29 @@ const loginFormSchema = z.object({
 
 type Inputs = z.infer<typeof loginFormSchema>;
 
-const LoginForm: React.FC = () => {
+const LoginForm: React.FC<{
+  accountActivationUUID?: string;
+}> = ({ accountActivationUUID }) => {
   const router = useRouter();
-  const { toast } = useToast();
+
+  const { mutateAsync } = useMutation({
+    mutationFn: activateAccount,
+    onSuccess: () => {
+      router.replace("/auth/login");
+
+      router.refresh();
+    },
+  });
+
+  useEffect(() => {
+    if (accountActivationUUID) {
+      toast.promise(mutateAsync(accountActivationUUID), {
+        loading: "Activando cuenta",
+        success: "Cuenta activada exitosamente",
+        error: "Error al activar cuenta",
+      });
+    }
+  }, []);
 
   const {
     register,
@@ -53,11 +77,7 @@ const LoginForm: React.FC = () => {
       setError("password", { message: response?.error });
     if (response?.error === "Usuario no encontrado")
       setError("email", { message: response?.error });
-    else
-      toast({
-        title: response?.error ?? "Error al iniciar sesión",
-        variant: "destructive",
-      });
+    else toast.error(response?.error ?? "Error al iniciar sesión");
   };
 
   return (
