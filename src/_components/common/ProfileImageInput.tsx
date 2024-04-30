@@ -3,7 +3,7 @@ import { Input } from "./Input";
 import { useRef, useState } from "react";
 import React from "react";
 import { Button } from "./Button";
-import { useToast } from "../shared/toaster/useToast";
+import { toast } from "sonner";
 
 const allowedFileTypes = ["image/png", "image/jpeg", "image/jpg"];
 
@@ -15,7 +15,6 @@ const ProfileImageInput = React.forwardRef<
   } & React.InputHTMLAttributes<HTMLInputElement>
 >(({ imageUrl, onImageChange, ...props }, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { toast } = useToast();
 
   return (
     <div className="flex items-center space-x-4">
@@ -40,19 +39,13 @@ const ProfileImageInput = React.forwardRef<
           const file = e.target.files[0];
 
           if (!allowedFileTypes.includes(file.type)) {
-            toast({
-              title: "Por favor, selecciona un archivo de imagen válido",
-              variant: "destructive",
-            });
+            toast.error("Por favor, selecciona un archivo de imagen válido");
 
             return;
           }
 
           if (file.size > 1e6) {
-            toast({
-              title: "La imagen es demasiado grande",
-              variant: "destructive",
-            });
+            toast.error("La imagen es demasiado grande");
 
             return;
           }

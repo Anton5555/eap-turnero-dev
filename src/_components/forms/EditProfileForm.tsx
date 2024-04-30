@@ -1,7 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import { useToast } from "../shared/toaster/useToast";
+import { toast } from "sonner";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../common/Input";
@@ -45,7 +45,6 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
     userTypeId,
   } = user;
 
-  const { toast } = useToast();
   const router = useRouter();
 
   const { update } = useSession();
@@ -76,32 +75,30 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
 
   const [selectedLocation, selectedGender] = watch(["location", "gender"]);
 
-  const mutation = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: updateUser,
-    onError: ({ message }) =>
-      toast({
-        title: message,
-        variant: "destructive",
-      }),
     onSuccess: async () => {
       await update();
 
       router.refresh();
-
-      toast({
-        title: "Datos actualizados con éxito",
-      });
     },
   });
 
   const onSubmit = (formData: EditProfileInputs) =>
-    mutation.mutate({
-      editProfileData: formData,
-      accessToken,
-      image: newUserImage,
-      patientId: user.id,
-      userTypeId,
-    });
+    toast.promise(
+      mutateAsync({
+        editProfileData: formData,
+        accessToken,
+        image: newUserImage,
+        patientId: user.id,
+        userTypeId,
+      }),
+      {
+        loading: "Actualizando datos",
+        success: "Datos actualizados con éxito",
+        error: "Error al actualizar datos",
+      },
+    );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 font-inter">
