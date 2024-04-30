@@ -3,7 +3,7 @@ import "~/styles/globals.css";
 import { Lato, Inter, Open_Sans } from "next/font/google";
 import { QueryProvider, SessionProvider } from "./providers";
 import { getServerSession } from "next-auth";
-import Toaster from "~/_components/shared/toaster/toaster";
+import { Toaster } from "~/_components/shared/Toaster";
 
 const lato = Lato({
   subsets: ["latin"],
