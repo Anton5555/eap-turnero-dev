@@ -1,7 +1,12 @@
 import { getServerSession } from "next-auth";
 import { H3, H6 } from "~/_components/common/Typography";
 import EditProfileForm from "~/_components/forms/EditProfileForm";
-import { getGenders } from "~/lib/api/users";
+import FamilyRelatives from "~/_components/profile/FamilyRelatives";
+import {
+  getFamilyRelashionships,
+  getFamilyRelatives,
+  getGenders,
+} from "~/lib/api/users";
 import authOptions from "~/lib/authOptions";
 
 const Page = async () => {
@@ -11,7 +16,14 @@ const Page = async () => {
 
   const { user } = session;
 
-  const genders = await getGenders(user.accessToken);
+  const [genders, familyRelationships, familyRelatives] = await Promise.all([
+    getGenders(user.accessToken),
+    getFamilyRelashionships(user.accessToken),
+    getFamilyRelatives({
+      patientId: Number(user.id),
+      accessToken: user.accessToken,
+    }),
+  ]);
 
   return (
     <main>
@@ -23,11 +35,28 @@ const Page = async () => {
         </div>
 
         <div className="space-y-6">
-          <p className="font-ultra-dark-gray font-inter text-sm leading-4">
+          <p className="font-ultra-dark-gray font-semibold leading-4">
             Editá tu perfil aquí
           </p>
 
           <EditProfileForm genders={genders} user={user} />
+
+          <div className="my-2 w-full border-b border-black/10"></div>
+
+          <p className="font-ultra-dark-gray font-semibold leading-4">
+            Modificá o agrega integrantes de tu familia
+          </p>
+
+          <p className="font-ultra-dark-gray font-inter text-sm font-normal leading-3">
+            Agregar o elimina cualquier miembro familiar
+          </p>
+
+          {familyRelatives.length > 0 && (
+            <FamilyRelatives
+              relatives={familyRelatives}
+              relationships={familyRelationships}
+            />
+          )}
         </div>
       </div>
     </main>
