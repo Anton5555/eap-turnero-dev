@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Button, buttonVariants } from "./Button";
+import { Button, buttonVariants } from "../common/Button";
 import cn from "~/lib/utils";
 import { format } from "date-fns";
 import CalendarIcon from "../icons/Calendar";
 import { DayPicker } from "react-day-picker";
-import { Popover, PopoverContent, PopoverTrigger } from "./Popover";
+import { Popover, PopoverContent, PopoverTrigger } from "../common/Popover";
 import { es } from "date-fns/locale";
 
 type CalendarProps = React.ComponentProps<typeof DayPicker>;
