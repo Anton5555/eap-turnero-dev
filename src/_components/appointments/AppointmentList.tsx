@@ -12,7 +12,7 @@ import Link from "next/link";
 import { Button } from "../common/Button";
 import { useState } from "react";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
-import { useToast } from "../shared/toaster/useToast";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import cn from "~/lib/utils";
 
@@ -23,35 +23,29 @@ const AppointmentList: React.FC<{
   const { data: session } = useSession();
   const router = useRouter();
 
-  const { toast } = useToast();
-
   const [isOpen, setIsOpen] = useState(false);
 
   const [selectedAppointment, setSelectedAppointment] =
     useState<Appointment | null>(null);
 
-  const { mutate, error } = useMutation({
+  const { mutateAsync, error } = useMutation({
     mutationFn: deleteAppointment,
-    onSuccess: () => {
-      router.refresh();
-
-      toast({
-        title: "Cita eliminada con éxito",
-      });
-    },
-    onError: ({ message }) =>
-      toast({
-        title: message,
-        variant: "destructive",
-      }),
+    onSuccess: () => router.refresh(),
   });
 
   const handleSubmit = () => {
-    mutate({
-      accessToken: session?.user.accessToken!,
-      appointmentId: selectedAppointment!.id,
-      professionalId: selectedAppointment?.professionalId!,
-    });
+    toast.promise(
+      mutateAsync({
+        accessToken: session?.user.accessToken!,
+        appointmentId: selectedAppointment!.id,
+        professionalId: selectedAppointment?.professionalId!,
+      }),
+      {
+        loading: "Eliminando cita",
+        success: "Cita eliminada con éxito",
+        error: "Error al eliminar cita",
+      },
+    );
 
     setIsOpen(false);
   };
@@ -69,12 +63,15 @@ const AppointmentList: React.FC<{
   if (!appointments?.length)
     return (
       <>
-        <div className="flex h-[calc(90dvh)] justify-center lg:hidden">
+        <div className="flex h-[calc(90dvh)] w-full flex-col justify-center lg:hidden">
           {error ? <H6>{error.message}</H6> : <AppointmentsEmpty />}
         </div>
 
         <PlatformContainer
-          className={cn("hidden justify-center rounded-none ", className)}
+          className={cn(
+            "hidden h-[calc(50dvh)] justify-center rounded-none",
+            className,
+          )}
         >
           {error ? (
             <H6 className="text-center">{error.message}</H6>

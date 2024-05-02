@@ -4,7 +4,6 @@ import { Button } from "../common/Button";
 import CancelIcon from "../icons/Cancel";
 import CloseIcon from "../icons/Close";
 import { format } from "date-fns";
-import { es } from "date-fns/locale";
 
 interface DeleteConfirmationDialogProps {
   open: boolean;
@@ -58,7 +57,7 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
               <div className="py-6 lg:px-8">
                 <div className="mt-3 text-center sm:ml-4 sm:mt-0">
                   <div className="mt-2 flex flex-col items-center space-y-4">
-                    <div className="bg-light-gray flex h-28 w-28 items-center justify-center rounded-full">
+                    <div className="flex h-28 w-28 items-center justify-center rounded-full bg-light-gray">
                       <CancelIcon aria-hidden="true" />
                     </div>
 

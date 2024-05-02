@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import AppointmentCreatedDialog from "~/_components/appointments/AppointmentCreatedDialog";
 import AppointmentList from "~/_components/appointments/AppointmentList";
+import Help from "~/_components/common/Help";
 import NextAppointmentsCalendar from "~/_components/common/NextAppointmentsCalendar";
 import PlatformContainer from "~/_components/common/PlatformContainer";
 import { H3, H5, H6 } from "~/_components/common/Typography";
@@ -20,11 +21,13 @@ const Page = async ({
     user: { accessToken, id, timezone },
   } = session;
 
-  const appointments = await getAppointmentsByPatient({
-    id,
-    accessToken,
-    timezone,
-  });
+  const appointments = (
+    await getAppointmentsByPatient({
+      id,
+      accessToken,
+      timezone,
+    })
+  ).filter((appointment) => appointment.start > new Date());
 
   const { professional, dateFrom, dateTo } = searchParams;
 
@@ -53,8 +56,8 @@ const Page = async ({
             />
           </PlatformContainer>
 
-          <PlatformContainer className="lg:flex lg:flex-row">
-            Contactanos
+          <PlatformContainer>
+            <Help />
           </PlatformContainer>
         </div>
 

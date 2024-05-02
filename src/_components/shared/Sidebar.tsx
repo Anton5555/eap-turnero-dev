@@ -7,26 +7,34 @@ import cn from "~/lib/utils";
 import BarsIcon from "../icons/Bars";
 import CloseIcon from "../icons/Close";
 import Link from "next/link";
-import { useSession, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import ExitIcon from "../icons/Exit";
 import Profile from "./Profile";
 import NotificationsMenu from "./NotificationsMenu";
 import { H6 } from "../common/Typography";
 import Logo from "./Logo";
 import { usePathname } from "next/navigation";
+import Help from "../common/Help";
 
 const navigation = [
   { name: "Inicio", href: "/platform", icon: HomeIcon, path: "platform" },
-  { name: "Perfil", href: "#", icon: UserIcon, path: "profile" },
+  { name: "Perfil", href: "/profile", icon: UserIcon, path: "profile" },
 ];
 
 type SidebarProps = {
   children: React.ReactNode;
+  user: {
+    name: string;
+    lastName: string;
+    accessToken: string;
+    imageName?: string;
+  };
 };
 
-const Sidebar: React.FC<SidebarProps> = ({ children }) => {
+const Sidebar: React.FC<SidebarProps> = ({ children, user }) => {
+  const { name } = user;
+
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
-  const { data: session } = useSession();
 
   const pathname = usePathname();
   const currentPathRoot = pathname.split("/")[1];
@@ -45,7 +53,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
         </li>
 
         <li className="lg:hidden">
-          <H6 className="text-left">Bienvenido, {session?.user?.name}!</H6>
+          <H6 className="text-left">Bienvenido, {name}!</H6>
         </li>
 
         <li>
@@ -73,16 +81,15 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           </ul>
         </li>
 
-        <li className="mt-auto lg:hidden">
+        <li className="mt-auto space-y-4 lg:hidden">
           <div>
-            {/* TODO: insert Contact info component when done */}
-            Help info
+            <Help />
           </div>
 
           <Link
             href="#"
             onClick={() => signOut()}
-            className="text-dark-blue group -mx-2 flex items-center gap-x-2 p-2"
+            className="group -mx-2 flex items-center gap-x-2 p-2 text-very-dark-blue"
           >
             <ExitIcon />
 
@@ -96,7 +103,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
   return (
     <>
       {sidebarOpen && (
-        <div className="absolute left-0 top-0 z-20 flex h-screen w-80 flex-col gap-y-5 overflow-y-auto bg-white px-2 py-4 duration-200">
+        <div className="w96 absolute left-0 top-0 z-20 flex h-screen flex-col gap-y-5 overflow-y-auto bg-white px-4 py-4 duration-200">
           <Menu />
         </div>
       )}
@@ -119,7 +126,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
 
           <div className="flex items-center lg:gap-x-6">
             <div className="hidden lg:flex">
-              <Profile />
+              <Profile {...user} />
             </div>
 
             <div className="flex items-center">

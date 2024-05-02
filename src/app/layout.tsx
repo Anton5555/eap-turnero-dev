@@ -3,7 +3,7 @@ import "~/styles/globals.css";
 import { Lato, Inter, Open_Sans } from "next/font/google";
 import { QueryProvider, SessionProvider } from "./providers";
 import { getServerSession } from "next-auth";
-import Toaster from "~/_components/shared/toaster/toaster";
+import { Toaster } from "~/_components/shared/Toaster";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -37,7 +37,13 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
         className={`font-sans ${lato.variable} ${inter.variable} ${openSans.variable}`}
       >
         <QueryProvider>
-          <SessionProvider session={session}>{children}</SessionProvider>
+          <SessionProvider
+            session={session}
+            refetchInterval={60 * 60}
+            refetchOnWindowFocus={false}
+          >
+            {children}
+          </SessionProvider>
         </QueryProvider>
 
         <Toaster />

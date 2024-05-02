@@ -3,14 +3,33 @@ export type User = {
   email: string;
   name: string;
   lastName: string;
-  image: string;
+  imageName: string;
   company: number;
   location: number;
   userType: "employee" | "family";
+  userTypeId: number;
   services: string[];
   position?: number;
   timezone: string;
+  birthdate?: Date;
+  gender?: number;
   accessToken: string;
+};
+
+export type FamilyRelative = {
+  id: number;
+  patientId: number;
+  line: number;
+  familyRelativeId: number;
+  name: string;
+  lastName: string;
+  relationship: number;
+  livesWith: string;
+};
+
+export type Gender = {
+  id: number;
+  name: string;
 };
 
 type EAPUser = {
@@ -20,6 +39,7 @@ type EAPUser = {
   pdp: string;
   pdp_date: string;
   fecha_nacimiento: string;
+  sexo: number | null;
   empresa: string;
   empresaname: null | string;
   telefono: null | string;
@@ -40,7 +60,7 @@ type EAPUser = {
   services: Array<{ code: string; name: string }>;
 };
 
-export type AuthenticatedUser = {
+export type AuthenticatedUserApiData = {
   user: EAPUser;
   token: string;
 };

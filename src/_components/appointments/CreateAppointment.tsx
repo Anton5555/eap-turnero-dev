@@ -9,12 +9,12 @@ import { useSession } from "next-auth/react";
 import { getProfessionals } from "~/lib/api/professionals";
 import { ContractService } from "~/types/services";
 import { Professional } from "~/types/professionals";
-import cn, { timeRanges } from "~/lib/utils";
+import cn from "~/lib/utils";
 import { endOfMonth, format, startOfMonth } from "date-fns";
 import { createAppointment, getFreeAppointments } from "~/lib/api/appointments";
 import Link from "next/link";
 import ArrowIcon from "../icons/Arrow";
-import { useToast } from "../shared/toaster/useToast";
+import { toast } from "sonner";
 import ConfirmationDialog from "./ConfirmationDialog";
 import { useRouter } from "next/navigation";
 import Filters from "./CreateAppointmentComponents/Filters";
@@ -22,6 +22,7 @@ import ServiceSelection from "./CreateAppointmentComponents/ServiceSelection";
 import DateSelection from "./CreateAppointmentComponents/DateSelection";
 import TimeSelection from "./CreateAppointmentComponents/TimeSelection";
 import ProfessionalSelection from "./CreateAppointmentComponents/ProfessionalSelection";
+import { timeRanges } from "~/lib/constants";
 
 const CreateAppointment: React.FC<{
   services: ContractService[];
@@ -33,7 +34,6 @@ const CreateAppointment: React.FC<{
 
   const { user } = session;
 
-  const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
 
   const [selectedService, setSelectedService] =
@@ -123,14 +123,9 @@ const CreateAppointment: React.FC<{
     enabled: !!selectedProfessional && !!selectedService,
   });
 
-  const mutation = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: createAppointment,
-    onError: ({ message }) => {
-      toast({
-        title: message,
-        variant: "destructive",
-      });
-    },
+    onError: ({ message }) => toast.error(message),
     onSuccess: () => {
       router.push(
         `/platform?professional=${selectedProfessional?.name}&dateFrom=${selectedTime?.dateFrom}&dateTo=${selectedTime?.dateTo}`,
@@ -177,59 +172,52 @@ const CreateAppointment: React.FC<{
   };
 
   const handleSubmit = () =>
-    mutation.mutate({
-      patientId: Number(user.id),
-      agendaId: agendaId!,
-      processType: selectedService?.processType!,
-      dateFrom: `${format(selectedTime!.dateFrom, "yyyy-MM-dd")} ${format(selectedTime!.dateFrom, "HH:mm")}`,
-      dateTo: `${format(selectedTime!.dateTo, "yyyy-MM-dd")} ${format(selectedTime!.dateTo, "HH:mm")}`,
-      timezone: user.timezone,
-      modalityId: modalityFilter,
-      accessToken: user.accessToken!,
-      areaId: selectedService?.areaId!,
-      serviceId: selectedService?.serviceId!,
-      specialtyId: selectedService?.specialtyId!,
-      companyId: user.company!,
-      locationId: user.location!,
-      positionId: user.position!,
-      // FIXME: replace hardcoded professionalSapUser with the real one (waiting for backend to provide it)
-      professionalSapUser: "mcattaneo",
-    });
+    toast.promise(
+      mutateAsync({
+        patientId: Number(user.id),
+        agendaId: agendaId!,
+        processType: selectedService?.processType!,
+        dateFrom: `${format(selectedTime!.dateFrom, "yyyy-MM-dd")} ${format(selectedTime!.dateFrom, "HH:mm")}`,
+        dateTo: `${format(selectedTime!.dateTo, "yyyy-MM-dd")} ${format(selectedTime!.dateTo, "HH:mm")}`,
+        timezone: user.timezone,
+        modalityId: modalityFilter,
+        accessToken: user.accessToken!,
+        areaId: selectedService?.areaId!,
+        serviceId: selectedService?.serviceId!,
+        specialtyId: selectedService?.specialtyId!,
+        companyId: user.company!,
+        locationId: user.location!,
+        positionId: user.position!,
+        // FIXME: replace hardcoded professionalSapUser with the real one (waiting for backend to provide it)
+        professionalSapUser: "mcattaneo",
+      }),
+      {
+        loading: "Creando cita",
+      },
+    );
 
   const nextStep = () => {
     if (currentStep === 1 && !selectedService) {
-      toast({
-        title: "Debes seleccionar un tipo de asistencia",
-        variant: "destructive",
-      });
+      toast.error("Debes seleccionar un tipo de asistencia");
 
       return;
     }
 
     if (currentStep === 2 && !selectedProfessional) {
-      toast({
-        title: "Debes seleccionar un profesional",
-        variant: "destructive",
-      });
+      toast.error("Debes seleccionar un profesional");
 
       return;
     }
 
     if (currentStep === 3 && !selectedDate) {
-      toast({
-        title: "Debes seleccionar una fecha",
-        variant: "destructive",
-      });
+      toast.error("Debes seleccionar una fecha");
 
       return;
     }
 
     if (currentStep === 4) {
       if (!selectedTime) {
-        toast({
-          title: "Debes seleccionar un horario",
-          variant: "destructive",
-        });
+        toast.error("Debes seleccionar un horario");
 
         return;
       }
@@ -252,7 +240,7 @@ const CreateAppointment: React.FC<{
       <div className="m-4 space-y-4 lg:m-0">
         <Stepper steps={4} currentStep={currentStep} />
 
-        <div className="block space-y-2">
+        <div className="block space-y-4">
           <H3 className="text-green">
             {currentStep === 1 ? "Área de atención" : "Agenda tu próxima cita"}
           </H3>
