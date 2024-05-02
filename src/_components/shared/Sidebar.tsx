@@ -14,6 +14,7 @@ import NotificationsMenu from "./NotificationsMenu";
 import { H6 } from "../common/Typography";
 import Logo from "./Logo";
 import { usePathname } from "next/navigation";
+import Help from "../common/Help";
 
 const navigation = [
   { name: "Inicio", href: "/platform", icon: HomeIcon, path: "platform" },
@@ -80,10 +81,9 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user }) => {
           </ul>
         </li>
 
-        <li className="mt-auto lg:hidden">
+        <li className="mt-auto space-y-4 lg:hidden">
           <div>
-            {/* TODO: insert Contact info component when done */}
-            Help info
+            <Help />
           </div>
 
           <Link
@@ -103,7 +103,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user }) => {
   return (
     <>
       {sidebarOpen && (
-        <div className="absolute left-0 top-0 z-20 flex h-screen w-80 flex-col gap-y-5 overflow-y-auto bg-white px-2 py-4 duration-200">
+        <div className="w96 absolute left-0 top-0 z-20 flex h-screen flex-col gap-y-5 overflow-y-auto bg-white px-4 py-4 duration-200">
           <Menu />
         </div>
       )}

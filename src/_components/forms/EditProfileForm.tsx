@@ -1,7 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import { useToast } from "../shared/toaster/useToast";
+import { toast } from "sonner";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../common/Input";
@@ -16,6 +16,7 @@ import DatePicker from "../common/DatePicker";
 import { useMutation } from "@tanstack/react-query";
 import { updateUser } from "~/lib/api/users";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const editProfileSchema = z.object({
   name: z.string().min(1, { message: "Ingresa tu nombre" }),
@@ -44,7 +45,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
     userTypeId,
   } = user;
 
-  const { toast } = useToast();
+  const router = useRouter();
 
   const { update } = useSession();
 
@@ -74,30 +75,30 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
 
   const [selectedLocation, selectedGender] = watch(["location", "gender"]);
 
-  const mutation = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: updateUser,
-    onError: ({ message }) =>
-      toast({
-        title: message,
-        variant: "destructive",
-      }),
-    onSuccess: () => {
-      update();
+    onSuccess: async () => {
+      await update();
 
-      toast({
-        title: "Datos actualizados con éxito",
-      });
+      router.refresh();
     },
   });
 
   const onSubmit = (formData: EditProfileInputs) =>
-    mutation.mutate({
-      editProfileData: formData,
-      accessToken,
-      image: newUserImage,
-      patientId: user.id,
-      userTypeId,
-    });
+    toast.promise(
+      mutateAsync({
+        editProfileData: formData,
+        accessToken,
+        image: newUserImage,
+        patientId: user.id,
+        userTypeId,
+      }),
+      {
+        loading: "Actualizando datos",
+        success: "Datos actualizados con éxito",
+        error: "Error al actualizar datos",
+      },
+    );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 font-inter">

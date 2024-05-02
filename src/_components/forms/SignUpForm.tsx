@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { Select } from "../common/Select";
 import signup from "~/app/api/signup";
 import { useMutation } from "@tanstack/react-query";
-import { useToast } from "../shared/toaster/useToast";
+import { toast } from "sonner";
 import { H4 } from "../common/Typography";
 
 const signupFormSchema = z
@@ -37,7 +37,6 @@ export type Inputs = z.infer<typeof signupFormSchema>;
 
 const SignUpForm: React.FC = () => {
   const router = useRouter();
-  const { toast } = useToast();
 
   const {
     register,
@@ -51,10 +50,7 @@ const SignUpForm: React.FC = () => {
   const mutation = useMutation({
     mutationFn: signup,
     onError: ({ message }) => {
-      toast({
-        title: message,
-        variant: "destructive",
-      });
+      toast.error(message);
 
       /*
       TODO: When an error that implies the user already exists gets implemented in the backend we should do this:
