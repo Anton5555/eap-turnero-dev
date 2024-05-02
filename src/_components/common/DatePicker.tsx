@@ -36,7 +36,7 @@ const DatePickerCalendar: React.FC<CalendarProps> = ({
       caption: "flex pt-1 items-center px-2",
       caption_dropdowns: "flex gap-2",
       dropdown:
-        "flex bg-ultra-light-gray  h-9 w-full rounded-lg pl-3 pr-0 text-sm font-bold text-green ring-0 lg:h-10 focus:ring-green focus:ring-2 focus:ring-inset focus:border-none",
+        "flex bg-ultra-light-gray h-9 w-full rounded-lg pl-3 pr-0 text-sm font-bold text-green ring-0 lg:h-10 focus:ring-green focus:ring-2 focus:ring-inset focus:border-none",
       dropdown_month: "w-32",
       dropdown_year: "w-20",
       table: "w-full border-collapse space-y-1",
