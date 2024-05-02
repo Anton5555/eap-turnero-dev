@@ -172,8 +172,7 @@ const updateUser = async (props: {
     body: JSON.stringify(updateUserRequestData),
   });
 
-  if (!response.ok)
-    throw new Error("Error al actualizar los datos del usuario");
+  if (!response.ok) throw new Error();
 
   return response;
 };
@@ -205,10 +204,21 @@ const updateUserImage = async (props: {
   return response;
 };
 
+const activateAccount = async (uuid: string) => {
+  const response = await fetch(`${API_URL}/Account/ActivateUser?uuid=${uuid}`, {
+    method: "POST",
+  });
+
+  if (!response.ok) throw new Error();
+
+  return response;
+};
+
 export {
   getFamilyRelatives,
   updateUser,
   getGenders,
   updateUserImage,
   getUserImage,
+  activateAccount,
 };

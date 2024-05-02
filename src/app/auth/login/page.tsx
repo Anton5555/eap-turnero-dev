@@ -5,10 +5,12 @@ import { redirect } from "next/navigation";
 import { H4, H6 } from "~/_components/common/Typography";
 import Logo from "~/_components/shared/Logo";
 
-const Page = async () => {
+const Page = async ({ searchParams }: { searchParams: { uuid: string } }) => {
   //  TODO: remove redirection when fixed in the middleware
   const session = await getServerSession();
   if (session?.user) redirect("/platform");
+
+  const { uuid } = searchParams;
 
   return (
     <div className="flex flex-col lg:flex-row lg:justify-between">
@@ -48,7 +50,7 @@ const Page = async () => {
           </div>
 
           <div className="flex items-center justify-center">
-            <LoginForm />
+            <LoginForm accountActivationUUID={uuid} />
           </div>
         </div>
       </div>
