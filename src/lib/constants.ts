@@ -26,17 +26,20 @@ const locations = [
 ];
 
 const modalities = [
-  {
-    value: 1,
-    label: "Presencial",
-  },
+  // For now, we only support videocalls and phone calls
+  // {
+  //   value: 1,
+  //   label: "Presencial",
+  // },
   {
     value: 2,
     label: "Videollamada",
+    durations: [30, 45, 60],
   },
   {
     value: 3,
     label: "Telefónica",
+    durations: [30],
   },
 ];
 
@@ -44,18 +47,33 @@ const timeRanges = [
   {
     value: 1,
     label: "Mañana",
-    times: { start: "08:00:00", end: "12:00:00" },
+    times: { start: 8, end: 12 },
   },
   {
     value: 2,
     label: "Tarde",
-    times: { start: "12:00:00", end: "18:00:00" },
+    times: { start: 12, end: 18 },
   },
   {
     value: 3,
     label: "Noche",
-    times: { start: "18:00:00", end: "22:00:00" },
+    times: { start: 18, end: 22 },
   },
 ];
 
-export { locations, modalities, timeRanges };
+const appointmentDuration = [
+  {
+    value: 30,
+    label: "30 minutos",
+  },
+  {
+    value: 45,
+    label: "45 minutos",
+  },
+  {
+    value: 60,
+    label: "1 hora",
+  },
+];
+
+export { locations, modalities, timeRanges, appointmentDuration };

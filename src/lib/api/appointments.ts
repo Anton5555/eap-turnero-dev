@@ -126,6 +126,7 @@ const getFreeAppointments = async (props: {
   const response = await fetch(getAppointmentsReqUrl, {
     method: "GET",
     headers,
+    cache: "no-store",
   });
 
   if (!response.ok)
