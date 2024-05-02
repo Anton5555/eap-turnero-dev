@@ -4,13 +4,18 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button } from "../common/Button";
 import { H3, H6 } from "../common/Typography";
 import Stepper from "../common/Stepper";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { getProfessionals } from "~/lib/api/professionals";
 import { ContractService } from "~/types/services";
 import { Professional } from "~/types/professionals";
 import cn from "~/lib/utils";
-import { endOfMonth, format, startOfMonth } from "date-fns";
+import {
+  differenceInMinutes,
+  endOfMonth,
+  format,
+  startOfMonth,
+} from "date-fns";
 import { createAppointment, getFreeAppointments } from "~/lib/api/appointments";
 import Link from "next/link";
 import ArrowIcon from "../icons/Arrow";
@@ -23,6 +28,57 @@ import DateSelection from "./CreateAppointmentComponents/DateSelection";
 import TimeSelection from "./CreateAppointmentComponents/TimeSelection";
 import ProfessionalSelection from "./CreateAppointmentComponents/ProfessionalSelection";
 import { timeRanges } from "~/lib/constants";
+import { FreeAppointment, FreeAppointmentsByDay } from "~/types/appointments";
+
+const filterAppointmentsByDuration = (
+  appointments: FreeAppointment[],
+  durationFilter: number,
+  timeRangeFilter: { start: number; end: number } | null,
+): FreeAppointment[] => {
+  const blocksNeeded = durationFilter / 15;
+
+  return appointments
+    .map((appointment, index) => {
+      if (timeRangeFilter) {
+        const appointmentStartHour = new Date(appointment.start).getHours();
+        const appointmentEndHour = new Date(appointment.end).getHours();
+
+        if (
+          appointmentStartHour < timeRangeFilter.start ||
+          appointmentEndHour > timeRangeFilter.end
+        )
+          return undefined;
+      }
+
+      const futureAppointments = appointments.slice(
+        index + 1,
+        index + blocksNeeded,
+      );
+
+      if (futureAppointments.length < blocksNeeded - 1) return undefined;
+
+      const lastAppointment = futureAppointments[futureAppointments.length - 1];
+
+      if (!lastAppointment) return undefined;
+
+      if (timeRangeFilter) {
+        const lastAppointmentEndHour = new Date(lastAppointment.end).getHours();
+
+        if (lastAppointmentEndHour > timeRangeFilter.end) return undefined;
+      }
+
+      const duration = differenceInMinutes(
+        new Date(lastAppointment.end),
+        new Date(appointment.start),
+      );
+
+      if (duration === durationFilter)
+        return { start: appointment.start, end: lastAppointment.end };
+
+      return undefined;
+    })
+    .filter(Boolean) as FreeAppointment[];
+};
 
 const CreateAppointment: React.FC<{
   services: ContractService[];
@@ -47,23 +103,22 @@ const CreateAppointment: React.FC<{
   >([]);
 
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date>();
 
   const [selectedTime, setSelectedTime] = useState<{
     dateFrom: Date;
     dateTo: Date;
   } | null>(null);
 
-  const [locationFilter, setLocationFilter] = useState<number | null>(
-    user.location ?? null,
-  );
+  const [locationFilter, setLocationFilter] = useState<number>(user.location);
 
   const [modalityFilter, setModalityFilter] = useState<number>(3);
 
-  // TODO: Let the backend know that the time doesn't work in the endpoint
+  const [durationFilter, setDurationFilter] = useState<number>(45);
+
   const [timeRangeFilter, setTimeRangeFilter] = useState<{
-    start: string;
-    end: string;
+    start: number;
+    end: number;
   } | null>(null);
 
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
@@ -88,7 +143,7 @@ const CreateAppointment: React.FC<{
         accessToken: user.accessToken,
         modalityId: modalityFilter,
       }),
-    enabled: !!selectedService,
+    enabled: !!selectedService && (!!locationFilter || !!user.location),
   });
 
   const {
@@ -104,24 +159,76 @@ const CreateAppointment: React.FC<{
       selectedProfessional,
       modalityFilter,
       timeRangeFilter,
+      currentMonth,
+      durationFilter,
     ],
-    queryFn: () =>
-      getFreeAppointments({
+    queryFn: async () => {
+      const freeAppointmentsResponse = await getFreeAppointments({
         dateFrom:
           currentMonth.getMonth() === new Date().getMonth()
-            ? `${format(new Date(), "yyyy-MM-dd")} ${timeRangeFilter?.start ?? "00:00:00"}`
-            : `${format(startOfMonth(currentMonth), "yyyy-MM-dd")} ${timeRangeFilter?.start ?? "00:00:00"}`,
-        dateTo: `${format(endOfMonth(currentMonth), "yyyy-MM-dd")} ${timeRangeFilter?.end ?? "23:59:59"}`,
+            ? format(new Date(), "yyyy-MM-dd")
+            : format(startOfMonth(currentMonth), "yyyy-MM-dd"),
+        dateTo: format(endOfMonth(currentMonth), "yyyy-MM-dd"),
         timezone: user.timezone,
         accessToken: user.accessToken,
         employeeId: selectedProfessional!.id,
         specialtyId: selectedService?.specialtyId!,
         serviceId: selectedService!.serviceId,
         modalityId: modalityFilter,
-      }),
+      });
+
+      const filteredFreeAppointments: FreeAppointmentsByDay = {};
+
+      for (const day in freeAppointmentsResponse.freeAppointments) {
+        const appointments = freeAppointmentsResponse.freeAppointments[day];
+
+        const appointmentsByDay =
+          appointments &&
+          filterAppointmentsByDuration(
+            appointments,
+            durationFilter,
+            timeRangeFilter,
+          );
+
+        if (appointmentsByDay && appointmentsByDay.length > 0)
+          filteredFreeAppointments[day] = appointmentsByDay;
+      }
+
+      if (selectedDate && !filteredFreeAppointments[selectedDate.getDate()])
+        setFreeAppointmentsTimes([]);
+
+      if (selectedDate && filteredFreeAppointments[selectedDate.getDate()])
+        setFreeAppointmentsTimes(
+          filteredFreeAppointments[selectedDate.getDate()]!.map(
+            (freeAppointment) => ({
+              dateFrom: freeAppointment.start,
+              dateTo: freeAppointment.end,
+            }),
+          ),
+        );
+
+      if (selectedTime) setSelectedTime(null);
+
+      return {
+        freeAppointments: filteredFreeAppointments,
+        agendaId: freeAppointmentsResponse.agendaId,
+      };
+    },
 
     enabled: !!selectedProfessional && !!selectedService,
   });
+
+  useEffect(() => {
+    let toastId: string | number | undefined;
+
+    if (isLoadingFreeAppointments)
+      toastId = toast.loading("Cargando horarios disponibles");
+    else toast.dismiss(toastId);
+
+    return () => {
+      toast.dismiss(toastId);
+    };
+  }, [isLoadingFreeAppointments]);
 
   const { mutateAsync } = useMutation({
     mutationFn: createAppointment,
@@ -139,7 +246,7 @@ const CreateAppointment: React.FC<{
     setSelectedService(service);
 
     if (selectedProfessional) setSelectedProfessional(null);
-    if (selectedDate) setSelectedDate(null);
+    if (selectedDate) setSelectedDate(undefined);
     if (selectedTime) setSelectedTime(null);
 
     setCurrentStep(2);
@@ -148,13 +255,17 @@ const CreateAppointment: React.FC<{
   const handleProfessionalSelect = async (professional: Professional) => {
     setSelectedProfessional(professional);
 
-    if (selectedDate) setSelectedDate(null);
+    if (selectedDate) setSelectedDate(undefined);
     if (selectedTime) setSelectedTime(null);
 
     if (currentStep === 2) setCurrentStep(3);
   };
 
-  const handleMonthChange = (month: Date) => setCurrentMonth(month);
+  const handleMonthChange = (month: Date) => {
+    setSelectedDate(undefined);
+
+    setCurrentMonth(month);
+  };
 
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date);
@@ -264,12 +375,13 @@ const CreateAppointment: React.FC<{
               if (location) setLocationFilter(location);
               if (modality) setModalityFilter(modality);
 
-              if (timeRangeValue)
+              if (timeRangeValue) {
                 setTimeRangeFilter(
                   timeRanges.find(
                     (timeRange) => timeRange.value == timeRangeValue,
                   )?.times ?? null,
                 );
+              }
             }}
           />
         )}
@@ -295,10 +407,11 @@ const CreateAppointment: React.FC<{
                   )}
                 >
                   <DateSelection
-                    isLoading={isLoadingFreeAppointments}
                     selectedProfessional={!!selectedProfessional}
+                    isLoading={isLoadingFreeAppointments}
                     freeAppointments={freeAppointments}
-                    onDateSelect={handleDateSelect}
+                    selectedDate={selectedDate}
+                    onDayClick={handleDateSelect}
                     onMonthChange={handleMonthChange}
                     error={errorFreeAppointments}
                   />
