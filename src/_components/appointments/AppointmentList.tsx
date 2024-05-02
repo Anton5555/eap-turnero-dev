@@ -38,7 +38,7 @@ const AppointmentList: React.FC<{
       mutateAsync({
         accessToken: session?.user.accessToken!,
         appointmentId: selectedAppointment!.id,
-        professionalId: selectedAppointment?.professionalId!,
+        employeeId: selectedAppointment?.professionalId!,
       }),
       {
         loading: "Eliminando cita",
