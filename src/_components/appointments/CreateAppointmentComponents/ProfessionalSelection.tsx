@@ -44,7 +44,7 @@ const ProfessionalSelection = (props: {
                 className="rounded-2xl lg:min-h-0 lg:py-6"
                 selected={professional.id === selectedProfessional?.id}
               >
-                <div className="flex items-center space-x-4 px-6 py-4 lg:justify-between lg:space-x-0 lg:p-0">
+                <div className="flex items-center space-x-6 px-6 py-4 lg:justify-between lg:space-x-0 lg:p-0">
                   <div className="flex items-center">
                     {/* TODO: Change professional images for the real ones */}
                     <Image
