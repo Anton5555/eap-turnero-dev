@@ -299,8 +299,7 @@ const CreateAppointment: React.FC<{
         companyId: user.company!,
         locationId: user.location!,
         positionId: user.position!,
-        // FIXME: replace hardcoded professionalSapUser with the real one (waiting for backend to provide it)
-        professionalSapUser: "mcattaneo",
+        employeeId: selectedProfessional?.id!,
       }),
       {
         loading: "Creando cita",
