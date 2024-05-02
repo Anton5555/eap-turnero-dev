@@ -1,9 +1,9 @@
 import { type Inputs } from "~/_components/forms/SignUpForm";
-import { locations } from "~/lib/utils";
 import { env } from "~/env";
+import { locations } from "~/lib/constants";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
-const CREATE_USER_TOKEN = env.CREATE_USER_TOKEN;
+const CREATE_USER_TOKEN = env.NEXT_PUBLIC_CREATE_USER_TOKEN;
 
 const SignUpAdapter = (data: Inputs) => ({
   nombre: data.name,

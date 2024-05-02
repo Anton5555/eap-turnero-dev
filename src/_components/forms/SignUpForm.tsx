@@ -13,7 +13,7 @@ import signup from "~/app/api/signup";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { H4 } from "../common/Typography";
-import { locations } from "~/lib/utils";
+import { locations } from "~/lib/constants";
 
 const signupFormSchema = z
   .object({
@@ -51,15 +51,14 @@ const SignUpForm: React.FC = () => {
     mutationFn: signup,
     onError: (error) => {
       console.log(error.message);
+
       if (error.message === "Ya existe un usuario con este mail") {
         setError("email", { message: error.message });
+
         return;
       }
 
-      toast({
-        title: error.message,
-        variant: "destructive",
-      });
+      toast.error(error.message);
     },
     onSuccess: () => {
       router.push("/auth/welcome");
@@ -107,7 +106,6 @@ const SignUpForm: React.FC = () => {
         options={locations}
         label="Sede"
         placeholder="Selecciona tu sede"
-        errorText={errors.location?.message}
         errorText={errors.location?.message}
       />
 
