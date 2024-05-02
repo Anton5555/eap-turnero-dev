@@ -4,30 +4,40 @@ import React from "react";
 import HomeIcon from "../icons/Home";
 import UserIcon from "../icons/User";
 import cn from "~/lib/utils";
-import Image from "next/image";
 import BarsIcon from "../icons/Bars";
 import CloseIcon from "../icons/Close";
 import Link from "next/link";
-import { useSession, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import ExitIcon from "../icons/Exit";
 import Profile from "./Profile";
 import NotificationsMenu from "./NotificationsMenu";
 import { H6 } from "../common/Typography";
 import Logo from "./Logo";
+import { usePathname } from "next/navigation";
+import Help from "../common/Help";
 
-// TODO: change the current nav item to the one that is active in the app
 const navigation = [
-  { name: "Inicio", href: "#", icon: HomeIcon, current: true },
-  { name: "Perfil", href: "#", icon: UserIcon, current: false },
+  { name: "Inicio", href: "/platform", icon: HomeIcon, path: "platform" },
+  { name: "Perfil", href: "/profile", icon: UserIcon, path: "profile" },
 ];
 
 type SidebarProps = {
   children: React.ReactNode;
+  user: {
+    name: string;
+    lastName: string;
+    accessToken: string;
+    imageName?: string;
+  };
 };
 
-const Sidebar: React.FC<SidebarProps> = ({ children }) => {
+const Sidebar: React.FC<SidebarProps> = ({ children, user }) => {
+  const { name } = user;
+
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
-  const { data: session } = useSession();
+
+  const pathname = usePathname();
+  const currentPathRoot = pathname.split("/")[1];
 
   const Menu: React.FC = () => (
     <nav className="flex flex-1 flex-col">
@@ -43,38 +53,43 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
         </li>
 
         <li className="lg:hidden">
-          <H6 className="text-left">Bienvenido, {session?.user?.name}!</H6>
+          <H6 className="text-left">Bienvenido, {name}!</H6>
         </li>
 
         <li>
           <ul role="list" className=" space-y-4 lg:mt-8">
-            {navigation.map((item) => (
-              <li key={item.name}>
+            {navigation.map((navigationItem) => (
+              <li key={navigationItem.name}>
                 <Link
-                  href={item.href}
+                  href={navigationItem.href}
                   className={cn(
-                    item.current ? "text-green" : "text-black hover:text-green",
+                    navigationItem.path === currentPathRoot
+                      ? "text-green"
+                      : "text-black hover:text-green",
                     "group flex flex-row items-center gap-x-3 p-2 font-bold leading-5 lg:flex-col lg:gap-x-0 lg:gap-y-1",
                   )}
                 >
-                  <item.icon active={item.current} aria-hidden="true" />
+                  <navigationItem.icon
+                    active={navigationItem.path === currentPathRoot}
+                    aria-hidden="true"
+                  />
 
-                  <span>{item.name}</span>
+                  <span>{navigationItem.name}</span>
                 </Link>
               </li>
             ))}
           </ul>
         </li>
-        <li className="mt-auto lg:hidden">
+
+        <li className="mt-auto space-y-4 lg:hidden">
           <div>
-            {/* TODO: insert Contact info component when done */}
-            Help info
+            <Help />
           </div>
 
           <Link
             href="#"
             onClick={() => signOut()}
-            className="group -mx-2 flex items-center gap-x-2 p-2 text-[#334155]"
+            className="group -mx-2 flex items-center gap-x-2 p-2 text-very-dark-blue"
           >
             <ExitIcon />
 
@@ -88,7 +103,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
   return (
     <>
       {sidebarOpen && (
-        <div className="absolute left-0 top-0 z-20 flex h-screen w-80 flex-col gap-y-5 overflow-y-auto bg-white px-2 py-4 duration-200">
+        <div className="w96 absolute left-0 top-0 z-20 flex h-screen flex-col gap-y-5 overflow-y-auto bg-white px-4 py-4 duration-200">
           <Menu />
         </div>
       )}
@@ -111,7 +126,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
 
           <div className="flex items-center lg:gap-x-6">
             <div className="hidden lg:flex">
-              <Profile />
+              <Profile {...user} />
             </div>
 
             <div className="flex items-center">
@@ -124,7 +139,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           <Menu />
         </div>
 
-        <main className="lg:py-10 lg:pl-20">{children}</main>
+        <main className="lg:pl-20">{children}</main>
       </div>
     </>
   );

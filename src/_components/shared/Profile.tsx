@@ -1,15 +1,28 @@
 "use client";
 
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import React, { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import Image from "next/image";
 import ChevronIcon from "../icons/Chevron";
 import { Button } from "../common/Button";
 import UserIcon from "../icons/User";
+import useUserImage from "~/lib/useUserImage";
 
-const Profile = () => {
-  const { data: session } = useSession();
+type ProfileProps = {
+  name: string;
+  lastName: string;
+  accessToken: string;
+  imageName?: string;
+};
+
+const Profile: React.FC<ProfileProps> = ({
+  name,
+  lastName,
+  accessToken,
+  imageName,
+}) => {
+  const imageUrl = useUserImage({ accessToken, imageName });
 
   return (
     <Menu as="div" className="relative">
@@ -17,17 +30,15 @@ const Profile = () => {
         <span className="sr-only">Open user menu</span>
 
         <Image
-          src={
-            !!session?.user?.image ? session.user.image : "/default-avatar.webp"
-          }
+          src={imageUrl ?? "/default-avatar.webp"}
           alt="User profile"
           width={32}
           height={32}
           className="rounded-full"
         />
 
-        <span className="font-inter text-sm text-[#1F384C]">
-          {`${session?.user?.name} ${session?.user?.lastName}`}
+        <span className="font-inter text-sm text-very-dark-blue">
+          {`${name} ${lastName}`}
         </span>
 
         <ChevronIcon />
@@ -45,7 +56,7 @@ const Profile = () => {
         <Menu.Items className="absolute right-0 z-10 mt-2.5 w-72 origin-top-right rounded-md bg-white p-4 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
           <Menu.Item>
             <Button
-              className="h-7 w-full justify-start gap-x-2 rounded bg-green10 text-black"
+              className="h-7 w-full justify-start gap-x-2 rounded bg-green/10 text-black"
               variant={"ghost"}
               onClick={() => signOut()}
             >

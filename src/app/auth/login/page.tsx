@@ -5,16 +5,18 @@ import { redirect } from "next/navigation";
 import { H4, H6 } from "~/_components/common/Typography";
 import Logo from "~/_components/shared/Logo";
 
-const Page = async () => {
+const Page = async ({ searchParams }: { searchParams: { uuid: string } }) => {
   //  TODO: remove redirection when fixed in the middleware
   const session = await getServerSession();
   if (session?.user) redirect("/platform");
 
+  const { uuid } = searchParams;
+
   return (
     <div className="flex flex-col lg:flex-row lg:justify-between">
-      <div className="relative flex h-56 items-start overflow-hidden lg:h-full lg:flex-col lg:rounded-2xl">
+      <div className="relative flex h-52 items-start overflow-hidden lg:h-full lg:flex-col lg:rounded-2xl">
         <Image
-          className="w-full object-cover"
+          className="object-cover"
           src="/login.webp"
           alt="login image"
           width={642}
@@ -32,7 +34,7 @@ const Page = async () => {
             <div className="flex w-full max-w-sm flex-row justify-center gap-6">
               <div className="flex w-full flex-col rounded-full border-b-[3px] border-green"></div>
 
-              <div className="flex w-full flex-col rounded-full border-b-[3px] border-gray10"></div>
+              <div className="border-gray/10 flex w-full flex-col rounded-full border-b-[3px]"></div>
             </div>
 
             <H4 className="hidden lg:flex">
@@ -42,13 +44,13 @@ const Page = async () => {
 
             <H4 className="lg:hidden">Inicia sesión para comenzar!</H4>
 
-            <H6 className="hidden text-blackAlt lg:flex">
+            <H6 className="hidden text-black lg:flex">
               Inicia sesión para comenzar
             </H6>
           </div>
 
           <div className="flex items-center justify-center">
-            <LoginForm />
+            <LoginForm accountActivationUUID={uuid} />
           </div>
         </div>
       </div>

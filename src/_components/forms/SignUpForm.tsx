@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { Select } from "../common/Select";
 import signup from "~/app/api/signup";
 import { useMutation } from "@tanstack/react-query";
-import { useToast } from "../shared/toaster/useToast";
+import { toast } from "sonner";
 import { H4 } from "../common/Typography";
 import { locations } from "~/lib/utils";
 
@@ -37,7 +37,6 @@ export type Inputs = z.infer<typeof signupFormSchema>;
 
 const SignUpForm: React.FC = () => {
   const router = useRouter();
-  const { toast } = useToast();
 
   const {
     register,
@@ -72,7 +71,7 @@ const SignUpForm: React.FC = () => {
 
   return (
     <form
-      className="w-full justify-center space-y-5 lg:max-w-sm"
+      className="w-80 justify-center space-y-5"
       onSubmit={handleSubmit(onSubmit)}
     >
       <Input
@@ -108,6 +107,7 @@ const SignUpForm: React.FC = () => {
         options={locations}
         label="Sede"
         placeholder="Selecciona tu sede"
+        errorText={errors.location?.message}
         errorText={errors.location?.message}
       />
 
