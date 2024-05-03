@@ -62,7 +62,7 @@ const FamilyRelatives: React.FC<FamilyRelativesProps> = ({
 
   return (
     <>
-      <div className="flex flex-col space-y-6 lg:h-[calc(20dvh)]">
+      <div className="flex flex-col space-y-6 lg:min-h-[calc(20dvh)]">
         <div className="space-y-4">
           <div className="mb-6 w-full border-b border-black/10"></div>
 
