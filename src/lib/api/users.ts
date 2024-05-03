@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { AddRelativeInputs } from "~/_components/forms/AddRelativeForm";
 import { EditProfileInputs } from "~/_components/forms/EditProfileForm";
 import { env } from "~/env";
 import { FamilyRelashionships, FamilyRelative, Gender } from "~/types/users";
@@ -120,6 +121,71 @@ const deleteFamilyRelative = async (props: {
   if (!response.ok) throw new Error("Error al eliminar el familiar");
 
   return response;
+};
+
+type AddFamilyRelativeRequest = {
+  IDPaciente: number;
+  Name: string;
+  Apellidos: string;
+  Mail: string;
+  Parentesco?: number;
+  Sexo?: number;
+};
+
+const AddFamilyRelativeAdapter = (props: {
+  addFamilyRelativeData: AddRelativeInputs;
+  patientId: number;
+}) => {
+  const { addFamilyRelativeData, patientId } = props;
+
+  const familyRelative: AddFamilyRelativeRequest = {
+    IDPaciente: patientId,
+    Name: addFamilyRelativeData.name,
+    Apellidos: addFamilyRelativeData.lastName,
+    Mail: addFamilyRelativeData.email,
+  };
+
+  if (addFamilyRelativeData.relationship !== "0")
+    familyRelative.Parentesco = Number(addFamilyRelativeData.relationship);
+
+  if (addFamilyRelativeData.gender !== "0")
+    familyRelative.Sexo = Number(addFamilyRelativeData);
+
+  return familyRelative;
+};
+
+const addFamilyRelative = async (props: {
+  addFamilyRelativeData: AddRelativeInputs;
+  patientId: string;
+  accessToken: string;
+}) => {
+  const { addFamilyRelativeData, patientId, accessToken } = props;
+
+  const headers = new Headers();
+  headers.append("Authorization", accessToken);
+  headers.append("Content-Type", "application/json");
+
+  const addFamilyRelativeResponse = await fetch(
+    `${API_URL}/Patient/AddFamilyRelative`,
+    {
+      method: "POST",
+      headers,
+      body: JSON.stringify(
+        AddFamilyRelativeAdapter({
+          addFamilyRelativeData,
+          patientId: Number(patientId),
+        }),
+      ),
+    },
+  );
+
+  if (!addFamilyRelativeResponse.ok)
+    throw new Error("Error al añadir el familiar");
+
+  // TODO: Image upload for family relative, currently the only endpoint we have to update image
+  // takes the id from the user from the access token, so we need to create a new endpoint to update the image of a family relative
+
+  return addFamilyRelativeResponse;
 };
 
 type GenderApiData = {
@@ -283,6 +349,7 @@ const activateAccount = async (uuid: string) => {
 };
 
 export {
+  addFamilyRelative,
   getFamilyRelashionships,
   getFamilyRelatives,
   deleteFamilyRelative,
