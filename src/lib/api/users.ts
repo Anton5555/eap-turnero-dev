@@ -148,8 +148,8 @@ const AddFamilyRelativeAdapter = (props: {
   if (addFamilyRelativeData.relationship !== "0")
     familyRelative.Parentesco = Number(addFamilyRelativeData.relationship);
 
-  if (addFamilyRelativeData.gender !== "0")
-    familyRelative.Sexo = Number(addFamilyRelativeData);
+  // TODO: change Sexo atribute name if necessary, the endpoint currently doesn't support it
+  //if (addFamilyRelativeData.gender !== "0") familyRelative.Sexo = Number(addFamilyRelativeData);
 
   return familyRelative;
 };
