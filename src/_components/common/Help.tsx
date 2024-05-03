@@ -109,17 +109,23 @@ const Help = () => {
             <WhatsappIcon />
           </div>
 
-          <div className="flex flex-col justify-center space-y-2">
+          <div className="flex w-full flex-col justify-center space-y-2">
             <H6 className="text-green">Escríbenos</H6>
 
             <H6>+5491149378911</H6>
 
-            <div className="flex flex-row space-x-2">
+            <div className="flex flex-col gap-2">
               <a href="https://wa.me/+5491149378911" target="_blank">
-                <Button variant="outline">Whatsapp web</Button>
+                <Button className="mt-2 w-full" variant="outline">
+                  WhatsApp web
+                </Button>
               </a>
 
-              <Button variant="outline" onClick={() => setIsQRCodeOpen(true)}>
+              <Button
+                className="w-full"
+                variant="outline"
+                onClick={() => setIsQRCodeOpen(true)}
+              >
                 Código QR
               </Button>
             </div>
