@@ -182,9 +182,6 @@ const addFamilyRelative = async (props: {
   if (!addFamilyRelativeResponse.ok)
     throw new Error("Error al añadir el familiar");
 
-  // TODO: Image upload for family relative, currently the only endpoint we have to update image
-  // takes the id from the user from the access token, so we need to create a new endpoint to update the image of a family relative
-
   return addFamilyRelativeResponse;
 };
 

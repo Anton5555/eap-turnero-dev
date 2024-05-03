@@ -7,11 +7,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../common/Input";
 import { Select } from "../common/Select";
 import { Button } from "../common/Button";
-import ProfileImageInput from "../profile/ProfileImageInput";
 import { FamilyRelashionships, Gender, User } from "~/types/users";
-import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { addFamilyRelative, updateUser } from "~/lib/api/users";
+import { addFamilyRelative } from "~/lib/api/users";
 import { useRouter } from "next/navigation";
 
 const addRelativeSchema = z.object({
@@ -32,8 +30,6 @@ const AddRelativeForm: React.FC<{
   const { accessToken, id } = user;
 
   const router = useRouter();
-
-  const [newUserImage, setNewUserImage] = useState<File | undefined>();
 
   const {
     register,
@@ -81,11 +77,6 @@ const AddRelativeForm: React.FC<{
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 font-inter">
-      <ProfileImageInput
-        imageUrl={newUserImage && URL.createObjectURL(newUserImage as File)}
-        onImageChange={setNewUserImage}
-      />
-
       <div className="items-center space-y-4 lg:grid lg:grid-rows-2">
         <div className="space-y-4 lg:grid lg:grid-cols-3 lg:space-x-4 lg:space-y-0">
           <Input
