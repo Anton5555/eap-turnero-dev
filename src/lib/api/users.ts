@@ -1,18 +1,50 @@
 import { format } from "date-fns";
 import { EditProfileInputs } from "~/_components/forms/EditProfileForm";
 import { env } from "~/env";
-import { FamilyRelative, Gender } from "~/types/users";
+import { FamilyRelashionships, FamilyRelative, Gender } from "~/types/users";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
+
+type FamilyRelashionshipsApiData = {
+  ID: number;
+  NAME: string;
+};
+
+const parseFamilyRelashionshipsApiData = (
+  familyRelationships: FamilyRelashionshipsApiData[],
+): FamilyRelashionships[] =>
+  familyRelationships.map((familyRelationship) => ({
+    value: familyRelationship.ID,
+    label: familyRelationship.NAME,
+  }));
+
+const getFamilyRelashionships = async (accessToken: string) => {
+  const headers = new Headers();
+  headers.append("Authorization", accessToken);
+
+  const response = await fetch(`${API_URL}/Patient/getFamilyRelationships`, {
+    method: "GET",
+    headers,
+  });
+
+  if (!response.ok)
+    throw new Error("Error al recuperar las relaciones familiares");
+
+  const familyRelashionshipsApiData = await response.json();
+
+  return parseFamilyRelashionshipsApiData(familyRelashionshipsApiData);
+};
 
 type FamilyRelativeApiData = {
   IDPaciente: number;
   Line: number;
   IdPacienteFam: number;
-  Nombre: string;
+  Name: string;
   Apellidos: string;
   Parentesco: number;
   Convive: string;
+  Telefono: string;
+  Mail: string;
 };
 
 const parseFamilyRelativesApiData = (
@@ -23,10 +55,12 @@ const parseFamilyRelativesApiData = (
     patientId: familyRelative.IDPaciente,
     line: familyRelative.Line,
     familyRelativeId: familyRelative.IdPacienteFam,
-    name: familyRelative.Nombre,
+    name: familyRelative.Name,
     lastName: familyRelative.Apellidos,
     relationship: familyRelative.Parentesco,
     livesWith: familyRelative.Convive,
+    phone: familyRelative.Telefono,
+    email: familyRelative.Mail,
   }));
 
 const getFamilyRelatives = async (props: {
@@ -52,6 +86,40 @@ const getFamilyRelatives = async (props: {
   const familyRelativesApiData = await response.json();
 
   return parseFamilyRelativesApiData(familyRelativesApiData);
+};
+
+const DeleteFamilyRelativeAdapter = (props: {
+  patientId: number;
+  line: number;
+}) => {
+  const { patientId, line } = props;
+
+  return {
+    IDPaciente: patientId,
+    Line: line,
+  };
+};
+
+const deleteFamilyRelative = async (props: {
+  patientId: number;
+  line: number;
+  accessToken: string;
+}) => {
+  const { accessToken } = props;
+
+  const headers = new Headers();
+  headers.append("Authorization", accessToken);
+  headers.append("Content-Type", "application/json");
+
+  const response = await fetch(`${API_URL}/Patient/deleteFamilyRelative`, {
+    method: "DELETE",
+    headers,
+    body: JSON.stringify(DeleteFamilyRelativeAdapter(props)),
+  });
+
+  if (!response.ok) throw new Error("Error al eliminar el familiar");
+
+  return response;
 };
 
 type GenderApiData = {
@@ -215,7 +283,9 @@ const activateAccount = async (uuid: string) => {
 };
 
 export {
+  getFamilyRelashionships,
   getFamilyRelatives,
+  deleteFamilyRelative,
   updateUser,
   getGenders,
   updateUserImage,

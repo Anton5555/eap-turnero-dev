@@ -1,5 +1,5 @@
 import { Appointment, FreeAppointmentsByDay } from "~/types/appointments";
-import { createCase, getActiveCase } from "./cases";
+import { createCase, getActiveCaseId } from "./cases";
 import { getProfessionalSapUser } from "./professionals";
 import { env } from "~/env";
 
@@ -126,6 +126,7 @@ const getFreeAppointments = async (props: {
   const response = await fetch(getAppointmentsReqUrl, {
     method: "GET",
     headers,
+    cache: "no-store",
   });
 
   if (!response.ok)
@@ -158,7 +159,7 @@ const createAppointment = async (props: {
   companyId: number;
   locationId: number;
   positionId: number;
-  professionalSapUser: string;
+  employeeId: number;
 }) => {
   const {
     accessToken,
@@ -175,10 +176,10 @@ const createAppointment = async (props: {
     companyId,
     locationId,
     positionId,
-    professionalSapUser,
+    employeeId,
   } = props;
 
-  const caseResponse = await getActiveCase({
+  let caseId = await getActiveCaseId({
     areaId,
     serviceId,
     specialtyId,
@@ -186,10 +187,13 @@ const createAppointment = async (props: {
     accessToken,
   });
 
-  let caseId = caseResponse;
+  const professionalSapUser = await getProfessionalSapUser({
+    employeeId,
+    accessToken,
+  });
 
-  if (!caseId) {
-    const caseResponse = await createCase({
+  if (!caseId)
+    caseId = await createCase({
       areaId,
       serviceId,
       specialtyId,
@@ -204,9 +208,6 @@ const createAppointment = async (props: {
       processType,
       accessToken,
     });
-
-    caseId = await caseResponse.json();
-  }
 
   const headers = new Headers();
   headers.append("Authorization", accessToken);
@@ -263,17 +264,14 @@ const getAppointmentsByPatient = async (props: {
 const deleteAppointment = async (props: {
   accessToken: string;
   appointmentId: number;
-  professionalId: number;
+  employeeId: number;
 }) => {
-  const { accessToken, appointmentId, professionalId } = props;
+  const { accessToken, appointmentId, employeeId } = props;
 
-  // FIXME: replace hardcoded professionalSapUser with the real one (waiting for backend to provide it)
-  const sapUser = "mcattaneo";
-
-  // const sapUser = await getProfessionalSapUser({
-  //   professionalId,
-  //   accessToken,
-  // });
+  const sapUser = await getProfessionalSapUser({
+    employeeId,
+    accessToken,
+  });
 
   const headers = new Headers();
   headers.append("Authorization", accessToken);

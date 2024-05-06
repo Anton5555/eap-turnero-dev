@@ -1,8 +1,8 @@
 import PlatformContainer from "~/_components/common/PlatformContainer";
 import { Button } from "~/_components/common/Button";
-import Image from "next/image";
 import { ContractService } from "~/types/services";
 import { H6 } from "~/_components/common/Typography";
+import ImageWithFallback from "~/_components/common/ImageWithFallback";
 
 const ServiceSelection = (props: {
   services: ContractService[];
@@ -28,9 +28,10 @@ const ServiceSelection = (props: {
           >
             <div className="flex items-center justify-between px-6 py-4 lg:p-0">
               <div className="flex items-center space-x-4 lg:space-x-8">
-                <Image
+                <ImageWithFallback
                   className="h-18 rounded-2xl object-cover lg:h-20"
                   src={`/${service.specialty}.webp`}
+                  fallbackSrc="/area-de-atencion-fallback.webp"
                   width={80}
                   height={80}
                   alt={service.specialty}

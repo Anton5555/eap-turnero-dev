@@ -25,6 +25,13 @@ export type FamilyRelative = {
   lastName: string;
   relationship: number;
   livesWith: string;
+  phone: string;
+  email: string;
+};
+
+export type FamilyRelashionships = {
+  value: number;
+  label: string;
 };
 
 export type Gender = {

@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { Input } from "./Input";
+import { Input } from "../common/Input";
 import { useRef, useState } from "react";
 import React from "react";
-import { Button } from "./Button";
+import { Button } from "../common/Button";
 import { toast } from "sonner";
 
 const allowedFileTypes = ["image/png", "image/jpeg", "image/jpg"];

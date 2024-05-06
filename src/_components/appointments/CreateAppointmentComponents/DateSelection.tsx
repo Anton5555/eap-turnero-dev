@@ -2,12 +2,14 @@ import PlatformContainer from "~/_components/common/PlatformContainer";
 import Calendar from "../Calendar";
 import { H6 } from "~/_components/common/Typography";
 import { FreeAppointmentsByDay } from "~/types/appointments";
+import { DayClickEventHandler } from "react-day-picker";
 
 const DateSelection = (props: {
   isLoading: boolean;
   selectedProfessional: boolean;
   freeAppointments: FreeAppointmentsByDay | null;
-  onDateSelect: (date: Date) => void;
+  selectedDate?: Date;
+  onDayClick: DayClickEventHandler;
   onMonthChange: (date: Date) => void;
   error: Error | null;
 }) => {
@@ -15,22 +17,23 @@ const DateSelection = (props: {
     isLoading,
     selectedProfessional,
     freeAppointments,
-    onDateSelect,
+    selectedDate,
+    onDayClick,
     onMonthChange,
     error,
   } = props;
 
   return (
     <PlatformContainer className="w-full lg:min-h-0">
-      {isLoading && <H6 className="text-center">Cargando...</H6>}
-
       <Calendar
+        mode="single"
         availableDays={
           selectedProfessional && freeAppointments
             ? Object.keys(freeAppointments)
             : []
         }
-        onDayClick={(day) => onDateSelect(day)}
+        selected={selectedDate}
+        onDayClick={onDayClick}
         onMonthChange={onMonthChange}
       />
 
