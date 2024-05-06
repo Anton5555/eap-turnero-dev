@@ -87,11 +87,7 @@ const DatePicker = (props: {
         {label}
       </label>
 
-      <Popover
-        className="w-full"
-        open={calendarOpen}
-        onOpenChange={setCalendarOpen}
-      >
+      <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
         <PopoverTrigger asChild>
           <Button
             variant={"outline"}
