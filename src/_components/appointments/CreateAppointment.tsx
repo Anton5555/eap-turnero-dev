@@ -456,9 +456,12 @@ const CreateAppointment: React.FC<{
         <div className="hidden justify-end gap-8 pt-4 lg:flex">
           <Link
             href="#"
+            className={`${currentStep === 1 && "pointer-events-none"}`}
+            aria-disabled={currentStep === 1}
+            tabIndex={currentStep === 1 ? -1 : undefined}
             onClick={() => currentStep !== 1 && setCurrentStep(currentStep - 1)}
           >
-            <ArrowIcon direction="left" />
+            <ArrowIcon direction="left" disabled={currentStep === 1} />
           </Link>
 
           <Link href="#" onClick={nextStep}>
@@ -474,6 +477,7 @@ const CreateAppointment: React.FC<{
           <Button
             className="h-12 w-full"
             variant="outline"
+            disabled={currentStep === 1}
             onClick={() => currentStep !== 1 && setCurrentStep(currentStep - 1)}
           >
             Atrás

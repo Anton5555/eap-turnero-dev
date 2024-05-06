@@ -13,12 +13,12 @@ import signup from "~/app/api/signup";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { H4 } from "../common/Typography";
+import { locations } from "~/lib/constants";
 
 const signupFormSchema = z
   .object({
     name: z.string().min(1, { message: "Ingresa tu nombre" }),
     lastName: z.string().min(1, { message: "Ingresa tu apellido" }),
-    country: z.string().min(1, { message: "Selecciona tu país" }),
     location: z.string().min(1, { message: "Selecciona tu sede" }),
     email: z.string().email({ message: "Ingresa un email válido" }),
     password: z
@@ -49,15 +49,16 @@ const SignUpForm: React.FC = () => {
 
   const mutation = useMutation({
     mutationFn: signup,
-    onError: ({ message }) => {
-      toast.error(message);
+    onError: (error) => {
+      console.log(error.message);
 
-      /*
-      TODO: When an error that implies the user already exists gets implemented in the backend we should do this:
-      if (error.message === "Usuario ya registrado") {
+      if (error.message === "Ya existe un usuario con este mail") {
         setError("email", { message: error.message });
-      };
-      */
+
+        return;
+      }
+
+      toast.error(error.message);
     },
     onSuccess: () => {
       router.push("/auth/welcome");
@@ -65,9 +66,7 @@ const SignUpForm: React.FC = () => {
     },
   });
 
-  const onSubmit = async (data: Inputs) => {
-    mutation.mutate(data);
-  };
+  const onSubmit = async (data: Inputs) => mutation.mutate(data);
 
   return (
     <form
@@ -102,24 +101,9 @@ const SignUpForm: React.FC = () => {
       />
 
       <Select
-        id="country"
-        {...register("country")}
-        options={[
-          { value: "AR", label: "Argentina" },
-          { value: "UY", label: "Uruguay" },
-        ]}
-        label="País"
-        placeholder="Selecciona tu país"
-        errorText={errors.country?.message}
-      />
-
-      <Select
         id="location"
         {...register("location")}
-        options={[
-          { value: 1, label: "Buenos Aires" },
-          { value: 2, label: "Rosario" },
-        ]}
+        options={locations}
         label="Sede"
         placeholder="Selecciona tu sede"
         errorText={errors.location?.message}
