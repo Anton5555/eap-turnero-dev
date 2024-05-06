@@ -481,7 +481,7 @@ const CreateAppointment: React.FC<{
         </div>
       </div>
 
-      {isConfirmationDialogOpen && (
+      {isConfirmationDialogOpen && selectedProfessional && selectedTime && (
         <ConfirmationDialog
           open={isConfirmationDialogOpen}
           onClose={() => setIsConfirmationDialogOpen(false)}
