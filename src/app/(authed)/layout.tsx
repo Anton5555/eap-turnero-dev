@@ -3,7 +3,7 @@ import React from "react";
 import Sidebar from "~/_components/shared/Sidebar";
 import { getNotifications } from "~/lib/api/notifications";
 import authOptions from "~/lib/authOptions";
-import { AppointmentNotification } from "~/types/notifications";
+import { type AppointmentNotification } from "~/types/notifications";
 
 export const metadata = {
   title: "EAP Turnero",
@@ -18,8 +18,10 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
     user: { imageName, name, lastName, accessToken },
   } = session;
 
-  const notifications: AppointmentNotification[] =
-    await getNotifications(accessToken);
+  const notifications: AppointmentNotification[] = await getNotifications({
+    patientId: Number(session.user.id),
+    accessToken,
+  });
 
   return (
     <section className="h-full min-h-screen w-screen bg-gray-bg">

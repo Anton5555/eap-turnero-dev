@@ -1,6 +1,6 @@
 import React from "react";
 import NotificationsIcon from "../icons/Notifications";
-import { AppointmentNotification } from "~/types/notifications";
+import { type AppointmentNotification } from "~/types/notifications";
 import CloseIcon from "../icons/Close";
 import {
   Popover,
@@ -27,14 +27,12 @@ const NotificationsMenu: React.FC<{
     onSuccess: () => router.refresh(),
   });
 
-  /*
-    TODO: This method works but the getNotifications method is not implemented in the API
-    so we are not getting only unread notifications so the router refresh will not work as expected
-  */
+  if (!session) return null;
+
   const handleMarkAllAsRead = () =>
     mutate({
-      accessToken: session?.user.accessToken!,
-      patientId: Number(session?.user.id!),
+      accessToken: session.user.accessToken,
+      patientId: Number(session.user.id),
     });
 
   return (

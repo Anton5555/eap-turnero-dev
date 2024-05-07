@@ -1,5 +1,5 @@
 import { env } from "~/env";
-import { AppointmentNotification } from "~/types/notifications";
+import { type AppointmentNotification } from "~/types/notifications";
 
 const API_URL = `${env.NEXT_PUBLIC_API_URL}/notification`;
 
@@ -56,48 +56,42 @@ interface NotificationsApiData {
   descrp: string;
 }
 
-const parseNotificationsApiData = (
+const filterAndMapNotificationsApiData = (
   notificationsApiData: NotificationsApiData[],
 ): AppointmentNotification[] =>
-  notificationsApiData.map((notification) => ({
-    title: notification.title,
-    description: notification.descrp,
-    dateCreated: new Date(notification.create_date),
-  }));
+  notificationsApiData
+    .filter((notification) => notification.is_read === "N")
+    .map((notification) => ({
+      title: notification.title,
+      description: notification.descrp,
+      dateCreated: new Date(notification.create_date),
+    }));
 
-const getNotifications = async (
-  accessToken: string,
-): Promise<AppointmentNotification[]> => {
+const getUnreadNotifications = async (props: {
+  patientId: number;
+  accessToken: string;
+}): Promise<AppointmentNotification[]> => {
+  const { patientId, accessToken } = props;
+
   const headers = new Headers();
   headers.append("Authorization", accessToken);
 
-  // TODO: change the endpoint to get all notifications when it's available and remove extra code
   const response = await fetch(
-    `${API_URL}/getNotificationByID?notificationId=2`,
+    `${API_URL}/getNoReadNotificationByPatientId?patientId=${patientId}`,
     {
       method: "GET",
       headers,
     },
   );
 
-  // if (!response.ok) return [];
+  if (!response.ok) return [];
 
-  const response2 = await fetch(
-    `${API_URL}/getNotificationByID?notificationId=3`,
-    {
-      method: "GET",
-      headers,
-    },
-  );
+  const notificationsApiData =
+    (await response.json()) as NotificationsApiData[];
 
-  const notificationsApiData = await response.json();
-  const notificationsApiData2 = await response2.json();
+  if (!notificationsApiData) return [];
 
-  // temporal code to transform individual notifications into array
-  return parseNotificationsApiData([
-    notificationsApiData,
-    notificationsApiData2,
-  ]);
+  return filterAndMapNotificationsApiData(notificationsApiData);
 };
 
 const markAllAsRead = async (props: {
@@ -123,4 +117,8 @@ const markAllAsRead = async (props: {
   return response;
 };
 
-export { createNotification, getNotifications, markAllAsRead };
+export {
+  createNotification,
+  getUnreadNotifications as getNotifications,
+  markAllAsRead,
+};
