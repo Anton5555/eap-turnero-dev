@@ -15,7 +15,7 @@ import { H6 } from "../common/Typography";
 import Logo from "./Logo";
 import { usePathname } from "next/navigation";
 import Help from "../common/Help";
-import { AppointmentNotification } from "~/types/notifications";
+import { type AppointmentNotification } from "~/types/notifications";
 
 const navigation = [
   { name: "Inicio", href: "/platform", icon: HomeIcon, path: "platform" },

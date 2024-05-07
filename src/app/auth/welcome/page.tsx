@@ -7,8 +7,6 @@ import Logo from "~/_components/shared/Logo";
 import { getServerSession } from "next-auth";
 import ValidateAccountDialog from "~/_components/common/ValidateAccountDialog";
 
-// TODO: Add message to validate account if coming from SignUp page
-
 const Page = async () => {
   const session = await getServerSession();
 

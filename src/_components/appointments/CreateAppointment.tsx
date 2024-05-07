@@ -7,8 +7,8 @@ import Stepper from "../common/Stepper";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { getProfessionals } from "~/lib/api/professionals";
-import { ContractService } from "~/types/services";
-import { Professional } from "~/types/professionals";
+import { type ContractService } from "~/types/services";
+import { type Professional } from "~/types/professionals";
 import cn from "~/lib/utils";
 import {
   differenceInMinutes,
@@ -28,7 +28,10 @@ import DateSelection from "./CreateAppointmentComponents/DateSelection";
 import TimeSelection from "./CreateAppointmentComponents/TimeSelection";
 import ProfessionalSelection from "./CreateAppointmentComponents/ProfessionalSelection";
 import { timeRanges } from "~/lib/constants";
-import { FreeAppointment, FreeAppointmentsByDay } from "~/types/appointments";
+import type {
+  FreeAppointment,
+  FreeAppointmentsByDay,
+} from "~/types/appointments";
 
 const filterAppointmentsByDuration = (
   appointments: FreeAppointment[],
