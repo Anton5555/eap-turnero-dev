@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { AddRelativeInputs } from "~/_components/forms/AddRelativeForm";
+import { type AddRelativeInputs } from "~/_components/forms/AddRelativeForm";
 import { type EditProfileInputs } from "~/_components/forms/EditProfileForm";
 import { env } from "~/env";
 import type {
@@ -135,7 +135,7 @@ type AddFamilyRelativeRequest = {
   Apellidos: string;
   Mail: string;
   Parentesco?: number;
-  Sexo?: number;
+  sexo?: number;
 };
 
 const AddFamilyRelativeAdapter = (props: {
@@ -154,8 +154,8 @@ const AddFamilyRelativeAdapter = (props: {
   if (addFamilyRelativeData.relationship !== "0")
     familyRelative.Parentesco = Number(addFamilyRelativeData.relationship);
 
-  // TODO: change Sexo atribute name if necessary, the endpoint currently doesn't support it
-  //if (addFamilyRelativeData.gender !== "0") familyRelative.Sexo = Number(addFamilyRelativeData);
+  if (addFamilyRelativeData.gender !== "0")
+    familyRelative.sexo = Number(addFamilyRelativeData.gender);
 
   return familyRelative;
 };
