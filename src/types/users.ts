@@ -71,3 +71,24 @@ export type AuthenticatedUserApiData = {
   user: EAPUser;
   token: string;
 };
+
+export type DecodedApiToken = {
+  idpaciente: string;
+  mail: string;
+  tipo: string;
+  empresa: string[];
+  sede: string;
+  nombre: string;
+  dni: string;
+  huso: string;
+  apellido1: string;
+  apellido2: string;
+  telefono: string;
+  movil: string;
+  tipousuarioportal: string;
+  nbf: number;
+  exp: number;
+  iat: number;
+  iss: string;
+  aud: string;
+};

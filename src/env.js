@@ -12,7 +12,7 @@ export const env = createEnv({
         : z.string().optional(),
     NEXTAUTH_URL: z.preprocess(
       (str) => process.env.VERCEL_URL ?? str,
-      process.env.VERCEL ? z.string() : z.string().url()
+      process.env.VERCEL ? z.string() : z.string().url(),
     ),
     API_URL: z.string().url(),
     CREATE_USER_TOKEN: z.string(),
@@ -20,6 +20,7 @@ export const env = createEnv({
 
   client: {
     NEXT_PUBLIC_API_URL: z.string().url(),
+    NEXT_PUBLIC_CREATE_USER_TOKEN: z.string(),
   },
 
   runtimeEnv: {
@@ -29,6 +30,7 @@ export const env = createEnv({
     API_URL: process.env.API_URL,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     CREATE_USER_TOKEN: process.env.NEXT_PUBLIC_CREATE_USER_TOKEN,
+    NEXT_PUBLIC_CREATE_USER_TOKEN: process.env.NEXT_PUBLIC_CREATE_USER_TOKEN,
   },
 
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,

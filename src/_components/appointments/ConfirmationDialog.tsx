@@ -57,7 +57,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
               <div className="py-6 lg:px-12">
                 <div className="mt-3 text-center sm:ml-4 sm:mt-0">
                   <div className="mt-2 flex flex-col items-center space-y-2">
-                    <div className="bg-light-gray flex h-28 w-28 items-center justify-center rounded-full">
+                    <div className="flex h-28 w-28 items-center justify-center rounded-full bg-light-gray">
                       <CalendarIcon />
                     </div>
 

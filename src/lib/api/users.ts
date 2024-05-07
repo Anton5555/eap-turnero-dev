@@ -1,8 +1,12 @@
 import { format } from "date-fns";
 import { AddRelativeInputs } from "~/_components/forms/AddRelativeForm";
-import { EditProfileInputs } from "~/_components/forms/EditProfileForm";
+import { type EditProfileInputs } from "~/_components/forms/EditProfileForm";
 import { env } from "~/env";
-import { FamilyRelashionships, FamilyRelative, Gender } from "~/types/users";
+import type {
+  FamilyRelashionships,
+  FamilyRelative,
+  Gender,
+} from "~/types/users";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
 
@@ -31,7 +35,8 @@ const getFamilyRelashionships = async (accessToken: string) => {
   if (!response.ok)
     throw new Error("Error al recuperar las relaciones familiares");
 
-  const familyRelashionshipsApiData = await response.json();
+  const familyRelashionshipsApiData =
+    (await response.json()) as FamilyRelashionshipsApiData[];
 
   return parseFamilyRelashionshipsApiData(familyRelashionshipsApiData);
 };
@@ -84,7 +89,8 @@ const getFamilyRelatives = async (props: {
   if (!response.ok)
     throw new Error("Error recuperando los datos de los familiares");
 
-  const familyRelativesApiData = await response.json();
+  const familyRelativesApiData =
+    (await response.json()) as FamilyRelativeApiData[];
 
   return parseFamilyRelativesApiData(familyRelativesApiData);
 };
@@ -207,7 +213,7 @@ const getGenders = async (accessToken: string) => {
 
   if (!response.ok) throw new Error("Error al recuperar los géneros");
 
-  const gendersApiData = await response.json();
+  const gendersApiData = (await response.json()) as GenderApiData[];
 
   return parseGendersApiData(gendersApiData);
 };
