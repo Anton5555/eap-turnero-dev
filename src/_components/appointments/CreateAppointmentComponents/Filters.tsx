@@ -25,9 +25,11 @@ const Filters: React.FC<{
         const location =
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           ((event.target as HTMLFormElement).location?.value as number) ?? null;
+        
         const modality =
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           ((event.target as HTMLFormElement).modality?.value as number) ?? null;
+        
         const timeRange =
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           ((event.target as HTMLFormElement).timeRange?.value as number) ??
