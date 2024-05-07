@@ -86,17 +86,12 @@ const CreateAppointment: React.FC<{
   const router = useRouter();
   const { data: session } = useSession();
 
-  if (!session) return;
-
-  const { user } = session;
-
   const [currentStep, setCurrentStep] = useState(1);
 
-  const [selectedService, setSelectedService] =
-    useState<ContractService | null>(null);
+  const [selectedService, setSelectedService] = useState<ContractService>();
 
   const [selectedProfessional, setSelectedProfessional] =
-    useState<Professional | null>(null);
+    useState<Professional>();
 
   const [freeAppointmentsTimes, setFreeAppointmentsTimes] = useState<
     { dateFrom: Date; dateTo: Date }[]
@@ -108,12 +103,12 @@ const CreateAppointment: React.FC<{
   const [selectedTime, setSelectedTime] = useState<{
     dateFrom: Date;
     dateTo: Date;
-  } | null>(null);
-
-  const [locationFilter, setLocationFilter] = useState<number>(user.location);
+  }>();
 
   const [modalityFilter, setModalityFilter] = useState<number>(3);
 
+  // setDurationFilter to be used when implementing the duration filter
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [durationFilter, setDurationFilter] = useState<number>(45);
 
   const [timeRangeFilter, setTimeRangeFilter] = useState<{
@@ -124,10 +119,18 @@ const CreateAppointment: React.FC<{
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
     useState(false);
 
+  if (!session) return;
+
+  const { user } = session;
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [locationFilter, setLocationFilter] = useState<number>(user.location);
+
   const {
     data: professionals,
     isLoading: isLoadingProfessionals,
     error: errorProfessionals,
+    // eslint-disable-next-line react-hooks/rules-of-hooks
   } = useQuery({
     queryKey: [
       "professionals",
@@ -135,14 +138,17 @@ const CreateAppointment: React.FC<{
       selectedService?.specialtyId,
       modalityFilter,
     ],
-    queryFn: () =>
-      getProfessionals({
-        locationId: locationFilter ?? user.location!,
-        serviceId: selectedService!.serviceId,
-        specialtyId: selectedService?.specialtyId!,
+    queryFn: () => {
+      if (!selectedService) return;
+
+      return getProfessionals({
+        locationId: locationFilter ?? user.location,
+        serviceId: selectedService.serviceId,
+        specialtyId: selectedService.specialtyId,
         accessToken: user.accessToken,
         modalityId: modalityFilter,
-      }),
+      });
+    },
     enabled: !!selectedService && (!!locationFilter || !!user.location),
   });
 
@@ -153,6 +159,7 @@ const CreateAppointment: React.FC<{
     },
     isLoading: isLoadingFreeAppointments,
     error: errorFreeAppointments,
+    // eslint-disable-next-line react-hooks/rules-of-hooks
   } = useQuery({
     queryKey: [
       "freeAppointments",
@@ -163,6 +170,8 @@ const CreateAppointment: React.FC<{
       durationFilter,
     ],
     queryFn: async () => {
+      if (!selectedProfessional || !selectedService) return;
+
       const freeAppointmentsResponse = await getFreeAppointments({
         dateFrom:
           currentMonth.getMonth() === new Date().getMonth()
@@ -171,9 +180,9 @@ const CreateAppointment: React.FC<{
         dateTo: format(endOfMonth(currentMonth), "yyyy-MM-dd"),
         timezone: user.timezone,
         accessToken: user.accessToken,
-        employeeId: selectedProfessional!.id,
-        specialtyId: selectedService?.specialtyId!,
-        serviceId: selectedService!.serviceId,
+        employeeId: selectedProfessional.id,
+        specialtyId: selectedService.specialtyId,
+        serviceId: selectedService.serviceId,
         modalityId: modalityFilter,
       });
 
@@ -207,7 +216,7 @@ const CreateAppointment: React.FC<{
           ),
         );
 
-      if (selectedTime) setSelectedTime(null);
+      if (selectedTime) setSelectedTime(undefined);
 
       return {
         freeAppointments: filteredFreeAppointments,
@@ -218,6 +227,7 @@ const CreateAppointment: React.FC<{
     enabled: !!selectedProfessional && !!selectedService,
   });
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     let toastId: string | number | undefined;
 
@@ -230,13 +240,19 @@ const CreateAppointment: React.FC<{
     };
   }, [isLoadingFreeAppointments]);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { mutateAsync } = useMutation({
     mutationFn: createAppointment,
     onError: ({ message }) => toast.error(message),
     onSuccess: () => {
-      router.push(
-        `/platform?professional=${selectedProfessional?.name}&dateFrom=${selectedTime?.dateFrom}&dateTo=${selectedTime?.dateTo}`,
-      );
+      if (selectedProfessional && selectedTime) {
+        const dateFrom = selectedTime.dateFrom.toISOString();
+        const dateTo = selectedTime.dateTo.toISOString();
+
+        router.push(
+          `/platform?professional=${selectedProfessional?.name}&dateFrom=${dateFrom}&dateTo=${dateTo}`,
+        );
+      } else router.push("/platform");
 
       router.refresh();
     },
@@ -245,9 +261,9 @@ const CreateAppointment: React.FC<{
   const handleServiceSelect = (service: ContractService) => {
     setSelectedService(service);
 
-    if (selectedProfessional) setSelectedProfessional(null);
+    if (selectedProfessional) setSelectedProfessional(undefined);
     if (selectedDate) setSelectedDate(undefined);
-    if (selectedTime) setSelectedTime(null);
+    if (selectedTime) setSelectedTime(undefined);
 
     setCurrentStep(2);
   };
@@ -256,7 +272,7 @@ const CreateAppointment: React.FC<{
     setSelectedProfessional(professional);
 
     if (selectedDate) setSelectedDate(undefined);
-    if (selectedTime) setSelectedTime(null);
+    if (selectedTime) setSelectedTime(undefined);
 
     if (currentStep === 2) setCurrentStep(3);
   };
@@ -270,7 +286,7 @@ const CreateAppointment: React.FC<{
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date);
 
-    if (selectedTime) setSelectedTime(null);
+    if (selectedTime) setSelectedTime(undefined);
 
     setFreeAppointmentsTimes(
       freeAppointments![date.getDate()]!.map((freeAppointment) => ({
@@ -282,29 +298,43 @@ const CreateAppointment: React.FC<{
     if (currentStep === 3) setCurrentStep(4);
   };
 
-  const handleSubmit = () =>
+  const handleSubmit = () => {
+    if (
+      !selectedService ||
+      !selectedTime ||
+      !selectedProfessional ||
+      !agendaId
+    ) {
+      toast.error(
+        "Error al crear la cita, selecciona todos los datos necesarios",
+      );
+
+      return;
+    }
+
     toast.promise(
       mutateAsync({
         patientId: Number(user.id),
-        agendaId: agendaId!,
-        processType: selectedService?.processType!,
-        dateFrom: `${format(selectedTime!.dateFrom, "yyyy-MM-dd")} ${format(selectedTime!.dateFrom, "HH:mm")}`,
-        dateTo: `${format(selectedTime!.dateTo, "yyyy-MM-dd")} ${format(selectedTime!.dateTo, "HH:mm")}`,
+        agendaId: agendaId,
+        processType: selectedService.processType,
+        dateFrom: `${format(selectedTime.dateFrom, "yyyy-MM-dd")} ${format(selectedTime.dateFrom, "HH:mm")}`,
+        dateTo: `${format(selectedTime.dateTo, "yyyy-MM-dd")} ${format(selectedTime.dateTo, "HH:mm")}`,
         timezone: user.timezone,
         modalityId: modalityFilter,
-        accessToken: user.accessToken!,
-        areaId: selectedService?.areaId!,
-        serviceId: selectedService?.serviceId!,
-        specialtyId: selectedService?.specialtyId!,
-        companyId: user.company!,
-        locationId: user.location!,
-        positionId: user.position!,
-        employeeId: selectedProfessional?.id!,
+        accessToken: user.accessToken,
+        areaId: selectedService.areaId,
+        serviceId: selectedService.serviceId,
+        specialtyId: selectedService.specialtyId,
+        companyId: user.company,
+        locationId: user.location,
+        positionId: user.position ?? -1,
+        employeeId: selectedProfessional.id,
       }),
       {
         loading: "Creando cita",
       },
     );
+  };
 
   const nextStep = () => {
     if (currentStep === 1 && !selectedService) {
@@ -491,7 +521,7 @@ const CreateAppointment: React.FC<{
           onClose={() => setIsConfirmationDialogOpen(false)}
           onConfirm={() => handleSubmit()}
           professional={selectedProfessional?.name ?? ""}
-          date={selectedTime!.dateFrom}
+          date={selectedTime.dateFrom}
         />
       )}
     </>

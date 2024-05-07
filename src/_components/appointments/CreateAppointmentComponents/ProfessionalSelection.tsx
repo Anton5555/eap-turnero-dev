@@ -1,6 +1,6 @@
 import PlatformContainer from "~/_components/common/PlatformContainer";
 import { H6 } from "~/_components/common/Typography";
-import { Professional } from "~/types/professionals";
+import { type Professional } from "~/types/professionals";
 import ProfessionalInfo from "./ProfessionalInfo";
 import { Button } from "~/_components/common/Button";
 import Image from "next/image";
@@ -9,7 +9,7 @@ const ProfessionalSelection = (props: {
   isLoading: boolean;
   professionals: Professional[] | undefined;
   error: Error | null;
-  selectedProfessional: Professional | null;
+  selectedProfessional?: Professional;
   handleProfessionalSelect: (professional: Professional) => void;
 }) => {
   const {

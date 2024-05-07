@@ -22,11 +22,20 @@ const Filters: React.FC<{
       onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        onApply(
-          (event.target as HTMLFormElement)["location"].value,
-          (event.target as HTMLFormElement)["modality"].value,
-          (event.target as HTMLFormElement)["timeRange"].value,
-        );
+        const location =
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          ((event.target as HTMLFormElement).location?.value as number) ?? null;
+        
+        const modality =
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          ((event.target as HTMLFormElement).modality?.value as number) ?? null;
+        
+        const timeRange =
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          ((event.target as HTMLFormElement).timeRange?.value as number) ??
+          null;
+
+        onApply(location, modality, timeRange);
 
         if (isDialogOpen) setIsDialogOpen(false);
       }}

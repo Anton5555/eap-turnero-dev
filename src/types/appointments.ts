@@ -3,9 +3,7 @@ export type FreeAppointment = {
   end: Date;
 };
 
-export type FreeAppointmentsByDay = {
-  [dayOfMonth: number]: FreeAppointment[];
-};
+export type FreeAppointmentsByDay = Record<number, FreeAppointment[]>;
 
 export type Appointment = {
   id: number;

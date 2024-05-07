@@ -1,6 +1,6 @@
 import { type AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { AuthenticatedUserApiData, User } from "~/types/users";
+import type { AuthenticatedUserApiData, User } from "~/types/users";
 import { env } from "~/env";
 import { parseJwt } from "./utils";
 
@@ -18,7 +18,7 @@ const parseUser = (authenticatedUser: AuthenticatedUserApiData): User => {
     company: parseInt(eapUser.empresa),
     location: eapUser.sede,
     userType: eapUser.tipousuarioportal === "empleado" ? "employee" : "family",
-    userTypeId: parseInt(eapUser.tipo),
+    userTypeId: eapUser.tipousuarioportal === "empleado" ? 1 : 2,
     services: eapUser.services.map((service) => service.code),
     position: eapUser.puesto ? parseInt(eapUser.puesto) : undefined,
     timezone: eapUser.huso,
@@ -97,7 +97,7 @@ const authOptions: AuthOptions = {
 
         const user = parseUser(userData);
 
-        return user ? (user as User) : null;
+        return user ?? null;
       },
     }),
   ],
@@ -117,6 +117,8 @@ const authOptions: AuthOptions = {
         if (trigger === "update") updateToken = true;
         else {
           const parsedJwtToken = parseJwt(token.user.accessToken);
+
+          if (!parsedJwtToken) return token;
 
           // Get the expiry date in milliseconds
           const expires = parsedJwtToken.exp * 1000;
@@ -140,14 +142,16 @@ const authOptions: AuthOptions = {
     async session({ session, token }) {
       const parsedJwtToken = parseJwt(token.user.accessToken);
 
-      const expiryDateISOString = new Date(
-        parsedJwtToken.exp * 1000,
-      ).toISOString();
+      if (parsedJwtToken) {
+        const expiryDateISOString = new Date(
+          parsedJwtToken.exp * 1000,
+        ).toISOString();
 
-      // This is the expiry date of the session, next-auth takes care of the automatic logout if expired
-      // We set it to the expiry date of the token because next-auth default one keeps updating all the time
-      // and we want to keep the session alive as long as the token from the api is valid
-      session.expires = expiryDateISOString;
+        // This is the expiry date of the session, next-auth takes care of the automatic logout if expired
+        // We set it to the expiry date of the token because next-auth default one keeps updating all the time
+        // and we want to keep the session alive as long as the token from the api is valid
+        session.expires = expiryDateISOString;
+      }
 
       session.user = token.user;
 

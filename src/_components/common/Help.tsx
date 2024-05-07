@@ -63,7 +63,7 @@ const QRCodeDialog: React.FC<{
 );
 
 const Help = () => {
-  let [isQRCodeOpen, setIsQRCodeOpen] = useState(false);
+  const [isQRCodeOpen, setIsQRCodeOpen] = useState(false);
 
   return (
     <>

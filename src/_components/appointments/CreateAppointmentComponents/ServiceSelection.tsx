@@ -1,12 +1,12 @@
 import PlatformContainer from "~/_components/common/PlatformContainer";
 import { Button } from "~/_components/common/Button";
-import { ContractService } from "~/types/services";
+import { type ContractService } from "~/types/services";
 import { H6 } from "~/_components/common/Typography";
 import ImageWithFallback from "~/_components/common/ImageWithFallback";
 
 const ServiceSelection = (props: {
   services: ContractService[];
-  selectedService: ContractService | null;
+  selectedService?: ContractService;
   handleServiceSelect: (service: ContractService) => void;
 }) => {
   const { services, selectedService, handleServiceSelect } = props;

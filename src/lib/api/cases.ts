@@ -2,6 +2,10 @@ import { env } from "~/env";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
 
+interface ActiveCaseApiData {
+  idproceso: number;
+}
+
 const GetActiveCaseAdapter = (props: {
   areaId: number;
   serviceId: number;
@@ -107,9 +111,9 @@ const getActiveCaseId = async (props: {
   const responseBody = await response.text();
   if (!responseBody) return undefined;
 
-  const parsedResponse = JSON.parse(responseBody);
+  const parsedResponse = JSON.parse(responseBody) as ActiveCaseApiData;
 
-  return parsedResponse.idproceso as number;
+  return parsedResponse.idproceso;
 };
 
 const createCase = async (props: {
@@ -170,9 +174,9 @@ const createCase = async (props: {
 
   if (!response.ok) throw new Error("Error al crear el caso");
 
-  const responseBody = await response.json();
+  const responseBody = (await response.json()) as ActiveCaseApiData;
 
-  return responseBody.idproceso as number;
+  return responseBody.idproceso;
 };
 
 export { getActiveCaseId, createCase };

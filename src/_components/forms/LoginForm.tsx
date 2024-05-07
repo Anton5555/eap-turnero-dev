@@ -14,8 +14,6 @@ import { toast } from "sonner";
 import { activateAccount } from "~/lib/api/users";
 import { useMutation } from "@tanstack/react-query";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 const loginFormSchema = z.object({
   email: z.string().trim().email({ message: "Ingresa un email válido" }),
   password: z.string().min(8, {
@@ -47,7 +45,7 @@ const LoginForm: React.FC<{
         error: "Error al activar cuenta",
       });
     }
-  }, []);
+  });
 
   const {
     register,

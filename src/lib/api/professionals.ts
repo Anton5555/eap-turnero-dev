@@ -1,4 +1,4 @@
-import { Professional } from "~/types/professionals";
+import { type Professional } from "~/types/professionals";
 import { env } from "~/env";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
@@ -23,18 +23,21 @@ const parseData = (
   professionals: ProfessionalApiData[],
   subSpecialties: SubSpecialtiesApiData | null,
 ): Professional[] =>
-  professionals.map((professional) => ({
-    id: professional.EmpID,
-    name: professional.NAME,
-    subSpecialties:
-      professional.subEsp
-        ?.split(",")
-        .map(
-          (id) =>
-            subSpecialties?.value.find((s) => s.ID === Number(id))
-              ?.SUB_ESPECIALIDAD as string,
-        ) ?? undefined,
-  }));
+  professionals.map((professional) => {
+    const subSpecialtiesNames = professional.subEsp?.split(",").map((id) => {
+      const foundSubSpecialty = subSpecialties?.value.find(
+        (s) => s.ID === Number(id),
+      );
+      
+      return foundSubSpecialty ? foundSubSpecialty.SUB_ESPECIALIDAD : undefined;
+    });
+
+    return {
+      id: professional.EmpID,
+      name: professional.NAME,
+      subSpecialties: subSpecialtiesNames ?? undefined,
+    } as Professional;
+  });
 
 const getProfessionals = async (props: {
   locationId: number;
@@ -91,6 +94,12 @@ const getProfessionals = async (props: {
   return professionalsWithSubspecialties;
 };
 
+interface SapUserApiData {
+  value: {
+    USER_CODE: string;
+  }[];
+}
+
 const getProfessionalSapUser = async (props: {
   employeeId: number;
   accessToken: string;
@@ -111,11 +120,14 @@ const getProfessionalSapUser = async (props: {
   if (!response.ok)
     throw new Error("Error al obtener el usuario SAP del profesional");
 
-  const responseBody = await response.json();
+  const responseBody = (await response.json()) as SapUserApiData;
+
+  if (responseBody.value.length === 0 || !responseBody.value[0]?.USER_CODE)
+    throw new Error("No se encontró el usuario SAP del profesional");
 
   const sapUser = responseBody.value[0].USER_CODE;
 
-  return sapUser as string;
+  return sapUser;
 };
 
 export { getProfessionals, getProfessionalSapUser };
