@@ -334,6 +334,7 @@ const CreateAppointment: React.FC<{
         employeeId: selectedProfessional.id,
         notificationTitle: `Tu cita con ${selectedProfessional.name} ha sido agendada correctamente!`,
         notificationDescription: `Tu cita ha sido agendada para el día ${format(selectedTime.dateFrom, "dd/MM/yyyy")} a las ${format(selectedTime.dateFrom, "HH:mm")}hs`,
+        notificationSpecialty: selectedService.specialty,
       }),
       {
         loading: "Creando cita",

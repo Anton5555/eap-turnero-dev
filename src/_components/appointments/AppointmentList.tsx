@@ -48,6 +48,7 @@ const AppointmentList: React.FC<{
         patientId: Number(session.user.id),
         notificationTitle: `Tu cita con ${selectedAppointment?.professional} ha sido eliminada correctamente.`,
         notificationDescription: `Tu cita del día ${format(selectedAppointment.start, "dd/MM/yyyy")} a las ${format(selectedAppointment.start, "HH:mm")}hs ha sido eliminada`,
+        notificationSpecialty: selectedAppointment.specialty,
       }),
       {
         loading: "Eliminando cita",

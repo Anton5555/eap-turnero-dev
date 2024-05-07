@@ -8,14 +8,16 @@ const CreateNotificationAdapter = (props: {
   professionalId: number;
   title: string;
   description: string;
+  speciality: string;
 }) => {
-  const { patientId, professionalId, title, description } = props;
+  const { patientId, professionalId, title, description, speciality } = props;
 
   return {
     patient_id: patientId,
     prof_id: professionalId,
     title,
     descrp: description,
+    especialidad: speciality,
   };
 };
 
@@ -24,6 +26,7 @@ const createNotification = async (props: {
   professionalId: number;
   title: string;
   description: string;
+  speciality: string;
   accessToken: string;
 }) => {
   const { accessToken } = props;
@@ -54,6 +57,7 @@ interface NotificationsApiData {
   isdirty: boolean;
   title: string;
   descrp: string;
+  especialidad: string;
 }
 
 const filterAndMapNotificationsApiData = (
@@ -65,6 +69,7 @@ const filterAndMapNotificationsApiData = (
       title: notification.title,
       description: notification.descrp,
       dateCreated: new Date(notification.create_date),
+      specialty: notification.especialidad,
     }));
 
 const getUnreadNotifications = async (props: {

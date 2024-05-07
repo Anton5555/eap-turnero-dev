@@ -169,6 +169,7 @@ const createAppointment = async (props: {
   employeeId: number;
   notificationTitle: string;
   notificationDescription: string;
+  notificationSpecialty: string;
 }) => {
   const {
     accessToken,
@@ -188,6 +189,7 @@ const createAppointment = async (props: {
     employeeId,
     notificationTitle,
     notificationDescription,
+    notificationSpecialty,
   } = props;
 
   let caseId = await getActiveCaseId({
@@ -253,6 +255,7 @@ const createAppointment = async (props: {
       professionalId: employeeId,
       title: notificationTitle,
       description: notificationDescription,
+      speciality: notificationSpecialty,
       accessToken,
     });
   } catch (error) {
@@ -294,6 +297,7 @@ const deleteAppointment = async (props: {
   patientId: number;
   notificationTitle: string;
   notificationDescription: string;
+  notificationSpecialty: string;
 }) => {
   const {
     accessToken,
@@ -302,6 +306,7 @@ const deleteAppointment = async (props: {
     patientId,
     notificationTitle,
     notificationDescription,
+    notificationSpecialty,
   } = props;
 
   const sapUser = await getProfessionalSapUser({
@@ -327,6 +332,7 @@ const deleteAppointment = async (props: {
       professionalId: employeeId,
       title: notificationTitle,
       description: notificationDescription,
+      speciality: notificationSpecialty,
       accessToken,
     });
   } catch (error) {
