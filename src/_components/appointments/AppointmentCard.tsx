@@ -1,4 +1,4 @@
-import { Appointment } from "~/types/appointments";
+import { type Appointment } from "~/types/appointments";
 import PlatformContainer from "../common/PlatformContainer";
 import Image from "next/image";
 import { Button } from "../common/Button";
@@ -31,7 +31,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           <div className="flex flex-col space-y-1">
             <h3>{appointment.specialty}</h3>
 
-            <p className="font-lato text-dark-gray leading-4">
+            <p className="font-lato leading-4 text-dark-gray">
               {appointment.professional}
             </p>
 
