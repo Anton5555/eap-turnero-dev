@@ -28,6 +28,7 @@ const parseData = (
       const foundSubSpecialty = subSpecialties?.value.find(
         (s) => s.ID === Number(id),
       );
+      
       return foundSubSpecialty ? foundSubSpecialty.SUB_ESPECIALIDAD : undefined;
     });
 
