@@ -23,6 +23,8 @@ export default {
         "very-dark-blue": "#1F384C",
         "red-600": "#E02424",
         "dark-blue": "#64748B",
+        yellow: "#FBBF24",
+        purple: "#8C67DC",
       },
       boxShadow: {
         "custom-light": "-4px 5px 10px 0px #4A4A4A0D",

@@ -15,6 +15,18 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { markAllAsRead } from "~/lib/api/notifications";
 import { useSession } from "next-auth/react";
+import cn from "~/lib/utils";
+
+type SpecialtyColors = Record<string, string>;
+
+const specialtyColors: SpecialtyColors = {
+  Informativa: "bg-green",
+  Legal: "bg-blue",
+  Finanzas: "bg-pink",
+  Nutrición: "bg-purple",
+  Psicología: "bg-yellow",
+  Veterinaria: "bg-light-blue",
+};
 
 const NotificationsMenu: React.FC<{
   notifications?: AppointmentNotification[];
@@ -86,6 +98,16 @@ const NotificationsMenu: React.FC<{
                     <p className="flex flex-row text-xs font-normal text-dark-gray">
                       {notification.description}
                     </p>
+
+                    <div
+                      className={cn(
+                        "inline-flex items-center rounded-md border px-3 py-1 font-inter text-[10px] font-semibold text-white",
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                        specialtyColors[notification.specialty] ?? "bg-gray",
+                      )}
+                    >
+                      {notification.specialty}
+                    </div>
                   </div>
 
                   <div className="border-b border-black/25" />
