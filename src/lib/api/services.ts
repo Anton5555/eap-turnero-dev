@@ -1,4 +1,4 @@
-import { ContractService } from "~/types/services";
+import { type ContractService } from "~/types/services";
 import { env } from "~/env";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;

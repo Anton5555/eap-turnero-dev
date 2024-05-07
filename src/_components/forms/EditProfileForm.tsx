@@ -8,7 +8,7 @@ import { Input } from "../common/Input";
 import { Select } from "../common/Select";
 import { Button } from "../common/Button";
 import ProfileImageInput from "../profile/ProfileImageInput";
-import { Gender, User } from "~/types/users";
+import type { Gender, User } from "~/types/users";
 import useUserImage from "~/lib/useUserImage";
 import { locations } from "~/lib/constants";
 import { useState } from "react";
@@ -103,9 +103,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 font-inter">
       <ProfileImageInput
-        imageUrl={
-          newUserImage ? URL.createObjectURL(newUserImage as File) : imageUrl
-        }
+        imageUrl={newUserImage ? URL.createObjectURL(newUserImage) : imageUrl}
         onImageChange={setNewUserImage}
       />
 

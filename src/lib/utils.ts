@@ -1,5 +1,6 @@
 import clsx, { type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { type DecodedApiToken } from "~/types/users";
 
 const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
 
@@ -11,7 +12,7 @@ export const parseJwt = (token: string) => {
 
     if (!tokenPayload) throw new Error("Invalid token");
 
-    return JSON.parse(atob(tokenPayload));
+    return JSON.parse(atob(tokenPayload)) as DecodedApiToken;
   } catch (e) {
     return null;
   }

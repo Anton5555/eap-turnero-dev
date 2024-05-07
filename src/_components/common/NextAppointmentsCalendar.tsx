@@ -3,8 +3,8 @@
 import * as React from "react";
 
 import {
-  CaptionProps,
-  DayContentProps,
+  type CaptionProps,
+  type DayContentProps,
   DayPicker,
   useNavigation,
 } from "react-day-picker";

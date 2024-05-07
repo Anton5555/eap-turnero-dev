@@ -2,7 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 import { Button } from "../common/Button";
 import CloseIcon from "../icons/Close";
-import { FamilyRelative } from "~/types/users";
+import { type FamilyRelative } from "~/types/users";
 
 interface DeleteFamilyMemberDialogProps {
   open: boolean;

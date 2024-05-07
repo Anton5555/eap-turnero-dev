@@ -64,6 +64,9 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
               <li key={navigationItem.name}>
                 <Link
                   href={navigationItem.href}
+                  onClick={() => {
+                    if (sidebarOpen) setSidebarOpen(false);
+                  }}
                   className={cn(
                     navigationItem.path === currentPathRoot
                       ? "text-green"

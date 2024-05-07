@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import PlatformContainer from "../common/PlatformContainer";
 import AppointmentsEmpty from "./AppointmentsEmpty";
-import { Appointment } from "~/types/appointments";
+import { type Appointment } from "~/types/appointments";
 import { deleteAppointment } from "~/lib/api/appointments";
 import { useMutation } from "@tanstack/react-query";
 import AppointmentCard from "./AppointmentCard";
@@ -21,7 +21,6 @@ const AppointmentList: React.FC<{
   appointments: Appointment[];
   className?: string;
 }> = ({ appointments, className }) => {
-  const { data: session } = useSession();
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -34,15 +33,21 @@ const AppointmentList: React.FC<{
     onSuccess: () => router.refresh(),
   });
 
+  const { data: session } = useSession();
+
+  if (!session) return null;
+
   const handleSubmit = () => {
+    if (!selectedAppointment) return;
+
     toast.promise(
       mutateAsync({
-        accessToken: session?.user.accessToken!,
-        appointmentId: selectedAppointment!.id,
-        employeeId: selectedAppointment?.professionalId!,
-        patientId: Number(session?.user.id!),
+        accessToken: session.user.accessToken,
+        appointmentId: selectedAppointment.id,
+        employeeId: selectedAppointment.professionalId,
+        patientId: Number(session.user.id),
         notificationTitle: `Tu cita con ${selectedAppointment?.professional} ha sido eliminada correctamente.`,
-        notificationDescription: `Tu cita del día ${format(selectedAppointment?.start!, "dd/MM/yyyy")} a las ${format(selectedAppointment?.start!, "HH:mm")}hs ha sido eliminada`,
+        notificationDescription: `Tu cita del día ${format(selectedAppointment.start, "dd/MM/yyyy")} a las ${format(selectedAppointment.start, "HH:mm")}hs ha sido eliminada`,
       }),
       {
         loading: "Eliminando cita",

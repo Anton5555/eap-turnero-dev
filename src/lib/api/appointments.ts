@@ -1,4 +1,4 @@
-import { Appointment, FreeAppointmentsByDay } from "~/types/appointments";
+import type { Appointment, FreeAppointmentsByDay } from "~/types/appointments";
 import { createCase, getActiveCaseId } from "./cases";
 import { getProfessionalSapUser } from "./professionals";
 import { env } from "~/env";
@@ -58,6 +58,12 @@ const CreateAppointmentAdapter = (props: {
   modalidadcita: props.modalityId,
 });
 
+interface AgendaApiData {
+  value: {
+    DocEntry: number;
+  }[];
+}
+
 interface AppointmentsApiData {
   UNIQUEID: number;
   FS_FECHAINICIO: string;
@@ -115,9 +121,9 @@ const getFreeAppointments = async (props: {
   if (!responseAgendas.ok)
     throw new Error("Error al obtener la agenda del profesional");
 
-  const dataAgenda = await responseAgendas.json();
+  const dataAgenda = (await responseAgendas.json()) as AgendaApiData;
 
-  if (dataAgenda.length === 0)
+  if (dataAgenda.value.length === 0 || !dataAgenda.value[0]?.DocEntry)
     throw new Error("No hay agendas activas para el profesional");
 
   const agendaId = dataAgenda.value[0].DocEntry;

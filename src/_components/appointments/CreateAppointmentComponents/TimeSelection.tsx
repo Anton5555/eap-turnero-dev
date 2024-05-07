@@ -6,7 +6,7 @@ const TimeSelection = (props: {
   selectedDate: boolean;
   freeAppointments: boolean;
   freeAppointmentsTimes: { dateFrom: Date; dateTo: Date }[];
-  selectedTime: { dateFrom: Date; dateTo: Date } | null;
+  selectedTime?: { dateFrom: Date; dateTo: Date };
   onTimeSelect: (times: { dateFrom: Date; dateTo: Date }) => void;
 }) => {
   const {
@@ -30,7 +30,7 @@ const TimeSelection = (props: {
           {freeAppointmentsTimes.map((times, index) => (
             <Button
               key={index}
-              className="font-openSans h-10 w-full text-base font-normal lg:h-12"
+              className="h-10 w-full font-openSans text-base font-normal lg:h-12"
               variant={times === selectedTime ? "default" : "secondary"}
               onClick={() => onTimeSelect(times)}
             >

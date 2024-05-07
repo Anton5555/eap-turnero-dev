@@ -1,6 +1,6 @@
 import { Button } from "~/_components/common/Button";
 import { H6 } from "~/_components/common/Typography";
-import { Professional } from "~/types/professionals";
+import { type Professional } from "~/types/professionals";
 
 const ProfessionalInfo = (professional: Professional) => (
   <div className="ml-4 flex-col">

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Image, { ImageProps } from "next/image";
+import Image, { type ImageProps } from "next/image";
 
 interface ImageWithFallbackProps extends ImageProps {
   src: string;
@@ -7,12 +7,13 @@ interface ImageWithFallbackProps extends ImageProps {
 }
 
 const ImageWithFallback = (props: ImageWithFallbackProps) => {
-  const { src, fallbackSrc, ...rest } = props;
+  const { src, fallbackSrc, alt, ...rest } = props;
   const [imgSrc, setImgSrc] = useState(src);
 
   return (
     <Image
       {...rest}
+      alt={alt}
       src={imgSrc}
       onError={() => {
         setImgSrc(fallbackSrc);

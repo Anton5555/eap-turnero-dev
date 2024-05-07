@@ -1,8 +1,8 @@
 import PlatformContainer from "~/_components/common/PlatformContainer";
 import Calendar from "../Calendar";
 import { H6 } from "~/_components/common/Typography";
-import { FreeAppointmentsByDay } from "~/types/appointments";
-import { DayClickEventHandler } from "react-day-picker";
+import { type FreeAppointmentsByDay } from "~/types/appointments";
+import { type DayClickEventHandler } from "react-day-picker";
 
 const DateSelection = (props: {
   isLoading: boolean;
