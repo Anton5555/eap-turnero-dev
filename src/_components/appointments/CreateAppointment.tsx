@@ -36,7 +36,7 @@ import type {
 const filterAppointmentsByDuration = (
   appointments: FreeAppointment[],
   durationFilter: number,
-  timeRangeFilter: { start: number; end: number } | null,
+  timeRangeFilter?: { start: number; end: number },
 ): FreeAppointment[] => {
   const blocksNeeded = durationFilter / 15;
 
@@ -117,7 +117,7 @@ const CreateAppointment: React.FC<{
   const [timeRangeFilter, setTimeRangeFilter] = useState<{
     start: number;
     end: number;
-  } | null>(null);
+  }>();
 
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
     useState(false);
@@ -403,9 +403,9 @@ const CreateAppointment: React.FC<{
             defaultLocation={user.location}
             defaultModality={modalityFilter}
             onApply={(
-              location: number | null,
-              modality: number | null,
-              timeRangeValue: number | null,
+              location: number | undefined,
+              modality: number | undefined,
+              timeRangeValue: number | undefined,
             ) => {
               if (location) setLocationFilter(location);
               if (modality) setModalityFilter(modality);
@@ -414,7 +414,7 @@ const CreateAppointment: React.FC<{
                 setTimeRangeFilter(
                   timeRanges.find(
                     (timeRange) => timeRange.value == timeRangeValue,
-                  )?.times ?? null,
+                  )?.times ?? undefined,
                 );
               }
             }}

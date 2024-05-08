@@ -4,59 +4,70 @@ import { Select } from "~/_components/common/Select";
 import { locations, modalities, timeRanges } from "~/lib/constants";
 import { H2 } from "~/_components/common/Typography";
 import { Button } from "~/_components/common/Button";
+import { useForm } from "react-hook-form";
+
+interface FiltersFormData {
+  location: number | undefined;
+  modality: number | undefined;
+  timeRange: number | undefined;
+}
 
 const Filters: React.FC<{
   defaultLocation?: number;
   defaultModality?: number;
   onApply: (
-    location: number | null,
-    modality: number | null,
-    timeRangeValue: number | null,
+    location: number | undefined,
+    modality: number | undefined,
+    timeRangeValue: number | undefined,
   ) => void;
 }> = ({ defaultLocation, defaultModality, onApply }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  const { register, handleSubmit, watch } = useForm<FiltersFormData>({
+    defaultValues: {
+      location: defaultLocation,
+      modality: defaultModality,
+      timeRange: undefined,
+    },
+  });
+
+  const [location, modality, timeRange] = watch([
+    "location",
+    "modality",
+    "timeRange",
+  ]);
+
+  const onSubmit = (data: FiltersFormData) => {
+    onApply(data.location, data.modality, data.timeRange);
+    if (isDialogOpen) setIsDialogOpen(false);
+  };
+
   const FiltersForm = (
     <form
       className="flex flex-col items-center space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0"
-      onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        const location =
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          ((event.target as HTMLFormElement).location?.value as number) ?? null;
-
-        const modality =
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          ((event.target as HTMLFormElement).modality?.value as number) ?? null;
-
-        const timeRange =
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          ((event.target as HTMLFormElement).timeRange?.value as number) ??
-          null;
-
-        onApply(location, modality, timeRange);
-
-        if (isDialogOpen) setIsDialogOpen(false);
-      }}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <Select
+        {...register("location")}
         options={locations}
+        value={location}
         id="location"
-        defaultValue={defaultLocation}
         className="h-9 w-80 rounded-md ring-light-gray lg:w-40"
         placeholder="País"
       />
 
       <Select
+        {...register("modality")}
         options={modalities}
+        value={modality}
         id="modality"
-        defaultValue={defaultModality}
         className="h-9 w-80 rounded-md ring-light-gray lg:w-40"
       />
 
       <Select
+        {...register("timeRange")}
         options={timeRanges}
+        value={timeRange}
         id="timeRange"
         placeholder="Disponibilidad"
         className="h-9 w-80 rounded-md ring-light-gray lg:w-40"
