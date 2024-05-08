@@ -68,14 +68,18 @@ const LoginForm: React.FC<{
     if (!response?.error) {
       router.push("/auth/welcome");
       router.refresh();
+
       return;
     }
 
     if (response?.error === "Contraseña incorrecta")
       setError("password", { message: response?.error });
-    if (response?.error === "Usuario no encontrado")
+    else if (
+      response?.error === "Usuario no encontrado" ||
+      response?.error === "Usuario no activo"
+    )
       setError("email", { message: response?.error });
-    else toast.error(response?.error ?? "Error al iniciar sesión");
+    else toast.error(response?.error);
   };
 
   return (

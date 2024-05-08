@@ -317,7 +317,7 @@ const deleteAppointment = async (props: {
   const headers = new Headers();
   headers.append("Authorization", accessToken);
 
-  const requestUrl = `${API_URL}/appointments/deleteAppointment?idappointment=${appointmentId}&sapuser=${sapUser}&deletereasonid=-1&deleteprocessifempty=true`;
+  const requestUrl = `${API_URL}/appointments/deleteAppointment?idappointment=${appointmentId}&sapuser=${sapUser}&deletereasonid=-1&deleteprocessifempty=false`;
 
   const response = await fetch(requestUrl, {
     method: "POST",

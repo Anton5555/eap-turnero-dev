@@ -42,16 +42,17 @@ const SignUpForm: React.FC = () => {
     register,
     handleSubmit,
     setError,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<Inputs>({
     resolver: zodResolver(signupFormSchema),
   });
 
+  const location = watch("location");
+
   const mutation = useMutation({
     mutationFn: signup,
     onError: (error) => {
-      console.log(error.message);
-
       if (error.message === "Ya existe un usuario con este mail") {
         setError("email", { message: error.message });
 
@@ -104,6 +105,7 @@ const SignUpForm: React.FC = () => {
         id="location"
         {...register("location")}
         options={locations}
+        value={location}
         label="Sede"
         placeholder="Selecciona tu sede"
         errorText={errors.location?.message}

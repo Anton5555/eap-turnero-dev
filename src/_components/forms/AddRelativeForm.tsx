@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../common/Input";
 import { Select } from "../common/Select";
 import { Button } from "../common/Button";
-import { FamilyRelashionships, Gender, User } from "~/types/users";
+import type { FamilyRelashionships, Gender, User } from "~/types/users";
 import { useMutation } from "@tanstack/react-query";
 import { addFamilyRelative } from "~/lib/api/users";
 import { useRouter } from "next/navigation";
