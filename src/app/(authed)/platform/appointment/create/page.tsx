@@ -15,7 +15,7 @@ const Page = async () => {
   const services = await getContractServices({
     companyId: company,
     locationId: location,
-    positionId: position!,
+    positionId: position ?? -1,
     accessToken: accessToken,
   });
 
