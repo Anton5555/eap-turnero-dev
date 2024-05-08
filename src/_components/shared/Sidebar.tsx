@@ -15,6 +15,7 @@ import { H6 } from "../common/Typography";
 import Logo from "./Logo";
 import { usePathname } from "next/navigation";
 import Help from "../common/Help";
+import { type AppointmentNotification } from "~/types/notifications";
 
 const navigation = [
   { name: "Inicio", href: "/platform", icon: HomeIcon, path: "platform" },
@@ -29,9 +30,10 @@ type SidebarProps = {
     accessToken: string;
     imageName?: string;
   };
+  notifications?: AppointmentNotification[];
 };
 
-const Sidebar: React.FC<SidebarProps> = ({ children, user }) => {
+const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
   const { name } = user;
 
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
@@ -133,7 +135,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user }) => {
             </div>
 
             <div className="flex items-center">
-              <NotificationsMenu />
+              <NotificationsMenu notifications={notifications} />
             </div>
           </div>
         </div>

@@ -62,9 +62,9 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
                   <p className="text-sm lg:text-base">
                     Recibirás una confirmación por correo electrónico con todos
                     los detalles necesarios. Desde la sección{" "}
-                    <span className="text-green">&#39Inicio&#39</span>, podrás
-                    gestionar tus citas, incluyendo la posibilidad de cancelarla
-                    o modificarla si es necesario.
+                    <span className="text-green">&apos;Inicio&apos;</span>,
+                    podrás gestionar tus citas, incluyendo la posibilidad de
+                    cancelarla o modificarla si es necesario.
                   </p>
 
                   <p className="text-sm italic leading-4">

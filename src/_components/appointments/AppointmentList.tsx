@@ -15,6 +15,7 @@ import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import cn from "~/lib/utils";
+import { format } from "date-fns";
 
 const AppointmentList: React.FC<{
   appointments: Appointment[];
@@ -44,6 +45,10 @@ const AppointmentList: React.FC<{
         accessToken: session.user.accessToken,
         appointmentId: selectedAppointment.id,
         employeeId: selectedAppointment.professionalId,
+        patientId: Number(session.user.id),
+        notificationTitle: `Tu cita con ${selectedAppointment?.professional} ha sido eliminada correctamente.`,
+        notificationDescription: `Tu cita del día ${format(selectedAppointment.start, "dd/MM/yyyy")} a las ${format(selectedAppointment.start, "HH:mm")}hs ha sido eliminada`,
+        notificationSpecialty: selectedAppointment.specialty,
       }),
       {
         loading: "Eliminando cita",

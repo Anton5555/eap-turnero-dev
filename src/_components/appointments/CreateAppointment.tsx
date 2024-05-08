@@ -7,8 +7,8 @@ import Stepper from "../common/Stepper";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { getProfessionals } from "~/lib/api/professionals";
-import { ContractService } from "~/types/services";
-import { Professional } from "~/types/professionals";
+import { type ContractService } from "~/types/services";
+import { type Professional } from "~/types/professionals";
 import cn from "~/lib/utils";
 import {
   differenceInMinutes,
@@ -28,7 +28,10 @@ import DateSelection from "./CreateAppointmentComponents/DateSelection";
 import TimeSelection from "./CreateAppointmentComponents/TimeSelection";
 import ProfessionalSelection from "./CreateAppointmentComponents/ProfessionalSelection";
 import { timeRanges } from "~/lib/constants";
-import { FreeAppointment, FreeAppointmentsByDay } from "~/types/appointments";
+import type {
+  FreeAppointment,
+  FreeAppointmentsByDay,
+} from "~/types/appointments";
 
 const filterAppointmentsByDuration = (
   appointments: FreeAppointment[],
@@ -329,6 +332,9 @@ const CreateAppointment: React.FC<{
         locationId: user.location,
         positionId: user.position ?? -1,
         employeeId: selectedProfessional.id,
+        notificationTitle: `Tu cita con ${selectedProfessional.name} ha sido agendada correctamente!`,
+        notificationDescription: `Tu cita ha sido agendada para el día ${format(selectedTime.dateFrom, "dd/MM/yyyy")} a las ${format(selectedTime.dateFrom, "HH:mm")}hs`,
+        notificationSpecialty: selectedService.specialty,
       }),
       {
         loading: "Creando cita",

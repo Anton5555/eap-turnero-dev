@@ -2,6 +2,7 @@ import type { Appointment, FreeAppointmentsByDay } from "~/types/appointments";
 import { createCase, getActiveCaseId } from "./cases";
 import { getProfessionalSapUser } from "./professionals";
 import { env } from "~/env";
+import { createNotification } from "./notifications";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
 
@@ -166,6 +167,9 @@ const createAppointment = async (props: {
   locationId: number;
   positionId: number;
   employeeId: number;
+  notificationTitle: string;
+  notificationDescription: string;
+  notificationSpecialty: string;
 }) => {
   const {
     accessToken,
@@ -183,6 +187,9 @@ const createAppointment = async (props: {
     locationId,
     positionId,
     employeeId,
+    notificationTitle,
+    notificationDescription,
+    notificationSpecialty,
   } = props;
 
   let caseId = await getActiveCaseId({
@@ -219,27 +226,43 @@ const createAppointment = async (props: {
   headers.append("Authorization", accessToken);
   headers.append("Content-Type", "application/json");
 
-  const response = await fetch(`${API_URL}/appointments/CreateAppointment`, {
-    method: "POST",
-    headers,
-    body: JSON.stringify(
-      CreateAppointmentAdapter({
-        patientId,
-        agendaId,
-        processType,
-        processId: caseId,
-        dateFrom,
-        dateTo,
-        timezone,
-        modalityId,
-        professionalSapUser,
-      }),
-    ),
-  });
+  const createAppointmentResponse = await fetch(
+    `${API_URL}/appointments/CreateAppointment`,
+    {
+      method: "POST",
+      headers,
+      body: JSON.stringify(
+        CreateAppointmentAdapter({
+          patientId,
+          agendaId,
+          processType,
+          processId: caseId,
+          dateFrom,
+          dateTo,
+          timezone,
+          modalityId,
+          professionalSapUser,
+        }),
+      ),
+    },
+  );
 
-  if (!response.ok) throw new Error("Error al crear la cita");
+  if (!createAppointmentResponse.ok) throw new Error("Error al crear la cita");
 
-  return response;
+  try {
+    await createNotification({
+      patientId,
+      professionalId: employeeId,
+      title: notificationTitle,
+      description: notificationDescription,
+      speciality: notificationSpecialty,
+      accessToken,
+    });
+  } catch (error) {
+    console.error("Error al crear la notificación", error);
+  }
+
+  return createAppointmentResponse;
 };
 
 const getAppointmentsByPatient = async (props: {
@@ -271,8 +294,20 @@ const deleteAppointment = async (props: {
   accessToken: string;
   appointmentId: number;
   employeeId: number;
+  patientId: number;
+  notificationTitle: string;
+  notificationDescription: string;
+  notificationSpecialty: string;
 }) => {
-  const { accessToken, appointmentId, employeeId } = props;
+  const {
+    accessToken,
+    appointmentId,
+    employeeId,
+    patientId,
+    notificationTitle,
+    notificationDescription,
+    notificationSpecialty,
+  } = props;
 
   const sapUser = await getProfessionalSapUser({
     employeeId,
@@ -290,6 +325,19 @@ const deleteAppointment = async (props: {
   });
 
   if (!response.ok) throw new Error("Error al eliminar la cita");
+
+  try {
+    await createNotification({
+      patientId,
+      professionalId: employeeId,
+      title: notificationTitle,
+      description: notificationDescription,
+      speciality: notificationSpecialty,
+      accessToken,
+    });
+  } catch (error) {
+    console.error("Error al crear la notificación", error);
+  }
 
   return response;
 };
