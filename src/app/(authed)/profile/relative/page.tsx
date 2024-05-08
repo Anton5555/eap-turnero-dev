@@ -1,8 +1,6 @@
 import { getServerSession } from "next-auth";
 import { H3, H6 } from "~/_components/common/Typography";
 import AddRelativeForm from "~/_components/forms/AddRelativeForm";
-import EditProfileForm from "~/_components/forms/EditProfileForm";
-import FamilyRelatives from "~/_components/profile/FamilyRelatives";
 import { getFamilyRelashionships, getGenders } from "~/lib/api/users";
 import authOptions from "~/lib/authOptions";
 
