@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { type AddRelativeInputs } from "~/_components/forms/AddRelativeForm";
 import { type EditProfileInputs } from "~/_components/forms/EditProfileForm";
 import { env } from "~/env";
 import type {
@@ -126,6 +127,68 @@ const deleteFamilyRelative = async (props: {
   if (!response.ok) throw new Error("Error al eliminar el familiar");
 
   return response;
+};
+
+type AddFamilyRelativeRequest = {
+  IDPaciente: number;
+  Name: string;
+  Apellidos: string;
+  Mail: string;
+  Parentesco?: number;
+  sexo?: number;
+};
+
+const AddFamilyRelativeAdapter = (props: {
+  addFamilyRelativeData: AddRelativeInputs;
+  patientId: number;
+}) => {
+  const { addFamilyRelativeData, patientId } = props;
+
+  const familyRelative: AddFamilyRelativeRequest = {
+    IDPaciente: patientId,
+    Name: addFamilyRelativeData.name,
+    Apellidos: addFamilyRelativeData.lastName,
+    Mail: addFamilyRelativeData.email,
+  };
+
+  if (addFamilyRelativeData.relationship !== "0")
+    familyRelative.Parentesco = Number(addFamilyRelativeData.relationship);
+
+  if (addFamilyRelativeData.gender !== "0")
+    familyRelative.sexo = Number(addFamilyRelativeData.gender);
+
+  return familyRelative;
+};
+
+const addFamilyRelative = async (props: {
+  addFamilyRelativeData: AddRelativeInputs;
+  patientId: string;
+  accessToken: string;
+}) => {
+  const { addFamilyRelativeData, patientId, accessToken } = props;
+
+  const headers = new Headers();
+  headers.append("Authorization", accessToken);
+  headers.append("Content-Type", "application/json");
+
+  const addFamilyRelativeResponse = await fetch(
+    `${API_URL}/Patient/AddFamilyRelative`,
+    {
+      method: "POST",
+      headers,
+      body: JSON.stringify(
+        AddFamilyRelativeAdapter({
+          addFamilyRelativeData,
+          patientId: Number(patientId),
+        }),
+      ),
+    },
+  );
+
+  if (!addFamilyRelativeResponse.ok)
+    throw new Error("Error al añadir el familiar");
+
+  return addFamilyRelativeResponse;
 };
 
 type GenderApiData = {
@@ -289,6 +352,7 @@ const activateAccount = async (uuid: string) => {
 };
 
 export {
+  addFamilyRelative,
   getFamilyRelashionships,
   getFamilyRelatives,
   deleteFamilyRelative,

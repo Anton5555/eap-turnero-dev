@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import DeleteFamilyMemberDialog from "./DeleteFamilyMemberDialog";
+import Link from "next/link";
 
 interface FamilyRelativesProps {
   relatives: FamilyRelative[];
@@ -66,7 +67,7 @@ const FamilyRelatives: React.FC<FamilyRelativesProps> = ({
 
   return (
     <>
-      <div className="flex flex-col space-y-6 lg:h-[calc(20dvh)]">
+      <div className="flex flex-col space-y-6 lg:min-h-[calc(20dvh)]">
         <div className="space-y-4">
           <div className="mb-6 w-full border-b border-black/10"></div>
 
@@ -107,11 +108,14 @@ const FamilyRelatives: React.FC<FamilyRelativesProps> = ({
           ))}
         </div>
 
-        <div className="mt-auto flex flex-row justify-end">
+        <Link
+          href="/profile/relative"
+          className="mt-auto flex flex-row justify-end"
+        >
           <Button className="font-lato w-full font-normal lg:w-auto">
             + Agregar
           </Button>
-        </div>
+        </Link>
       </div>
 
       {isOpen && selectedFamilyRelative && (
