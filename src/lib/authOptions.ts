@@ -82,14 +82,10 @@ const authOptions: AuthOptions = {
 
         if (!response.ok) {
           if (response.status === 401) throw new Error("Contraseña incorrecta");
-          else if (response.status === 404)
-            throw new Error("Usuario no encontrado");
-          else if (response.status === 412)
-            throw new Error(
-              "Debe asociarse el familiar al empleado. Contacte con EAP por favor.",
-            );
 
-          throw new Error("Error al iniciar sesión");
+          const error = (await response.text()).trim();
+
+          throw new Error(error ?? "Error al iniciar sesión");
         }
 
         const userData: AuthenticatedUserApiData =
