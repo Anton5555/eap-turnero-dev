@@ -51,12 +51,10 @@ const Page = async () => {
             Agregar o elimina cualquier miembro familiar
           </p>
 
-          {familyRelatives.length > 0 && (
-            <FamilyRelatives
-              relatives={familyRelatives}
-              relationships={familyRelationships}
-            />
-          )}
+          <FamilyRelatives
+            relatives={familyRelatives}
+            relationships={familyRelationships}
+          />
         </div>
       </div>
     </main>
