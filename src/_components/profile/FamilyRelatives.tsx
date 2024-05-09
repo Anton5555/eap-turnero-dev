@@ -71,6 +71,11 @@ const FamilyRelatives: React.FC<FamilyRelativesProps> = ({
         <div className="space-y-4">
           <div className="mb-6 w-full border-b border-black/10"></div>
 
+          {relatives?.length === 0 && (
+            <p className="font-ultra-dark-gray font-semibold leading-4">
+              No hay familiares agregados
+            </p>
+          )}
           {relatives?.map((relative, index) => (
             <div key={index} className="flex w-full flex-row justify-between">
               <div
