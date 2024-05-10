@@ -12,6 +12,7 @@ const SignUpAdapter = (data: Inputs) => ({
   password: data.password,
   sede: data.location,
   empresa: 898,
+  pdp: "Y",
   pais: locations.find(
     (location) => location.value.toString() === data.location,
   )?.country,

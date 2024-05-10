@@ -266,7 +266,7 @@ const UpdateUserAdapter = (props: {
     sede: Number(editProfileData.location),
     empresa: 898,
     tipo: userTypeId,
-    pdp: "N",
+    pdp: "Y",
   };
 
   if (editProfileData.birthdate)
@@ -347,6 +347,8 @@ const activateAccount = async (uuid: string) => {
   });
 
   if (!response.ok) throw new Error();
+
+  console.log("llega");
 
   return response;
 };
