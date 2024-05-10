@@ -37,18 +37,16 @@ const DateSelection = (props: {
         onMonthChange={onMonthChange}
       />
 
-      {selectedProfessional &&
-        !isLoading &&
-        (!freeAppointments ||
-          Object.values(freeAppointments).every(
-            (appointments) => appointments.length === 0,
-          )) && (
-          <H6 className="px-1 py-2 text-center lg:p-0">
-            {error
-              ? error.message
-              : "No hay horarios disponibles para este profesional"}
-          </H6>
-        )}
+      <H6 className="flex px-1 py-2 text-center lg:hidden ">
+        {(selectedProfessional &&
+          !isLoading &&
+          (!freeAppointments ||
+            Object.values(freeAppointments).every(
+              (appointments) => appointments.length === 0,
+            )) &&
+          error?.message) ??
+          "No hay horarios disponibles para este profesional"}
+      </H6>
     </PlatformContainer>
   );
 };
