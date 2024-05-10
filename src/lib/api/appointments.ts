@@ -1,5 +1,5 @@
 import type { Appointment, FreeAppointmentsByDay } from "~/types/appointments";
-import { createCase, getActiveCaseId } from "./cases";
+import { createCase, getActiveCase, updateCase } from "./cases";
 import { getProfessionalSapUser } from "./professionals";
 import { env } from "~/env";
 import { createNotification } from "./notifications";
@@ -192,7 +192,7 @@ const createAppointment = async (props: {
     notificationSpecialty,
   } = props;
 
-  let caseId = await getActiveCaseId({
+  let activeCase = await getActiveCase({
     areaId,
     serviceId,
     specialtyId,
@@ -205,8 +205,8 @@ const createAppointment = async (props: {
     accessToken,
   });
 
-  if (!caseId)
-    caseId = await createCase({
+  if (!activeCase)
+    activeCase = await createCase({
       areaId,
       serviceId,
       specialtyId,
@@ -222,6 +222,13 @@ const createAppointment = async (props: {
       accessToken,
     });
 
+  if (activeCase && professionalSapUser !== activeCase.user_owner) {
+    activeCase = await updateCase({
+      activeCase: { ...activeCase, user_owner: professionalSapUser },
+      accessToken,
+    });
+  }
+
   const headers = new Headers();
   headers.append("Authorization", accessToken);
   headers.append("Content-Type", "application/json");
@@ -236,7 +243,7 @@ const createAppointment = async (props: {
           patientId,
           agendaId,
           processType,
-          processId: caseId,
+          processId: activeCase.idproceso,
           dateFrom,
           dateTo,
           timezone,
