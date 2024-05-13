@@ -348,8 +348,6 @@ const activateAccount = async (uuid: string) => {
 
   if (!response.ok) throw new Error();
 
-  console.log("llega");
-
   return response;
 };
 
