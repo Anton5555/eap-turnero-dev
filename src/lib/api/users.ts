@@ -266,7 +266,7 @@ const UpdateUserAdapter = (props: {
     sede: Number(editProfileData.location),
     empresa: 898,
     tipo: userTypeId,
-    pdp: "N",
+    pdp: "Y",
   };
 
   if (editProfileData.birthdate)

@@ -1,11 +1,12 @@
 "use client";
 
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { H5 } from "../common/Typography";
 import { Button } from "../common/Button";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import { useRouter } from "next/navigation";
 
 interface AppointmentCreatedDialogProps {
   professional: string;
@@ -18,11 +19,18 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
   dateFrom,
   dateTo,
 }) => {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
+  const router = useRouter();
+
+  const handleClose = () => {
+    router.replace("/platform", undefined);
+
+    setOpen(false);
+  };
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={() => setOpen(false)}>
+      <Dialog as="div" className="relative z-50" onClose={handleClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -77,7 +85,7 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
                 </div>
 
                 <div className="mt-5 flex justify-center lg:flex-row">
-                  <Button className="font-lato" onClick={() => setOpen(false)}>
+                  <Button className="font-lato" onClick={handleClose}>
                     Finalizar
                   </Button>
                 </div>

@@ -1,4 +1,3 @@
-import { Button } from "~/_components/common/Button";
 import { H6 } from "~/_components/common/Typography";
 import { type Professional } from "~/types/professionals";
 
@@ -14,9 +13,12 @@ const ProfessionalInfo = (professional: Professional) => (
       </p>
     )}
 
-    <Button className="pl-0" variant={"link"}>
-      Ver ficha del profesional
-    </Button>
+    {/** TODO: Show button and apply functionality in fase 2 */}
+    {/*     
+      <Button className="pl-0" variant={"link"}>
+        Ver ficha del profesional
+      </Button> 
+    */}
   </div>
 );
 
