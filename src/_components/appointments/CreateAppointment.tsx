@@ -119,6 +119,8 @@ const CreateAppointment: React.FC<{
     end: number;
   }>();
 
+  const [locationFilter, setLocationFilter] = useState<number>();
+
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
     useState(false);
 
@@ -127,7 +129,11 @@ const CreateAppointment: React.FC<{
   const { user } = session;
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [locationFilter, setLocationFilter] = useState<number>(user.location);
+  useEffect(() => {
+    if (user.location) {
+      setLocationFilter(user.location);
+    }
+  }, [user]);
 
   const {
     data: professionals,
@@ -192,7 +198,21 @@ const CreateAppointment: React.FC<{
       const filteredFreeAppointments: FreeAppointmentsByDay = {};
 
       for (const day in freeAppointmentsResponse.freeAppointments) {
-        const appointments = freeAppointmentsResponse.freeAppointments[day];
+        let appointments = freeAppointmentsResponse.freeAppointments[day];
+
+        const currentDay = new Date();
+        const appointmentDay = new Date(
+          currentMonth.getFullYear(),
+          currentMonth.getMonth(),
+          Number(day),
+        );
+
+        if (currentDay.toDateString() === appointmentDay.toDateString()) {
+          appointments = appointments?.filter((appointment) => {
+            const appointmentTime = new Date(appointment.start);
+            return appointmentTime.getTime() >= currentDay.getTime();
+          });
+        }
 
         const appointmentsByDay =
           appointments &&
@@ -277,7 +297,7 @@ const CreateAppointment: React.FC<{
     if (selectedDate) setSelectedDate(undefined);
     if (selectedTime) setSelectedTime(undefined);
 
-    if (currentStep === 2) setCurrentStep(3);
+    setCurrentStep(3);
   };
 
   const handleMonthChange = (month: Date) => {
@@ -298,7 +318,7 @@ const CreateAppointment: React.FC<{
       })),
     );
 
-    if (currentStep === 3) setCurrentStep(4);
+    setCurrentStep(4);
   };
 
   const handleSubmit = () => {
@@ -417,6 +437,9 @@ const CreateAppointment: React.FC<{
                   )?.times ?? undefined,
                 );
               }
+
+              if (selectedDate) setSelectedDate(undefined);
+              if (selectedTime) setSelectedTime(undefined);
             }}
           />
         )}
@@ -442,13 +465,13 @@ const CreateAppointment: React.FC<{
                   )}
                 >
                   <DateSelection
-                    selectedProfessional={!!selectedProfessional}
                     isLoading={isLoadingFreeAppointments}
+                    error={errorFreeAppointments}
+                    selectedProfessional={!!selectedProfessional}
                     freeAppointments={freeAppointments}
                     selectedDate={selectedDate}
                     onDayClick={handleDateSelect}
                     onMonthChange={handleMonthChange}
-                    error={errorFreeAppointments}
                   />
                 </div>
 
@@ -461,8 +484,21 @@ const CreateAppointment: React.FC<{
                   )}
                 >
                   <TimeSelection
-                    selectedDate={!!selectedDate}
-                    freeAppointments={!!freeAppointments}
+                    step={currentStep}
+                    isLoading={isLoadingFreeAppointments}
+                    error={errorFreeAppointments}
+                    isDateSelected={!!selectedDate}
+                    hasProfessionals={
+                      !!(professionals && professionals.length > 0)
+                    }
+                    hasFreeAppointments={
+                      !!(
+                        freeAppointments &&
+                        Object.values(freeAppointments).some(
+                          (appointments) => appointments.length > 0,
+                        )
+                      )
+                    }
                     freeAppointmentsTimes={freeAppointmentsTimes}
                     selectedTime={selectedTime}
                     onTimeSelect={handleTimeSelect}

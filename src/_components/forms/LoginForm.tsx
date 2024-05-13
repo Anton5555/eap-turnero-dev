@@ -30,11 +30,8 @@ const LoginForm: React.FC<{
 
   const { mutateAsync } = useMutation({
     mutationFn: activateAccount,
-    onSuccess: () => {
-      router.replace("/auth/login");
-
-      router.refresh();
-    },
+    onSuccess: () => router.refresh(),
+    onSettled: () => router.replace("/auth/login"),
   });
 
   useEffect(() => {
@@ -45,7 +42,8 @@ const LoginForm: React.FC<{
         error: "Error al activar cuenta",
       });
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accountActivationUUID]);
 
   const {
     register,
