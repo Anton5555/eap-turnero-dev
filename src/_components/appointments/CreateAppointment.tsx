@@ -148,6 +148,7 @@ const CreateAppointment: React.FC = () => {
         positionId: user.position ?? -1,
         accessToken: user.accessToken,
       }),
+    enabled: !!user.company && !!user.location,
   });
 
   const {
