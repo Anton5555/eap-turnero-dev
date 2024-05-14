@@ -55,7 +55,6 @@ const getContractServices = async (props: {
   const response = await fetch(requestUrl, {
     method: "GET",
     headers,
-    cache: "no-store",
   });
 
   if (!response.ok) throw new Error("Error al obtener los servicios");

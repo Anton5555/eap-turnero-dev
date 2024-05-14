@@ -32,6 +32,7 @@ import type {
   FreeAppointment,
   FreeAppointmentsByDay,
 } from "~/types/appointments";
+import { getContractServices } from "~/lib/api/services";
 
 const filterAppointmentsByDuration = (
   appointments: FreeAppointment[],
@@ -83,9 +84,7 @@ const filterAppointmentsByDuration = (
     .filter(Boolean) as FreeAppointment[];
 };
 
-const CreateAppointment: React.FC<{
-  services: ContractService[];
-}> = ({ services }) => {
+const CreateAppointment: React.FC = () => {
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -134,6 +133,22 @@ const CreateAppointment: React.FC<{
       setLocationFilter(user.location);
     }
   }, [user]);
+
+  const {
+    data: services,
+    isLoading: isLoadingServices,
+    error: errorServices,
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+  } = useQuery({
+    queryKey: ["services", user.company, user.location, user.position],
+    queryFn: async () =>
+      await getContractServices({
+        companyId: user.company,
+        locationId: user.location,
+        positionId: user.position ?? -1,
+        accessToken: user.accessToken,
+      }),
+  });
 
   const {
     data: professionals,
@@ -254,6 +269,10 @@ const CreateAppointment: React.FC<{
   useEffect(() => {
     let toastId: string | number | undefined;
 
+    if (isLoadingServices)
+      toastId = toast.loading("Cargando servicios disponibles");
+    else toast.dismiss(toastId);
+
     if (isLoadingFreeAppointments)
       toastId = toast.loading("Cargando horarios disponibles");
     else toast.dismiss(toastId);
@@ -261,7 +280,7 @@ const CreateAppointment: React.FC<{
     return () => {
       toast.dismiss(toastId);
     };
-  }, [isLoadingFreeAppointments]);
+  }, [isLoadingFreeAppointments, isLoadingServices]);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { mutateAsync } = useMutation({
@@ -450,6 +469,8 @@ const CreateAppointment: React.FC<{
               services={services}
               selectedService={selectedService}
               handleServiceSelect={handleServiceSelect}
+              isLoading={isLoadingServices}
+              error={errorServices}
             />
           )}
 

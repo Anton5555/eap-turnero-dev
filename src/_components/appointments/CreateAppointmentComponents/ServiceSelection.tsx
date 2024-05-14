@@ -7,14 +7,24 @@ import ImageWithFallback from "~/_components/common/ImageWithFallback";
 const ServiceSelection = (props: {
   services: ContractService[];
   selectedService?: ContractService;
+  isLoading?: boolean;
+  error: Error | null;
   handleServiceSelect: (service: ContractService) => void;
 }) => {
-  const { services, selectedService, handleServiceSelect } = props;
+  const { services, selectedService, handleServiceSelect, isLoading, error } =
+    props;
 
-  if (!services?.length)
+  if (!isLoading && !services?.length)
     return (
       <PlatformContainer className="rounded-2xl lg:min-h-0 lg:py-6">
         <H6 className="text-center">No se encontraron servicios</H6>
+      </PlatformContainer>
+    );
+
+  if (!isLoading && error)
+    return (
+      <PlatformContainer className="rounded-2xl lg:min-h-0 lg:py-6">
+        <H6 className="text-center">{error.message}</H6>
       </PlatformContainer>
     );
 
