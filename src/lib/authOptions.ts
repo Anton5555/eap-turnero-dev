@@ -154,6 +154,7 @@ const authOptions: AuthOptions = {
       return session;
     },
   },
+  debug: true,
 };
 
 export default authOptions;
