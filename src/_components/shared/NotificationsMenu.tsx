@@ -55,7 +55,7 @@ const NotificationsMenu: React.FC<{
         </button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-96 p-0 font-inter lg:w-full lg:min-w-96">
+      <PopoverContent className="max-h-[calc(60dvh)] w-96 overflow-y-scroll p-0 font-inter lg:w-full lg:min-w-96">
         <div className="flex flex-row items-center justify-between p-4">
           <p className="text-sm font-bold">Notificaciones</p>
 
