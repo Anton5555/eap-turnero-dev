@@ -1,3 +1,5 @@
+"use client";
+
 import { type Appointment } from "~/types/appointments";
 import PlatformContainer from "../common/PlatformContainer";
 import Image from "next/image";
