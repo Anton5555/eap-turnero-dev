@@ -32,7 +32,7 @@ import type {
   FreeAppointment,
   FreeAppointmentsByDay,
 } from "~/types/appointments";
-import { getContractServices } from "~/lib/api/services";
+import { type User } from "~/types/users";
 
 const filterAppointmentsByDuration = (
   appointments: FreeAppointment[],
@@ -84,9 +84,11 @@ const filterAppointmentsByDuration = (
     .filter(Boolean) as FreeAppointment[];
 };
 
-const CreateAppointment: React.FC = () => {
+const CreateAppointment: React.FC<{
+  services: ContractService[];
+  user: User;
+}> = ({ services, user }) => {
   const router = useRouter();
-  const { data: session } = useSession();
 
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -123,33 +125,12 @@ const CreateAppointment: React.FC = () => {
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
     useState(false);
 
-  if (!session) return;
-
-  const { user } = session;
-
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if (user.location) {
       setLocationFilter(user.location);
     }
   }, [user]);
-
-  const {
-    data: services,
-    isLoading: isLoadingServices,
-    error: errorServices,
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-  } = useQuery({
-    queryKey: ["services", user.company, user.location, user.position],
-    queryFn: async () =>
-      await getContractServices({
-        companyId: user.company,
-        locationId: user.location,
-        positionId: user.position ?? -1,
-        accessToken: user.accessToken,
-      }),
-    enabled: !!user.company && !!user.location,
-  });
 
   const {
     data: professionals,
@@ -270,10 +251,6 @@ const CreateAppointment: React.FC = () => {
   useEffect(() => {
     let toastId: string | number | undefined;
 
-    if (isLoadingServices)
-      toastId = toast.loading("Cargando servicios disponibles");
-    else toast.dismiss(toastId);
-
     if (isLoadingFreeAppointments)
       toastId = toast.loading("Cargando horarios disponibles");
     else toast.dismiss(toastId);
@@ -281,7 +258,7 @@ const CreateAppointment: React.FC = () => {
     return () => {
       toast.dismiss(toastId);
     };
-  }, [isLoadingFreeAppointments, isLoadingServices]);
+  }, [isLoadingFreeAppointments]);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { mutateAsync } = useMutation({
@@ -470,8 +447,6 @@ const CreateAppointment: React.FC = () => {
               services={services}
               selectedService={selectedService}
               handleServiceSelect={handleServiceSelect}
-              isLoading={isLoadingServices}
-              error={errorServices}
             />
           )}
 
