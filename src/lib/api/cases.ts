@@ -71,7 +71,6 @@ const GetActiveCaseAdapter = (props: {
 });
 
 const CreateCaseAdapter = (props: {
-  id?: number;
   areaId: number;
   serviceId: number;
   specialtyId: number;
@@ -86,20 +85,51 @@ const CreateCaseAdapter = (props: {
   processType: number;
 }) => ({
   caso: {
-    id: props.id ?? -1,
+    id: -1,
     area: props.areaId,
     servicio: props.serviceId,
     especialidad: props.specialtyId,
     idpaciente: props.patientId,
+    idpaceap: -1,
+    autpadron: "",
+    estado: "A",
     user_owner: props.professionalSapUser,
+    pool_owner: -1,
+    prev_owner: "online",
+    prev_pool: -1,
     esfamiliar: props.isFamilyMember ? "S" : "N",
+    numactosperm: -1,
+    idhuso: -1,
     nombrefam: props.familyMemberName,
+    parentesco: "",
+    edadfam: -1,
+    relconvfam: "",
+    motivo: "",
     create_date: new Date().toISOString(),
-    close_date: new Date().toISOString(),
+    close_date: "",
+    caso_apertura: "",
+    caso_cierre: "",
+    comentariosupervisor: "",
+    tipoatencion: -1,
+    idproceso: -1,
+    maxcitas_presenciales: -1,
+    maxcitas_telefonicas: -1,
+    maxcitas_videollamada: -1,
+    derivado_fuente_externa: "",
+    comentario_fuente_externa: "",
     empresa: props.companyId,
     sede: props.locationId,
     puesto: props.positionId,
     modalidad: props.modalityId,
+    lineascaso1TS: {
+      list: [],
+      deleteds: [],
+    },
+    lineascaso2TS: {
+      list: [],
+      deleteds: [],
+    },
+    sel: "",
   },
   tipoproc: props.processType,
   sede: props.locationId,
