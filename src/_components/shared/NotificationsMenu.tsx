@@ -14,8 +14,8 @@ import { es } from "date-fns/locale";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { markAllAsRead } from "~/lib/api/notifications";
-import { useSession } from "next-auth/react";
 import cn from "~/lib/utils";
+import { type User } from "~/types/users";
 
 type SpecialtyColors = Record<string, string>;
 
@@ -30,21 +30,19 @@ const specialtyColors: SpecialtyColors = {
 
 const NotificationsMenu: React.FC<{
   notifications?: AppointmentNotification[];
-}> = ({ notifications }) => {
+  user: User;
+}> = ({ notifications, user }) => {
   const router = useRouter();
-  const { data: session } = useSession();
 
   const { mutate, isPending } = useMutation({
     mutationFn: markAllAsRead,
     onSuccess: () => router.refresh(),
   });
 
-  if (!session) return null;
-
   const handleMarkAllAsRead = () =>
     mutate({
-      accessToken: session.user.accessToken,
-      patientId: Number(session.user.id),
+      accessToken: user.accessToken,
+      patientId: Number(user.id),
     });
 
   return (
