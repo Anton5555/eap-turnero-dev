@@ -1,4 +1,8 @@
-import type { Appointment, FreeAppointmentsByDay } from "~/types/appointments";
+import type {
+  AppointmentState,
+  Appointment,
+  FreeAppointmentsByDay,
+} from "~/types/appointments";
 import { createCase, getActiveCase, updateCase } from "./cases";
 import { getProfessionalSapUser } from "./professionals";
 import { env } from "~/env";
@@ -72,6 +76,7 @@ interface AppointmentsApiData {
   MODALIDAD: string;
   NOMBRE: string;
   EMPID: number;
+  ESTADO: "Presente" | "Ausente" | "No definido";
 }
 
 const parseAppointmentsApiData = (
@@ -85,6 +90,7 @@ const parseAppointmentsApiData = (
     modality: appointment.MODALIDAD,
     professional: appointment.NOMBRE,
     professionalId: appointment.EMPID,
+    state: appointment.ESTADO as AppointmentState,
   }));
 
 const getFreeAppointments = async (props: {
