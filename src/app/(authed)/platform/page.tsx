@@ -7,6 +7,7 @@ import PlatformContainer from "~/_components/common/PlatformContainer";
 import { H3, H5, H6 } from "~/_components/common/Typography";
 import { getAppointmentsByPatient } from "~/lib/api/appointments";
 import authOptions from "~/lib/authOptions";
+import { AppointmentState } from "~/types/appointments";
 
 const Page = async ({
   searchParams,
@@ -27,7 +28,11 @@ const Page = async ({
       accessToken,
       timezone,
     })
-  ).filter((appointment) => appointment.start > new Date());
+  ).filter(
+    (appointment) =>
+      appointment.start > new Date() &&
+      appointment.state === AppointmentState.UNDEFINED,
+  );
 
   const { professional, dateFrom, dateTo } = searchParams;
 
