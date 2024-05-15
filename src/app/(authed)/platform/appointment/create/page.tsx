@@ -8,9 +8,9 @@ const Page = async () => {
 
   if (!session) return;
 
-  const {
-    user: { accessToken, company, location, position },
-  } = session;
+  const { user } = session;
+
+  const { accessToken, company, location, position } = user;
 
   const services = await getContractServices({
     companyId: company,
@@ -19,7 +19,7 @@ const Page = async () => {
     accessToken: accessToken,
   });
 
-  return <CreateAppointment services={services} />;
+  return <CreateAppointment services={services} user={user} />;
 };
 
 export default Page;

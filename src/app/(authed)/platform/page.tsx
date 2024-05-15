@@ -43,6 +43,7 @@ const Page = async ({
         <AppointmentList
           className="w-full flex-col lg:w-2/3"
           appointments={appointments}
+          user={session.user}
         />
 
         <div className="hidden w-1/3 space-y-6 lg:flex lg:flex-col">

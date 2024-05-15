@@ -16,6 +16,7 @@ import Logo from "./Logo";
 import { usePathname } from "next/navigation";
 import Help from "../common/Help";
 import { type AppointmentNotification } from "~/types/notifications";
+import { type User } from "~/types/users";
 
 const navigation = [
   { name: "Inicio", href: "/platform", icon: HomeIcon, path: "platform" },
@@ -24,18 +25,11 @@ const navigation = [
 
 type SidebarProps = {
   children: React.ReactNode;
-  user: {
-    name: string;
-    lastName: string;
-    accessToken: string;
-    imageName?: string;
-  };
+  user: User;
   notifications?: AppointmentNotification[];
 };
 
 const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
-  const { name } = user;
-
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
   const pathname = usePathname();
@@ -55,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
         </li>
 
         <li className="lg:hidden">
-          <H6 className="text-left">Bienvenido, {name}!</H6>
+          <H6 className="text-left">Bienvenido, {user.name}!</H6>
         </li>
 
         <li>
@@ -135,7 +129,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
             </div>
 
             <div className="flex items-center">
-              <NotificationsMenu notifications={notifications} />
+              <NotificationsMenu notifications={notifications} user={user} />
             </div>
           </div>
         </div>

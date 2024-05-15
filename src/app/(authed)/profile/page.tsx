@@ -54,6 +54,7 @@ const Page = async () => {
           <FamilyRelatives
             relatives={familyRelatives}
             relationships={familyRelationships}
+            user={user}
           />
         </div>
       </div>

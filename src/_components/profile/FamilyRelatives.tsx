@@ -1,27 +1,26 @@
 "use client";
 
 import React, { useState } from "react";
-import type { FamilyRelashionships, FamilyRelative } from "~/types/users";
+import type { FamilyRelashionships, FamilyRelative, User } from "~/types/users";
 import { Button } from "../common/Button";
 import { useMutation } from "@tanstack/react-query";
 import { deleteFamilyRelative } from "~/lib/api/users";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { useSession } from "next-auth/react";
 import DeleteFamilyMemberDialog from "./DeleteFamilyMemberDialog";
 import Link from "next/link";
 
 interface FamilyRelativesProps {
   relatives: FamilyRelative[];
   relationships: FamilyRelashionships[];
+  user: User;
 }
 
 const FamilyRelatives: React.FC<FamilyRelativesProps> = ({
   relatives,
   relationships,
+  user,
 }) => {
-  const { data: session } = useSession();
-
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -34,14 +33,12 @@ const FamilyRelatives: React.FC<FamilyRelativesProps> = ({
     onSuccess: () => router.refresh(),
   });
 
-  if (!session) return null;
-
   const handleDelete = () => {
     if (!selectedFamilyRelative) return;
 
     toast.promise(
       mutateAsync({
-        accessToken: session.user.accessToken,
+        accessToken: user.accessToken,
         patientId: selectedFamilyRelative.patientId,
         line: selectedFamilyRelative.line,
       }),

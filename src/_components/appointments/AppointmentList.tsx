@@ -1,6 +1,5 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import PlatformContainer from "../common/PlatformContainer";
 import AppointmentsEmpty from "./AppointmentsEmpty";
 import { type Appointment } from "~/types/appointments";
@@ -16,11 +15,13 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import cn from "~/lib/utils";
 import { format } from "date-fns";
+import { type User } from "~/types/users";
 
 const AppointmentList: React.FC<{
   appointments: Appointment[];
   className?: string;
-}> = ({ appointments, className }) => {
+  user: User;
+}> = ({ appointments, className, user }) => {
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -33,19 +34,15 @@ const AppointmentList: React.FC<{
     onSuccess: () => router.refresh(),
   });
 
-  const { data: session } = useSession();
-
-  if (!session) return null;
-
   const handleSubmit = () => {
     if (!selectedAppointment) return;
 
     toast.promise(
       mutateAsync({
-        accessToken: session.user.accessToken,
+        accessToken: user.accessToken,
         appointmentId: selectedAppointment.id,
         employeeId: selectedAppointment.professionalId,
-        patientId: Number(session.user.id),
+        patientId: Number(user.id),
         notificationTitle: `Tu cita con ${selectedAppointment?.professional} ha sido eliminada correctamente.`,
         notificationDescription: `Tu cita del día ${format(selectedAppointment.start, "dd/MM/yyyy")} a las ${format(selectedAppointment.start, "HH:mm")}hs ha sido eliminada`,
         notificationSpecialty: selectedAppointment.specialty,

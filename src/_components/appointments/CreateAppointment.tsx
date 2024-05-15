@@ -5,7 +5,6 @@ import { Button } from "../common/Button";
 import { H3, H6 } from "../common/Typography";
 import Stepper from "../common/Stepper";
 import React, { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
 import { getProfessionals } from "~/lib/api/professionals";
 import { type ContractService } from "~/types/services";
 import { type Professional } from "~/types/professionals";
@@ -32,6 +31,7 @@ import type {
   FreeAppointment,
   FreeAppointmentsByDay,
 } from "~/types/appointments";
+import { type User } from "~/types/users";
 
 const filterAppointmentsByDuration = (
   appointments: FreeAppointment[],
@@ -85,9 +85,9 @@ const filterAppointmentsByDuration = (
 
 const CreateAppointment: React.FC<{
   services: ContractService[];
-}> = ({ services }) => {
+  user: User;
+}> = ({ services, user }) => {
   const router = useRouter();
-  const { data: session } = useSession();
 
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -124,11 +124,6 @@ const CreateAppointment: React.FC<{
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
     useState(false);
 
-  if (!session) return;
-
-  const { user } = session;
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if (user.location) {
       setLocationFilter(user.location);
@@ -139,7 +134,6 @@ const CreateAppointment: React.FC<{
     data: professionals,
     isLoading: isLoadingProfessionals,
     error: errorProfessionals,
-    // eslint-disable-next-line react-hooks/rules-of-hooks
   } = useQuery({
     queryKey: [
       "professionals",
@@ -168,7 +162,6 @@ const CreateAppointment: React.FC<{
     },
     isLoading: isLoadingFreeAppointments,
     error: errorFreeAppointments,
-    // eslint-disable-next-line react-hooks/rules-of-hooks
   } = useQuery({
     queryKey: [
       "freeAppointments",
@@ -250,7 +243,6 @@ const CreateAppointment: React.FC<{
     enabled: !!selectedProfessional && !!selectedService,
   });
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     let toastId: string | number | undefined;
 
@@ -263,7 +255,6 @@ const CreateAppointment: React.FC<{
     };
   }, [isLoadingFreeAppointments]);
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { mutateAsync } = useMutation({
     mutationFn: createAppointment,
     onError: ({ message }) => toast.error(message),
