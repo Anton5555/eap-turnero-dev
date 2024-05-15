@@ -113,6 +113,7 @@ const AppointmentList: React.FC<{
                   <AppointmentCard
                     appointment={appointment}
                     onSelect={selectAppointment}
+                    userTimezone={user.timezone}
                   />
                 </li>
               ))}
