@@ -2,7 +2,7 @@ import { H6 } from "~/_components/common/Typography";
 import { type Professional } from "~/types/professionals";
 
 const ProfessionalInfo = (professional: Professional) => (
-  <div className="ml-4 flex-col">
+  <div className="mx-4 flex-col space-y-2 text-left">
     <H6 className="text-sm font-bold uppercase leading-4 lg:text-lg lg:leading-5">
       {professional.name}
     </H6>
