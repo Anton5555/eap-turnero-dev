@@ -31,7 +31,7 @@ const Page = async ({
   ).filter(
     (appointment) =>
       appointment.start > new Date() &&
-      appointment.state === AppointmentState.UNDEFINED,
+      appointment.state === AppointmentState.NOT_DEFINED,
   );
 
   const { professional, dateFrom, dateTo } = searchParams;

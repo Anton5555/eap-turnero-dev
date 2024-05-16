@@ -8,7 +8,7 @@ export type FreeAppointmentsByDay = Record<number, FreeAppointment[]>;
 export enum AppointmentState {
   PRESENT = "Presente",
   ABSENT = "Ausente",
-  UNDEFINED = "No definido",
+  NOT_DEFINED = "No definido",
 }
 
 export type Appointment = {
