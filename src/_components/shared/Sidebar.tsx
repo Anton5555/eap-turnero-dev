@@ -138,7 +138,9 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
           <Menu />
         </div>
 
-        <main className="lg:pl-20">{children}</main>
+        <main className={cn("lg:pl-20", sidebarOpen && "fixed")}>
+          {children}
+        </main>
       </div>
     </>
   );

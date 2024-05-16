@@ -4,6 +4,9 @@ import { type Professional } from "~/types/professionals";
 import ProfessionalInfo from "./ProfessionalInfo";
 import { Button } from "~/_components/common/Button";
 import Image from "next/image";
+import { useEffect } from "react";
+import { toast } from "sonner";
+import cn from "~/lib/utils";
 
 const ProfessionalSelection = (props: {
   isLoading: boolean;
@@ -20,16 +23,21 @@ const ProfessionalSelection = (props: {
     handleProfessionalSelect,
   } = props;
 
+  useEffect(() => {
+    let toastId: string | number | undefined;
+
+    if (isLoading) toastId = toast.loading("Cargando horarios disponibles");
+    else toast.dismiss(toastId);
+
+    return () => {
+      toast.dismiss(toastId);
+    };
+  }, [isLoading]);
+
   return (
     <>
-      {isLoading && (
-        <PlatformContainer className="rounded-2xl lg:min-h-0 lg:py-6">
-          <H6 className="text-center">Cargando...</H6>
-        </PlatformContainer>
-      )}
-
       {!isLoading && !professionals?.length ? (
-        <PlatformContainer className="rounded-2xl lg:min-h-0 lg:py-6">
+        <PlatformContainer className="flex min-h-24 flex-col justify-center rounded-2xl lg:py-6">
           <H6 className="text-center">
             {error
               ? error.message
@@ -41,32 +49,32 @@ const ProfessionalSelection = (props: {
           {professionals?.map((professional) => (
             <li key={professional.id}>
               <PlatformContainer
-                className="rounded-2xl lg:min-h-0 lg:py-6"
+                className="min-h-0 rounded-2xl lg:py-6"
                 selected={professional.id === selectedProfessional?.id}
               >
-                <div className="flex items-center space-x-6 px-6 py-4 lg:justify-between lg:space-x-0 lg:p-0">
+                <div className="flex items-center space-x-6 px-6 py-4 lg:p-0 xl:justify-between">
                   <div className="flex items-center">
                     {/* TODO: Change professional images for the real ones */}
                     <Image
-                      className="h-18 rounded-2xl object-cover lg:h-20"
+                      className="h-18 w-18 rounded-2xl object-cover xl:h-20 xl:w-20"
                       src={`/default-avatar.webp`}
                       width={80}
                       height={80}
                       alt={professional.name}
                     />
+
+                    <div className="ml-4 hidden xl:flex">
+                      <ProfessionalInfo {...professional} />
+                    </div>
                   </div>
 
-                  <div className="hidden lg:flex">
-                    <ProfessionalInfo {...professional} />
-                  </div>
-
-                  <div className="flex flex-col">
-                    <div className="flex lg:hidden">
+                  <div className="flex flex-col space-y-4">
+                    <div className="flex xl:hidden">
                       <ProfessionalInfo {...professional} />
                     </div>
 
                     <Button
-                      className="font-lato h-9 w-full text-sm font-normal lg:flex-row"
+                      className="font-lato h-9 text-sm font-normal xl:flex-row"
                       variant={
                         professional.id === selectedProfessional?.id
                           ? "default"
