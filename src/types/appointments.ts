@@ -5,6 +5,12 @@ export type FreeAppointment = {
 
 export type FreeAppointmentsByDay = Record<number, FreeAppointment[]>;
 
+export enum AppointmentState {
+  PRESENT = "Presente",
+  ABSENT = "Ausente",
+  NOT_DEFINED = "No definido",
+}
+
 export type Appointment = {
   id: number;
   start: Date;
@@ -13,4 +19,5 @@ export type Appointment = {
   modality: string;
   professional: string;
   professionalId: number;
+  state: AppointmentState;
 };
