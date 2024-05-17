@@ -3,7 +3,7 @@
 import React from "react";
 import HomeIcon from "../icons/Home";
 import UserIcon from "../icons/User";
-import cn from "~/lib/utils";
+import { cn } from "~/lib/utils";
 import BarsIcon from "../icons/Bars";
 import CloseIcon from "../icons/Close";
 import Link from "next/link";

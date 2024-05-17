@@ -6,7 +6,6 @@ import { Button } from "~/_components/common/Button";
 import Image from "next/image";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import cn from "~/lib/utils";
 
 const ProfessionalSelection = (props: {
   isLoading: boolean;

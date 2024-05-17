@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, buttonVariants } from "../common/Button";
-import cn from "~/lib/utils";
+import { cn } from "~/lib/utils";
 import { format } from "date-fns";
 import CalendarIcon from "../icons/Calendar";
 import { DayPicker } from "react-day-picker";

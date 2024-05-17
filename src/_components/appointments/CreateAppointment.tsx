@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 import { getProfessionals } from "~/lib/api/professionals";
 import { type ContractService } from "~/types/services";
 import { type Professional } from "~/types/professionals";
-import cn from "~/lib/utils";
+import { cn } from "~/lib/utils";
 import {
   differenceInMinutes,
   endOfMonth,
