@@ -15,7 +15,6 @@ export type Appointment = {
   id: number;
   start: string;
   end: string;
-  startDate: Date;
   specialty: string;
   modality: string;
   professional: string;

@@ -28,16 +28,7 @@ const Page = async ({
       accessToken,
       timezone,
     })
-  ).filter((appointment) => {
-    const appointmentStartDate = new Date(appointment.startDate).getTime();
-
-    const nowUTC = Date.now();
-
-    return (
-      appointmentStartDate >= nowUTC &&
-      appointment.state === AppointmentState.NOT_DEFINED
-    );
-  });
+  ).filter((appointment) => appointment.state === AppointmentState.NOT_DEFINED);
 
   const { professional, dateFrom, dateTo } = searchParams;
 

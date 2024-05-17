@@ -86,7 +86,6 @@ const parseAppointmentsApiData = (
     id: appointment.UNIQUEID,
     start: appointment.FS_FECHAINICIO,
     end: appointment.FS_FECHAFIN,
-    startDate: new Date(appointment.FS_FECHAINICIO),
     specialty: appointment.ESPECIALIDAD,
     modality: appointment.MODALIDAD,
     professional: appointment.NOMBRE,
