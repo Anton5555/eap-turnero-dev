@@ -6,8 +6,6 @@ import Image from "next/image";
 import { Button } from "../common/Button";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { findIana } from "windows-iana";
-import { toZonedTime, formatInTimeZone } from "date-fns-tz";
 
 interface AppointmentCardProps {
   appointment: Appointment;
