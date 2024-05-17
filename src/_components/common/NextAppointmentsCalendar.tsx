@@ -10,7 +10,7 @@ import {
 } from "react-day-picker";
 import { es } from "date-fns/locale";
 
-import cn from "~/lib/utils";
+import { cn, parseDateWithPreservedTimezone } from "~/lib/utils";
 import { buttonVariants } from "~/_components/common/Button";
 import { format } from "date-fns";
 import ChevronLeft from "../icons/ChevronLeft";
@@ -69,7 +69,7 @@ function CustomDayContent({ activeModifiers, date }: DayContentProps) {
 }
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
-  daysWithEvents?: Date[];
+  daysWithEvents?: string[];
 };
 
 const SUNDAY = 0;
@@ -84,7 +84,9 @@ const NextAppointmentsCalendar: React.FC<CalendarProps> = ({
   <DayPicker
     showOutsideDays={showOutsideDays}
     modifiers={{
-      hasEvent: daysWithEvents,
+      hasEvent: daysWithEvents.map((date) =>
+        parseDateWithPreservedTimezone(date),
+      ),
     }}
     className={cn("p-3", className)}
     weekStartsOn={SUNDAY}

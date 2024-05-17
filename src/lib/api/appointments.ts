@@ -76,7 +76,7 @@ interface AppointmentsApiData {
   MODALIDAD: string;
   NOMBRE: string;
   EMPID: number;
-  ESTADO: "Presente" | "Ausente" | "No definido";
+  ESTADO: AppointmentState;
 }
 
 const parseAppointmentsApiData = (
@@ -84,13 +84,14 @@ const parseAppointmentsApiData = (
 ): Appointment[] =>
   appointments.map((appointment) => ({
     id: appointment.UNIQUEID,
-    start: new Date(appointment.FS_FECHAINICIO),
-    end: new Date(appointment.FS_FECHAFIN),
+    start: appointment.FS_FECHAINICIO,
+    end: appointment.FS_FECHAFIN,
+    startDate: new Date(appointment.FS_FECHAINICIO),
     specialty: appointment.ESPECIALIDAD,
     modality: appointment.MODALIDAD,
     professional: appointment.NOMBRE,
     professionalId: appointment.EMPID,
-    state: appointment.ESTADO as AppointmentState,
+    state: appointment.ESTADO,
   }));
 
 const getFreeAppointments = async (props: {

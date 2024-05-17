@@ -30,7 +30,7 @@ const Page = async ({
     })
   ).filter(
     (appointment) =>
-      appointment.start > new Date() &&
+      appointment.startDate >= new Date() &&
       appointment.state === AppointmentState.NOT_DEFINED,
   );
 

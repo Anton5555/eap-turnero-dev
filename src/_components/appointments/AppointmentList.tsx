@@ -13,7 +13,7 @@ import { useState } from "react";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import cn from "~/lib/utils";
+import { cn } from "~/lib/utils";
 import { format } from "date-fns";
 import { type User } from "~/types/users";
 
@@ -22,8 +22,6 @@ const AppointmentList: React.FC<{
   className?: string;
   user: User;
 }> = ({ appointments, className, user }) => {
-  console.log("appointments");
-  console.log(appointments);
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -115,7 +113,6 @@ const AppointmentList: React.FC<{
                   <AppointmentCard
                     appointment={appointment}
                     onSelect={selectAppointment}
-                    userTimezone={user.timezone}
                   />
                 </li>
               ))}
