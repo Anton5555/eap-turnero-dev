@@ -22,6 +22,8 @@ const AppointmentList: React.FC<{
   className?: string;
   user: User;
 }> = ({ appointments, className, user }) => {
+  console.log("appointments");
+  console.log(appointments);
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);

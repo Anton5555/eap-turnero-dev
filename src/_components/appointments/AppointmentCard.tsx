@@ -22,10 +22,12 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
 }) => {
   const ianaTimezone = findIana(userTimezone);
 
-  console.log(ianaTimezone);
   const clientTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  console.log(clientTimezone);
+  console.log(ianaTimezone[0] ?? clientTimezone);
+
+  console.log(appointment.start);
+
   const zonedStartTime = toZonedTime(
     appointment.start,
     ianaTimezone[0] ?? clientTimezone,
@@ -37,8 +39,6 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
     ianaTimezone[0] ?? clientTimezone,
     "H:mm",
   );
-
-  console.log(zonedEndTime);
 
   return (
     <PlatformContainer className="w-full rounded-2xl lg:min-h-0 lg:px-6 lg:py-4">
