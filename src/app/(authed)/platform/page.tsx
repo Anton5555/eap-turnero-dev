@@ -28,7 +28,9 @@ const Page = async ({
       accessToken,
       timezone,
     })
-  ).filter((appointment) => appointment.state === AppointmentState.NOT_DEFINED);
+  )
+    .filter((appointment) => appointment.state === AppointmentState.NOT_DEFINED)
+    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
 
   const { professional, dateFrom, dateTo } = searchParams;
 
