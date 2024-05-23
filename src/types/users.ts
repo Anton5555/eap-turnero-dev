@@ -14,6 +14,8 @@ export type User = {
   birthdate?: Date;
   gender?: number;
   accessToken: string;
+  pdp: boolean;
+  pdpDate: Date;
 };
 
 export type FamilyRelative = {

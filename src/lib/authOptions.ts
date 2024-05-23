@@ -27,6 +27,8 @@ const parseUser = (authenticatedUser: AuthenticatedUserApiData): User => {
       : undefined,
     gender: eapUser.sexo ?? undefined,
     accessToken: token,
+    pdp: eapUser.pdp === "Y",
+    pdpDate: new Date(eapUser.pdp_date),
   };
 };
 
