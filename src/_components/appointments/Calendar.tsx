@@ -2,7 +2,7 @@
 
 import React from "react";
 import { DayPicker, type DayPickerSingleProps } from "react-day-picker";
-import cn from "~/lib/utils";
+import { cn } from "~/lib/utils";
 import { buttonVariants } from "../common/Button";
 import ChevronLeftIcon from "../icons/ChevronLeft";
 import ChevronRightIcon from "../icons/ChevronRight";

@@ -4,9 +4,7 @@ import { type DecodedApiToken } from "~/types/users";
 
 const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
 
-export default cn;
-
-export const parseJwt = (token: string) => {
+const parseJwt = (token: string) => {
   try {
     const tokenPayload = token.split(".")[1];
 
@@ -17,3 +15,17 @@ export const parseJwt = (token: string) => {
     return null;
   }
 };
+
+const parseDateWithPreservedTimezone = (dateString: string): Date => {
+  const [date, time] = dateString.split("T");
+  const [year, month, day] = date?.split("-").map(Number) ?? [];
+  const [hour, minute, second] = time?.split(":").map(Number) ?? [];
+
+  const utcDate = new Date(
+    Date.UTC(year!, month! - 1, day, hour, minute, second),
+  );
+
+  return utcDate;
+};
+
+export { cn, parseJwt, parseDateWithPreservedTimezone };

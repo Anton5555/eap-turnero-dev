@@ -22,17 +22,26 @@ const Page = async ({
     user: { accessToken, id, timezone },
   } = session;
 
+  const dayToday = new Date(new Date().setHours(0, 0, 0, 0));
+
   const appointments = (
     await getAppointmentsByPatient({
       id,
       accessToken,
       timezone,
     })
-  ).filter(
-    (appointment) =>
-      appointment.start > new Date() &&
-      appointment.state === AppointmentState.NOT_DEFINED,
-  );
+  )
+    .filter((appointment) => {
+      const appointmentDay = new Date(
+        new Date(appointment.start).setHours(0, 0, 0, 0),
+      );
+
+      return (
+        appointment.state === AppointmentState.NOT_DEFINED &&
+        appointmentDay >= dayToday
+      );
+    })
+    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
 
   const { professional, dateFrom, dateTo } = searchParams;
 

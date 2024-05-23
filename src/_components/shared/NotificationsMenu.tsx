@@ -14,7 +14,7 @@ import { es } from "date-fns/locale";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { markAllAsRead } from "~/lib/api/notifications";
-import cn from "~/lib/utils";
+import { cn } from "~/lib/utils";
 import { type User } from "~/types/users";
 
 type SpecialtyColors = Record<string, string>;

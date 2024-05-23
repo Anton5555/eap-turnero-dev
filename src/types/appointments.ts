@@ -13,8 +13,8 @@ export enum AppointmentState {
 
 export type Appointment = {
   id: number;
-  start: Date;
-  end: Date;
+  start: string;
+  end: string;
   specialty: string;
   modality: string;
   professional: string;

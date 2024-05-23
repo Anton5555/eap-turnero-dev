@@ -13,7 +13,7 @@ import { useState } from "react";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import cn from "~/lib/utils";
+import { cn } from "~/lib/utils";
 import { format } from "date-fns";
 import { type User } from "~/types/users";
 
@@ -113,7 +113,6 @@ const AppointmentList: React.FC<{
                   <AppointmentCard
                     appointment={appointment}
                     onSelect={selectAppointment}
-                    userTimezone={user.timezone}
                   />
                 </li>
               ))}
