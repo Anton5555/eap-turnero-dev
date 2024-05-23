@@ -9,11 +9,12 @@ import Link from "next/link";
 import { Button } from "../common/Button";
 import { useRouter } from "next/navigation";
 import { Select } from "../common/Select";
-import signup from "~/app/api/signup";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { H4 } from "../common/Typography";
 import { locations } from "~/lib/constants";
+import { createUser } from "~/lib/api/users";
+import { Checkbox } from "../common/Checkbox";
 
 const signupFormSchema = z
   .object({
@@ -27,13 +28,16 @@ const signupFormSchema = z
     confirmPassword: z
       .string()
       .min(8, { message: "La contraseña debe tener al menos 8 caracteres" }),
+    pdp: z.boolean().refine((val) => val === true, {
+      message: "Debes aceptar los términos y condiciones",
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
     message: "Las contraseñas no coinciden",
   });
 
-export type Inputs = z.infer<typeof signupFormSchema>;
+export type SignupFormInputs = z.infer<typeof signupFormSchema>;
 
 const SignUpForm: React.FC = () => {
   const router = useRouter();
@@ -44,14 +48,14 @@ const SignUpForm: React.FC = () => {
     setError,
     watch,
     formState: { errors, isSubmitting },
-  } = useForm<Inputs>({
+  } = useForm<SignupFormInputs>({
     resolver: zodResolver(signupFormSchema),
   });
 
   const location = watch("location");
 
   const mutation = useMutation({
-    mutationFn: signup,
+    mutationFn: createUser,
     onError: (error) => {
       if (error.message === "Ya existe un usuario con este mail") {
         setError("email", { message: error.message });
@@ -67,7 +71,7 @@ const SignUpForm: React.FC = () => {
     },
   });
 
-  const onSubmit = async (data: Inputs) => mutation.mutate(data);
+  const onSubmit = async (data: SignupFormInputs) => mutation.mutate(data);
 
   return (
     <form
@@ -127,6 +131,13 @@ const SignUpForm: React.FC = () => {
         placeholder="********"
         label="Repetir contraseña"
         errorText={errors.confirmPassword?.message}
+      />
+
+      <Checkbox
+        label="Confirmo estar de acuerdo con compartir mis datos para esta y futuras comunicaciones del programa de asistencia. Es importante que revises la información detallada en nuestra política de protección de datos en www.eaplatina.comn.  Tu conformidad es necesaria para recibir nuestros servicios. Si decides proporcionar los datos mencionados, estarás dando tu consentimiento informado para que EAP Latina Corporation S.A. los trate y registre. Para solicitar cambios en tus datos o revocar tu consentimiento, contáctanos a protecciondedatospersonales@eaplatina.com. 
+        "
+        {...register("pdp")}
+        errorText={errors.pdp?.message}
       />
 
       <Button size="full" type="submit" disabled={isSubmitting}>
