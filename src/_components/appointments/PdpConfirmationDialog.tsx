@@ -30,7 +30,7 @@ const PdpConfirmationDialog: React.FC<PdpConfirmationDialogProps> = ({
       </Transition.Child>
 
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-        <div className="flex min-h-full items-center justify-center p-8 text-center">
+        <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-8">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -40,7 +40,7 @@ const PdpConfirmationDialog: React.FC<PdpConfirmationDialogProps> = ({
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <Dialog.Panel className="relative transform overflow-hidden rounded-2xl bg-white px-4 pb-4 pt-5 shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl">
+            <Dialog.Panel className="relative w-full transform overflow-hidden rounded-2xl bg-white px-4 pb-4 pt-5 shadow-xl transition-all sm:my-8 sm:max-w-2xl">
               <div className="absolute right-0 top-0 pr-4 pt-4 ">
                 <button type="button" onClick={onClose}>
                   <span className="sr-only">Cerrar</span>
@@ -59,7 +59,7 @@ const PdpConfirmationDialog: React.FC<PdpConfirmationDialogProps> = ({
                       misma venció
                     </p>
 
-                    <p className="text-left text-lg leading-5">
+                    <p className="text-left text-sm sm:text-base">
                       Es importante que revises la información detallada en
                       nuestra política de protección de datos en
                       www.eaplatina.com. Tu conformidad es necesaria para
@@ -71,7 +71,7 @@ const PdpConfirmationDialog: React.FC<PdpConfirmationDialogProps> = ({
                       protecciondedatospersonales@eaplatina.com.
                     </p>
 
-                    <p className="text-left text-lg italic leading-5">
+                    <p className="text-left text-base font-bold leading-5 sm:text-lg">
                       Confirmo estar de acuerdo con compartir mis datos para
                       esta y futuras comunicaciones del programa de asistencia.
                     </p>
@@ -79,7 +79,7 @@ const PdpConfirmationDialog: React.FC<PdpConfirmationDialogProps> = ({
                 </div>
               </div>
 
-              <div className="mt-5 flex justify-center">
+              <div className="flex justify-center">
                 <Button className="font-lato" onClick={onConfirm}>
                   Confirmar
                 </Button>

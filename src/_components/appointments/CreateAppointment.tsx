@@ -33,7 +33,7 @@ import type {
 } from "~/types/appointments";
 import { type User } from "~/types/users";
 import PdpConfirmationDialog from "./PdpConfirmationDialog";
-import { updateUser, updateUserPdp } from "~/lib/api/users";
+import { updateUserPdp } from "~/lib/api/users";
 import { useSession } from "next-auth/react";
 
 const filterAppointmentsByDuration = (
