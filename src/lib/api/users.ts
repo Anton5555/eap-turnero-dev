@@ -1,14 +1,52 @@
 import { format } from "date-fns";
 import { type AddRelativeInputs } from "~/_components/forms/AddRelativeForm";
 import { type EditProfileInputs } from "~/_components/forms/EditProfileForm";
+import { type SignupFormInputs } from "~/_components/forms/SignUpForm";
 import { env } from "~/env";
 import type {
   FamilyRelashionships,
   FamilyRelative,
   Gender,
 } from "~/types/users";
+import { locations } from "../constants";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
+const CREATE_USER_TOKEN = env.NEXT_PUBLIC_CREATE_USER_TOKEN;
+
+const CreateUserAdapter = (data: SignupFormInputs) => ({
+  nombre: data.name,
+  apellido1: data.lastName,
+  mail: data.email,
+  password: data.password,
+  sede: data.location,
+  empresa: 898,
+  pdp: "Y",
+  pais: locations.find(
+    (location) => location.value.toString() === data.location,
+  )?.country,
+});
+
+const createUser = async (data: SignupFormInputs) => {
+  const response = await fetch(
+    `${API_URL}/Account/createUser?token=${CREATE_USER_TOKEN}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(CreateUserAdapter(data)),
+    },
+  );
+
+  if (!response.ok) {
+    if (response.status === 403)
+      throw new Error("Ya existe un usuario con este mail");
+
+    throw new Error("Error al registrarte");
+  }
+
+  return response;
+};
 
 type FamilyRelashionshipsApiData = {
   ID: number;
@@ -351,7 +389,61 @@ const activateAccount = async (uuid: string) => {
   return response;
 };
 
+type UpdatePdpData = {
+  name: string;
+  lastName: string;
+  email: string;
+  location: number;
+  company: number;
+  userTypeId: number;
+};
+
+type UpdateUserPdpRequest = {
+  mail: string;
+  sede: number;
+  empresa: number;
+  nombre: string;
+  apellido1: string;
+  tipo: number;
+  pdp: string;
+};
+
+const UpdateUserPdpAdapter = (updatePdpData: UpdatePdpData) => ({
+  mail: updatePdpData.email,
+  sede: updatePdpData.location,
+  empresa: 898,
+  nombre: updatePdpData.name,
+  apellido1: updatePdpData.lastName,
+  tipo: updatePdpData.userTypeId,
+  pdp: "Y",
+});
+
+const updateUserPdp = async (props: {
+  updatePdpData: UpdatePdpData;
+  accessToken: string;
+}) => {
+  const { accessToken, updatePdpData } = props;
+
+  const headers = new Headers();
+  headers.append("Authorization", accessToken);
+  headers.append("Content-Type", "application/json");
+
+  const updateUserRequestData: UpdateUserPdpRequest =
+    UpdateUserPdpAdapter(updatePdpData);
+
+  const response = await fetch(`${API_URL}/Account/updateuser`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(updateUserRequestData),
+  });
+
+  if (!response.ok) throw new Error();
+
+  return response;
+};
+
 export {
+  createUser,
   addFamilyRelative,
   getFamilyRelashionships,
   getFamilyRelatives,
@@ -361,4 +453,5 @@ export {
   updateUserImage,
   getUserImage,
   activateAccount,
+  updateUserPdp,
 };
