@@ -9,7 +9,7 @@ import { Select } from "../common/Select";
 import { Button } from "../common/Button";
 import ProfileImageInput from "../profile/ProfileImageInput";
 import type { Gender, User } from "~/types/users";
-import useUserImage from "~/lib/useUserImage";
+import useUserImage from "~/lib/hooks/useUserImage";
 import { locations } from "~/lib/constants";
 import { useState } from "react";
 import DatePicker from "../profile/DatePicker";

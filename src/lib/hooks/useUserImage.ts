@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getUserImage } from "./api/users";
+import { getUserImage } from "../api/users";
 
 const useUserImage = (props: {
   accessToken: string;

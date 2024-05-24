@@ -7,7 +7,7 @@ import Image from "next/image";
 import ChevronIcon from "../icons/Chevron";
 import { Button } from "../common/Button";
 import UserIcon from "../icons/User";
-import useUserImage from "~/lib/useUserImage";
+import useUserImage from "~/lib/hooks/useUserImage";
 
 type ProfileProps = {
   name: string;
