@@ -4,7 +4,7 @@ import { type ContractService } from "~/types/services";
 import { H6 } from "~/_components/common/Typography";
 import ImageWithFallback from "~/_components/common/ImageWithFallback";
 
-const ServiceSelection = (props: {
+const ServiceSelector = (props: {
   services: ContractService[];
   selectedService?: ContractService;
   handleServiceSelect: (service: ContractService) => void;
@@ -61,4 +61,4 @@ const ServiceSelection = (props: {
   );
 };
 
-export default ServiceSelection;
+export default ServiceSelector;

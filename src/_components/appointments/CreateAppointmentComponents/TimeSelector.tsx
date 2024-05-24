@@ -2,7 +2,7 @@ import { Button } from "~/_components/common/Button";
 import PlatformContainer from "~/_components/common/PlatformContainer";
 import { H6 } from "~/_components/common/Typography";
 
-const TimeSelection = (props: {
+const TimeSelector = (props: {
   step: number;
   isLoading: boolean;
   error: Error | null;
@@ -77,4 +77,4 @@ const TimeSelection = (props: {
   );
 };
 
-export default TimeSelection;
+export default TimeSelector;

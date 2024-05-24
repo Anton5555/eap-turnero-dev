@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-const ProfessionalSelection = (props: {
+const ProfessionalSelector = (props: {
   isLoading: boolean;
   professionals: Professional[] | undefined;
   error: Error | null;
@@ -94,4 +94,4 @@ const ProfessionalSelection = (props: {
   );
 };
 
-export default ProfessionalSelection;
+export default ProfessionalSelector;
