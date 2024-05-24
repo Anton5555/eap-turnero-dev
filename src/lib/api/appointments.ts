@@ -11,9 +11,10 @@ import { createNotification } from "./notifications";
 const API_URL = env.NEXT_PUBLIC_API_URL;
 
 interface FreeAppointmentsApiData {
-  id: number;
+  NumProf: number;
   fechadesde: string;
   fechahasta: string;
+  Timezone: string;
 }
 
 const parseFreeAppointmentsData = async (
@@ -93,7 +94,8 @@ const parseAppointmentsApiData = (
     state: appointment.ESTADO,
   }));
 
-const getFreeAppointments = async (props: {
+// TODO: delete this function
+const getFreeAppointmentsOld = async (props: {
   dateFrom: string;
   dateTo: string;
   timezone: string;
@@ -155,6 +157,111 @@ const getFreeAppointments = async (props: {
   );
 
   return { freeAppointments, agendaId };
+};
+
+const getFreeAppointments = async (props: {
+  dateFrom: string;
+  dateTo: string;
+  timezone: string;
+  accessToken: string;
+  specialtyId: number;
+  serviceId: number;
+  modalityId: number;
+  companyId: number;
+  locationId: number;
+}): Promise<FreeAppointmentsByDay> => {
+  const {
+    dateFrom,
+    dateTo,
+    timezone,
+    accessToken,
+    specialtyId,
+    serviceId,
+    modalityId,
+    companyId,
+    locationId,
+  } = props;
+
+  const headers = new Headers();
+  headers.append("Authorization", accessToken);
+
+  const getAppointmentsReqUrl = `${API_URL}/citasProfesional/getFreeAppointment?fechadesde=${dateFrom}&fechahasta=${dateTo}&especialidad=${specialtyId}&modalidad=${modalityId}&servicio=${serviceId}&empresa=${companyId}&unidad=${locationId}&zonahoraria=${timezone}`;
+
+  const response = await fetch(getAppointmentsReqUrl, {
+    method: "GET",
+    headers,
+    cache: "no-store",
+  });
+
+  if (!response.ok) throw new Error("Error al obtener las citas libres");
+
+  const freeAppointmentsApiData =
+    (await response.json()) as FreeAppointmentsApiData[];
+
+  const freeAppointments = await parseFreeAppointmentsData(
+    freeAppointmentsApiData,
+  );
+
+  return freeAppointments;
+};
+
+/**
+ [
+    {
+        "IDAgenda": 20,
+        "FechaDesde": "2024-05-27T11:00:00",
+        "FechaHasta": "2024-05-27T11:30:00",
+        "Nombre": "Mariano Vignau (EN)",
+        "EmpId": 15
+    }
+]
+ */
+type ProfessionalAppointmentsByDateAndTimeApiData = {
+  IDAgenda: number;
+  FechaDesde: string;
+  FechaHasta: string;
+  Nombre: string;
+  EmpId: number;
+};
+
+// {{APITURNERO}}/api/citasProfesional/getAppointmentsByBranchAndMoment?fechahora=2024-05-27T11:00:00&especialidad=3&modalidadcita=3&servicio=1&empresa=898&unidad=438&zonahoraria=Argentina Standard Time
+const getProfessionalAppointmentsByDateAndTime = async (props: {
+  date: string;
+  timezone: string;
+  accessToken: string;
+  specialtyId: number;
+  serviceId: number;
+  modalityId: number;
+  companyId: number;
+  locationId: number;
+}): Promise<Appointment[]> => {
+  const {
+    date,
+    timezone,
+    accessToken,
+    specialtyId,
+    serviceId,
+    modalityId,
+    companyId,
+    locationId,
+  } = props;
+
+  const headers = new Headers();
+  headers.append("Authorization", accessToken);
+
+  const getAppointmentsReqUrl = `${API_URL}/citasProfesional/getAppointmentsByBranchAndMoment?fechahora=${date}&especialidad=${specialtyId}&modalidadcita=${modalityId}&servicio=${serviceId}&empresa=${companyId}&unidad=${locationId}&zonahoraria=${timezone}`;
+
+  const response = await fetch(getAppointmentsReqUrl, {
+    method: "GET",
+    headers,
+    cache: "no-store",
+  });
+
+  if (!response.ok) throw new Error("Error al obtener las citas");
+
+  const appointmentsApiData = (await response.json()) as AppointmentsApiData[];
+
+  return parseAppointmentsApiData(appointmentsApiData);
 };
 
 const createAppointment = async (props: {
