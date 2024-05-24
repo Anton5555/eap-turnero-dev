@@ -1,40 +1,31 @@
 "use client";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Button } from "../common/Button";
 import { H3, H6 } from "../common/Typography";
 import Stepper from "../common/Stepper";
 import React, { useEffect, useState } from "react";
-import { getProfessionals } from "~/lib/api/professionals";
 import { type ContractService } from "~/types/services";
-import { type Professional } from "~/types/professionals";
 import { cn } from "~/lib/utils";
-import {
-  differenceInMinutes,
-  endOfMonth,
-  format,
-  startOfMonth,
-} from "date-fns";
-import { createAppointment, getFreeAppointments } from "~/lib/api/appointments";
 import Link from "next/link";
 import ArrowIcon from "../icons/Arrow";
 import { toast } from "sonner";
 import ConfirmationDialog from "./ConfirmationDialog";
 import { useRouter } from "next/navigation";
 import Filters from "./CreateAppointmentComponents/Filters";
-import ServiceSelection from "./CreateAppointmentComponents/ServiceSelection";
-import DateSelection from "./CreateAppointmentComponents/DateSelection";
-import TimeSelection from "./CreateAppointmentComponents/TimeSelection";
-import ProfessionalSelection from "./CreateAppointmentComponents/ProfessionalSelection";
+import ServiceSelector from "./CreateAppointmentComponents/ServiceSelector";
+import DateSelector from "./CreateAppointmentComponents/DateSelector";
+import TimeSelector from "./CreateAppointmentComponents/TimeSelector";
+import ProfessionalSelector from "./CreateAppointmentComponents/ProfessionalSelector";
 import { timeRanges } from "~/lib/constants";
-import type {
-  FreeAppointment,
-  FreeAppointmentsByDay,
-} from "~/types/appointments";
 import { type User } from "~/types/users";
 import PdpConfirmationDialog from "./PdpConfirmationDialog";
 import { updateUserPdp } from "~/lib/api/users";
 import { useSession } from "next-auth/react";
+import useCreateAppointment from "~/lib/hooks/useCreateAppointment";
+
+/*
+TODO: validate with backend, now the appointments come with the duration predifined related to the modality
 
 const filterAppointmentsByDuration = (
   appointments: FreeAppointment[],
@@ -84,327 +75,61 @@ const filterAppointmentsByDuration = (
       return undefined;
     })
     .filter(Boolean) as FreeAppointment[];
-};
+};*/
 
 const CreateAppointment: React.FC<{
   services: ContractService[];
   user: User;
 }> = ({ services, user }) => {
+  const {
+    currentStep,
+    isConfirmationDialogOpen,
+    isLoadingFreeAppointments,
+    errorFreeAppointments,
+    freeAppointments,
+    freeAppointmentsTimes,
+    selectedService,
+    selectedProfessional,
+    selectedDate,
+    selectedTime,
+    professionals,
+    isLoadingProfessionals,
+    errorProfessionals,
+    modalityFilter,
+    setCurrentStep,
+    setSelectedDate,
+    setSelectedTime,
+    setModalityFilter,
+    setTimeRangeFilter,
+    setLocationFilter,
+    handleServiceSelect,
+    handleMonthChange,
+    handleDateSelect,
+    handleProfessionalSelect,
+    setIsConfirmationDialogOpen,
+    nextStep,
+    handleTimeSelect,
+    handleSubmit,
+  } = useCreateAppointment({
+    services,
+    user,
+  });
+
   const router = useRouter();
 
   const { update } = useSession();
-
-  const [currentStep, setCurrentStep] = useState(1);
-
-  const [selectedService, setSelectedService] = useState<ContractService>();
-
-  const [selectedProfessional, setSelectedProfessional] =
-    useState<Professional>();
-
-  const [freeAppointmentsTimes, setFreeAppointmentsTimes] = useState<
-    { dateFrom: Date; dateTo: Date }[]
-  >([]);
-
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date>();
-
-  const [selectedTime, setSelectedTime] = useState<{
-    dateFrom: Date;
-    dateTo: Date;
-  }>();
-
-  const [modalityFilter, setModalityFilter] = useState<number>(3);
-
-  // setDurationFilter to be used when implementing the duration filter
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [durationFilter, setDurationFilter] = useState<number>(45);
-
-  const [timeRangeFilter, setTimeRangeFilter] = useState<{
-    start: number;
-    end: number;
-  }>();
-
-  const [locationFilter, setLocationFilter] = useState<number>();
-
-  const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
-    useState(false);
 
   const [isPdpConfirmationDialogOpen, setIsPdpConfirmationDialogOpen] =
     useState(false);
 
   useEffect(() => {
-    if (!user.pdp || user.pdpDate < new Date())
+    const pdpExpirationDate = new Date(user.pdpDate);
+    pdpExpirationDate.setFullYear(pdpExpirationDate.getFullYear() + 1);
+
+    if (!user.pdp || pdpExpirationDate < new Date())
       setIsPdpConfirmationDialogOpen(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (user.location) {
-      setLocationFilter(user.location);
-    }
-  }, [user]);
-
-  const {
-    data: professionals,
-    isLoading: isLoadingProfessionals,
-    error: errorProfessionals,
-  } = useQuery({
-    queryKey: [
-      "professionals",
-      locationFilter,
-      selectedService?.specialtyId,
-      modalityFilter,
-    ],
-    queryFn: () => {
-      if (!selectedService) return;
-
-      return getProfessionals({
-        locationId: locationFilter ?? user.location,
-        serviceId: selectedService.serviceId,
-        specialtyId: selectedService.specialtyId,
-        accessToken: user.accessToken,
-        modalityId: modalityFilter,
-      });
-    },
-    enabled: !!selectedService && (!!locationFilter || !!user.location),
-  });
-
-  const {
-    data: { freeAppointments, agendaId } = {
-      freeAppointments: null,
-      agendaId: null,
-    },
-    isLoading: isLoadingFreeAppointments,
-    error: errorFreeAppointments,
-  } = useQuery({
-    queryKey: [
-      "freeAppointments",
-      selectedProfessional,
-      modalityFilter,
-      timeRangeFilter,
-      currentMonth,
-      durationFilter,
-    ],
-    queryFn: async () => {
-      if (!selectedProfessional || !selectedService) return;
-
-      const freeAppointmentsResponse = await getFreeAppointments({
-        dateFrom:
-          currentMonth.getMonth() === new Date().getMonth()
-            ? format(new Date(), "yyyy-MM-dd")
-            : format(startOfMonth(currentMonth), "yyyy-MM-dd"),
-        dateTo: format(endOfMonth(currentMonth), "yyyy-MM-dd"),
-        timezone: user.timezone,
-        accessToken: user.accessToken,
-        employeeId: selectedProfessional.id,
-        specialtyId: selectedService.specialtyId,
-        serviceId: selectedService.serviceId,
-        modalityId: modalityFilter,
-      });
-
-      const filteredFreeAppointments: FreeAppointmentsByDay = {};
-
-      for (const day in freeAppointmentsResponse.freeAppointments) {
-        let appointments = freeAppointmentsResponse.freeAppointments[day];
-
-        const currentDay = new Date();
-        const appointmentDay = new Date(
-          currentMonth.getFullYear(),
-          currentMonth.getMonth(),
-          Number(day),
-        );
-
-        if (currentDay.toDateString() === appointmentDay.toDateString()) {
-          appointments = appointments?.filter((appointment) => {
-            const appointmentTime = new Date(appointment.start);
-            return appointmentTime.getTime() >= currentDay.getTime();
-          });
-        }
-
-        const appointmentsByDay =
-          appointments &&
-          filterAppointmentsByDuration(
-            appointments,
-            durationFilter,
-            timeRangeFilter,
-          );
-
-        if (appointmentsByDay && appointmentsByDay.length > 0)
-          filteredFreeAppointments[day] = appointmentsByDay;
-      }
-
-      if (selectedDate && !filteredFreeAppointments[selectedDate.getDate()])
-        setFreeAppointmentsTimes([]);
-
-      if (selectedDate && filteredFreeAppointments[selectedDate.getDate()])
-        setFreeAppointmentsTimes(
-          filteredFreeAppointments[selectedDate.getDate()]!.map(
-            (freeAppointment) => ({
-              dateFrom: freeAppointment.start,
-              dateTo: freeAppointment.end,
-            }),
-          ),
-        );
-
-      if (selectedTime) setSelectedTime(undefined);
-
-      return {
-        freeAppointments: filteredFreeAppointments,
-        agendaId: freeAppointmentsResponse.agendaId,
-      };
-    },
-
-    enabled: !!selectedProfessional && !!selectedService,
-  });
-
-  useEffect(() => {
-    let toastId: string | number | undefined;
-
-    if (isLoadingFreeAppointments)
-      toastId = toast.loading("Cargando horarios disponibles");
-    else toast.dismiss(toastId);
-
-    return () => {
-      toast.dismiss(toastId);
-    };
-  }, [isLoadingFreeAppointments]);
-
-  const { mutateAsync } = useMutation({
-    mutationFn: createAppointment,
-    onError: ({ message }) => toast.error(message),
-    onSuccess: () => {
-      if (selectedProfessional && selectedTime) {
-        const dateFrom = selectedTime.dateFrom.toISOString();
-        const dateTo = selectedTime.dateTo.toISOString();
-
-        router.push(
-          `/platform?professional=${selectedProfessional?.name}&dateFrom=${dateFrom}&dateTo=${dateTo}`,
-        );
-      } else router.push("/platform");
-
-      router.refresh();
-    },
-  });
-
-  const handleServiceSelect = (service: ContractService) => {
-    setSelectedService(service);
-
-    if (selectedProfessional) setSelectedProfessional(undefined);
-    if (selectedDate) setSelectedDate(undefined);
-    if (selectedTime) setSelectedTime(undefined);
-
-    setCurrentStep(2);
-  };
-
-  const handleProfessionalSelect = async (professional: Professional) => {
-    setSelectedProfessional(professional);
-
-    if (selectedDate) setSelectedDate(undefined);
-    if (selectedTime) setSelectedTime(undefined);
-
-    setCurrentStep(3);
-  };
-
-  const handleMonthChange = (month: Date) => {
-    setSelectedDate(undefined);
-
-    setCurrentMonth(month);
-  };
-
-  const handleDateSelect = (date: Date) => {
-    setSelectedDate(date);
-
-    if (selectedTime) setSelectedTime(undefined);
-
-    setFreeAppointmentsTimes(
-      freeAppointments![date.getDate()]!.map((freeAppointment) => ({
-        dateFrom: freeAppointment.start,
-        dateTo: freeAppointment.end,
-      })),
-    );
-
-    setCurrentStep(4);
-  };
-
-  const handleSubmit = () => {
-    if (
-      !selectedService ||
-      !selectedTime ||
-      !selectedProfessional ||
-      !agendaId
-    ) {
-      toast.error(
-        "Error al crear la cita, selecciona todos los datos necesarios",
-      );
-
-      return;
-    }
-
-    toast.promise(
-      mutateAsync({
-        patientId: Number(user.id),
-        agendaId: agendaId,
-        processType: selectedService.processType,
-        dateFrom: `${format(selectedTime.dateFrom, "yyyy-MM-dd")} ${format(selectedTime.dateFrom, "HH:mm")}`,
-        dateTo: `${format(selectedTime.dateTo, "yyyy-MM-dd")} ${format(selectedTime.dateTo, "HH:mm")}`,
-        timezone: user.timezone,
-        modalityId: modalityFilter,
-        accessToken: user.accessToken,
-        areaId: selectedService.areaId,
-        serviceId: selectedService.serviceId,
-        specialtyId: selectedService.specialtyId,
-        companyId: user.company,
-        locationId: user.location,
-        positionId: user.position ?? -1,
-        employeeId: selectedProfessional.id,
-        notificationTitle: `Tu cita con ${selectedProfessional.name} ha sido agendada correctamente!`,
-        notificationDescription: `Tu cita ha sido agendada para el día ${format(selectedTime.dateFrom, "dd/MM/yyyy")} a las ${format(selectedTime.dateFrom, "HH:mm")}hs`,
-        notificationSpecialty: selectedService.specialty,
-      }),
-      {
-        loading: "Creando cita",
-      },
-    );
-  };
-
-  const nextStep = () => {
-    if (currentStep === 1 && !selectedService) {
-      toast.error("Debes seleccionar un tipo de asistencia");
-
-      return;
-    }
-
-    if (currentStep === 2 && !selectedProfessional) {
-      toast.error("Debes seleccionar un profesional");
-
-      return;
-    }
-
-    if (currentStep === 3 && !selectedDate) {
-      toast.error("Debes seleccionar una fecha");
-
-      return;
-    }
-
-    if (currentStep === 4) {
-      if (!selectedTime) {
-        toast.error("Debes seleccionar un horario");
-
-        return;
-      }
-
-      setIsConfirmationDialogOpen(true);
-
-      return;
-    }
-
-    setCurrentStep(currentStep + 1);
-  };
-
-  const handleTimeSelect = (times: { dateFrom: Date; dateTo: Date }) => {
-    setSelectedTime(times);
-    setIsConfirmationDialogOpen(true);
-  };
 
   const { mutateAsync: mutateUpdateUser } = useMutation({
     mutationFn: updateUserPdp,
@@ -443,7 +168,11 @@ const CreateAppointment: React.FC<{
           <H6>
             {currentStep === 1
               ? "Selecciona un tipo de asistencia"
-              : "Selecciona un profesional, fecha y hora para tu cita"}
+              : currentStep === 2
+                ? "Selecciona una fecha"
+                : currentStep === 3
+                  ? "Selecciona un horario"
+                  : "Selecciona un profesional"}
           </H6>
         </div>
 
@@ -475,7 +204,7 @@ const CreateAppointment: React.FC<{
 
         <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
           {currentStep === 1 && services && (
-            <ServiceSelection
+            <ServiceSelector
               services={services}
               selectedService={selectedService}
               handleServiceSelect={handleServiceSelect}
@@ -488,15 +217,13 @@ const CreateAppointment: React.FC<{
                 <div
                   className={cn(
                     "lg:flex lg:flex-row",
-                    currentStep === 3 && "flex flex-col",
-                    (currentStep === 2 || currentStep === 4) &&
-                      "hidden lg:flex",
+                    currentStep === 2 && "flex flex-col",
+                    currentStep > 2 && "hidden lg:flex",
                   )}
                 >
-                  <DateSelection
+                  <DateSelector
                     isLoading={isLoadingFreeAppointments}
                     error={errorFreeAppointments}
-                    selectedProfessional={!!selectedProfessional}
                     freeAppointments={freeAppointments}
                     selectedDate={selectedDate}
                     onDayClick={handleDateSelect}
@@ -507,12 +234,12 @@ const CreateAppointment: React.FC<{
                 <div
                   className={cn(
                     "w-full lg:flex lg:flex-row",
-                    currentStep === 4 && "flex flex-col",
-                    (currentStep === 2 || currentStep === 3) &&
+                    currentStep === 3 && "flex flex-col",
+                    (currentStep === 2 || currentStep === 4) &&
                       "hidden lg:flex",
                   )}
                 >
-                  <TimeSelection
+                  <TimeSelector
                     step={currentStep}
                     isLoading={isLoadingFreeAppointments}
                     error={errorFreeAppointments}
@@ -538,11 +265,11 @@ const CreateAppointment: React.FC<{
               <div
                 className={cn(
                   "lg:h-[calc(60dvh)] lg:w-2/5 lg:overflow-y-auto",
-                  currentStep === 2 && "w-full",
-                  currentStep > 2 && "hidden lg:block",
+                  currentStep === 4 && "w-full",
+                  (currentStep === 2 || currentStep === 3) && "hidden lg:flex",
                 )}
               >
-                <ProfessionalSelection
+                <ProfessionalSelector
                   professionals={professionals}
                   isLoading={isLoadingProfessionals}
                   error={errorProfessionals}
