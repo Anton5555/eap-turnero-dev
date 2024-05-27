@@ -32,6 +32,9 @@ import type {
   FreeAppointmentsByDay,
 } from "~/types/appointments";
 import { type User } from "~/types/users";
+import PdpConfirmationDialog from "./PdpConfirmationDialog";
+import { updateUserPdp } from "~/lib/api/users";
+import { useSession } from "next-auth/react";
 
 const filterAppointmentsByDuration = (
   appointments: FreeAppointment[],
@@ -89,6 +92,8 @@ const CreateAppointment: React.FC<{
 }> = ({ services, user }) => {
   const router = useRouter();
 
+  const { update } = useSession();
+
   const [currentStep, setCurrentStep] = useState(1);
 
   const [selectedService, setSelectedService] = useState<ContractService>();
@@ -123,6 +128,15 @@ const CreateAppointment: React.FC<{
 
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
     useState(false);
+
+  const [isPdpConfirmationDialogOpen, setIsPdpConfirmationDialogOpen] =
+    useState(false);
+
+  useEffect(() => {
+    if (!user.pdp || user.pdpDate < new Date())
+      setIsPdpConfirmationDialogOpen(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (user.location) {
@@ -392,6 +406,30 @@ const CreateAppointment: React.FC<{
     setIsConfirmationDialogOpen(true);
   };
 
+  const { mutateAsync: mutateUpdateUser } = useMutation({
+    mutationFn: updateUserPdp,
+    onSuccess: async () => {
+      setIsPdpConfirmationDialogOpen(false);
+
+      await update();
+
+      router.refresh();
+    },
+  });
+
+  const handlePdpConfirmation = () =>
+    toast.promise(
+      mutateUpdateUser({
+        updatePdpData: { ...user },
+        accessToken: user.accessToken,
+      }),
+      {
+        loading: "Actualizando datos",
+        success: "Datos actualizados con éxito",
+        error: "Error al actualizar datos",
+      },
+    );
+
   return (
     <>
       <div className="m-4 space-y-4 lg:m-0">
@@ -555,6 +593,14 @@ const CreateAppointment: React.FC<{
           onConfirm={() => handleSubmit()}
           professional={selectedProfessional?.name ?? ""}
           date={selectedTime.dateFrom}
+        />
+      )}
+
+      {isPdpConfirmationDialogOpen && (
+        <PdpConfirmationDialog
+          open={isPdpConfirmationDialogOpen}
+          onClose={() => router.push("/platform")}
+          onConfirm={() => handlePdpConfirmation()}
         />
       )}
     </>
