@@ -7,15 +7,16 @@ import { createCase, getActiveCase, updateCase } from "./cases";
 import { getProfessionalSapUser } from "./professionals";
 import { env } from "~/env";
 import { createNotification } from "./notifications";
+import { type Professional } from "~/types/professionals";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
 
-interface FreeAppointmentsApiData {
+type FreeAppointmentsApiData = {
   NumProf: number;
   fechadesde: string;
   fechahasta: string;
   Timezone: string;
-}
+};
 
 const parseFreeAppointmentsData = async (
   freeAppointments: FreeAppointmentsApiData[],
@@ -63,13 +64,7 @@ const CreateAppointmentAdapter = (props: {
   modalidadcita: props.modalityId,
 });
 
-interface AgendaApiData {
-  value: {
-    DocEntry: number;
-  }[];
-}
-
-interface AppointmentsApiData {
+type AppointmentsApiData = {
   UNIQUEID: number;
   FS_FECHAINICIO: string;
   FS_FECHAFIN: string;
@@ -78,7 +73,7 @@ interface AppointmentsApiData {
   NOMBRE: string;
   EMPID: number;
   ESTADO: AppointmentState;
-}
+};
 
 const parseAppointmentsApiData = (
   appointments: AppointmentsApiData[],
@@ -93,71 +88,6 @@ const parseAppointmentsApiData = (
     professionalId: appointment.EMPID,
     state: appointment.ESTADO,
   }));
-
-// TODO: delete this function
-const getFreeAppointmentsOld = async (props: {
-  dateFrom: string;
-  dateTo: string;
-  timezone: string;
-  accessToken: string;
-  employeeId: number;
-  specialtyId: number;
-  serviceId: number;
-  modalityId: number;
-}): Promise<{ freeAppointments: FreeAppointmentsByDay; agendaId: number }> => {
-  const {
-    dateFrom,
-    dateTo,
-    timezone,
-    accessToken,
-    employeeId,
-    specialtyId,
-    serviceId,
-    modalityId,
-  } = props;
-
-  const headers = new Headers();
-  headers.append("Authorization", accessToken);
-
-  const getAgendasReqUrl = `${API_URL}/misc/getActiveAgendasByEmpId?empId=${employeeId}&esp=${specialtyId}&servicio=${serviceId}&aten=3`;
-
-  const responseAgendas = await fetch(getAgendasReqUrl, {
-    method: "GET",
-    headers,
-  });
-
-  if (!responseAgendas.ok)
-    throw new Error("Error al obtener la agenda del profesional");
-
-  const dataAgenda = (await responseAgendas.json()) as AgendaApiData;
-
-  if (dataAgenda.value.length === 0 || !dataAgenda.value[0]?.DocEntry)
-    throw new Error("No hay agendas activas para el profesional");
-
-  const agendaId = dataAgenda.value[0].DocEntry;
-
-  const getAppointmentsReqUrl = `${API_URL}/appointments/getFreeAppointmentsByAgenda?fechadesde=${dateFrom}&fechahasta=${dateTo}&idagenda=${agendaId}&modalidad=${modalityId}&zonahoraria=${timezone}`;
-
-  const response = await fetch(getAppointmentsReqUrl, {
-    method: "GET",
-    headers,
-    cache: "no-store",
-  });
-
-  if (!response.ok)
-    throw new Error(
-      "Error al obtener las citas libres de la agenda del profesional",
-    );
-
-  const freeAppointmentsApiData =
-    (await response.json()) as FreeAppointmentsApiData[];
-
-  const freeAppointments = await parseFreeAppointmentsData(
-    freeAppointmentsApiData,
-  );
-
-  return { freeAppointments, agendaId };
-};
 
 const getFreeAppointments = async (props: {
   dateFrom: string;
@@ -205,17 +135,6 @@ const getFreeAppointments = async (props: {
   return freeAppointments;
 };
 
-/**
- [
-    {
-        "IDAgenda": 20,
-        "FechaDesde": "2024-05-27T11:00:00",
-        "FechaHasta": "2024-05-27T11:30:00",
-        "Nombre": "Mariano Vignau (EN)",
-        "EmpId": 15
-    }
-]
- */
 type ProfessionalAppointmentsByDateAndTimeApiData = {
   IDAgenda: number;
   FechaDesde: string;
@@ -224,8 +143,17 @@ type ProfessionalAppointmentsByDateAndTimeApiData = {
   EmpId: number;
 };
 
-// {{APITURNERO}}/api/citasProfesional/getAppointmentsByBranchAndMoment?fechahora=2024-05-27T11:00:00&especialidad=3&modalidadcita=3&servicio=1&empresa=898&unidad=438&zonahoraria=Argentina Standard Time
-const getProfessionalAppointmentsByDateAndTime = async (props: {
+const parseAvailableProfessionals = (
+  professionalsApiData: ProfessionalAppointmentsByDateAndTimeApiData[],
+): Professional[] =>
+  professionalsApiData.map((professional) => ({
+    id: professional.EmpId,
+    name: professional.Nombre,
+    agendaId: professional.IDAgenda,
+    subSpecialties: undefined,
+  }));
+
+const getAvailableProfessionalsByDateAndTime = async (props: {
   date: string;
   timezone: string;
   accessToken: string;
@@ -234,7 +162,7 @@ const getProfessionalAppointmentsByDateAndTime = async (props: {
   modalityId: number;
   companyId: number;
   locationId: number;
-}): Promise<Appointment[]> => {
+}): Promise<Professional[]> => {
   const {
     date,
     timezone,
@@ -257,11 +185,13 @@ const getProfessionalAppointmentsByDateAndTime = async (props: {
     cache: "no-store",
   });
 
-  if (!response.ok) throw new Error("Error al obtener las citas");
+  if (!response.ok)
+    throw new Error("Error al obtener los profesionales disponibles");
 
-  const appointmentsApiData = (await response.json()) as AppointmentsApiData[];
+  const professionalsApiData =
+    (await response.json()) as ProfessionalAppointmentsByDateAndTimeApiData[];
 
-  return parseAppointmentsApiData(appointmentsApiData);
+  return parseAvailableProfessionals(professionalsApiData);
 };
 
 const createAppointment = async (props: {
@@ -464,6 +394,7 @@ const deleteAppointment = async (props: {
 
 export {
   getFreeAppointments,
+  getAvailableProfessionalsByDateAndTime,
   createAppointment,
   getAppointmentsByPatient,
   deleteAppointment,
