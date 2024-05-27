@@ -9,9 +9,37 @@ import {
 import { type ContractService } from "~/types/services";
 import { type User } from "~/types/users";
 import { type Professional } from "~/types/professionals";
-import { type FreeAppointmentsByDay } from "~/types/appointments";
+import type {
+  FreeAppointment,
+  FreeAppointmentsByDay,
+} from "~/types/appointments";
 import { endOfMonth, format, startOfMonth } from "date-fns";
 import { toast } from "sonner";
+
+const filterAppointmentsByTimeRange = (
+  appointments: FreeAppointment[],
+  timeRangeFilter: { start: number; end: number },
+): FreeAppointment[] => {
+  return appointments
+    .map((appointment) => {
+      const appointmentStartHour = new Date(appointment.start).getHours();
+      const appointmentEndHour = new Date(appointment.end).getHours();
+
+      if (
+        appointmentStartHour < timeRangeFilter.start ||
+        appointmentEndHour > timeRangeFilter.end
+      )
+        return undefined;
+
+      const appointmentEnd = new Date(appointment.end);
+      const lastAppointmentEndHour = appointmentEnd.getHours();
+
+      if (lastAppointmentEndHour > timeRangeFilter.end) return undefined;
+
+      return appointment;
+    })
+    .filter(Boolean) as FreeAppointment[];
+};
 
 const useCreateAppointment = (user: User) => {
   const router = useRouter();
@@ -90,10 +118,11 @@ const useCreateAppointment = (user: User) => {
 
       const filteredFreeAppointments: FreeAppointmentsByDay = {};
 
+      const currentDay = new Date();
+
       for (const day in freeAppointmentsResponse) {
         let appointments = freeAppointmentsResponse[day];
 
-        const currentDay = new Date();
         const appointmentDay = new Date(
           displayedMonth.getFullYear(),
           displayedMonth.getMonth(),
@@ -107,8 +136,14 @@ const useCreateAppointment = (user: User) => {
           });
         }
 
-        if (appointments && appointments.length > 0)
-          filteredFreeAppointments[day] = appointments;
+        if (appointments && appointments.length > 0) {
+          const filteredAppointments = timeRangeFilter
+            ? filterAppointmentsByTimeRange(appointments, timeRangeFilter)
+            : appointments;
+
+          if (filteredAppointments.length > 0)
+            filteredFreeAppointments[day] = filteredAppointments;
+        }
       }
 
       if (selectedTime) setSelectedTime(undefined);
