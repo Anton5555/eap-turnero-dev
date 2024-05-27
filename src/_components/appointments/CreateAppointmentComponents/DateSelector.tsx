@@ -8,6 +8,7 @@ const DateSelector = (props: {
   isLoading: boolean;
   freeAppointments: FreeAppointmentsByDay | null;
   selectedDate?: Date;
+  displayedMonth: Date;
   onDayClick: DayClickEventHandler;
   onMonthChange: (date: Date) => void;
   error: Error | null;
@@ -16,18 +17,19 @@ const DateSelector = (props: {
     isLoading,
     freeAppointments,
     selectedDate,
+    displayedMonth,
     onDayClick,
     onMonthChange,
     error,
   } = props;
 
-  console.log({ freeAppointments });
   return (
     <PlatformContainer className="w-full lg:min-h-0">
       <Calendar
         mode="single"
         availableDays={freeAppointments ? Object.keys(freeAppointments) : []}
         selected={selectedDate}
+        displayedMonth={displayedMonth}
         onDayClick={onDayClick}
         onMonthChange={onMonthChange}
       />
@@ -39,7 +41,7 @@ const DateSelector = (props: {
               (appointments) => appointments.length === 0,
             )) &&
           error?.message) ??
-          "No hay horarios disponibles para este profesional"}
+          "No hay horarios disponibles para los filtros seleccionados"}
       </H6>
     </PlatformContainer>
   );
