@@ -5,7 +5,6 @@ import { Button } from "../common/Button";
 import { H3, H6 } from "../common/Typography";
 import Stepper from "../common/Stepper";
 import React, { useEffect, useState } from "react";
-import { type ContractService } from "~/types/services";
 import { cn } from "~/lib/utils";
 import Link from "next/link";
 import ArrowIcon from "../icons/Arrow";
@@ -17,65 +16,13 @@ import ServiceSelector from "./CreateAppointmentComponents/ServiceSelector";
 import DateSelector from "./CreateAppointmentComponents/DateSelector";
 import TimeSelector from "./CreateAppointmentComponents/TimeSelector";
 import ProfessionalSelector from "./CreateAppointmentComponents/ProfessionalSelector";
-import { timeRanges } from "~/lib/constants";
-import { type User } from "~/types/users";
 import PdpConfirmationDialog from "./PdpConfirmationDialog";
+import { timeRanges } from "~/lib/constants";
 import { updateUserPdp } from "~/lib/api/users";
 import { useSession } from "next-auth/react";
 import useCreateAppointment from "~/lib/hooks/useCreateAppointment";
-
-/*
-TODO: validate with backend, now the appointments come with the duration predifined related to the modality
-
-const filterAppointmentsByDuration = (
-  appointments: FreeAppointment[],
-  durationFilter: number,
-  timeRangeFilter?: { start: number; end: number },
-): FreeAppointment[] => {
-  const blocksNeeded = durationFilter / 15;
-
-  return appointments
-    .map((appointment, index) => {
-      if (timeRangeFilter) {
-        const appointmentStartHour = new Date(appointment.start).getHours();
-        const appointmentEndHour = new Date(appointment.end).getHours();
-
-        if (
-          appointmentStartHour < timeRangeFilter.start ||
-          appointmentEndHour > timeRangeFilter.end
-        )
-          return undefined;
-      }
-
-      const futureAppointments = appointments.slice(
-        index + 1,
-        index + blocksNeeded,
-      );
-
-      if (futureAppointments.length < blocksNeeded - 1) return undefined;
-
-      const lastAppointment = futureAppointments[futureAppointments.length - 1];
-
-      if (!lastAppointment) return undefined;
-
-      if (timeRangeFilter) {
-        const lastAppointmentEndHour = new Date(lastAppointment.end).getHours();
-
-        if (lastAppointmentEndHour > timeRangeFilter.end) return undefined;
-      }
-
-      const duration = differenceInMinutes(
-        new Date(lastAppointment.end),
-        new Date(appointment.start),
-      );
-
-      if (duration === durationFilter)
-        return { start: appointment.start, end: lastAppointment.end };
-
-      return undefined;
-    })
-    .filter(Boolean) as FreeAppointment[];
-};*/
+import { type ContractService } from "~/types/services";
+import { type User } from "~/types/users";
 
 const CreateAppointment: React.FC<{
   services: ContractService[];
@@ -83,6 +30,7 @@ const CreateAppointment: React.FC<{
 }> = ({ services, user }) => {
   const {
     currentStep,
+    displayedMonth,
     isConfirmationDialogOpen,
     isLoadingFreeAppointments,
     errorFreeAppointments,
@@ -110,10 +58,7 @@ const CreateAppointment: React.FC<{
     nextStep,
     handleTimeSelect,
     handleSubmit,
-  } = useCreateAppointment({
-    services,
-    user,
-  });
+  } = useCreateAppointment(user);
 
   const router = useRouter();
 
@@ -168,11 +113,7 @@ const CreateAppointment: React.FC<{
           <H6>
             {currentStep === 1
               ? "Selecciona un tipo de asistencia"
-              : currentStep === 2
-                ? "Selecciona una fecha"
-                : currentStep === 3
-                  ? "Selecciona un horario"
-                  : "Selecciona un profesional"}
+              : "Selecciona una fecha, un horario y un profesional"}
           </H6>
         </div>
 
@@ -225,6 +166,7 @@ const CreateAppointment: React.FC<{
                     isLoading={isLoadingFreeAppointments}
                     error={errorFreeAppointments}
                     freeAppointments={freeAppointments}
+                    displayedMonth={displayedMonth}
                     selectedDate={selectedDate}
                     onDayClick={handleDateSelect}
                     onMonthChange={handleMonthChange}
@@ -241,18 +183,12 @@ const CreateAppointment: React.FC<{
                 >
                   <TimeSelector
                     step={currentStep}
-                    isLoading={isLoadingFreeAppointments}
                     error={errorFreeAppointments}
                     isDateSelected={!!selectedDate}
-                    hasProfessionals={
-                      !!(professionals && professionals.length > 0)
-                    }
                     hasFreeAppointments={
-                      !!(
-                        freeAppointments &&
-                        Object.values(freeAppointments).some(
-                          (appointments) => appointments.length > 0,
-                        )
+                      !!freeAppointments &&
+                      Object.values(freeAppointments).some(
+                        (appointments) => appointments.length > 0,
                       )
                     }
                     freeAppointmentsTimes={freeAppointmentsTimes}
@@ -273,6 +209,7 @@ const CreateAppointment: React.FC<{
                   professionals={professionals}
                   isLoading={isLoadingProfessionals}
                   error={errorProfessionals}
+                  isTimeSelected={!!selectedTime}
                   selectedProfessional={selectedProfessional}
                   handleProfessionalSelect={handleProfessionalSelect}
                 />
