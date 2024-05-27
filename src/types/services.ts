@@ -1,4 +1,4 @@
-export interface ContractService {
+export type ContractService = {
   id: number;
   companyId: number;
   serviceId: number;
@@ -13,4 +13,4 @@ export interface ContractService {
   position: number;
   positionName: string;
   rn: number;
-}
+};
