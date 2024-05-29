@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import {
@@ -234,53 +234,68 @@ const useCreateAppointment = (user: User) => {
     },
   });
 
-  const handleServiceSelect = (service: ContractService) => {
-    setSelectedService(service);
+  const handleServiceSelect = useCallback(
+    (service: ContractService) => {
+      setSelectedService(service);
 
-    if (selectedProfessional) setSelectedProfessional(undefined);
-    if (selectedDate) setSelectedDate(undefined);
-    if (selectedTime) setSelectedTime(undefined);
+      if (selectedProfessional) setSelectedProfessional(undefined);
+      if (selectedDate) setSelectedDate(undefined);
+      if (selectedTime) setSelectedTime(undefined);
 
-    setCurrentStep(2);
-  };
+      setCurrentStep(2);
+    },
+    [selectedProfessional, selectedDate, selectedTime],
+  );
 
-  const handleMonthChange = (month: Date) => {
-    setSelectedDate(undefined);
+  const handleMonthChange = useCallback(
+    (month: Date) => {
+      if (selectedDate) setSelectedDate(undefined);
 
-    setDisplayedMonth(month);
-  };
+      setDisplayedMonth(month);
+    },
+    [selectedDate],
+  );
 
-  const handleDateSelect = (date: Date) => {
-    setSelectedDate(date);
+  const handleDateSelect = useCallback(
+    (date: Date) => {
+      setSelectedDate(date);
 
-    if (selectedTime) setSelectedTime(undefined);
-    if (selectedProfessional) setSelectedProfessional(undefined);
+      if (selectedTime) setSelectedTime(undefined);
+      if (selectedProfessional) setSelectedProfessional(undefined);
 
-    setFreeAppointmentsTimes(
-      freeAppointments![date.getDate()]!.map((freeAppointment) => ({
-        dateFrom: freeAppointment.start,
-        dateTo: freeAppointment.end,
-      })),
-    );
+      setFreeAppointmentsTimes(
+        freeAppointments![date.getDate()]!.map((freeAppointment) => ({
+          dateFrom: freeAppointment.start,
+          dateTo: freeAppointment.end,
+        })),
+      );
 
-    setCurrentStep(3);
-  };
+      setCurrentStep(3);
+    },
+    [freeAppointments, selectedTime, selectedProfessional],
+  );
 
-  const handleTimeSelect = (times: { dateFrom: Date; dateTo: Date }) => {
-    setSelectedTime(times);
+  const handleTimeSelect = useCallback(
+    (times: { dateFrom: Date; dateTo: Date }) => {
+      setSelectedTime(times);
 
-    setSelectedProfessional(undefined);
+      if (selectedProfessional) setSelectedProfessional(undefined);
 
-    setCurrentStep(4);
-  };
+      setCurrentStep(4);
+    },
+    [selectedProfessional],
+  );
 
-  const handleProfessionalSelect = async (professional: Professional) => {
-    setSelectedProfessional(professional);
+  const handleProfessionalSelect = useCallback(
+    async (professional: Professional) => {
+      setSelectedProfessional(professional);
 
-    setIsConfirmationDialogOpen(true);
-  };
+      setIsConfirmationDialogOpen(true);
+    },
+    [],
+  );
 
-  const nextStep = () => {
+  const nextStep = useCallback(() => {
     if (currentStep === 1 && !selectedService) {
       toast.error("Debes seleccionar un tipo de asistencia");
 
@@ -312,9 +327,15 @@ const useCreateAppointment = (user: User) => {
     }
 
     setCurrentStep(currentStep + 1);
-  };
+  }, [
+    selectedService,
+    selectedDate,
+    selectedTime,
+    selectedProfessional,
+    currentStep,
+  ]);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     if (!selectedService || !selectedTime || !selectedProfessional) {
       toast.error(
         "Error al crear la cita, selecciona todos los datos necesarios",
@@ -348,7 +369,14 @@ const useCreateAppointment = (user: User) => {
         loading: "Creando cita",
       },
     );
-  };
+  }, [
+    selectedService,
+    selectedTime,
+    selectedProfessional,
+    user,
+    modalityFilter,
+    mutateAsync,
+  ]);
 
   return {
     currentStep,
