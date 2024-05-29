@@ -257,9 +257,9 @@ const useCreateAppointment = (user: User) => {
     if (selectedProfessional) setSelectedProfessional(undefined);
 
     setFreeAppointmentsTimes(
-      freeAppointments![date.getDate()]!.map((freeAppointment) => ({
-        dateFrom: freeAppointment.start,
-        dateTo: freeAppointment.end,
+      freeAppointments![date.getDate()]!.map(({ start, end }) => ({
+        dateFrom: start,
+        dateTo: end,
       })),
     );
 
