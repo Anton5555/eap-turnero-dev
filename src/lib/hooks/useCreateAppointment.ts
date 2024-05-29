@@ -130,8 +130,8 @@ const useCreateAppointment = (user: User) => {
         );
 
         if (currentDay.toDateString() === appointmentDay.toDateString()) {
-          appointments = appointments?.filter((appointment) => {
-            const appointmentTime = new Date(appointment.start);
+          appointments = appointments?.filter(({ start }) => {
+            const appointmentTime = new Date(start);
             return appointmentTime.getTime() >= currentDay.getTime();
           });
         }
