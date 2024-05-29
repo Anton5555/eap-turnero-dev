@@ -130,8 +130,8 @@ const useCreateAppointment = (user: User) => {
         );
 
         if (currentDay.toDateString() === appointmentDay.toDateString()) {
-          appointments = appointments?.filter((appointment) => {
-            const appointmentTime = new Date(appointment.start);
+          appointments = appointments?.filter(({ start }) => {
+            const appointmentTime = new Date(start);
             return appointmentTime.getTime() >= currentDay.getTime();
           });
         }
@@ -264,9 +264,9 @@ const useCreateAppointment = (user: User) => {
       if (selectedProfessional) setSelectedProfessional(undefined);
 
       setFreeAppointmentsTimes(
-        freeAppointments![date.getDate()]!.map((freeAppointment) => ({
-          dateFrom: freeAppointment.start,
-          dateTo: freeAppointment.end,
+        freeAppointments![date.getDate()]!.map(({ start, end }) => ({
+          dateFrom: start,
+          dateTo: end,
         })),
       );
 
