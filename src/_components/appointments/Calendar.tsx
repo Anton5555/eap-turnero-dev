@@ -10,10 +10,9 @@ import { es } from "date-fns/locale";
 import { format } from "date-fns";
 
 const currentDay = new Date();
-const currentMonth = currentDay.getMonth();
-const currentYear = currentDay.getFullYear();
 
 type CalendarProps = DayPickerSingleProps & {
+  displayedMonth: Date;
   availableDays: string[];
 };
 
@@ -54,6 +53,7 @@ const Calendar: React.FC<CalendarProps> = ({
   availableDays,
   className,
   showOutsideDays = true,
+  displayedMonth,
   onMonthChange,
   selected,
   ...props
@@ -61,16 +61,26 @@ const Calendar: React.FC<CalendarProps> = ({
   <DayPicker
     locale={es}
     weekStartsOn={SUNDAY}
-    disabled={(date) => date.getDate() < currentDay.getDate()}
+    disabled={(date) =>
+      date.getMonth() === currentDay.getMonth() &&
+      date.getDate() < currentDay.getDate()
+    }
     onMonthChange={onMonthChange}
-    defaultMonth={currentDay}
+    defaultMonth={displayedMonth}
     fromMonth={currentDay}
-    toYear={currentYear + 1}
+    toYear={currentDay.getFullYear() + 1}
     selected={selected}
     modifiers={{
       available: availableDays
         .filter((day) => Number(day) !== selected?.getDate())
-        .map((day) => new Date(currentYear, currentMonth, Number(day))),
+        .map(
+          (day) =>
+            new Date(
+              displayedMonth.getFullYear(),
+              displayedMonth.getMonth(),
+              Number(day),
+            ),
+        ),
     }}
     modifiersClassNames={{
       available:

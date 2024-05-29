@@ -4,20 +4,20 @@ import { H6 } from "~/_components/common/Typography";
 import { type FreeAppointmentsByDay } from "~/types/appointments";
 import { type DayClickEventHandler } from "react-day-picker";
 
-const DateSelection = (props: {
+const DateSelector = (props: {
   isLoading: boolean;
-  selectedProfessional: boolean;
   freeAppointments: FreeAppointmentsByDay | null;
   selectedDate?: Date;
+  displayedMonth: Date;
   onDayClick: DayClickEventHandler;
   onMonthChange: (date: Date) => void;
   error: Error | null;
 }) => {
   const {
     isLoading,
-    selectedProfessional,
     freeAppointments,
     selectedDate,
+    displayedMonth,
     onDayClick,
     onMonthChange,
     error,
@@ -27,28 +27,24 @@ const DateSelection = (props: {
     <PlatformContainer className="w-full lg:min-h-0">
       <Calendar
         mode="single"
-        availableDays={
-          selectedProfessional && freeAppointments
-            ? Object.keys(freeAppointments)
-            : []
-        }
+        availableDays={freeAppointments ? Object.keys(freeAppointments) : []}
         selected={selectedDate}
+        displayedMonth={displayedMonth}
         onDayClick={onDayClick}
         onMonthChange={onMonthChange}
       />
 
       <H6 className="flex px-1 py-2 text-center lg:hidden ">
-        {(selectedProfessional &&
-          !isLoading &&
+        {(!isLoading &&
           (!freeAppointments ||
             Object.values(freeAppointments).every(
               (appointments) => appointments.length === 0,
             )) &&
           error?.message) ??
-          "No hay horarios disponibles para este profesional"}
+          "No hay horarios disponibles para los filtros seleccionados"}
       </H6>
     </PlatformContainer>
   );
 };
 
-export default DateSelection;
+export default DateSelector;

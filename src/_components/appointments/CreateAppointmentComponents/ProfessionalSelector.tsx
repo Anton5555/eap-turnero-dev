@@ -7,10 +7,11 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-const ProfessionalSelection = (props: {
+const ProfessionalSelector = (props: {
   isLoading: boolean;
   professionals: Professional[] | undefined;
   error: Error | null;
+  isTimeSelected: boolean;
   selectedProfessional?: Professional;
   handleProfessionalSelect: (professional: Professional) => void;
 }) => {
@@ -18,6 +19,7 @@ const ProfessionalSelection = (props: {
     isLoading,
     professionals,
     error,
+    isTimeSelected,
     selectedProfessional,
     handleProfessionalSelect,
   } = props;
@@ -25,7 +27,8 @@ const ProfessionalSelection = (props: {
   useEffect(() => {
     let toastId: string | number | undefined;
 
-    if (isLoading) toastId = toast.loading("Cargando horarios disponibles");
+    if (isLoading)
+      toastId = toast.loading("Cargando profesionales disponibles");
     else toast.dismiss(toastId);
 
     return () => {
@@ -38,8 +41,8 @@ const ProfessionalSelection = (props: {
       {!isLoading && !professionals?.length ? (
         <PlatformContainer className="flex min-h-24 flex-col justify-center rounded-2xl lg:py-6">
           <H6 className="text-center">
-            {error
-              ? error.message
+            {error?.message ?? !isTimeSelected
+              ? "Selecciona un horario para ver los profesionales disponibles"
               : "No se encontraron profesionales para los filtros seleccionados"}
           </H6>
         </PlatformContainer>
@@ -94,4 +97,4 @@ const ProfessionalSelection = (props: {
   );
 };
 
-export default ProfessionalSelection;
+export default ProfessionalSelector;
