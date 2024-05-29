@@ -12,7 +12,12 @@ import { AppointmentState } from "~/types/appointments";
 const Page = async ({
   searchParams,
 }: {
-  searchParams: { professional: string; dateFrom: string; dateTo: string };
+  searchParams: {
+    professional: string;
+    dateFrom: string;
+    dateTo: string;
+    modality: number;
+  };
 }) => {
   const session = await getServerSession(authOptions);
 
@@ -43,7 +48,7 @@ const Page = async ({
     })
     .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
 
-  const { professional, dateFrom, dateTo } = searchParams;
+  const { professional, dateFrom, dateTo, modality } = searchParams;
 
   return (
     <main>
@@ -81,6 +86,7 @@ const Page = async ({
             professional={professional}
             dateFrom={new Date(dateFrom)}
             dateTo={new Date(dateTo)}
+            modality={modality}
           />
         )}
       </div>

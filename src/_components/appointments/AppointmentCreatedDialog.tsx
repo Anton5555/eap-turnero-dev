@@ -7,17 +7,20 @@ import { Button } from "../common/Button";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { useRouter } from "next/navigation";
+import { modalities } from "~/lib/constants";
 
 interface AppointmentCreatedDialogProps {
   professional: string;
   dateFrom: Date;
   dateTo: Date;
+  modality: number;
 }
 
 const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
   professional,
   dateFrom,
   dateTo,
+  modality,
 }) => {
   const [open, setOpen] = useState(true);
   const router = useRouter();
@@ -69,10 +72,7 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
 
                   <p className="text-sm lg:text-base">
                     Recibirás una confirmación por correo electrónico con todos
-                    los detalles necesarios. Desde la sección{" "}
-                    <span className="text-green">&apos;Inicio&apos;</span>,
-                    podrás gestionar tus citas, incluyendo la posibilidad de
-                    cancelarla o modificarla si es necesario.
+                    los detalles necesarios.
                   </p>
 
                   <p className="text-sm italic leading-4">
