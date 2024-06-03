@@ -24,7 +24,22 @@ const editProfileSchema = z.object({
   email: z.string().email({ message: "Ingresa un email válido" }),
   location: z.string(),
   gender: z.string().optional(),
-  birthdate: z.date().optional(),
+  birthdate: z
+    .date({
+      required_error: "Ingresa una fecha válida",
+    })
+    .refine(
+      (date) => {
+        const ageDiff = Date.now() - date.getTime();
+        const ageDate = new Date(ageDiff);
+        const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+        console.log({ ageDiff, ageDate, age });
+
+        return age >= 18;
+      },
+      { message: "Debes ser mayor de 18 años" },
+    ),
 });
 
 export type EditProfileInputs = z.infer<typeof editProfileSchema>;
@@ -180,6 +195,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
                 labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
                 value={value}
                 onChange={onChange}
+                errorText={errors.birthdate?.message}
               />
             )}
           />
