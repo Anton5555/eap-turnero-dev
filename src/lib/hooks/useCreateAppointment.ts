@@ -15,6 +15,7 @@ import type {
 } from "~/types/appointments";
 import { endOfMonth, format, startOfMonth } from "date-fns";
 import { toast } from "sonner";
+import { getActiveCase } from "../api/cases";
 
 const filterAppointmentsByTimeRange = (
   appointments: FreeAppointment[],
@@ -233,7 +234,23 @@ const useCreateAppointment = (user: User) => {
   });
 
   const handleServiceSelect = useCallback(
-    (service: ContractService) => {
+    async (service: ContractService) => {
+      const activeCase = await getActiveCase({
+        areaId: service.areaId,
+        serviceId: service.serviceId,
+        specialtyId: service.specialtyId,
+        patientId: Number(user.id),
+        accessToken: user.accessToken,
+      });
+
+      if (!activeCase) {
+        toast.error(
+          "Solo puedes reservar una cita si no tienes un caso activo para el servicio seleccionado",
+        );
+
+        return;
+      }
+
       setSelectedService(service);
 
       if (selectedProfessional) setSelectedProfessional(undefined);
@@ -242,7 +259,7 @@ const useCreateAppointment = (user: User) => {
 
       setCurrentStep(2);
     },
-    [selectedProfessional, selectedDate, selectedTime],
+    [selectedProfessional, selectedDate, selectedTime, user],
   );
 
   const handleMonthChange = useCallback(
