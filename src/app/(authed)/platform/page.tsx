@@ -8,6 +8,7 @@ import { H3, H5, H6 } from "~/_components/common/Typography";
 import { getAppointmentsByPatient } from "~/lib/api/appointments";
 import authOptions from "~/lib/authOptions";
 import { AppointmentState } from "~/types/appointments";
+import { type SPECIALTY } from "~/types/services";
 
 const Page = async ({
   searchParams,
@@ -16,7 +17,8 @@ const Page = async ({
     professional: string;
     dateFrom: string;
     dateTo: string;
-    modality: number;
+    modality: string;
+    specialty: string;
   };
 }) => {
   const session = await getServerSession(authOptions);
@@ -48,7 +50,7 @@ const Page = async ({
     })
     .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
 
-  const { professional, dateFrom, dateTo, modality } = searchParams;
+  const { professional, dateFrom, dateTo, modality, specialty } = searchParams;
 
   return (
     <main>
@@ -87,6 +89,7 @@ const Page = async ({
             dateFrom={new Date(dateFrom)}
             dateTo={new Date(dateTo)}
             modality={modality}
+            specialty={specialty as SPECIALTY}
           />
         )}
       </div>

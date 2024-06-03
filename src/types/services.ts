@@ -1,4 +1,12 @@
-export type ContractService = {
+enum SPECIALTY {
+  PSICOLOGY = "Psicología",
+  NUTRITION = "Nutrición",
+  LEGAL = "Legal",
+  INFORMATIVE = "Informativa",
+  FINANCE = "Finanzas",
+}
+
+type ContractService = {
   id: number;
   companyId: number;
   serviceId: number;
@@ -6,7 +14,7 @@ export type ContractService = {
   area: string;
   serviceName: string;
   specialtyId: number;
-  specialty: string;
+  specialty: SPECIALTY;
   locationId: number;
   locationName: string;
   processType: number;
@@ -14,3 +22,5 @@ export type ContractService = {
   positionName: string;
   rn: number;
 };
+
+export { SPECIALTY, type ContractService };
