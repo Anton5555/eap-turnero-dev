@@ -7,13 +7,15 @@ import { Button } from "../common/Button";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { useRouter } from "next/navigation";
-import { modalities } from "~/lib/constants";
+import Link from "next/link";
+import { SPECIALTY } from "~/types/services";
 
 interface AppointmentCreatedDialogProps {
   professional: string;
   dateFrom: Date;
   dateTo: Date;
-  modality: number;
+  modality: string;
+  specialty: SPECIALTY;
 }
 
 const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
@@ -21,6 +23,7 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
   dateFrom,
   dateTo,
   modality,
+  specialty,
 }) => {
   const [open, setOpen] = useState(true);
   const router = useRouter();
@@ -29,6 +32,58 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
     router.replace("/platform", undefined);
 
     setOpen(false);
+  };
+
+  console.log({ modality, specialty });
+
+  const TermsAndConditions = () => {
+    if (modality === "3")
+      return (
+        <p className="text-sm lg:text-base">
+          El profesional estará llamando al número que nos ha indicado en el
+          horario pautado. Recuerda que la llamada puede provenir de un número
+          privado. Si han pasado +10 min de la hora pautada o tiene llamadas
+          perdidas registradas, por favor, contáctate con nosotros para que te
+          pongamos en contacto con el profesional asignado.
+        </p>
+      );
+    else
+      return (
+        <>
+          <p className="text-sm lg:text-base">
+            Será necesario que puedas leer atentamente nuestro consentimiento
+            informado con toda la información sobre los términos y condiciones
+            asociados al tipo de consulta y modalidad:
+          </p>
+
+          <Link
+            href={
+              specialty === SPECIALTY.PSICOLOGY
+                ? "https://drive.google.com/drive/u/0/folders/1y9V5JEHQpQnfkH2tZAG_WPo4Or-gsPzb"
+                : "https://drive.google.com/drive/u/0/folders/1y9V5JEHQpQnfkH2tZAG_WPo4Or-gsPzb"
+            }
+            className="text-sm text-blue-500 underline"
+          >
+            Hacer clic aquí para conocer términos y condiciones
+          </Link>
+
+          <p className="text-sm lg:text-base">
+            Entendemos que al conectarte a la próxima cita aceptas
+            voluntariamente los términos y condiciones de nuestros documentos.
+            Es importante que al momento de la consulta puedas encontrarte en un
+            lugar privado, cómodo y con buena conexión para garantizar la
+            orientación profesional.
+          </p>
+
+          <p className="text-sm lg:text-base">
+            Si quieres conocer más acerca de nuestra Política de privacidad y
+            tratamiento de datos puedes hacer clic aquí: &nbsp;
+            <a href="https://www.eaplatina.com/pdf/aviso_privacidad_nov_2023.pdf">
+              Aviso de Privacidad
+            </a>
+          </p>
+        </>
+      );
   };
 
   return (
@@ -75,13 +130,7 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
                     los detalles necesarios.
                   </p>
 
-                  <p className="text-sm italic leading-4">
-                    ¡Aprovecha al máximo tu sesión!
-                    <br />
-                    Antes de comenzar, te recomendamos encontrar un lugar
-                    tranquilo, que te permita concentrarte y tener una cita
-                    adecuada
-                  </p>
+                  <TermsAndConditions />
                 </div>
 
                 <div className="mt-5 flex justify-center lg:flex-row">
