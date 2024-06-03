@@ -68,10 +68,12 @@ const DatePicker = (props: {
   className: string;
   label: string;
   onChange: (value: Date) => void;
-  labelClassName: string;
+  labelClassName?: string;
   name: string;
+  errorText?: string;
 }) => {
-  const { value, className, label, onChange, labelClassName, name } = props;
+  const { value, className, label, onChange, labelClassName, name, errorText } =
+    props;
 
   const [calendarOpen, setCalendarOpen] = useState(false);
 
@@ -95,6 +97,8 @@ const DatePicker = (props: {
               "h-12 w-full justify-between rounded-full border-0 bg-white px-4 py-1.5 font-normal text-black shadow-sm ring-1 ring-inset ring-light-grayish-blue focus:ring-2 focus:ring-inset focus:ring-green focus:placeholder:text-green",
               !value && "text-gray-400",
               className,
+              errorText &&
+                "text-orange ring-orange focus:ring-inset focus:ring-orange focus:placeholder:text-orange",
             )}
           >
             {value ? (
@@ -120,6 +124,8 @@ const DatePicker = (props: {
           />
         </PopoverContent>
       </Popover>
+
+      {errorText && <div className="mt-1 text-sm text-orange">{errorText}</div>}
     </div>
   );
 };
