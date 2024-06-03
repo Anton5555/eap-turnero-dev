@@ -34,8 +34,6 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
     setOpen(false);
   };
 
-  console.log({ modality, specialty });
-
   const TermsAndConditions = () => {
     if (modality === "3")
       return (
