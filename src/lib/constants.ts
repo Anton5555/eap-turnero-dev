@@ -1,3 +1,5 @@
+import { AppointmentModality } from "~/types/appointments";
+
 const locations = [
   {
     value: 438,
@@ -39,12 +41,12 @@ const modalities = [
   // },
   {
     value: 2,
-    label: "Videollamada",
+    label: AppointmentModality.VIDEOCALL,
     durations: [30, 45, 60],
   },
   {
     value: 3,
-    label: "Telefónica",
+    label: AppointmentModality.PHONECALL,
     durations: [30],
   },
 ];

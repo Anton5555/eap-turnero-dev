@@ -9,6 +9,8 @@ import { es } from "date-fns/locale";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { SPECIALTY } from "~/types/services";
+import { modalities } from "~/lib/constants";
+import { AppointmentModality } from "~/types/appointments";
 
 interface AppointmentCreatedDialogProps {
   professional: string;
@@ -35,7 +37,7 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
   };
 
   const TermsAndConditions = () => {
-    if (modality === "3")
+    if (modalities[Number(modality)]?.label === AppointmentModality.PHONECALL)
       return (
         <p className="text-sm lg:text-base">
           El profesional estará llamando al número que nos ha indicado en el
@@ -45,43 +47,43 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
           pongamos en contacto con el profesional asignado.
         </p>
       );
-    else
-      return (
-        <>
-          <p className="text-sm lg:text-base">
-            Será necesario que puedas leer atentamente nuestro consentimiento
-            informado con toda la información sobre los términos y condiciones
-            asociados al tipo de consulta y modalidad:
-          </p>
 
-          <Link
-            href={
-              specialty === SPECIALTY.PSICOLOGY
-                ? "https://drive.google.com/drive/u/0/folders/1y9V5JEHQpQnfkH2tZAG_WPo4Or-gsPzb"
-                : "https://drive.google.com/drive/u/0/folders/1y9V5JEHQpQnfkH2tZAG_WPo4Or-gsPzb"
-            }
-            className="text-sm text-blue-500 underline"
-          >
-            Hacer clic aquí para conocer términos y condiciones
-          </Link>
+    return (
+      <>
+        <p className="text-sm lg:text-base">
+          Será necesario que puedas leer atentamente nuestro consentimiento
+          informado con toda la información sobre los términos y condiciones
+          asociados al tipo de consulta y modalidad:
+        </p>
 
-          <p className="text-sm lg:text-base">
-            Entendemos que al conectarte a la próxima cita aceptas
-            voluntariamente los términos y condiciones de nuestros documentos.
-            Es importante que al momento de la consulta puedas encontrarte en un
-            lugar privado, cómodo y con buena conexión para garantizar la
-            orientación profesional.
-          </p>
+        <Link
+          href={
+            specialty === SPECIALTY.PSICOLOGY
+              ? "https://drive.google.com/drive/u/0/folders/1y9V5JEHQpQnfkH2tZAG_WPo4Or-gsPzb"
+              : "https://drive.google.com/drive/u/0/folders/1y9V5JEHQpQnfkH2tZAG_WPo4Or-gsPzb"
+          }
+          className="text-sm text-blue-500 underline"
+        >
+          Hacer clic aquí para conocer términos y condiciones
+        </Link>
 
-          <p className="text-sm lg:text-base">
-            Si quieres conocer más acerca de nuestra Política de privacidad y
-            tratamiento de datos puedes hacer clic aquí: &nbsp;
-            <a href="https://www.eaplatina.com/pdf/aviso_privacidad_nov_2023.pdf">
-              Aviso de Privacidad
-            </a>
-          </p>
-        </>
-      );
+        <p className="text-sm lg:text-base">
+          Entendemos que al conectarte a la próxima cita aceptas voluntariamente
+          los términos y condiciones de nuestros documentos. Es importante que
+          al momento de la consulta puedas encontrarte en un lugar privado,
+          cómodo y con buena conexión para garantizar la orientación
+          profesional.
+        </p>
+
+        <p className="text-sm lg:text-base">
+          Si quieres conocer más acerca de nuestra Política de privacidad y
+          tratamiento de datos puedes hacer clic aquí: &nbsp;
+          <a href="https://www.eaplatina.com/pdf/aviso_privacidad_nov_2023.pdf">
+            Aviso de Privacidad
+          </a>
+        </p>
+      </>
+    );
   };
 
   return (
