@@ -161,9 +161,7 @@ const useCreateAppointment = (user: User) => {
       toastId = toast.loading("Cargando horarios disponibles");
     else toast.dismiss(toastId);
 
-    return () => {
-      toast.dismiss(toastId);
-    };
+    return void toast.dismiss(toastId);
   }, [isLoadingFreeAppointments]);
 
   useEffect(() => {
@@ -226,7 +224,7 @@ const useCreateAppointment = (user: User) => {
         const dateTo = selectedTime.dateTo.toISOString();
 
         router.push(
-          `/platform?professional=${selectedProfessional?.name}&dateFrom=${dateFrom}&dateTo=${dateTo}`,
+          `/platform?professional=${selectedProfessional?.name}&dateFrom=${dateFrom}&dateTo=${dateTo}&modality=${modalityFilter}`,
         );
       } else router.push("/platform");
 

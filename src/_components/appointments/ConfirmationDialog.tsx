@@ -5,6 +5,7 @@ import { Button } from "../common/Button";
 import CalendarIcon from "../icons/Calendar";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import { modalities } from "~/lib/constants";
 
 interface ConfirmationDialogProps {
   open: boolean;
@@ -12,6 +13,7 @@ interface ConfirmationDialogProps {
   onConfirm: () => void;
   professional: string;
   date: Date;
+  modality: number;
 }
 
 const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
@@ -20,6 +22,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
   onConfirm,
   professional,
   date,
+  modality,
 }) => (
   <Transition.Root show={open} as={Fragment}>
     <Dialog as="div" className="relative z-50" onClose={onClose}>
@@ -54,7 +57,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
                   <CloseIcon aria-hidden="true" />
                 </button>
               </div>
-              <div className="py-6 lg:px-12">
+              <div className="py-6 lg:px-6">
                 <div className="mt-3 text-center sm:ml-4 sm:mt-0">
                   <div className="mt-2 flex flex-col items-center space-y-2">
                     <div className="flex h-28 w-28 items-center justify-center rounded-full bg-light-gray">
@@ -65,8 +68,9 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
                       ¿Quieres confirmar tu cita?
                     </p>
 
-                    <p className="text-lg leading-5">
-                      Su cita con{" "}
+                    <p className="pt-4 text-lg leading-5">
+                      Su cita en modalidad{" "}
+                      {modalities.find((m) => m.value == modality)?.label} con{" "}
                       <span className="font-black text-green">
                         {professional}
                       </span>

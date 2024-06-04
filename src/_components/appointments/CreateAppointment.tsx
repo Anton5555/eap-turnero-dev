@@ -257,6 +257,7 @@ const CreateAppointment: React.FC<{
           onConfirm={() => handleSubmit()}
           professional={selectedProfessional?.name ?? ""}
           date={selectedTime.dateFrom}
+          modality={modalityFilter}
         />
       )}
 

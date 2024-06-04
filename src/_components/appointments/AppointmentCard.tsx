@@ -6,6 +6,8 @@ import Image from "next/image";
 import { Button } from "../common/Button";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import PhoneIcon from "../icons/Phone";
+import VideoIcon from "../icons/Video";
 
 interface AppointmentCardProps {
   appointment: Appointment;
@@ -37,22 +39,37 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
               {appointment.professional}
             </p>
 
-            <h3 className="hidden lg:flex">
-              <span className="first-letter:capitalize">
-                {`${format(appointment.start, "EEEE d 'de' LLLL 'de' yyyy', de' H:mm", { locale: es })} a ${format(appointment.end, "H:mm")}hs`}
-              </span>
-            </h3>
+            <div className="flex flex-row">
+              <div className="mr-2 flex flex-col justify-center">
+                {appointment.modality === "TELEFONICA" ? (
+                  <PhoneIcon
+                    width={16}
+                    height={16}
+                    color="#1C1C1C"
+                    strokeWidth={1}
+                  />
+                ) : (
+                  <VideoIcon size={16} color="#1C1C1C" />
+                )}
+              </div>
 
-            <h3 className="first-letter:capitalize lg:hidden">
-              {`${format(appointment.start, "d 'de' LLL 'de' yyyy', ' H:mm", { locale: es })} a ${format(appointment.end, "H:mm")}`}
-            </h3>
+              <h3 className="hidden lg:flex lg:flex-col">
+                <span className="first-letter:capitalize">
+                  {`${format(appointment.start, "EEEE d 'de' LLLL 'de' yyyy', de' H:mm", { locale: es })} a ${format(appointment.end, "H:mm")}hs`}
+                </span>
+              </h3>
+
+              <h3 className="flex-col first-letter:capitalize lg:hidden">
+                {`${format(appointment.start, "d 'de' LLL 'de' yyyy', ' H:mm", { locale: es })} a ${format(appointment.end, "H:mm")}`}
+              </h3>
+            </div>
           </div>
         </div>
 
         <div className="flex flex-row lg:flex-col lg:justify-center">
           <Button
             variant={"destructive"}
-            className="font-lato h-8 text-sm font-normal"
+            className="font-lato h-8 flex-col text-sm font-normal"
             onClick={() => onSelect(appointment)}
           >
             Cancelar
