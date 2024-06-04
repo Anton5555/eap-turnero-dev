@@ -67,7 +67,7 @@ const Page = async ({
           user={session.user}
         />
 
-        <div className="hidden w-1/3 space-y-6 lg:flex lg:flex-col">
+        <div className="hidden w-1/3 space-y-6 lg:flex lg:max-h-[calc(80dvh)] lg:flex-col lg:overflow-y-scroll">
           <PlatformContainer className="gap-5 lg:flex lg:flex-col">
             <H5>Próximas citas</H5>
 
