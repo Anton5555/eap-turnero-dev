@@ -243,9 +243,9 @@ const useCreateAppointment = (user: User) => {
         accessToken: user.accessToken,
       });
 
-      if (!activeCase) {
+      if (activeCase) {
         toast.error(
-          "Solo puedes reservar una cita si no tienes un caso activo para el servicio seleccionado",
+          "Ya tenes un caso activo por favor comunicate con el nuestra línea de ayuda en caso de requerir un cambio",
         );
 
         return;
