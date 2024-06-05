@@ -9,6 +9,8 @@ import { es } from "date-fns/locale";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { SPECIALTY } from "~/types/services";
+import { modalities } from "~/lib/constants";
+import { AppointmentModality } from "~/types/appointments";
 
 interface AppointmentCreatedDialogProps {
   professional: string;
@@ -35,7 +37,7 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
   };
 
   const TermsAndConditions = () => {
-    if (modality === "3")
+    if (modalities[Number(modality)]?.label === AppointmentModality.PHONECALL)
       return (
         <p className="text-sm lg:text-base">
           El profesional estará llamando al número que nos ha indicado en el

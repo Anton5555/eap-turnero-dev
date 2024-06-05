@@ -1,6 +1,6 @@
 "use client";
 
-import { type Appointment } from "~/types/appointments";
+import { AppointmentModality, type Appointment } from "~/types/appointments";
 import PlatformContainer from "../common/PlatformContainer";
 import Image from "next/image";
 import { Button } from "../common/Button";
@@ -41,7 +41,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
 
             <div className="flex flex-row">
               <div className="mr-2 flex flex-col justify-center">
-                {appointment.modality === "TELEFONICA" ? (
+                {appointment.modality === AppointmentModality.PHONECALL ? (
                   <PhoneIcon
                     width={16}
                     height={16}
