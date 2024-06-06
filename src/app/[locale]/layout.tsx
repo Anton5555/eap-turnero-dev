@@ -4,6 +4,8 @@ import { Lato, Inter, Open_Sans } from "next/font/google";
 import { QueryProvider, SessionProvider } from "./providers";
 import { getServerSession } from "next-auth";
 import { Toaster } from "~/_components/shared/Toaster";
+import { getMessages } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -28,11 +30,21 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-const RootLayout = async ({ children }: { children: React.ReactNode }) => {
+const RootLayout = async ({
+  children,
+  params: { locale },
+}: {
+  children: React.ReactNode;
+  params: {
+    locale: string;
+  };
+}) => {
   const session = await getServerSession();
 
+  const messages = await getMessages();
+
   return (
-    <html lang="es">
+    <html lang={locale}>
       <body
         className={`font-sans ${lato.variable} ${inter.variable} ${openSans.variable}`}
       >
@@ -42,7 +54,9 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
             refetchInterval={60 * 60}
             refetchOnWindowFocus={false}
           >
-            {children}
+            <NextIntlClientProvider messages={messages}>
+              {children}
+            </NextIntlClientProvider>
           </SessionProvider>
         </QueryProvider>
 

@@ -4,13 +4,15 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { H4, H6 } from "~/_components/common/Typography";
 import Logo from "~/_components/shared/Logo";
+import { getTranslations } from "next-intl/server";
 
 const Page = async ({ searchParams }: { searchParams: { uuid: string } }) => {
-  //  TODO: remove redirection when fixed in the middleware
   const session = await getServerSession();
   if (session?.user) redirect("/platform");
 
   const { uuid } = searchParams;
+
+  const t = await getTranslations();
 
   return (
     <div className="flex flex-col lg:flex-row lg:justify-between">
@@ -37,16 +39,11 @@ const Page = async ({ searchParams }: { searchParams: { uuid: string } }) => {
               <div className="border-gray/10 flex w-full flex-col rounded-full border-b-[3px]"></div>
             </div>
 
-            <H4 className="hidden lg:flex">
-              ¡Agenda citas online con profesionales de tu programa de
-              asistencia al empleado!{" "}
-            </H4>
+            <H4 className="hidden lg:flex">{t("login.title")}</H4>
 
-            <H4 className="lg:hidden">Inicia sesión para comenzar!</H4>
+            <H4 className="lg:hidden">{t("login.subtitle")}!</H4>
 
-            <H6 className="hidden text-black lg:flex">
-              Inicia sesión para comenzar
-            </H6>
+            <H6 className="hidden text-black lg:flex">{t("login.subtitle")}</H6>
           </div>
 
           <div className="flex items-center justify-center">
