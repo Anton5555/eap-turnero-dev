@@ -1,25 +1,48 @@
-import { NextResponse } from "next/server";
+import { type NextRequest } from "next/server";
 import { withAuth } from "next-auth/middleware";
+import createIntlMiddleware from "next-intl/middleware";
 
-export default withAuth(function middleware(req) {
-  const { pathname } = req.nextUrl;
+const publicPages = ["/auth/login", "/auth/signup"];
+const locales = ["en", "es"];
 
-  if (pathname === "/") {
-    if (req?.nextauth?.token)
-      return NextResponse.redirect(new URL("/platform", req.url));
-    return NextResponse.redirect(new URL("/auth/login", req.url));
-  }
-
-  /**
-   * TODO: fix redirection in here and remove it from the login and signup pages
-   * The issue is that the middleware automatically redirects to the login page because of the pages config below
-   * and if we add the auth path in the matcher this produces a redirection loop
-   */
-  // if (pathname.startsWith("/auth") && pathname !== '/auth/welcome' && req?.nextauth?.token)
-  // return NextResponse.redirect(new URL("/platform", req.url));
-
-  return NextResponse.next();
+const intlMiddleware = createIntlMiddleware({
+  locales,
+  defaultLocale: "es",
+  localePrefix: "never",
 });
+
+const authMiddleware = withAuth(
+  function onSuccess(req) {
+    return intlMiddleware(req);
+  },
+  {
+    callbacks: {
+      authorized: ({ token }) => token != null,
+    },
+    pages: {
+      signIn: "/auth/login",
+      signOut: "/auth/logout",
+    },
+  },
+);
+
+export default function middleware(req: NextRequest) {
+  const publicPathnameRegex = RegExp(
+    `^(/(${locales.join("|")}))?(${publicPages
+      .flatMap((p) => (p === "/" ? ["", "/"] : p))
+      .join("|")})/?$`,
+    "i",
+  );
+
+  const isPublicPage = publicPathnameRegex.test(req.nextUrl.pathname);
+
+  if (isPublicPage) {
+    return intlMiddleware(req);
+  } else {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any
+    return (authMiddleware as any)(req);
+  }
+}
 
 export const config = {
   pages: {
@@ -27,10 +50,6 @@ export const config = {
     signUp: "/auth/signup",
   },
   matcher: [
-    "/",
-    "/platform",
-    "/platform/:path*",
-    "/profile",
-    "/profile/:path*",
+    "/((?!api|_next/static|_next/image|favicon.ico|apple-touch-icon.png|favicon.svg|images/books|icons|manifest).*)",
   ],
 };
