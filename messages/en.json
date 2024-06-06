@@ -1,0 +1,63 @@
+
+{
+  "login":  {
+    "title": "Schedule online appointments with professionals from your employee assistance program!",
+    "subtitle": "Log in to start",
+    "fields": {
+      "userName": {
+        "label": "Username",
+        "placeholder": "Enter your username",
+        "information": "*Remember that your email must be <highlight>corporate</highlight>",
+        "errors": {
+          "required": "Please enter a valid email",
+          "notFound": "User not found",
+          "notActive": "User not active, please check your email to activate your account",
+          "genericError": "Error al iniciar sesión"
+        }
+      },
+      "password": {
+        "label": "Password",
+        "errors": {
+          "minLength": "Password should have at least 8 characters",
+          "invalid": "Password is not valid"
+        }
+      }
+    },
+    "dontHaveUser": "Don't have a user?",
+    "buttons": {
+      "login": "Log in",
+      "signUp": "Sign up"
+    },
+    "activation": {
+      "loading": "Activating account",
+      "success": "Account activated successfully",
+      "error": "Error activating account"
+    } 
+  },
+  "signUp": {
+
+  },
+  "header": {
+
+  },
+  "help": {
+
+  },
+  "platform": {
+
+  },
+  "createAppointment": {
+    "title": "Create Appointment",
+
+    "filters": {
+      "title": "Filters",
+      "date": "Date",
+      "time": "Time",
+      "location": "Location",
+      "provider": "Provider",
+      "service": "Service",
+      "status": "Status",
+      "search": "Search"
+    }
+  }
+}

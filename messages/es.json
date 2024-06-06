@@ -1,0 +1,62 @@
+{
+  "login": {
+    "title": "¡Agenda citas online con profesionales de tu programa de asistencia al empleado!",
+    "subtitle": "Inicia sesión para comenzar",
+    "fields": {
+      "userName": {
+        "label": "Nombre de usuario",
+        "placeholder": "Ingresa tu nombre de usuario",
+        "information": "*Recuerda que tu email debe ser <highlight>corporativo</highlight>",
+        "errors": {
+          "required": "Ingresa un email válido",
+          "notFound": "Usuario no encontrado",
+          "notActive": "Usuario no activo, revisa tu email para activar tu cuenta",
+          "genericError": "Error al iniciar sesión"
+        }
+      },
+      "password": {
+        "label": "Contraseña",
+        "errors": {
+          "minLength": "La contraseña debe tener al menos 8 caracteres",
+          "invalid": "La contraseña no es válida"
+        }
+      }
+    },
+    "dontHaveUser": "¿No tienes usuario?",
+    "buttons": {
+      "login": "Iniciar sesión",
+      "signUp": "Registrarte"
+    },
+    "activation": {
+      "loading": "Activando cuenta",
+      "success": "Cuenta activada exitosamente",
+      "error": "Error al activar cuenta"
+    } 
+  },
+  "signUp": {
+
+  },
+  "header": {
+
+  },
+  "help": {
+
+  },
+  "platform": {
+
+  },
+  "createAppointment": {
+    "title": "Create Appointment",
+
+    "filters": {
+      "title": "Filters",
+      "date": "Date",
+      "time": "Time",
+      "location": "Location",
+      "provider": "Provider",
+      "service": "Service",
+      "status": "Status",
+      "search": "Search"
+    }
+  }
+}
