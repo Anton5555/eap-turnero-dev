@@ -17,6 +17,7 @@ import { useMutation } from "@tanstack/react-query";
 import { updateUser } from "~/lib/api/users";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { isOver18 } from "~/lib/utils";
 
 const editProfileSchema = z.object({
   name: z.string().min(1, { message: "Ingresa tu nombre" }),
@@ -28,18 +29,7 @@ const editProfileSchema = z.object({
     .date({
       required_error: "Ingresa una fecha válida",
     })
-    .refine(
-      (date) => {
-        const ageDiff = Date.now() - date.getTime();
-        const ageDate = new Date(ageDiff);
-        const age = Math.abs(ageDate.getUTCFullYear() - 1970);
-
-        console.log({ ageDiff, ageDate, age });
-
-        return age >= 18;
-      },
-      { message: "Debes ser mayor de 18 años" },
-    ),
+    .refine(isOver18, { message: "Debes ser mayor de 18 años" }),
 });
 
 export type EditProfileInputs = z.infer<typeof editProfileSchema>;

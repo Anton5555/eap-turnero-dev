@@ -28,4 +28,12 @@ const parseDateWithPreservedTimezone = (dateString: string): Date => {
   return utcDate;
 };
 
-export { cn, parseJwt, parseDateWithPreservedTimezone };
+const isOver18 = (date: Date) => {
+  const ageDiff = Date.now() - date.getTime();
+  const ageDate = new Date(ageDiff);
+  const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+  return age >= 18;
+};
+
+export { cn, parseJwt, parseDateWithPreservedTimezone, isOver18 };

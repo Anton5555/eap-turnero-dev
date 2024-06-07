@@ -16,6 +16,7 @@ import { locations } from "~/lib/constants";
 import { createUser } from "~/lib/api/users";
 import { Checkbox } from "../common/Checkbox";
 import DatePicker from "../profile/DatePicker";
+import { isOver18 } from "~/lib/utils";
 
 const signupFormSchema = z
   .object({
@@ -36,18 +37,7 @@ const signupFormSchema = z
       .date({
         required_error: "Ingresa una fecha válida",
       })
-      .refine(
-        (date) => {
-          const ageDiff = Date.now() - date.getTime();
-          const ageDate = new Date(ageDiff);
-          const age = Math.abs(ageDate.getUTCFullYear() - 1970);
-
-          console.log({ ageDiff, ageDate, age });
-
-          return age >= 18;
-        },
-        { message: "Debes ser mayor de 18 años" },
-      ),
+      .refine(isOver18, { message: "Debes ser mayor de 18 años" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
