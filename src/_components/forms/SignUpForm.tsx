@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "../common/Input";
 import Link from "next/link";
@@ -15,6 +15,8 @@ import { H4 } from "../common/Typography";
 import { locations } from "~/lib/constants";
 import { createUser } from "~/lib/api/users";
 import { Checkbox } from "../common/Checkbox";
+import DatePicker from "../profile/DatePicker";
+import { isOver18 } from "~/lib/utils";
 
 const signupFormSchema = z
   .object({
@@ -31,6 +33,11 @@ const signupFormSchema = z
     pdp: z.boolean().refine((val) => val === true, {
       message: "Debes aceptar los términos y condiciones",
     }),
+    birthdate: z
+      .date({
+        required_error: "Ingresa una fecha válida",
+      })
+      .refine(isOver18, { message: "Debes ser mayor de 18 años" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
@@ -47,6 +54,7 @@ const SignUpForm: React.FC = () => {
     handleSubmit,
     setError,
     watch,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<SignupFormInputs>({
     resolver: zodResolver(signupFormSchema),
@@ -131,6 +139,21 @@ const SignUpForm: React.FC = () => {
         placeholder="********"
         label="Repetir contraseña"
         errorText={errors.confirmPassword?.message}
+      />
+
+      <Controller
+        control={control}
+        name="birthdate"
+        render={({ field: { value, onChange } }) => (
+          <DatePicker
+            label="Fecha de nacimiento"
+            name="birthdate"
+            className="ring-black"
+            value={value}
+            onChange={onChange}
+            errorText={errors.birthdate?.message}
+          />
+        )}
       />
 
       <Checkbox
