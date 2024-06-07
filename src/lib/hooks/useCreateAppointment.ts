@@ -93,6 +93,7 @@ const useCreateAppointment = (user: User) => {
   } = useQuery({
     queryKey: [
       "freeAppointments",
+      locationFilter,
       modalityFilter,
       timeRangeFilter,
       displayedMonth,
@@ -115,6 +116,7 @@ const useCreateAppointment = (user: User) => {
         modalityId: modalityFilter,
         companyId: user.company,
         locationId: locationFilter ?? user.location,
+        english: false,
       });
 
       const filteredFreeAppointments: FreeAppointmentsByDay = {};
@@ -208,6 +210,7 @@ const useCreateAppointment = (user: User) => {
         companyId: user.company,
         locationId: locationFilter ?? user.location,
         accessToken: user.accessToken,
+        english: false,
       });
     },
     enabled:

@@ -103,6 +103,7 @@ const getFreeAppointments = async (props: {
   modalityId: number;
   companyId: number;
   locationId: number;
+  english: boolean;
 }): Promise<FreeAppointmentsByDay> => {
   const {
     dateFrom,
@@ -114,12 +115,13 @@ const getFreeAppointments = async (props: {
     modalityId,
     companyId,
     locationId,
+    english = false,
   } = props;
 
   const headers = new Headers();
   headers.append("Authorization", accessToken);
 
-  const getAppointmentsReqUrl = `${API_URL}/citasProfesional/getFreeAppointment?fechadesde=${dateFrom}&fechahasta=${dateTo}&especialidad=${specialtyId}&modalidad=${modalityId}&servicio=${serviceId}&empresa=${companyId}&unidad=${locationId}&zonahoraria=${timezone}`;
+  const getAppointmentsReqUrl = `${API_URL}/citasProfesional/getFreeAppointment?fechadesde=${dateFrom}&fechahasta=${dateTo}&especialidad=${specialtyId}&modalidad=${modalityId}&servicio=${serviceId}&empresa=${companyId}&unidad=${locationId}&zonahoraria=${timezone}&language=${english}`;
 
   const response = await fetch(getAppointmentsReqUrl, {
     method: "GET",
@@ -166,6 +168,7 @@ const getAvailableProfessionalsByDateAndTime = async (props: {
   modalityId: number;
   companyId: number;
   locationId: number;
+  english: boolean;
 }): Promise<Professional[]> => {
   const {
     date,
@@ -176,12 +179,13 @@ const getAvailableProfessionalsByDateAndTime = async (props: {
     modalityId,
     companyId,
     locationId,
+    english = false,
   } = props;
 
   const headers = new Headers();
   headers.append("Authorization", accessToken);
 
-  const getAppointmentsReqUrl = `${API_URL}/citasProfesional/getAppointmentsByBranchAndMoment?fechahora=${date}&especialidad=${specialtyId}&modalidadcita=${modalityId}&servicio=${serviceId}&empresa=${companyId}&unidad=${locationId}&zonahoraria=${timezone}`;
+  const getAppointmentsReqUrl = `${API_URL}/citasProfesional/getAppointmentsByBranchAndMoment?fechahora=${date}&especialidad=${specialtyId}&modalidadcita=${modalityId}&servicio=${serviceId}&empresa=${companyId}&unidad=${locationId}&zonahoraria=${timezone}&language=${english}`;
 
   const response = await fetch(getAppointmentsReqUrl, {
     method: "GET",
