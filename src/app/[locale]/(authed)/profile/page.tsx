@@ -2,11 +2,7 @@ import { getServerSession } from "next-auth";
 import { H3, H6 } from "~/_components/common/Typography";
 import EditProfileForm from "~/_components/forms/EditProfileForm";
 import FamilyRelatives from "~/_components/profile/FamilyRelatives";
-import {
-  getFamilyRelashionships,
-  getFamilyRelatives,
-  getGenders,
-} from "~/lib/api/users";
+import { getGenders } from "~/lib/api/users";
 import authOptions from "~/lib/authOptions";
 
 const Page = async () => {
@@ -16,14 +12,17 @@ const Page = async () => {
 
   const { user } = session;
 
-  const [genders, familyRelationships, familyRelatives] = await Promise.all([
-    getGenders(user.accessToken),
-    getFamilyRelashionships(user.accessToken),
-    getFamilyRelatives({
-      patientId: Number(user.id),
-      accessToken: user.accessToken,
-    }),
-  ]);
+  const genders = await getGenders(user.accessToken);
+
+  // TODO: Implement getFamilyRelashionships and getFamilyRelatives on fase 2
+  // const [genders, familyRelationships, familyRelatives] = await Promise.all([
+  //   getGenders(user.accessToken),
+  //   getFamilyRelashionships(user.accessToken),
+  //   getFamilyRelatives({
+  //     patientId: Number(user.id),
+  //     accessToken: user.accessToken,
+  //   }),
+  // ]);
 
   return (
     <main>
@@ -41,6 +40,9 @@ const Page = async () => {
 
           <EditProfileForm genders={genders} user={user} />
 
+          {/*  
+          TODO: Implement family relatives on fase 2 
+          
           <div className="my-2 w-full border-b border-black/10"></div>
 
           <p className="font-ultra-dark-gray font-semibold leading-4">
@@ -55,7 +57,7 @@ const Page = async () => {
             relatives={familyRelatives}
             relationships={familyRelationships}
             user={user}
-          />
+          /> */}
         </div>
       </div>
     </main>

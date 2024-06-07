@@ -24,6 +24,8 @@ const CreateUserAdapter = (data: SignupFormInputs) => ({
   pais: locations.find(
     (location) => location.value.toString() === data.location,
   )?.country,
+  // TODO: change name when birthdate implemented in backend
+  fecha_nacimiento: format(data.birthdate, "yyyy-MM-dd"),
 });
 
 const createUser = async (data: SignupFormInputs) => {
@@ -174,6 +176,7 @@ type AddFamilyRelativeRequest = {
   Mail: string;
   Parentesco?: number;
   sexo?: number;
+  FechaNacimiento: string;
 };
 
 const AddFamilyRelativeAdapter = (props: {
@@ -187,6 +190,8 @@ const AddFamilyRelativeAdapter = (props: {
     Name: addFamilyRelativeData.name,
     Apellidos: addFamilyRelativeData.lastName,
     Mail: addFamilyRelativeData.email,
+    // TODO: change name when birthdate implemented in backend
+    FechaNacimiento: format(addFamilyRelativeData.birthdate, "yyyy-MM-dd"),
   };
 
   if (addFamilyRelativeData.relationship !== "0")
@@ -304,11 +309,9 @@ const UpdateUserAdapter = (props: {
     sede: Number(editProfileData.location),
     empresa: 898,
     tipo: userTypeId,
+    fecha_nacimiento: format(editProfileData.birthdate, "yyyy-MM-dd"),
     pdp: "Y",
   };
-
-  if (editProfileData.birthdate)
-    userData.fecha_nacimiento = format(editProfileData.birthdate, "yyyy-MM-dd");
 
   if (editProfileData.gender !== "0")
     userData.sexo = Number(editProfileData.gender);

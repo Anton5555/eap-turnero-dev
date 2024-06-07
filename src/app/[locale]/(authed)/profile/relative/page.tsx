@@ -3,6 +3,7 @@ import { H3, H6 } from "~/_components/common/Typography";
 import AddRelativeForm from "~/_components/forms/AddRelativeForm";
 import { getFamilyRelashionships, getGenders } from "~/lib/api/users";
 import authOptions from "~/lib/authOptions";
+import { redirect } from "next/navigation";
 
 const Page = async () => {
   const session = await getServerSession(authOptions);
@@ -10,6 +11,9 @@ const Page = async () => {
   if (!session) return;
 
   const { user } = session;
+
+  // TODO: Implement page on fase 2 and remove redirect
+  if (user) redirect("/profile");
 
   const [genders, familyRelationships] = await Promise.all([
     getGenders(user.accessToken),
