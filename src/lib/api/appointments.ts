@@ -119,7 +119,7 @@ const getFreeAppointments = async (props: {
   const headers = new Headers();
   headers.append("Authorization", accessToken);
 
-  const getAppointmentsReqUrl = `${API_URL}/citasProfesional/getFreeAppointment?fechadesde=${dateFrom}&fechahasta=${dateTo}&especialidad=${specialtyId}&modalidad=${modalityId}&servicio=${serviceId}&empresa=${companyId}&unidad=${locationId}&zonahoraria=${timezone}&language=es`;
+  const getAppointmentsReqUrl = `${API_URL}/citasProfesional/getFreeAppointment?fechadesde=${dateFrom}&fechahasta=${dateTo}&especialidad=${specialtyId}&modalidad=${modalityId}&servicio=${serviceId}&empresa=${companyId}&unidad=${locationId}&zonahoraria=${timezone}&language=false`;
 
   const response = await fetch(getAppointmentsReqUrl, {
     method: "GET",
@@ -181,7 +181,7 @@ const getAvailableProfessionalsByDateAndTime = async (props: {
   const headers = new Headers();
   headers.append("Authorization", accessToken);
 
-  const getAppointmentsReqUrl = `${API_URL}/citasProfesional/getAppointmentsByBranchAndMoment?fechahora=${date}&especialidad=${specialtyId}&modalidadcita=${modalityId}&servicio=${serviceId}&empresa=${companyId}&unidad=${locationId}&zonahoraria=${timezone}&language=es`;
+  const getAppointmentsReqUrl = `${API_URL}/citasProfesional/getAppointmentsByBranchAndMoment?fechahora=${date}&especialidad=${specialtyId}&modalidadcita=${modalityId}&servicio=${serviceId}&empresa=${companyId}&unidad=${locationId}&zonahoraria=${timezone}&language=false`;
 
   const response = await fetch(getAppointmentsReqUrl, {
     method: "GET",
