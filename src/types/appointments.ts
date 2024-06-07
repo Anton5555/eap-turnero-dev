@@ -11,12 +11,17 @@ export enum AppointmentState {
   NOT_DEFINED = "No definido",
 }
 
+export enum AppointmentModality {
+  VIDEOCALL = "Videollamada",
+  PHONECALL = "Telefónica",
+}
+
 export type Appointment = {
   id: number;
   start: string;
   end: string;
   specialty: string;
-  modality: string;
+  modality: AppointmentModality;
   professional: string;
   professionalId: number;
   state: AppointmentState;

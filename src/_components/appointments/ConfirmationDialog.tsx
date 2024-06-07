@@ -68,7 +68,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
                       ¿Quieres confirmar tu cita?
                     </p>
 
-                    <p className="text-lg leading-5">
+                    <p className="pt-4 text-lg leading-5">
                       Su cita en modalidad{" "}
                       {modalities.find((m) => m.value == modality)?.label} con{" "}
                       <span className="font-black text-green">

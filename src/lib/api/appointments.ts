@@ -1,7 +1,8 @@
-import type {
-  AppointmentState,
-  Appointment,
-  FreeAppointmentsByDay,
+import {
+  type AppointmentState,
+  type Appointment,
+  type FreeAppointmentsByDay,
+  AppointmentModality,
 } from "~/types/appointments";
 import { createCase, getActiveCase, updateCase } from "./cases";
 import { getProfessionalSapUser } from "./professionals";
@@ -83,7 +84,10 @@ const parseAppointmentsApiData = (
     start: appointment.FS_FECHAINICIO,
     end: appointment.FS_FECHAFIN,
     specialty: appointment.ESPECIALIDAD,
-    modality: appointment.MODALIDAD,
+    modality:
+      appointment.MODALIDAD === "TELEFONICA"
+        ? AppointmentModality.PHONECALL
+        : AppointmentModality.VIDEOCALL,
     professional: appointment.NOMBRE,
     professionalId: appointment.EMPID,
     state: appointment.ESTADO,

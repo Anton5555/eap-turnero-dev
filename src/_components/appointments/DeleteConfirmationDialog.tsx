@@ -65,35 +65,35 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
           </div>
         </>
       );
-    else
-      return (
-        <>
-          <div className="py-6">
-            <div className="mt-3 text-center sm:ml-4 sm:mt-0">
-              <div className="mt-2 flex flex-col items-center space-y-4">
-                <p className="text-xl font-semibold leading-7">
-                  No es posible cancelar con menos de 24 horas de antelación
-                </p>
 
-                <p className="text-left text-lg leading-6">
-                  Para cancelar o reagendar esta cita, debes ponerte en contacto
-                  con alguno de los métodos que figuran en la sección de Ayuda.
-                </p>
-              </div>
+    return (
+      <>
+        <div className="py-6">
+          <div className="mt-3 text-center sm:ml-4 sm:mt-0">
+            <div className="mt-2 flex flex-col items-center space-y-4">
+              <p className="text-xl font-bold leading-7">
+                No es posible cancelar con menos de 24 horas de antelación
+              </p>
+
+              <p className="text-lg leading-6">
+                Para cancelar o reagendar esta cita, debes ponerte en contacto
+                con alguno de los métodos que figuran en la sección de Ayuda.
+              </p>
             </div>
           </div>
+        </div>
 
-          <div className="mt-5 flex flex-col-reverse justify-center gap-y-2 lg:flex-row lg:gap-y-0 lg:space-x-4">
-            <Button
-              variant="outline"
-              className="font-lato border-green text-green hover:bg-green/40 hover:text-white"
-              onClick={onClose}
-            >
-              Volver
-            </Button>
-          </div>
-        </>
-      );
+        <div className="mt-5 flex flex-col-reverse justify-center gap-y-2 lg:flex-row lg:gap-y-0 lg:space-x-4">
+          <Button
+            variant="outline"
+            className="font-lato border-green text-green hover:bg-green/40 hover:text-white"
+            onClick={onClose}
+          >
+            Volver
+          </Button>
+        </div>
+      </>
+    );
   };
 
   return (
