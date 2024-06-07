@@ -34,7 +34,67 @@
     } 
   },
   "signUp": {
+    "title": "Crea tu cuenta ahora",
+    "fields": {
+      "firstName": {
+        "label": "Nombre",
+        "placeholder": "Ingresa tu nombre",
+        "errors": {
+          "required": "Ingresa tu nombre"
+        }
+      },
+      "lastName": {
+        "label": "Apellido",
+        "placeholder": "Ingresa tu apellido",
+        "errors": {
+          "required": "Ingresa tu apellido"
+        }
+      },
+      "location": {
+        "label": "Sede",
+        "placeholder": "Ingresa tu sede",
+        "errors": {
+          "required": "Selecciona tu sede"
+        }
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Ingresa tu nombre de usuario",
+        "errors": {
+          "required": "Ingresa un email válido",
+          "alreadyExists": "Ya existe un usuario con este mail",
 
+
+          "notFound": "Usuario no encontrado",
+          "notActive": "Usuario no activo, revisa tu email para activar tu cuenta",
+          "genericError": "Error al iniciar sesión"
+        }
+      },
+      "password": {
+        "label": "Contraseña",
+        "errors": {
+          "minLength": "La contraseña debe tener al menos 8 caracteres"
+        }
+      },
+      "confirmPassword": {
+        "label": "Confirmar contraseña",
+        "errors": {
+          "minLength": "La contraseña debe tener al menos 8 caracteres",
+          "match": "Las contraseñas no coinciden"
+        }
+      },
+      "pdp": {
+        "label": "Confirmo estar de acuerdo con compartir mis datos para esta y futuras comunicaciones del programa de asistencia. Es importante que revises la información detallada en nuestra política de protección de datos en www.eaplatina.com. Tu conformidad es necesaria para recibir nuestros servicios. Si decides proporcionar los datos mencionados, estarás dando tu consentimiento informado para que EAP Latina Corporation S.A. los trate y registre. Para solicitar cambios en tus datos o revocar tu consentimiento, contáctanos a protecciondedatospersonales@eaplatina.com.",
+        "errors": {
+          "required": "Debes aceptar los términos y condiciones"
+        }
+      }
+    },
+    "buttons": {
+      "signUp": "Registrarse"
+    },
+    "alreadyHaveUser": "¿Ya tienes usuario?",
+    "login": "Ingresar"
   },
   "header": {
 

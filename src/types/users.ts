@@ -94,3 +94,13 @@ export type DecodedApiToken = {
   iss: string;
   aud: string;
 };
+
+export type SignupFormInputs = {
+  name: string;
+  lastName: string;
+  location: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  pdp: boolean;
+};

@@ -1,12 +1,12 @@
 import { format } from "date-fns";
 import { type AddRelativeInputs } from "~/_components/forms/AddRelativeForm";
 import { type EditProfileInputs } from "~/_components/forms/EditProfileForm";
-import { type SignupFormInputs } from "~/_components/forms/SignUpForm";
 import { env } from "~/env";
 import type {
   FamilyRelashionships,
   FamilyRelative,
   Gender,
+  SignupFormInputs,
 } from "~/types/users";
 import { locations } from "../constants";
 

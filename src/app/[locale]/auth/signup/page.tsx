@@ -1,4 +1,5 @@
 import { getServerSession } from "next-auth";
+import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { H4 } from "~/_components/common/Typography";
@@ -8,6 +9,8 @@ import Logo from "~/_components/shared/Logo";
 const Page = async () => {
   const session = await getServerSession();
   if (session?.user) redirect("/platform");
+
+  const t = await getTranslations();
 
   return (
     <div className="flex flex-col items-center lg:flex-row lg:justify-between">
@@ -34,7 +37,7 @@ const Page = async () => {
               <div className="border-gray/10 flex w-full flex-col rounded-full border-b-[3px]"></div>
             </div>
 
-            <H4 className="text-left">Crea tu cuenta ahora</H4>
+            <H4 className="text-left">{t("signUp.title")}</H4>
           </div>
 
           <div className="flex items-center justify-center">

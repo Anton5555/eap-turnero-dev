@@ -35,7 +35,67 @@
     } 
   },
   "signUp": {
+    "title": "Create your account now",
+    "fields": {
+      "firstName": {
+        "label": "Name",
+        "placeholder": "Enter your name",
+        "errors": {
+          "required": "Enter your name"
+        }
+      },
+      "lastName": {
+        "label": "Last name",
+        "placeholder": "Enter your last name",
+        "errors": {
+          "required": "Enter your last name"
+        }
+      },
+      "location": {
+        "label": "Location",
+        "placeholder": "Select your location",
+        "errors": {
+          "required": "Select your location"
+        }
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter your username",
+        "errors": {
+          "required": "Please enter a valid email",
+          "alreadyExists": "User already exists",
 
+          "notFound": "Usuario no encontrado",
+          "notActive": "Usuario no activo, revisa tu email para activar tu cuenta",
+          "genericError": "Error al iniciar sesión"
+        }
+      },
+      "password": {
+        "label": "Password",
+        "errors": {
+          "minLength": "Password should have at least 8 characters",
+          "invalid": "Password is not valid"
+        }
+      },
+      "confirmPassword": {
+        "label": "Confirm password",
+        "errors": {
+          "minLength": "Password should have at least 8 characters",
+          "match": "Passwords do not match"
+        }
+      },
+      "pdp": {
+        "label": "I confirm that I agree to share my data for this and future communications from the assistance program. It is important that you review the detailed information in our data protection policy at www.eaplatina.com. Your agreement is necessary to receive our services. If you decide to provide the mentioned data, you will be giving your informed consent for EAP Latina Corporation S.A. to process and record it. To request changes to your data or revoke your consent, contact us at protecciondedatospersonales@eaplatina.com.",
+        "errors": {
+          "required": "You must accept the terms and conditions"
+        }
+      }
+    },
+    "buttons": {
+      "signUp": "Sign up"
+    },
+    "alreadyHaveUser": "Already have a user?",
+    "login": "Log in"
   },
   "header": {
 
