@@ -27,8 +27,6 @@ const Page = async () => {
   //   }),
   // ]);
 
-  console.log({ genders });
-
   const translatedGenders = genders.map((gender) => ({
     id: gender.id,
     name: t(`genders.${gender.name}`),
