@@ -16,7 +16,7 @@ import type {
 import { endOfMonth, format, startOfMonth } from "date-fns";
 import { toast } from "sonner";
 import { getActiveCase } from "../api/cases";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 const filterAppointmentsByTimeRange = (
   appointments: FreeAppointment[],
@@ -47,6 +47,8 @@ const useCreateAppointment = (user: User) => {
   const router = useRouter();
 
   const t = useTranslations("createAppointment");
+
+  const locale = useLocale();
 
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -102,10 +104,12 @@ const useCreateAppointment = (user: User) => {
       displayedMonth,
       durationFilter,
       selectedService,
+      locale,
     ],
     queryFn: async () => {
       if (!selectedService) return;
 
+      console.log({ locale });
       const freeAppointmentsResponse = await getFreeAppointments({
         dateFrom:
           displayedMonth.getMonth() === new Date().getMonth()
@@ -119,7 +123,7 @@ const useCreateAppointment = (user: User) => {
         modalityId: modalityFilter,
         companyId: user.company,
         locationId: locationFilter ?? user.location,
-        english: false,
+        english: locale === "en",
       });
 
       const filteredFreeAppointments: FreeAppointmentsByDay = {};
@@ -200,6 +204,7 @@ const useCreateAppointment = (user: User) => {
       selectedService?.specialtyId,
       modalityFilter,
       selectedTime,
+      locale,
     ],
     queryFn: () => {
       if (!selectedService || !selectedTime) return;
@@ -213,7 +218,7 @@ const useCreateAppointment = (user: User) => {
         companyId: user.company,
         locationId: locationFilter ?? user.location,
         accessToken: user.accessToken,
-        english: false,
+        english: locale === "en",
       });
     },
     enabled:
