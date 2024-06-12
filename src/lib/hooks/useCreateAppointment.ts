@@ -109,7 +109,6 @@ const useCreateAppointment = (user: User) => {
     queryFn: async () => {
       if (!selectedService) return;
 
-      console.log({ locale });
       const freeAppointmentsResponse = await getFreeAppointments({
         dateFrom:
           displayedMonth.getMonth() === new Date().getMonth()
