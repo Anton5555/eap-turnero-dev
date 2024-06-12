@@ -52,7 +52,7 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
               ? "https://drive.google.com/drive/u/0/folders/1y9V5JEHQpQnfkH2tZAG_WPo4Or-gsPzb"
               : "https://drive.google.com/drive/u/0/folders/1y9V5JEHQpQnfkH2tZAG_WPo4Or-gsPzb"
           }
-          className="text-sm text-blue-500 underline"
+          className="text-sm text-blue underline"
           target="_blank"
         >
           {t("videocall.termsLink")}
@@ -65,7 +65,7 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
             privacyNotice: (children) => (
               <Link
                 href="https://www.eaplatina.com/pdf/aviso_privacidad_nov_2023.pdf"
-                className="text-blue-500 underline"
+                className="text-blue underline"
                 target="_blank"
               >
                 {children}
