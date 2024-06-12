@@ -213,7 +213,7 @@
     "select": "Seleccionar",
     "noServicesFound": "No se encontraron servicios",
     "loadingAppointments": "Cargando horarios disponibles",
-    "activeCaseError": "Ya tenes un caso activo por favor comunicate con el nuestra línea de ayuda en caso de requerir un cambio",
+    "activeCaseError": "Ya tenes un caso activo. Por favor, comunicate con nuestra línea de ayuda en caso de requerir un cambio",
     "mustSelectAssistanceType": "Debes seleccionar un tipo de asistencia",
     "selectDate": "Debes seleccionar una fecha",
     "selectTime": "Debes seleccionar un horario",
