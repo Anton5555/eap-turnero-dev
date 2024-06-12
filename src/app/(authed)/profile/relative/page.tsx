@@ -13,7 +13,7 @@ const Page = async () => {
   const { user } = session;
 
   // TODO: Implement page on fase 2 and remove redirect
-  if (user) redirect("/profile");
+  redirect("/profile");
 
   const [genders, familyRelationships] = await Promise.all([
     getGenders(user.accessToken),
