@@ -17,6 +17,7 @@ import { useMutation } from "@tanstack/react-query";
 import { updateUser } from "~/lib/api/users";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { isOver18 } from "~/lib/utils";
 
 const editProfileSchema = z.object({
   name: z.string().min(1, { message: "Ingresa tu nombre" }),
@@ -24,7 +25,11 @@ const editProfileSchema = z.object({
   email: z.string().email({ message: "Ingresa un email válido" }),
   location: z.string(),
   gender: z.string().optional(),
-  birthdate: z.date().optional(),
+  birthdate: z
+    .date({
+      required_error: "Ingresa una fecha válida",
+    })
+    .refine(isOver18, { message: "Debes ser mayor de 18 años" }),
 });
 
 export type EditProfileInputs = z.infer<typeof editProfileSchema>;
@@ -180,6 +185,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
                 labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
                 value={value}
                 onChange={onChange}
+                errorText={errors.birthdate?.message}
               />
             )}
           />

@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { toast } from "sonner";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../common/Input";
 import { Select } from "../common/Select";
@@ -11,6 +11,7 @@ import type { FamilyRelashionships, Gender, User } from "~/types/users";
 import { useMutation } from "@tanstack/react-query";
 import { addFamilyRelative } from "~/lib/api/users";
 import { useRouter } from "next/navigation";
+import DatePicker from "../profile/DatePicker";
 
 const addRelativeSchema = z.object({
   name: z.string().min(1, { message: "Ingresa tu nombre" }),
@@ -18,6 +19,7 @@ const addRelativeSchema = z.object({
   email: z.string().email({ message: "Ingresa un email válido" }),
   relationship: z.string().min(1, { message: "Selecciona una relación" }),
   gender: z.string().optional(),
+  birthdate: z.date({ required_error: "Ingresa una fecha válida" }),
 });
 
 export type AddRelativeInputs = z.infer<typeof addRelativeSchema>;
@@ -35,6 +37,7 @@ const AddRelativeForm: React.FC<{
     register,
     handleSubmit,
     watch,
+    control,
     formState: { errors },
   } = useForm<AddRelativeInputs>({
     resolver: zodResolver(addRelativeSchema),
@@ -61,7 +64,21 @@ const AddRelativeForm: React.FC<{
     },
   });
 
-  const onSubmit = (formData: AddRelativeInputs) =>
+  const onSubmit = (formData: AddRelativeInputs) => {
+    if (formData.birthdate) {
+      const ageDiff = Date.now() - formData.birthdate.getTime();
+      const ageDate = new Date(ageDiff);
+      const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+      if (age < 18) {
+        toast.error(
+          "Para crear una cuenta a un familiar, debe ser mayor de 18 años",
+        );
+
+        return;
+      }
+    }
+
     toast.promise(
       mutateAsync({
         addFamilyRelativeData: formData,
@@ -74,6 +91,7 @@ const AddRelativeForm: React.FC<{
         error: "Error al agregar familiar",
       },
     );
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 font-inter">
@@ -137,6 +155,22 @@ const AddRelativeForm: React.FC<{
             className="text-sm leading-4 ring-light-grayish-blue"
             placeholder="No aplica"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
+          />
+
+          <Controller
+            control={control}
+            name="birthdate"
+            render={({ field: { value, onChange } }) => (
+              <DatePicker
+                label="Fecha de nacimiento"
+                name="birthdate"
+                className="text-sm leading-4 ring-light-grayish-blue"
+                labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
+                value={value}
+                onChange={onChange}
+                errorText={errors.birthdate?.message}
+              />
+            )}
           />
         </div>
       </div>
