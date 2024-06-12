@@ -19,6 +19,7 @@ import { type AppointmentNotification } from "~/types/notifications";
 import { type User } from "~/types/users";
 import { useTranslations } from "next-intl";
 import LocaleSwitcher from "./LocaleSwitcher";
+import LocaleSwitcherMobile from "./LocaleSwitcherMobile";
 
 const navigation = [
   { href: "/platform", icon: HomeIcon, path: "platform" },
@@ -59,7 +60,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
         </li>
 
         <li>
-          <ul role="list" className=" space-y-4 lg:mt-8">
+          <ul role="list" className="space-y-4 lg:mt-8">
             {navigation.map((navigationItem) => (
               <li key={navigationItem.path}>
                 <Link
@@ -83,6 +84,9 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
                 </Link>
               </li>
             ))}
+            <li className="block lg:hidden">
+              <LocaleSwitcherMobile />
+            </li>
           </ul>
         </li>
 
@@ -101,8 +105,6 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
 
               <H6>{t("exit")}</H6>
             </Link>
-
-            <LocaleSwitcher mobile />
           </div>
         </li>
       </ul>

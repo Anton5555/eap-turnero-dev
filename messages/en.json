@@ -138,6 +138,8 @@
     "localeSwitcher": {
     "openLocaleMenu": "Open language menu",
       "locale": "{locale, select, es {ES} en {EN} other {}}",
+      "language": "Language",
+      "localeFull": "{locale, select, es {Español} en {English} other {}}",
       "changingLocale": "Changing language"
     },
     "help": {
