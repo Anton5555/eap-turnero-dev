@@ -6,9 +6,12 @@ import { H4, H6 } from "~/_components/common/Typography";
 import Logo from "~/_components/shared/Logo";
 import { getServerSession } from "next-auth";
 import ValidateAccountDialog from "~/_components/common/ValidateAccountDialog";
+import { getTranslations } from "next-intl/server";
 
 const Page = async () => {
   const session = await getServerSession();
+
+  const t = await getTranslations("welcome");
 
   return (
     <>
@@ -37,19 +40,15 @@ const Page = async () => {
               </div>
 
               <div className="max-w-sm justify-center space-y-6">
-                <H4 className="text-center">¡Te damos la bienvenida!</H4>
+                <H4 className="text-center">{t("title")}</H4>
 
                 <H6 className="text-center font-normal lg:text-start">
-                  En esta plataforma encontrarás una amplia selección de
-                  profesionales que te ayudarán a potenciar tu bienestar
-                  integral.
-                  <br />
-                  <br />
-                  Agenda 100% online tus citas con profesionales de salud
-                  mental, física, legal y financiera.
+                  {t.rich("text", {
+                    br: () => <br />,
+                  })}
                 </H6>
 
-                <H6 className="text-center font-bold">¿Comenzamos?</H6>
+                <H6 className="text-center font-bold">{t("start")}</H6>
               </div>
             </div>
 
@@ -59,7 +58,7 @@ const Page = async () => {
                   variant="default"
                   className="mt-2 w-full font-normal lg:w-auto"
                 >
-                  Siguiente
+                  {t("next")}
                 </Button>
               </Link>
             </div>

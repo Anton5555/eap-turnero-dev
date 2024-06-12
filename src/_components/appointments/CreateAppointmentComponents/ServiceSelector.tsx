@@ -3,6 +3,7 @@ import { Button } from "~/_components/common/Button";
 import { type ContractService } from "~/types/services";
 import { H6 } from "~/_components/common/Typography";
 import ImageWithFallback from "~/_components/common/ImageWithFallback";
+import { useTranslations } from "next-intl";
 
 const ServiceSelector = (props: {
   services: ContractService[];
@@ -11,10 +12,14 @@ const ServiceSelector = (props: {
 }) => {
   const { services, selectedService, handleServiceSelect } = props;
 
+  const t = useTranslations();
+
   if (!services?.length)
     return (
       <PlatformContainer className="rounded-2xl lg:min-h-0 lg:py-6">
-        <H6 className="text-center">No se encontraron servicios</H6>
+        <H6 className="text-center">
+          {t("createAppointment.noServicesFound")}
+        </H6>
       </PlatformContainer>
     );
 
@@ -38,7 +43,7 @@ const ServiceSelector = (props: {
                 />
 
                 <H6 className="text-sm font-bold uppercase leading-4 lg:text-lg lg:leading-5">
-                  {service.specialty}
+                  {t(`specialties.${service.specialty}`)}
                 </H6>
               </div>
 
@@ -51,7 +56,7 @@ const ServiceSelector = (props: {
                 }
                 onClick={() => handleServiceSelect(service)}
               >
-                Seleccionar
+                {t("createAppointment.select")}
               </Button>
             </div>
           </PlatformContainer>

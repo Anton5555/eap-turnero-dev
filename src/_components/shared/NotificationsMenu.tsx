@@ -9,23 +9,21 @@ import {
   PopoverTrigger,
 } from "../common/Popover";
 import { Button } from "../common/Button";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { markAllAsRead } from "~/lib/api/notifications";
 import { cn } from "~/lib/utils";
 import { type User } from "~/types/users";
+import { useFormatter, useTranslations } from "next-intl";
 
 type SpecialtyColors = Record<string, string>;
 
 const specialtyColors: SpecialtyColors = {
-  Informativa: "bg-green",
-  Legal: "bg-blue",
-  Finanzas: "bg-pink",
-  Nutrición: "bg-purple",
-  Psicología: "bg-yellow",
-  Veterinaria: "bg-light-blue",
+  informative: "bg-green",
+  legal: "bg-blue",
+  finance: "bg-pink",
+  nutrition: "bg-purple",
+  psychology: "bg-yellow",
 };
 
 const NotificationsMenu: React.FC<{
@@ -33,6 +31,9 @@ const NotificationsMenu: React.FC<{
   user: User;
 }> = ({ notifications, user }) => {
   const router = useRouter();
+
+  const t = useTranslations();
+  const format = useFormatter();
 
   const { mutate, isPending } = useMutation({
     mutationFn: markAllAsRead,
@@ -57,7 +58,7 @@ const NotificationsMenu: React.FC<{
 
       <PopoverContent className="max-h-[calc(60dvh)] w-96 overflow-y-scroll p-0 font-inter lg:w-full lg:min-w-96">
         <div className="flex flex-row items-center justify-between p-4">
-          <p className="text-sm font-bold">Notificaciones</p>
+          <p className="text-sm font-bold">{t("notifications.title")}</p>
 
           <PopoverClose>
             <CloseIcon aria-hidden="true" width={16} height={12} />
@@ -70,7 +71,7 @@ const NotificationsMenu: React.FC<{
           (notifications.length === 0 && (
             <div className="flex flex-row items-center justify-center p-4">
               <p className="text-sm font-light leading-tight text-black">
-                No tienes notificaciones.
+                {t("notifications.noNotifications")}.
               </p>
             </div>
           ))}
@@ -87,8 +88,9 @@ const NotificationsMenu: React.FC<{
                       </p>
 
                       <p className="text-xs font-light uppercase text-dark-gray">
-                        {format(new Date(notification.dateCreated), "MMM d", {
-                          locale: es,
+                        {format.dateTime(notification.dateCreated, {
+                          month: "short",
+                          day: "numeric",
                         })}
                       </p>
                     </div>
@@ -104,7 +106,7 @@ const NotificationsMenu: React.FC<{
                         specialtyColors[notification.specialty] ?? "bg-gray",
                       )}
                     >
-                      {notification.specialty}
+                      {t(`specialties.${notification.specialty}`)}
                     </div>
                   </div>
 
@@ -120,7 +122,7 @@ const NotificationsMenu: React.FC<{
                 className="h-8 w-full text-sm font-normal leading-3"
                 onClick={handleMarkAllAsRead}
               >
-                Marcar como leídas
+                {t("notifications.markAllAsRead")}
               </Button>
             </div>
           </>

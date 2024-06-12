@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Button } from "~/_components/common/Button";
 import PlatformContainer from "~/_components/common/PlatformContainer";
 import { H6 } from "~/_components/common/Typography";
@@ -21,14 +22,15 @@ const TimeSelector = (props: {
     onTimeSelect,
   } = props;
 
+  const t = useTranslations("createAppointment");
+
   return (
     <PlatformContainer className="w-full lg:min-h-0">
       <H6 className="text-center">
-        {error?.message ??
+        {(error && t("errorGettingFreeAppointments")) ??
           (step === 2 && !isDateSelected && hasFreeAppointments
-            ? "Selecciona una fecha para ver los horarios disponibles"
-            : !hasFreeAppointments &&
-              "No hay horarios disponibles para los filtros seleccionados")}
+            ? t("selectADate")
+            : !hasFreeAppointments && t("noAvailableAppointments"))}
       </H6>
 
       {isDateSelected && freeAppointmentsTimes.length > 0 && (

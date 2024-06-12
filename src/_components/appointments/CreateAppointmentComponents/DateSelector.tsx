@@ -3,6 +3,7 @@ import Calendar from "../Calendar";
 import { H6 } from "~/_components/common/Typography";
 import { type FreeAppointmentsByDay } from "~/types/appointments";
 import { type DayClickEventHandler } from "react-day-picker";
+import { useTranslations } from "next-intl";
 
 const DateSelector = (props: {
   isLoading: boolean;
@@ -23,6 +24,8 @@ const DateSelector = (props: {
     error,
   } = props;
 
+  const t = useTranslations("createAppointment");
+
   return (
     <PlatformContainer className="w-full lg:min-h-0">
       <Calendar
@@ -40,8 +43,9 @@ const DateSelector = (props: {
             Object.values(freeAppointments).every(
               (appointments) => appointments.length === 0,
             )) &&
-          error?.message) ??
-          "No hay horarios disponibles para los filtros seleccionados"}
+          error &&
+          t("errorGettingFreeAppointments")) ??
+          t("noAvailableAppointments")}
       </H6>
     </PlatformContainer>
   );

@@ -1,4 +1,5 @@
 import { getServerSession } from "next-auth";
+import { getTranslations } from "next-intl/server";
 import { H3, H6 } from "~/_components/common/Typography";
 import EditProfileForm from "~/_components/forms/EditProfileForm";
 import FamilyRelatives from "~/_components/profile/FamilyRelatives";
@@ -14,6 +15,8 @@ const Page = async () => {
 
   const genders = await getGenders(user.accessToken);
 
+  const t = await getTranslations("profile");
+
   // TODO: Implement getFamilyRelashionships and getFamilyRelatives on fase 2
   // const [genders, familyRelationships, familyRelatives] = await Promise.all([
   //   getGenders(user.accessToken),
@@ -24,21 +27,28 @@ const Page = async () => {
   //   }),
   // ]);
 
+  console.log({ genders });
+
+  const translatedGenders = genders.map((gender) => ({
+    id: gender.id,
+    name: t(`genders.${gender.name}`),
+  }));
+
   return (
     <main>
       <div className="mx-auto space-y-6 p-4 lg:max-w-7xl lg:space-y-12 lg:px-8 lg:py-4">
         <div className="space-y-4">
-          <H3 className="text-green">Información personal</H3>
+          <H3 className="text-green">{t("personalInfo")}</H3>
 
-          <H6>Por favor completa tu perfil</H6>
+          <H6>{t("completeProfile")}</H6>
         </div>
 
         <div className="space-y-6">
           <p className="font-ultra-dark-gray font-semibold leading-4">
-            Editá tu perfil aquí
+            {t("editHere")}
           </p>
 
-          <EditProfileForm genders={genders} user={user} />
+          <EditProfileForm genders={translatedGenders} user={user} />
 
           {/*  
           TODO: Implement family relatives on fase 2 

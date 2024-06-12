@@ -16,6 +16,7 @@ import type {
 import { endOfMonth, format, startOfMonth } from "date-fns";
 import { toast } from "sonner";
 import { getActiveCase } from "../api/cases";
+import { useTranslations } from "next-intl";
 
 const filterAppointmentsByTimeRange = (
   appointments: FreeAppointment[],
@@ -44,6 +45,8 @@ const filterAppointmentsByTimeRange = (
 
 const useCreateAppointment = (user: User) => {
   const router = useRouter();
+
+  const t = useTranslations("createAppointment");
 
   const [currentStep, setCurrentStep] = useState(1);
 
@@ -161,11 +164,11 @@ const useCreateAppointment = (user: User) => {
     let toastId: string | number | undefined;
 
     if (isLoadingFreeAppointments)
-      toastId = toast.loading("Cargando horarios disponibles");
+      toastId = toast.loading(t("loadingAppointments"));
     else toast.dismiss(toastId);
 
     return void toast.dismiss(toastId);
-  }, [isLoadingFreeAppointments]);
+  }, [isLoadingFreeAppointments, t]);
 
   useEffect(() => {
     if (
@@ -221,7 +224,6 @@ const useCreateAppointment = (user: User) => {
 
   const { mutateAsync } = useMutation({
     mutationFn: createAppointment,
-    onError: ({ message }) => toast.error(message),
     onSuccess: () => {
       if (selectedProfessional && selectedTime) {
         const dateFrom = selectedTime.dateFrom.toISOString();
@@ -238,18 +240,22 @@ const useCreateAppointment = (user: User) => {
 
   const handleServiceSelect = useCallback(
     async (service: ContractService) => {
-      const activeCase = await getActiveCase({
-        areaId: service.areaId,
-        serviceId: service.serviceId,
-        specialtyId: service.specialtyId,
-        patientId: Number(user.id),
-        accessToken: user.accessToken,
-      });
+      try {
+        const activeCase = await getActiveCase({
+          areaId: service.areaId,
+          serviceId: service.serviceId,
+          specialtyId: service.specialtyId,
+          patientId: Number(user.id),
+          accessToken: user.accessToken,
+        });
 
-      if (activeCase) {
-        toast.error(
-          "Ya tenes un caso activo por favor comunicate con el nuestra línea de ayuda en caso de requerir un cambio",
-        );
+        if (activeCase) {
+          toast.error(t("activeCaseError"));
+
+          return;
+        }
+      } catch (error) {
+        toast.error(t("errorGettingActiveCase"));
 
         return;
       }
@@ -262,7 +268,14 @@ const useCreateAppointment = (user: User) => {
 
       setCurrentStep(2);
     },
-    [selectedProfessional, selectedDate, selectedTime, user],
+    [
+      user.id,
+      user.accessToken,
+      selectedProfessional,
+      selectedDate,
+      selectedTime,
+      t,
+    ],
   );
 
   const handleMonthChange = useCallback(
@@ -315,26 +328,26 @@ const useCreateAppointment = (user: User) => {
 
   const nextStep = useCallback(() => {
     if (currentStep === 1 && !selectedService) {
-      toast.error("Debes seleccionar un tipo de asistencia");
+      toast.error(t("mustSelectAssistanceType"));
 
       return;
     }
 
     if (currentStep === 2 && !selectedDate) {
-      toast.error("Debes seleccionar una fecha");
+      toast.error(t("selectDate"));
 
       return;
     }
 
     if (currentStep === 3 && !selectedTime) {
-      toast.error("Debes seleccionar un horario");
+      toast.error(t("selectTime"));
 
       return;
     }
 
     if (currentStep === 4) {
       if (!selectedProfessional) {
-        toast.error("Debes seleccionar un profesional");
+        toast.error(t("selectProfessional"));
 
         return;
       }
@@ -346,18 +359,17 @@ const useCreateAppointment = (user: User) => {
 
     setCurrentStep(currentStep + 1);
   }, [
+    currentStep,
     selectedService,
     selectedDate,
     selectedTime,
+    t,
     selectedProfessional,
-    currentStep,
   ]);
 
   const handleSubmit = useCallback(() => {
     if (!selectedService || !selectedTime || !selectedProfessional) {
-      toast.error(
-        "Error al crear la cita, selecciona todos los datos necesarios",
-      );
+      toast.error(t("appointmentCreationError"));
 
       return;
     }
@@ -379,21 +391,34 @@ const useCreateAppointment = (user: User) => {
         locationId: user.location,
         positionId: user.position ?? -1,
         employeeId: selectedProfessional.id,
-        notificationTitle: `Tu cita con ${selectedProfessional.name} ha sido agendada correctamente!`,
-        notificationDescription: `Tu cita ha sido agendada para el día ${format(selectedTime.dateFrom, "dd/MM/yyyy")} a las ${format(selectedTime.dateFrom, "HH:mm")}hs`,
+        notificationTitle: t("appointmentNotificationTitle", {
+          professionalName: selectedProfessional.name,
+        }),
+        notificationDescription: t("appointmentNotificationDescription", {
+          date: format(selectedTime.dateFrom, "dd/MM/yyyy"),
+          time: format(selectedTime.dateFrom, "HH:mm"),
+        }),
         notificationSpecialty: selectedService.specialty,
       }),
       {
-        loading: "Creando cita",
+        loading: t("creatingAppointment"),
+        error: ({ message }) => t(message),
+        success: t("appointmentCreated"),
       },
     );
   }, [
     selectedService,
     selectedTime,
     selectedProfessional,
-    user,
-    modalityFilter,
     mutateAsync,
+    user.id,
+    user.timezone,
+    user.accessToken,
+    user.company,
+    user.location,
+    user.position,
+    modalityFilter,
+    t,
   ]);
 
   return {

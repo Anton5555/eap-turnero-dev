@@ -9,6 +9,7 @@ import { H6 } from "./Typography";
 import Image from "next/image";
 import { Dialog, Transition } from "@headlessui/react";
 import CloseIcon from "../icons/Close";
+import { useTranslations } from "next-intl";
 
 const QRCodeDialog: React.FC<{
   open: boolean;
@@ -64,12 +65,13 @@ const QRCodeDialog: React.FC<{
 
 const Help = () => {
   const [isQRCodeOpen, setIsQRCodeOpen] = useState(false);
+  const t = useTranslations("help");
 
   return (
     <>
       <div className="flex flex-col space-y-4">
         <H6 className="flex flex-row font-medium text-green lg:text-2xl lg:font-semibold lg:leading-7">
-          ¿Tienes dudas?
+          {t("anyDoubts")}
         </H6>
 
         <a
@@ -82,7 +84,7 @@ const Help = () => {
           </div>
 
           <div className="flex flex-col justify-center space-y-2">
-            <H6 className="text-green">Llámanos gratuitamente</H6>
+            <H6 className="text-green">{t("call")}</H6>
 
             <H6>0800 777 8327</H6>
           </div>
@@ -98,7 +100,7 @@ const Help = () => {
           </div>
 
           <div className="flex flex-col justify-center space-y-2">
-            <H6 className="text-green">Escríbenos</H6>
+            <H6 className="text-green">{t("write")}</H6>
 
             <H6>+5491149378911</H6>
           </div>
@@ -110,7 +112,7 @@ const Help = () => {
           </div>
 
           <div className="flex w-full flex-col justify-center space-y-2">
-            <H6 className="text-green">Escríbenos</H6>
+            <H6 className="text-green">{t("write")}</H6>
 
             <H6>+5491149378911</H6>
 
@@ -126,7 +128,7 @@ const Help = () => {
                 variant="outline"
                 onClick={() => setIsQRCodeOpen(true)}
               >
-                Código QR
+                {t("qrCode")}
               </Button>
             </div>
           </div>
@@ -142,7 +144,7 @@ const Help = () => {
           </div>
 
           <div className="flex flex-col justify-center space-y-2">
-            <H6 className="text-green">Envíanos un mail</H6>
+            <H6 className="text-green">{t("email")}</H6>
 
             <H6>eapconsultas@eaplatina.com</H6>
           </div>

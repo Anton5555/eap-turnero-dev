@@ -4,13 +4,12 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useState } from "react";
 import { H5 } from "../common/Typography";
 import { Button } from "../common/Button";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { SPECIALTY } from "~/types/services";
 import { modalities } from "~/lib/constants";
-import { AppointmentModality } from "~/types/appointments";
+import { MODALITY } from "~/types/appointments";
+import { useFormatter, useTranslations } from "next-intl";
 
 interface AppointmentCreatedDialogProps {
   professional: string;
@@ -30,6 +29,9 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
   const [open, setOpen] = useState(true);
   const router = useRouter();
 
+  const t = useTranslations("createAppointment.appointmentCreatedDialog");
+  const format = useFormatter();
+
   const handleClose = () => {
     router.replace("/platform", undefined);
 
@@ -37,24 +39,12 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
   };
 
   const TermsAndConditions = () => {
-    if (modalities[Number(modality)]?.label === AppointmentModality.PHONECALL)
-      return (
-        <p className="text-sm lg:text-base">
-          El profesional estará llamando al número que nos ha indicado en el
-          horario pautado. Recuerda que la llamada puede provenir de un número
-          privado. Si han pasado +10 min de la hora pautada o tiene llamadas
-          perdidas registradas, por favor, contáctate con nosotros para que te
-          pongamos en contacto con el profesional asignado.
-        </p>
-      );
+    if (modalities[Number(modality)]?.label === MODALITY.PHONECALL)
+      return <p className="text-sm lg:text-base">{t("phonecall.terms")}</p>;
 
     return (
       <>
-        <p className="text-sm lg:text-base">
-          Será necesario que puedas leer atentamente nuestro consentimiento
-          informado con toda la información sobre los términos y condiciones
-          asociados al tipo de consulta y modalidad:
-        </p>
+        <p className="text-sm lg:text-base">{t("videocall.terms1stPart")}</p>
 
         <Link
           href={
@@ -63,24 +53,25 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
               : "https://drive.google.com/drive/u/0/folders/1y9V5JEHQpQnfkH2tZAG_WPo4Or-gsPzb"
           }
           className="text-sm text-blue-500 underline"
+          target="_blank"
         >
-          Hacer clic aquí para conocer términos y condiciones
+          {t("videocall.termsLink")}
         </Link>
 
-        <p className="text-sm lg:text-base">
-          Entendemos que al conectarte a la próxima cita aceptas voluntariamente
-          los términos y condiciones de nuestros documentos. Es importante que
-          al momento de la consulta puedas encontrarte en un lugar privado,
-          cómodo y con buena conexión para garantizar la orientación
-          profesional.
-        </p>
+        <p className="text-sm lg:text-base">{t("videocall.terms2ndPart")}</p>
 
         <p className="text-sm lg:text-base">
-          Si quieres conocer más acerca de nuestra Política de privacidad y
-          tratamiento de datos puedes hacer clic aquí: &nbsp;
-          <a href="https://www.eaplatina.com/pdf/aviso_privacidad_nov_2023.pdf">
-            Aviso de Privacidad
-          </a>
+          {t.rich("videocall.knowMore", {
+            privacyNotice: (children) => (
+              <Link
+                href="https://www.eaplatina.com/pdf/aviso_privacidad_nov_2023.pdf"
+                className="text-blue-500 underline"
+                target="_blank"
+              >
+                {children}
+              </Link>
+            ),
+          })}
         </p>
       </>
     );
@@ -114,20 +105,32 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-2xl bg-white px-4 pb-4 pt-5 shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl sm:p-6">
                 <div className="mt-2 flex flex-col space-y-4 ">
-                  <H5>Cita generada con éxito.</H5>
+                  <H5>{t("title")}</H5>
 
                   <p className="text-sm lg:text-base">
-                    Tienes una cita programada para el{" "}
-                    {`${format(
-                      dateFrom,
-                      "EEEE d 'de' LLLL 'de' yyyy', de' H:mm",
-                      { locale: es },
-                    )} a ${format(dateTo, "H:mm")}hs, con ${professional}`}
+                    {t("description", {
+                      date: format.dateTime(dateFrom, {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      }),
+                      timeFrom: format.dateTime(dateFrom, {
+                        hour: "numeric",
+                        minute: "numeric",
+                        hour12: false,
+                      }),
+                      timeTo: format.dateTime(dateTo, {
+                        hour: "numeric",
+                        minute: "numeric",
+                        hour12: false,
+                      }),
+                      professionalName: professional,
+                    })}
                   </p>
 
                   <p className="text-sm lg:text-base">
-                    Recibirás una confirmación por correo electrónico con todos
-                    los detalles necesarios.
+                    {t("emailConfirmation")}
                   </p>
 
                   <TermsAndConditions />
@@ -135,7 +138,7 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
 
                 <div className="mt-5 flex justify-center lg:flex-row">
                   <Button className="font-lato" onClick={handleClose}>
-                    Finalizar
+                    {t("close")}
                   </Button>
                 </div>
               </Dialog.Panel>

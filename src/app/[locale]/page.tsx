@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 const HomePage = () => {
-  // redirect("/platform");
+  redirect("/platform");
 };
 
 export default HomePage;

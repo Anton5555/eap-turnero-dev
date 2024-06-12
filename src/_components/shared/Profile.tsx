@@ -8,6 +8,7 @@ import ChevronIcon from "../icons/Chevron";
 import { Button } from "../common/Button";
 import UserIcon from "../icons/User";
 import useUserImage from "~/lib/hooks/useUserImage";
+import { useTranslations } from "next-intl";
 
 type ProfileProps = {
   name: string;
@@ -24,10 +25,12 @@ const Profile: React.FC<ProfileProps> = ({
 }) => {
   const imageUrl = useUserImage({ accessToken, imageName });
 
+  const t = useTranslations("sidebar.profile");
+
   return (
     <Menu as="div" className="relative">
       <Menu.Button className="-m-1.5 flex items-center gap-x-4 p-1.5">
-        <span className="sr-only">Open user menu</span>
+        <span className="sr-only">{t("openUserMenu")}</span>
 
         <Image
           src={imageUrl ?? "/default-avatar.webp"}
@@ -63,7 +66,7 @@ const Profile: React.FC<ProfileProps> = ({
               <UserIcon fill={false} size={16} />
 
               <span className="font-inter text-sm font-medium leading-4 text-black">
-                Cerrar sesión
+                {t("logout")}
               </span>
             </Button>
           </Menu.Item>

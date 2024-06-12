@@ -1,4 +1,5 @@
 import { getServerSession } from "next-auth";
+import { getTranslations } from "next-intl/server";
 import AppointmentCreatedDialog from "~/_components/appointments/AppointmentCreatedDialog";
 import AppointmentList from "~/_components/appointments/AppointmentList";
 import Help from "~/_components/common/Help";
@@ -24,6 +25,8 @@ const Page = async ({
   const session = await getServerSession(authOptions);
 
   if (!session) return;
+
+  const t = await getTranslations("platform");
 
   const {
     user: { accessToken, id, timezone },
@@ -55,9 +58,9 @@ const Page = async ({
   return (
     <main>
       <div className="hidden space-y-4 lg:block">
-        <H3 className="text-green">Agenda</H3>
+        <H3 className="text-green">{t("agenda")}</H3>
 
-        <H6>Revisa tus citas pendientes y agenda nuevas</H6>
+        <H6>{t("title")}</H6>
       </div>
 
       <div className="mx-auto mt-0 flex flex-col items-start gap-x-8 gap-y-8 lg:mt-4 lg:flex-row">
@@ -69,7 +72,7 @@ const Page = async ({
 
         <div className="hidden w-1/3 space-y-6 lg:flex lg:max-h-[calc(80dvh)] lg:flex-col lg:overflow-y-scroll">
           <PlatformContainer className="gap-5 lg:flex lg:flex-col">
-            <H5>Próximas citas</H5>
+            <H5>{t("upcomingAppointments")}</H5>
 
             <NextAppointmentsCalendar
               daysWithEvents={appointments.map(({ start }) => start)}
