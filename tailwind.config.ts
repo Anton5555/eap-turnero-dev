@@ -25,6 +25,8 @@ export default {
         "dark-blue": "#64748B",
         yellow: "#FBBF24",
         purple: "#8C67DC",
+        blue: "#2563EB",
+        pink: "#FF6B81",
       },
       boxShadow: {
         "custom-light": "-4px 5px 10px 0px #4A4A4A0D",
