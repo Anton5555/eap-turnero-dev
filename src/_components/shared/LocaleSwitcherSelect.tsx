@@ -4,19 +4,13 @@ import React, { Fragment, type ReactNode } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import LocaleIcon from "../icons/Locale";
 import { useTranslations } from "next-intl";
-import { cn } from "~/lib/utils";
 
 type Props = {
   children: ReactNode;
   currentLocale: string;
-  mobile: boolean;
 };
 
-const LocaleSwitcherSelect: React.FC<Props> = ({
-  children,
-  currentLocale,
-  mobile,
-}) => {
+const LocaleSwitcherSelect: React.FC<Props> = ({ children, currentLocale }) => {
   const t = useTranslations("localeSwitcher");
 
   return (
@@ -40,12 +34,7 @@ const LocaleSwitcherSelect: React.FC<Props> = ({
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items
-          className={cn(
-            "absolute z-10 space-y-2 rounded-md bg-white p-4 shadow-lg ring-1 ring-gray-900/5 focus:outline-none",
-            mobile ? "bottom-10 mb-2.5" : "right-0 mt-2.5 origin-top-right",
-          )}
-        >
+        <Menu.Items className="absolute right-0 z-10 mt-2.5 origin-top-right space-y-2 rounded-md bg-white p-4 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
           {children}
         </Menu.Items>
       </Transition>
