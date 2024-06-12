@@ -12,6 +12,7 @@
           "required": "Please enter a valid email",
           "notFound": "User not found",
           "notActive": "User not active, please check your email to activate your account",
+          "notInitialized": "Consultant not initialized for online scheluder",
           "genericError": "Error al iniciar sesión"
         }
       },

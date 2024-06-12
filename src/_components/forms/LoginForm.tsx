@@ -88,6 +88,12 @@ const LoginForm: React.FC<{
       setError("email", {
         message: t("login.fields.userName.errors.notActive"),
       });
+    else if (
+      response?.error === "Consultante no inicialializado para turno online"
+    )
+      setError("email", {
+        message: t("login.fields.userName.errors.notInitialized"),
+      });
     else if (response?.error === "genericError")
       toast.error(t("login.fields.userName.errors.genericError"));
     else toast.error(response?.error);

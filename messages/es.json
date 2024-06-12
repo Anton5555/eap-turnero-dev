@@ -11,6 +11,7 @@
           "required": "Ingresa un email válido",
           "notFound": "Usuario no encontrado",
           "notActive": "Usuario no activo, revisa tu email para activar tu cuenta",
+          "notInitialized": "Consultante no inicializado para turno online",
           "genericError": "Error al iniciar sesión"
         }
       },
