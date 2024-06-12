@@ -63,11 +63,7 @@
         "placeholder": "Enter your username",
         "errors": {
           "required": "Please enter a valid email",
-          "alreadyExists": "User already exists",
-
-          "notFound": "Usuario no encontrado",
-          "notActive": "Usuario no activo, revisa tu email para activar tu cuenta",
-          "genericError": "Error al iniciar sesión"
+          "alreadyExists": "User already exists"
         }
       },
       "password": {
@@ -84,10 +80,24 @@
           "match": "Passwords do not match"
         }
       },
+      "birthdate": {
+        "label": "Birthdate",
+        "placeholder": "Enter your birthdate",
+        "errors": {
+          "required": "Enter a valid date",
+          "under18": "You must be over 18 years old"
+        }
+      },
       "pdp": {
         "label": "I confirm that I agree to share my data for this and future communications from the assistance program. It is important that you review the detailed information in our data protection policy at www.eaplatina.com. Your agreement is necessary to receive our services. If you decide to provide the mentioned data, you will be giving your informed consent for EAP Latina Corporation S.A. to process and record it. To request changes to your data or revoke your consent, contact us at protecciondedatospersonales@eaplatina.com.",
         "errors": {
           "required": "You must accept the terms and conditions"
+        }
+      },
+      "dataVeracity": {
+        "label": "I declare that the data provided is true",
+        "errors": {
+          "required": "You must declare that the data provided is true"
         }
       }
     },
@@ -95,29 +105,223 @@
       "signUp": "Sign up"
     },
     "alreadyHaveUser": "Already have a user?",
-    "login": "Log in"
+    "login": "Log in",
+    "errors": {
+      "genericError": "Error creating user"
+    }
   },
-  "header": {
-
-  },
-  "help": {
-
+  "welcome": {
+    "title": "Welcome!",
+    "text": "On this platform, you will find a wide selection of professionals who will help you enhance your overall well-being. <br></br><br></br>Schedule your appointments with mental, physical, legal, and financial health professionals 100% online.",
+    "start": "Shall we start?",
+    "next": "Next",
+    "validateAccount": {
+      "title": "Last step!",
+      "message": "You will soon receive a registration email to validate your account. Once validated, you can access the platform using your personal account and schedule an appointment with a professional in our agenda.",
+      "button": "Got it!"
+    }  },
+    "sidebar": {
+      "closeSidebar": "Close sidebar",
+      "openSidebar": "Open sidebar",
+      "welcome": "Welcome",
+      "navigation": {
+        "platform": "Home",
+        "profile": "Profile"
+      },
+      "exit": "Logout",
+      "profile": {
+        "openUserMenu": "Open user menu",
+        "logout": "Logout"
+      }
+    },
+    "localeSwitcher": {
+    "openLocaleMenu": "Open language menu",
+      "locale": "{locale, select, es {ES} en {EN} other {}}",
+      "changingLocale": "Changing language"
+    },
+    "help": {
+      "anyDoubts": "Any doubts?",
+      "call": "Call us for free",
+      "write": "Write us",
+      "qrCode": "QR code",
+      "email": "Email us"
   },
   "platform": {
-
+    "agenda": "Schedule",
+    "title": "Review your pending appointments and schedule new ones",
+    "upcomingAppointments": "Upcoming appointments",
+    "appointmentList": {
+      "agenda": "Schedule",
+      "reviewAndSchedule": "Review your pending appointments and schedule new ones",
+      "scheduleOnline": "Schedule your online appointment",
+      "deletingAppointment": "Deleting appointment",
+      "appointmentDeleted": "Appointment successfully deleted",
+      "errorDeleting": "Error deleting appointment",
+      "to": "to",
+      "cancel": "Cancel",
+      "emptyTitle": "You don't have any pending appointments",
+      "emptySubtitle": "Click on the button below to schedule your online appointment",
+      "deleteAppointment": {
+        "title": "Are you sure you want to cancel this appointment?",
+        "subtitle": "You appointment will be cancelled and you won't be able to undo this action",
+        "back": "Go back",
+        "confirm": "Cancel appointment",
+        "lessThan24Hours": "You can't cancel an appointment less than 24 hours before the scheduled time",
+        "lessThan24HoursSubtitle": "To cancel or reschedule this appointment, please contact us with one of the options shown in the Help section",
+        "close": "Close",
+        "notification": {
+          "title": "Your appointment with {professionalName} has been successfully canceled",
+          "description": "Your appointment on {date} at {time} has been canceled"
+        }
+      }
+    }
+  },
+  "specialties": {
+    "psychology": "Psychology",
+    "nutrition": "Nutrition",
+    "legal": "Legal",
+    "finance": "Finance",
+    "informative": "Information"
+  },
+  "modalities": {
+    "videocall": "Videocall",
+    "phonecall": "Phonecall"
+  },
+  "timeRanges": {
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "evening": "Evening"
   },
   "createAppointment": {
-    "title": "Create Appointment",
-
+    "areaOfAttention": "Area of attention",
+    "scheduleYourNextAppointment": "Schedule your next appointment",
+    "selectAssistanceType": "Select a type of assistance",
+    "selectDateAndTime": "Select date, time, and professional",
+    "next": "Next",
+    "back": "Back",
+    "updatingData": "Updating user information",
+    "dataUpdatedSuccessfully": "Data updated successfully",
+    "errorUpdatingData": "Error updating data",
     "filters": {
-      "title": "Filters",
-      "date": "Date",
-      "time": "Time",
-      "location": "Location",
-      "provider": "Provider",
-      "service": "Service",
-      "status": "Status",
-      "search": "Search"
+      "location": "Country",
+      "availability": "Availability",
+      "apply": "Apply",
+      "filters": "Filters"
+    },
+    "select": "Select",
+    "noServicesFound": "No services found",
+    "loadingAppointments": "Loading available appointments",
+    "activeCaseError": "You already have an active case, please contact our help line if you need to make a change",
+    "mustSelectAssistanceType": "You must select a type of assistance",
+    "selectDate": "You must select a date",
+    "selectTime": "You must select a time",
+    "selectProfessional": "You must select a professional",
+    "appointmentCreationError": "Error creating the appointment, please select all necessary data",
+    "creatingAppointment": "Creating appointment",
+    "appointmentNotificationTitle": "Your appointment with {professionalName} has been successfully scheduled!",
+    "appointmentNotificationDescription": "Your appointment has been scheduled for {date} at {time}",
+    "noAvailableAppointments": "There are no appointments available for the selected filters",
+    "selectADate": "Select a date to see available appointments",
+    "loadingProfessionals": "Loading available professionals",
+    "selectATime": "Select a time to see available professionals",
+    "noAvailableProfessionals": "There are no professionals available for the selected filters",
+    "errorGettingFreeAppointments": "Error getting free appointments",
+    "errorGettingProfessionals": "Error getting professionals",
+    "errorGettingActiveCase": "Error getting active case",
+    "errorGettingSAPUser": "Error getting SAP user",
+    "SAPUserNotFound": "SAP user not found",
+    "errorCreatingCase": "Error creating case",
+    "errorUpdatingCase": "Error updating case",
+    "errorCreatingAppointment": "Error creating appointment",
+    "appointmentCreated": "Appointment created successfully",
+    "confirmationDialog": {
+      "close": "Close",
+      "title": "Are you sure you want to schedule this appointment?",
+      "description": "Your {modality} appointment with",
+      "cancel": "Cancel",
+      "schedule": "Schedule"
+    },
+    "appointmentCreatedDialog": {
+      "title": "Appointment scheduled successfully",
+      "description": "You have a scheduled appointment for {date} from {timeFrom} to {timeTo} with {professionalName}",
+      "emailConfirmation": "You will receive an email confirmation shortly",
+      "close": "Finish",
+      "phonecall": {
+        "terms": "The professional will be calling the number you have provided at the scheduled time. Remember that the call may come from a private number. If it has been +10 minutes past the scheduled time or you have missed calls, please contact us so we can put you in touch with the assigned professional."
+      },
+      "videocall": {
+        "terms1stPart": "It will be necessary for you to carefully read our informed consent with all the information about the terms and conditions associated with the type of consultation and modality:",
+        "termsLink": "Click here to know terms and conditions",
+        "terms2ndPart": "We understand that by connecting to the next appointment you voluntarily accept the terms and conditions of our documents. It is important that at the time of the consultation you can be in a private, comfortable place with a good connection to guarantee professional guidance.",
+        "knowMore": "If you want to know more about our Privacy Policy and data processing you can click here: <privacyNotice>Privacy Policy</privacyNotice>"
+      }
+    }, 
+    "pdpConfirmationDialog": {
+      "close": "Close",
+      "dataProtectionPolicy": "Data Protection Policy",
+      "notSignedOrExpired": "You have not signed the data protection authorization or it has expired",
+      "importantReview": "It is important that you review the detailed information in our data protection policy at www.eaplatina.com. Your agreement is necessary to receive our services. If you decide to provide the mentioned data, you will be giving your informed consent for EAP Latina Corporation S.A. to process and record it. To request changes to your data or revoke your consent, contact us at protecciondedatospersonales@eaplatina.com.",
+      "confirmAgreement": "I confirm that I agree to share my data for this and future communications from the assistance program.",
+      "confirm": "Confirm"
     }
+  },
+  "profile": {
+    "personalInfo": "Personal information",
+    "completeProfile": "Please complete your profile",
+    "editHere": "Edit your profile here",
+    "imageInput": {
+      "altText": "User image",
+      "invalidImageFile": "Please select a valid image file",
+      "imageTooLarge": "The image is too large",
+      "uploadImage": "Upload image",
+      "fileTypes": "JPG or PNG"
+    },
+    "fields": {
+      "firstName": {
+        "label": "Name",
+        "placeholder": "Enter your name",
+        "errors": {
+          "required": "Enter your name"
+        }
+      },
+      "lastName": {
+        "label": "Last name",
+        "placeholder": "Enter your last name",
+        "errors": {
+          "required": "Enter your last name"
+        }
+      },
+      "location": {
+        "label": "Country"
+      },
+      "gender": {
+        "label": "Gender",
+        "placeholder": "Doesn't apply"
+      },
+      "birthdate": {
+        "label": "Birthdate",
+        "placeholder": "Enter your birthdate",
+        "errors": {
+          "required": "Enter a valid date",
+          "under18": "You must be over 18 years old"
+        }
+      }
+    },
+    "updatingUser": "Updating user information",
+    "userUpdatedSuccessfully": "User information updated successfully",
+    "errorUpdatingUser": "Error updating user information",
+    "save": "Save",
+    "genders": {
+      "male": "Male",
+      "female": "Female",
+      "lgbtq": "LGBTQ+ community",
+      "non_binary": "Non binary",
+      "no_answer": "I prefer not to answer"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "noNotifications": "You don't have any notifications",
+    "markAllAsRead": "Mark as read"
   }
 }

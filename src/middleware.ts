@@ -1,9 +1,9 @@
 import { type NextRequest } from "next/server";
 import { withAuth } from "next-auth/middleware";
 import createIntlMiddleware from "next-intl/middleware";
+import { locales } from "./config";
 
 const publicPages = ["/auth/login", "/auth/signup"];
-const locales = ["en", "es"];
 
 const intlMiddleware = createIntlMiddleware({
   locales,
