@@ -50,7 +50,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
         <div className="flex items-center">
           <Image
             className="h-18 rounded-2xl object-cover lg:h-20"
-            src={`/default-avatar.webp`}
+            src={`/assets/default-avatar.webp`}
             width={80}
             height={80}
             alt={appointment.professional}

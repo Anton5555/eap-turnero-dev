@@ -23,7 +23,7 @@ const ProfileImageInput = React.forwardRef<
     <div className="flex items-center space-x-4">
       <div className="relative h-24 w-24 overflow-hidden rounded-lg">
         <Image
-          src={imageUrl ?? "/default-avatar.webp"}
+          src={imageUrl ?? "/assets/default-avatar.webp"}
           alt={t("altText")}
           width={96}
           height={96}

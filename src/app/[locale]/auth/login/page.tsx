@@ -19,7 +19,7 @@ const Page = async ({ searchParams }: { searchParams: { uuid: string } }) => {
       <div className="relative flex h-52 items-start overflow-hidden lg:h-full lg:flex-col lg:rounded-2xl">
         <Image
           className="object-cover"
-          src="/login.webp"
+          src="/assets/login.webp"
           alt="login image"
           width={642}
           height={628}

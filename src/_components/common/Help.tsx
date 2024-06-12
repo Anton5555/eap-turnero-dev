@@ -50,7 +50,7 @@ const QRCodeDialog: React.FC<{
               </div>
 
               <Image
-                src="/whatsapp-qr.webp"
+                src="/assets/whatsapp-qr.webp"
                 width={300}
                 height={300}
                 alt="https://wa.me/+5491149378911"

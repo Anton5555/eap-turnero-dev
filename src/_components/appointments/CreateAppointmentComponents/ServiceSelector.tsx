@@ -35,8 +35,8 @@ const ServiceSelector = (props: {
               <div className="flex items-center space-x-4 lg:space-x-8">
                 <ImageWithFallback
                   className="h-18 rounded-2xl object-cover lg:h-20"
-                  src={`/${service.specialty}.webp`}
-                  fallbackSrc="/area-de-atencion-fallback.webp"
+                  src={`/assets/${service.specialty}.webp`}
+                  fallbackSrc="/assets/area-de-atencion-fallback.webp"
                   width={80}
                   height={80}
                   alt={service.specialty}

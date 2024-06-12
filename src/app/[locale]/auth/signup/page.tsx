@@ -17,7 +17,7 @@ const Page = async () => {
       <div className="relative flex h-56 items-center overflow-hidden lg:h-full lg:flex-col lg:rounded-2xl">
         <Image
           className="object-cover"
-          src="/signup.webp"
+          src="/assets/signup.webp"
           alt="signup image"
           width={642}
           height={628}

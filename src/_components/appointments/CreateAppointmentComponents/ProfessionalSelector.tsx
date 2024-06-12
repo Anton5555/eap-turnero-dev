@@ -61,7 +61,7 @@ const ProfessionalSelector = (props: {
                     {/* TODO: Change professional images for the real ones */}
                     <Image
                       className="h-18 w-18 rounded-2xl object-cover xl:h-20 xl:w-20"
-                      src={`/default-avatar.webp`}
+                      src={`/assets/default-avatar.webp`}
                       width={80}
                       height={80}
                       alt={professional.name}

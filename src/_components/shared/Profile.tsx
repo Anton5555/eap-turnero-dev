@@ -33,7 +33,7 @@ const Profile: React.FC<ProfileProps> = ({
         <span className="sr-only">{t("openUserMenu")}</span>
 
         <Image
-          src={imageUrl ?? "/default-avatar.webp"}
+          src={imageUrl ?? "/assets/default-avatar.webp"}
           alt="User profile"
           width={32}
           height={32}
