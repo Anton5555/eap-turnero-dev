@@ -28,7 +28,7 @@ const Page = async () => {
           <a className="z-1 absolute h-full w-full bg-gradient-linear"></a>
         </div>
 
-        <div className="mx-6 mt-4 flex flex-1 flex-col items-center justify-center lg:mx-0 lg:mt-0 lg:h-[628px] lg:items-stretch">
+        <div className="mx-6 mt-4 flex flex-1 flex-col items-center justify-center lg:mx-0 lg:mx-6 lg:mt-0 lg:h-[628px] lg:items-stretch">
           <div className="mx-auto flex max-w-lg flex-grow flex-col justify-between">
             <div className="flex flex-col items-center space-y-6">
               <Logo width={107} height={51} />

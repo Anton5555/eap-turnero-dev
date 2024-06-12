@@ -28,7 +28,7 @@ const Page = async ({ searchParams }: { searchParams: { uuid: string } }) => {
         <a className="z-1 absolute h-full w-full bg-gradient-linear"></a>
       </div>
 
-      <div className="mt-4 flex flex-1 flex-col items-center justify-center lg:mt-0">
+      <div className="mt-4 flex flex-1 flex-col items-center justify-center lg:mx-6 lg:mt-0">
         <div className="mx-auto max-w-lg space-y-6">
           <div className="flex flex-col items-center space-y-6">
             <Logo width={107} height={51} />
