@@ -36,9 +36,26 @@ export type FamilyRelashionships = {
   label: string;
 };
 
+export enum GENDER {
+  MALE = "male",
+  FEMALE = "female",
+  LGBTQ = "lgbtq",
+  NON_BINARY = "non_binary",
+  NO_ANSWER = "no_answer",
+  UNKNOWN = "unknown",
+}
+
+export const GENDER_MAPPING: Record<string, GENDER> = {
+  Masculino: GENDER.MALE,
+  Femenino: GENDER.FEMALE,
+  "Comunidad LGBTQ+": GENDER.LGBTQ,
+  "No binario": GENDER.NON_BINARY,
+  "Prefiero no responder": GENDER.NO_ANSWER,
+};
+
 export type Gender = {
   id: number;
-  name: string;
+  name: GENDER;
 };
 
 type EAPUser = {
@@ -93,14 +110,4 @@ export type DecodedApiToken = {
   iat: number;
   iss: string;
   aud: string;
-};
-
-export type SignupFormInputs = {
-  name: string;
-  lastName: string;
-  location: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  pdp: boolean;
 };

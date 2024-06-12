@@ -1,5 +1,6 @@
 import { env } from "~/env";
 import { type AppointmentNotification } from "~/types/notifications";
+import { type SPECIALTY } from "~/types/services";
 
 const API_URL = `${env.NEXT_PUBLIC_API_URL}/notification`;
 
@@ -8,7 +9,7 @@ const CreateNotificationAdapter = (props: {
   professionalId: number;
   title: string;
   description: string;
-  speciality: string;
+  speciality: SPECIALTY;
 }) => {
   const { patientId, professionalId, title, description, speciality } = props;
 
@@ -26,7 +27,7 @@ const createNotification = async (props: {
   professionalId: number;
   title: string;
   description: string;
-  speciality: string;
+  speciality: SPECIALTY;
   accessToken: string;
 }) => {
   const { accessToken } = props;
@@ -41,7 +42,7 @@ const createNotification = async (props: {
     body: JSON.stringify(CreateNotificationAdapter(props)),
   });
 
-  if (!response.ok) throw new Error("Error al crear la notificación");
+  if (!response.ok) throw new Error();
 
   return response;
 };
@@ -57,7 +58,7 @@ interface NotificationsApiData {
   isdirty: boolean;
   title: string;
   descrp: string;
-  especialidad: string;
+  especialidad: SPECIALTY;
 }
 
 const filterAndMapNotificationsApiData = (
@@ -116,8 +117,7 @@ const markAllAsRead = async (props: {
     },
   );
 
-  if (!response.ok)
-    throw new Error("Error al marcar todas las notificaciones como leídas");
+  if (!response.ok) throw new Error("Error marking all notifications as read.");
 
   return response;
 };

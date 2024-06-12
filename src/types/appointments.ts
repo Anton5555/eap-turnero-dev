@@ -1,3 +1,5 @@
+import { type SPECIALTY } from "./services";
+
 export type FreeAppointment = {
   start: Date;
   end: Date;
@@ -11,17 +13,17 @@ export enum AppointmentState {
   NOT_DEFINED = "No definido",
 }
 
-export enum AppointmentModality {
-  VIDEOCALL = "Videollamada",
-  PHONECALL = "Telefónica",
+export enum MODALITY {
+  VIDEOCALL = "videocall",
+  PHONECALL = "phonecall",
 }
 
 export type Appointment = {
   id: number;
   start: string;
   end: string;
-  specialty: string;
-  modality: AppointmentModality;
+  specialty: SPECIALTY;
+  modality: MODALITY;
   professional: string;
   professionalId: number;
   state: AppointmentState;
