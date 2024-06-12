@@ -39,7 +39,7 @@ const Page = async ({ searchParams }: { searchParams: { uuid: string } }) => {
               <div className="border-gray/10 flex w-full flex-col rounded-full border-b-[3px]"></div>
             </div>
 
-            <H4 className="hidden lg:flex">{t("login.title")}</H4>
+            <H4 className="hidden text-center lg:flex">{t("login.title")}</H4>
 
             <H4 className="lg:hidden">{t("login.subtitle")}!</H4>
 
