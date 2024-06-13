@@ -2,13 +2,14 @@ import {
   type AppointmentState,
   type Appointment,
   type FreeAppointmentsByDay,
-  AppointmentModality,
+  MODALITY,
 } from "~/types/appointments";
 import { createCase, getActiveCase, updateCase } from "./cases";
 import { getProfessionalSapUser } from "./professionals";
 import { env } from "~/env";
 import { createNotification } from "./notifications";
 import { type Professional } from "~/types/professionals";
+import { SPECIALTY, SPECIALTY_MAPPING } from "~/types/services";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
 
@@ -83,11 +84,11 @@ const parseAppointmentsApiData = (
     id: appointment.UNIQUEID,
     start: appointment.FS_FECHAINICIO,
     end: appointment.FS_FECHAFIN,
-    specialty: appointment.ESPECIALIDAD,
+    specialty: SPECIALTY_MAPPING[appointment.ESPECIALIDAD] ?? SPECIALTY.UNKNOWN,
     modality:
       appointment.MODALIDAD === "TELEFONICA"
-        ? AppointmentModality.PHONECALL
-        : AppointmentModality.VIDEOCALL,
+        ? MODALITY.PHONECALL
+        : MODALITY.VIDEOCALL,
     professional: appointment.NOMBRE,
     professionalId: appointment.EMPID,
     state: appointment.ESTADO,
@@ -103,6 +104,7 @@ const getFreeAppointments = async (props: {
   modalityId: number;
   companyId: number;
   locationId: number;
+  english: boolean;
 }): Promise<FreeAppointmentsByDay> => {
   const {
     dateFrom,
@@ -114,12 +116,13 @@ const getFreeAppointments = async (props: {
     modalityId,
     companyId,
     locationId,
+    english = false,
   } = props;
 
   const headers = new Headers();
   headers.append("Authorization", accessToken);
 
-  const getAppointmentsReqUrl = `${API_URL}/citasProfesional/getFreeAppointment?fechadesde=${dateFrom}&fechahasta=${dateTo}&especialidad=${specialtyId}&modalidad=${modalityId}&servicio=${serviceId}&empresa=${companyId}&unidad=${locationId}&zonahoraria=${timezone}`;
+  const getAppointmentsReqUrl = `${API_URL}/citasProfesional/getFreeAppointment?fechadesde=${dateFrom}&fechahasta=${dateTo}&especialidad=${specialtyId}&modalidad=${modalityId}&servicio=${serviceId}&empresa=${companyId}&unidad=${locationId}&zonahoraria=${timezone}&language=${english}`;
 
   const response = await fetch(getAppointmentsReqUrl, {
     method: "GET",
@@ -127,7 +130,7 @@ const getFreeAppointments = async (props: {
     cache: "no-store",
   });
 
-  if (!response.ok) throw new Error("Error al obtener las citas libres");
+  if (!response.ok) throw new Error();
 
   const freeAppointmentsApiData =
     (await response.json()) as FreeAppointmentsApiData[];
@@ -166,6 +169,7 @@ const getAvailableProfessionalsByDateAndTime = async (props: {
   modalityId: number;
   companyId: number;
   locationId: number;
+  english: boolean;
 }): Promise<Professional[]> => {
   const {
     date,
@@ -176,12 +180,13 @@ const getAvailableProfessionalsByDateAndTime = async (props: {
     modalityId,
     companyId,
     locationId,
+    english = false,
   } = props;
 
   const headers = new Headers();
   headers.append("Authorization", accessToken);
 
-  const getAppointmentsReqUrl = `${API_URL}/citasProfesional/getAppointmentsByBranchAndMoment?fechahora=${date}&especialidad=${specialtyId}&modalidadcita=${modalityId}&servicio=${serviceId}&empresa=${companyId}&unidad=${locationId}&zonahoraria=${timezone}`;
+  const getAppointmentsReqUrl = `${API_URL}/citasProfesional/getAppointmentsByBranchAndMoment?fechahora=${date}&especialidad=${specialtyId}&modalidadcita=${modalityId}&servicio=${serviceId}&empresa=${companyId}&unidad=${locationId}&zonahoraria=${timezone}&language=${english}`;
 
   const response = await fetch(getAppointmentsReqUrl, {
     method: "GET",
@@ -189,8 +194,7 @@ const getAvailableProfessionalsByDateAndTime = async (props: {
     cache: "no-store",
   });
 
-  if (!response.ok)
-    throw new Error("Error al obtener los profesionales disponibles");
+  if (!response.ok) throw new Error();
 
   const professionalsApiData =
     (await response.json()) as ProfessionalAppointmentsByDateAndTimeApiData[];
@@ -216,7 +220,7 @@ const createAppointment = async (props: {
   employeeId: number;
   notificationTitle: string;
   notificationDescription: string;
-  notificationSpecialty: string;
+  notificationSpecialty: SPECIALTY;
 }) => {
   const {
     accessToken,
@@ -301,7 +305,8 @@ const createAppointment = async (props: {
     },
   );
 
-  if (!createAppointmentResponse.ok) throw new Error("Error al crear la cita");
+  if (!createAppointmentResponse.ok)
+    throw new Error("errorCreatingAppointment");
 
   try {
     await createNotification({
@@ -313,7 +318,7 @@ const createAppointment = async (props: {
       accessToken,
     });
   } catch (error) {
-    console.error("Error al crear la notificación", error);
+    console.error("Error creating notification", error);
   }
 
   return createAppointmentResponse;
@@ -337,7 +342,7 @@ const getAppointmentsByPatient = async (props: {
     cache: "no-store",
   });
 
-  if (!response.ok) throw new Error("Error al obtener las citas del paciente");
+  if (!response.ok) throw new Error("Error getting patient appointments");
 
   const appointmentsApiData = (await response.json()) as AppointmentsApiData[];
 
@@ -351,7 +356,7 @@ const deleteAppointment = async (props: {
   patientId: number;
   notificationTitle: string;
   notificationDescription: string;
-  notificationSpecialty: string;
+  notificationSpecialty: SPECIALTY;
 }) => {
   const {
     accessToken,
@@ -378,7 +383,7 @@ const deleteAppointment = async (props: {
     headers,
   });
 
-  if (!response.ok) throw new Error("Error al eliminar la cita");
+  if (!response.ok) throw new Error();
 
   try {
     await createNotification({
@@ -390,7 +395,7 @@ const deleteAppointment = async (props: {
       accessToken,
     });
   } catch (error) {
-    console.error("Error al crear la notificación", error);
+    console.error("Error creating notification", error);
   }
 
   return response;

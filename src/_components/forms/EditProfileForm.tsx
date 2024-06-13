@@ -18,26 +18,31 @@ import { updateUser } from "~/lib/api/users";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { isOver18 } from "~/lib/utils";
+import { useTranslations } from "next-intl";
+import { format } from "date-fns";
 
 const editProfileSchema = z.object({
-  name: z.string().min(1, { message: "Ingresa tu nombre" }),
-  lastName: z.string().min(1, { message: "Ingresa tu apellido" }),
-  email: z.string().email({ message: "Ingresa un email válido" }),
+  name: z.string().min(1, { message: "fields.firstName.errors.required" }),
+  lastName: z.string().min(1, { message: "fields.lastName.errors.required" }),
+  email: z.string().readonly(),
   location: z.string(),
   gender: z.string().optional(),
   birthdate: z
     .date({
-      required_error: "Ingresa una fecha válida",
+      required_error: "fields.birthdate.errors.required",
     })
-    .refine(isOver18, { message: "Debes ser mayor de 18 años" }),
+    .refine(isOver18, { message: "fields.birthdate.errors.under18" }),
 });
 
 export type EditProfileInputs = z.infer<typeof editProfileSchema>;
 
-const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
-  genders,
-  user,
-}) => {
+const EditProfileForm: React.FC<{
+  genders: {
+    id: number;
+    name: string;
+  }[];
+  user: User;
+}> = ({ genders, user }) => {
   const {
     name,
     lastName,
@@ -51,6 +56,8 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
   } = user;
 
   const router = useRouter();
+
+  const t = useTranslations("profile");
 
   const { update } = useSession();
 
@@ -99,9 +106,9 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
         userTypeId,
       }),
       {
-        loading: "Actualizando datos",
-        success: "Datos actualizados con éxito",
-        error: "Error al actualizar datos",
+        loading: t("updatingUser"),
+        success: t("userUpdatedSuccessfully"),
+        error: t("errorUpdatingUser"),
       },
     );
 
@@ -115,25 +122,25 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
       <div className="items-center space-y-4 lg:grid lg:grid-rows-2">
         <div className="space-y-4 lg:grid lg:grid-cols-3 lg:space-x-4 lg:space-y-0">
           <Input
-            label="Nombre"
+            label={t("fields.firstName.label")}
             type="text"
             id="name"
-            placeholder="Nombre"
+            placeholder={t("fields.firstName.placeholder")}
             className="text-sm leading-4 ring-light-grayish-blue"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
             {...register("name")}
-            errorText={errors.name?.message}
+            errorText={errors.name?.message && t(errors.name?.message)}
           />
 
           <Input
-            label="Apellido"
+            label={t("fields.lastName.label")}
             type="text"
             id="lastName"
-            placeholder="Apellido"
+            placeholder={t("fields.lastName.placeholder")}
             className="text-sm leading-4 ring-light-grayish-blue"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
             {...register("lastName")}
-            errorText={errors.lastName?.message}
+            errorText={errors.lastName?.message && t(errors.lastName?.message)}
           />
 
           <Input
@@ -141,27 +148,27 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
             type="email"
             id="email"
             placeholder="Email"
+            disabled
             className="text-sm leading-4 ring-light-grayish-blue"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
             {...register("email")}
-            errorText={errors.email?.message}
           />
         </div>
 
         <div className="space-y-4 lg:grid lg:grid-cols-3 lg:space-x-4 lg:space-y-0">
           <Select
-            label="País"
+            label={t("fields.location.label")}
             id="location"
             {...register("location")}
             options={locations}
             value={selectedLocation}
             className="text-sm leading-4 ring-light-grayish-blue"
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
-            errorText={errors.location?.message}
+            errorText={errors.location?.message && t(errors.location?.message)}
           />
 
           <Select
-            label="Género"
+            label={t("fields.gender.label")}
             id="gender"
             {...register("gender")}
             options={genders.map((gender) => ({
@@ -170,7 +177,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
             }))}
             value={selectedGender}
             className="text-sm leading-4 ring-light-grayish-blue"
-            placeholder="No aplica"
+            placeholder={t("fields.gender.placeholder")}
             labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
           />
 
@@ -179,13 +186,15 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
             name="birthdate"
             render={({ field: { value, onChange } }) => (
               <DatePicker
-                label="Fecha de nacimiento"
+                label={t("fields.birthdate.label")}
                 name="birthdate"
                 className="text-sm leading-4 ring-light-grayish-blue"
                 labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
                 value={value}
                 onChange={onChange}
-                errorText={errors.birthdate?.message}
+                errorText={
+                  errors.birthdate?.message && t(errors.birthdate?.message)
+                }
               />
             )}
           />
@@ -197,7 +206,7 @@ const EditProfileForm: React.FC<{ genders: Gender[]; user: User }> = ({
           type="submit"
           className="font-lato w-full font-normal lg:w-auto"
         >
-          Guardar
+          {t("save")}
         </Button>
       </div>
     </form>

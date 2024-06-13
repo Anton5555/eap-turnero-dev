@@ -13,20 +13,26 @@ import { H4 } from "../common/Typography";
 import { toast } from "sonner";
 import { activateAccount } from "~/lib/api/users";
 import { useMutation } from "@tanstack/react-query";
-
-const loginFormSchema = z.object({
-  email: z.string().trim().email({ message: "Ingresa un email válido" }),
-  password: z.string().min(8, {
-    message: "La contraseña debe tener al menos 8 caracteres",
-  }),
-});
-
-type Inputs = z.infer<typeof loginFormSchema>;
+import { useTranslations } from "next-intl";
 
 const LoginForm: React.FC<{
   accountActivationUUID?: string;
 }> = ({ accountActivationUUID }) => {
   const router = useRouter();
+
+  const t = useTranslations();
+
+  const loginFormSchema = z.object({
+    email: z
+      .string()
+      .trim()
+      .email({ message: t("login.fields.userName.errors.required") }),
+    password: z.string().min(8, {
+      message: t("login.fields.password.errors.minLength"),
+    }),
+  });
+
+  type Inputs = z.infer<typeof loginFormSchema>;
 
   const { mutateAsync } = useMutation({
     mutationFn: activateAccount,
@@ -37,9 +43,9 @@ const LoginForm: React.FC<{
   useEffect(() => {
     if (accountActivationUUID) {
       toast.promise(mutateAsync(accountActivationUUID), {
-        loading: "Activando cuenta",
-        success: "Cuenta activada exitosamente",
-        error: "Error al activar cuenta",
+        loading: t("login.activation.loading"),
+        success: t("login.activation.success"),
+        error: t("login.activation.error"),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,13 +76,26 @@ const LoginForm: React.FC<{
       return;
     }
 
-    if (response?.error === "Contraseña incorrecta")
-      setError("password", { message: response?.error });
+    if (response?.error === "invalidPassword")
+      setError("password", {
+        message: t("login.fields.password.errors.invalid"),
+      });
+    else if (response?.error === "Usuario no encontrado")
+      setError("email", {
+        message: t("login.fields.userName.errors.notFound"),
+      });
+    else if (response?.error === "Usuario no activo")
+      setError("email", {
+        message: t("login.fields.userName.errors.notActive"),
+      });
     else if (
-      response?.error === "Usuario no encontrado" ||
-      response?.error === "Usuario no activo"
+      response?.error === "Consultante no inicialializado para turno online"
     )
-      setError("email", { message: response?.error });
+      setError("email", {
+        message: t("login.fields.userName.errors.notInitialized"),
+      });
+    else if (response?.error === "genericError")
+      toast.error(t("login.fields.userName.errors.genericError"));
     else toast.error(response?.error);
   };
 
@@ -89,14 +108,17 @@ const LoginForm: React.FC<{
         type="email"
         id="email"
         {...register("email")}
-        placeholder="Ingresa tu nombre de usuario"
-        label="Nombre de usuario"
+        placeholder={t("login.fields.userName.placeholder")}
+        label={t("login.fields.userName.label")}
         errorText={errors.email?.message}
       />
 
       <H4 className="hidden text-base font-semibold text-black lg:block">
-        *Recuerda que tu email debe ser{" "}
-        <span className="text-green">corporativo</span>
+        {t.rich("login.fields.userName.information", {
+          highlight: (children) => (
+            <span className="text-green">{children}</span>
+          ),
+        })}
       </H4>
 
       <Input
@@ -104,7 +126,7 @@ const LoginForm: React.FC<{
         id="password"
         {...register("password")}
         placeholder="********"
-        label="Contraseña"
+        label={t("login.fields.password.label")}
         errorText={errors.password?.message}
       />
 
@@ -119,14 +141,14 @@ const LoginForm: React.FC<{
       </div> */}
 
       <Button size="full" type="submit" disabled={isSubmitting}>
-        Iniciar sesión
+        {t("login.buttons.login")}
       </Button>
 
       <div className="flex justify-center">
         <H4 className="text-base font-semibold text-black">
-          ¿No tienes usuario?{" "}
+          {t("login.dontHaveUser")}{" "}
           <Link href={"/auth/signup"} className="text-green">
-            Registrarte
+            {t("login.buttons.signUp")}
           </Link>
         </H4>
       </div>

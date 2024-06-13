@@ -17,10 +17,13 @@ import { usePathname } from "next/navigation";
 import Help from "../common/Help";
 import { type AppointmentNotification } from "~/types/notifications";
 import { type User } from "~/types/users";
+import { useTranslations } from "next-intl";
+import LocaleSwitcher from "./LocaleSwitcher";
+import LocaleSwitcherMobile from "./LocaleSwitcherMobile";
 
 const navigation = [
-  { name: "Inicio", href: "/platform", icon: HomeIcon, path: "platform" },
-  { name: "Perfil", href: "/profile", icon: UserIcon, path: "profile" },
+  { href: "/platform", icon: HomeIcon, path: "platform" },
+  { href: "/profile", icon: UserIcon, path: "profile" },
 ];
 
 type SidebarProps = {
@@ -35,6 +38,8 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
   const pathname = usePathname();
   const currentPathRoot = pathname.split("/")[1];
 
+  const t = useTranslations("sidebar");
+
   const Menu: React.FC = () => (
     <nav className="flex flex-1 flex-col">
       <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -44,18 +49,20 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
           <button onClick={() => setSidebarOpen(false)}>
             <CloseIcon />
 
-            <span className="sr-only">Close sidebar</span>
+            <span className="sr-only">{t("closeSidebar")}</span>
           </button>
         </li>
 
         <li className="lg:hidden">
-          <H6 className="text-left">Bienvenido, {user.name}!</H6>
+          <H6 className="text-left">
+            {t("welcome")}, {user.name}!
+          </H6>
         </li>
 
         <li>
-          <ul role="list" className=" space-y-4 lg:mt-8">
+          <ul role="list" className="space-y-4 lg:mt-8">
             {navigation.map((navigationItem) => (
-              <li key={navigationItem.name}>
+              <li key={navigationItem.path}>
                 <Link
                   href={navigationItem.href}
                   onClick={() => {
@@ -73,10 +80,13 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
                     aria-hidden="true"
                   />
 
-                  <span>{navigationItem.name}</span>
+                  <span>{t(`navigation.${navigationItem.path}`)}</span>
                 </Link>
               </li>
             ))}
+            <li className="block lg:hidden">
+              <LocaleSwitcherMobile />
+            </li>
           </ul>
         </li>
 
@@ -85,15 +95,17 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
             <Help />
           </div>
 
-          <Link
-            href="#"
-            onClick={() => signOut()}
-            className="group -mx-2 flex items-center gap-x-2 p-2 text-very-dark-blue"
-          >
-            <ExitIcon />
+          <div className="flex flex-row justify-between">
+            <Link
+              href="#"
+              onClick={() => signOut()}
+              className="group -mx-2 flex items-center gap-x-2 p-2 text-very-dark-blue"
+            >
+              <ExitIcon />
 
-            <H6>Salir</H6>
-          </Link>
+              <H6>{t("exit")}</H6>
+            </Link>
+          </div>
         </li>
       </ul>
     </nav>
@@ -114,7 +126,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
             className="-m-2.5 p-2.5 lg:hidden"
             onClick={() => setSidebarOpen(true)}
           >
-            <span className="sr-only">Open sidebar</span>
+            <span className="sr-only">{t("openSidebar")}</span>
 
             <BarsIcon aria-hidden="true" />
           </button>
@@ -124,6 +136,10 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
           </div>
 
           <div className="flex items-center lg:gap-x-6">
+            <div className="hidden lg:flex">
+              <LocaleSwitcher />
+            </div>
+
             <div className="hidden lg:flex">
               <Profile {...user} />
             </div>

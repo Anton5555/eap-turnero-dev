@@ -6,8 +6,9 @@ import { cn } from "~/lib/utils";
 import { buttonVariants } from "../common/Button";
 import ChevronLeftIcon from "../icons/ChevronLeft";
 import ChevronRightIcon from "../icons/ChevronRight";
-import { es } from "date-fns/locale";
 import { format } from "date-fns";
+import useDateFnsLocale from "~/lib/hooks/useDateFnsLocale";
+import { useFormatter } from "next-intl";
 
 const currentDay = new Date();
 
@@ -33,7 +34,7 @@ const calendarClassNames = {
   dropdown_year: "w-20",
   table: "w-full max-w-none border-collapse space-y-1",
   head_row:
-    "flex border-b-[0.5px] border-b-light-gray pb-2 lg:border-none lg:hidden justify-between ",
+    "flex border-b-[0.5px] border-b-light-gray pb-2 lg:border-none justify-between ",
   head_cell:
     "lg:text-dark-gray text-black font-semibold capitalize w-12 md:w-16 lg:w-16 xl:w-24 2xl:w-28 lg:font-bold",
   row: "flex w-full mt-2 justify-between",
@@ -57,53 +58,58 @@ const Calendar: React.FC<CalendarProps> = ({
   onMonthChange,
   selected,
   ...props
-}) => (
-  <DayPicker
-    locale={es}
-    weekStartsOn={SUNDAY}
-    disabled={(date) =>
-      date.getMonth() === currentDay.getMonth() &&
-      date.getDate() < currentDay.getDate()
-    }
-    onMonthChange={onMonthChange}
-    defaultMonth={displayedMonth}
-    fromMonth={currentDay}
-    toYear={currentDay.getFullYear() + 1}
-    selected={selected}
-    modifiers={{
-      available: availableDays
-        .filter((day) => Number(day) !== selected?.getDate())
-        .map(
-          (day) =>
-            new Date(
-              displayedMonth.getFullYear(),
-              displayedMonth.getMonth(),
-              Number(day),
-            ),
-        ),
-    }}
-    modifiersClassNames={{
-      available:
-        "bg-light-gray text-black hover:bg-green/50 cursor-pointer pointer-events-auto",
-      selected: "bg-green text-white",
-    }}
-    formatters={{
-      formatMonthCaption: (date) => {
-        const formattedDate = format(date, "LLLL", { locale: es });
-        return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
-      },
-    }}
-    showOutsideDays={showOutsideDays}
-    captionLayout="dropdown-buttons"
-    className={cn("font-openSans text-base text-black", className)}
-    classNames={calendarClassNames}
-    components={{
-      IconLeft: () => <ChevronLeftIcon />,
-      IconRight: () => <ChevronRightIcon />,
-    }}
-    {...props}
-  />
-);
+}) => {
+  const locale = useDateFnsLocale();
+  const dateFormatter = useFormatter();
+
+  return (
+    <DayPicker
+      locale={locale}
+      weekStartsOn={SUNDAY}
+      disabled={(date) =>
+        date.getMonth() === currentDay.getMonth() &&
+        date.getDate() < currentDay.getDate()
+      }
+      onMonthChange={onMonthChange}
+      defaultMonth={displayedMonth}
+      fromMonth={currentDay}
+      toYear={currentDay.getFullYear() + 1}
+      selected={selected}
+      modifiers={{
+        available: availableDays
+          .filter((day) => Number(day) !== selected?.getDate())
+          .map(
+            (day) =>
+              new Date(
+                displayedMonth.getFullYear(),
+                displayedMonth.getMonth(),
+                Number(day),
+              ),
+          ),
+      }}
+      modifiersClassNames={{
+        available:
+          "bg-light-gray text-black hover:bg-green/50 cursor-pointer pointer-events-auto",
+        selected: "bg-green text-white",
+      }}
+      formatters={{
+        formatMonthCaption: (date) => {
+          const formattedDate = dateFormatter.dateTime(date, { month: "long" });
+          return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+        },
+      }}
+      showOutsideDays={showOutsideDays}
+      captionLayout="dropdown-buttons"
+      className={cn("font-openSans text-base text-black", className)}
+      classNames={calendarClassNames}
+      components={{
+        IconLeft: () => <ChevronLeftIcon />,
+        IconRight: () => <ChevronRightIcon />,
+      }}
+      {...props}
+    />
+  );
+};
 
 Calendar.displayName = "Calendar";
 

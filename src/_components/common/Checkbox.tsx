@@ -25,10 +25,7 @@ const Checkbox = React.forwardRef<
       />
       <label
         htmlFor={props.name}
-        className={cn(
-          "ml-4 h-16 overflow-y-scroll text-xs font-light",
-          labelClassName,
-        )}
+        className={cn("ml-4 text-xs font-light", labelClassName)}
       >
         {label}
       </label>

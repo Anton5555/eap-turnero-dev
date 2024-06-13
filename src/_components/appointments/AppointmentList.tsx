@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { cn } from "~/lib/utils";
 import { format } from "date-fns";
 import { type User } from "~/types/users";
+import { useTranslations } from "next-intl";
 
 const AppointmentList: React.FC<{
   appointments: Appointment[];
@@ -23,6 +24,8 @@ const AppointmentList: React.FC<{
   user: User;
 }> = ({ appointments, className, user }) => {
   const router = useRouter();
+
+  const t = useTranslations();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -43,14 +46,25 @@ const AppointmentList: React.FC<{
         appointmentId: selectedAppointment.id,
         employeeId: selectedAppointment.professionalId,
         patientId: Number(user.id),
-        notificationTitle: `Tu cita con ${selectedAppointment?.professional} ha sido eliminada correctamente.`,
-        notificationDescription: `Tu cita del día ${format(selectedAppointment.start, "dd/MM/yyyy")} a las ${format(selectedAppointment.start, "HH:mm")}hs ha sido eliminada`,
+        notificationTitle: t(
+          "platform.appointmentList.deleteAppointment.notification.title",
+          {
+            professionalName: selectedAppointment.professional,
+          },
+        ),
+        notificationDescription: t(
+          "platform.appointmentList.deleteAppointment.notification.description",
+          {
+            date: format(new Date(selectedAppointment.start), "dd/MM/yyyy"),
+            time: format(new Date(selectedAppointment.start), "HH:mm"),
+          },
+        ),
         notificationSpecialty: selectedAppointment.specialty,
       }),
       {
-        loading: "Eliminando cita",
-        success: "Cita eliminada con éxito",
-        error: "Error al eliminar cita",
+        loading: t("platform.appointmentList.deletingAppointment"),
+        success: t("platform.appointmentList.appointmentDeleted"),
+        error: t("platform.appointmentList.errorDeleting"),
       },
     );
 
@@ -99,10 +113,10 @@ const AppointmentList: React.FC<{
       >
         <div className="m-4 space-y-4 lg:m-0 lg:space-y-0">
           <div className="block space-y-2 lg:hidden">
-            <H1>Agenda</H1>
+            <H1>{t("platform.appointmentList.agenda")}</H1>
 
             <H6 className="font-medium">
-              Revisa tus citas pendientes y agenda nuevas
+              {t("platform.appointmentList.reviewAndSchedule")}
             </H6>
           </div>
 
@@ -123,7 +137,7 @@ const AppointmentList: React.FC<{
         <div className="mx-2 mb-2 lg:m-0 lg:justify-start">
           <Link href="/platform/appointment/create">
             <Button className="w-full font-normal lg:w-auto" variant="default">
-              + Agendar tu cita online
+              + {t("platform.appointmentList.scheduleOnline")}
             </Button>
           </Link>
         </div>

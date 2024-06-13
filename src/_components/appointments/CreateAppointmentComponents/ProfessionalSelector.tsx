@@ -6,6 +6,7 @@ import { Button } from "~/_components/common/Button";
 import Image from "next/image";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 const ProfessionalSelector = (props: {
   isLoading: boolean;
@@ -24,26 +25,27 @@ const ProfessionalSelector = (props: {
     handleProfessionalSelect,
   } = props;
 
+  const t = useTranslations("createAppointment");
+
   useEffect(() => {
     let toastId: string | number | undefined;
 
-    if (isLoading)
-      toastId = toast.loading("Cargando profesionales disponibles");
+    if (isLoading) toastId = toast.loading(t("loadingProfessionals"));
     else toast.dismiss(toastId);
 
     return () => {
       toast.dismiss(toastId);
     };
-  }, [isLoading]);
+  }, [isLoading, t]);
 
   return (
     <>
       {!isLoading && !professionals?.length ? (
         <PlatformContainer className="flex min-h-24 flex-col justify-center rounded-2xl lg:py-6">
           <H6 className="text-center">
-            {error?.message ?? !isTimeSelected
-              ? "Selecciona un horario para ver los profesionales disponibles"
-              : "No se encontraron profesionales para los filtros seleccionados"}
+            {(error && t("errorGettingProfessionals")) ?? !isTimeSelected
+              ? t("selectATime")
+              : t("noAvailableProfessionals")}
           </H6>
         </PlatformContainer>
       ) : (
@@ -59,7 +61,7 @@ const ProfessionalSelector = (props: {
                     {/* TODO: Change professional images for the real ones */}
                     <Image
                       className="h-18 w-18 rounded-2xl object-cover xl:h-20 xl:w-20"
-                      src={`/default-avatar.webp`}
+                      src={`/assets/default-avatar.webp`}
                       width={80}
                       height={80}
                       alt={professional.name}
@@ -84,7 +86,7 @@ const ProfessionalSelector = (props: {
                       }
                       onClick={() => handleProfessionalSelect(professional)}
                     >
-                      Seleccionar
+                      {t("select")}
                     </Button>
                   </div>
                 </div>

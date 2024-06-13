@@ -156,7 +156,7 @@ const getActiveCase = async (props: {
     ),
   });
 
-  if (!response.ok) throw new Error("Error al obtener el caso activo");
+  if (!response.ok) throw new Error("errorGettingActiveCase");
 
   const responseBody = await response.text();
   if (!responseBody) return undefined;
@@ -222,7 +222,7 @@ const createCase = async (props: {
     ),
   });
 
-  if (!response.ok) throw new Error("Error al crear el caso");
+  if (!response.ok) throw new Error("errorCreatingCase");
 
   const responseBody = (await response.json()) as ActiveCaseApiData;
 
@@ -245,7 +245,7 @@ const updateCase = async (props: {
     body: JSON.stringify(activeCase),
   });
 
-  if (!response.ok) throw new Error("Error al actualizar el caso");
+  if (!response.ok) throw new Error("errorUpdatingCase");
 
   const activeCaseApiData = (await response.json()) as ActiveCaseApiData;
 

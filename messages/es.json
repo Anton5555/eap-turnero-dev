@@ -1,0 +1,329 @@
+{
+  "login": {
+    "title": "¡Agenda citas online con profesionales de tu programa de asistencia al empleado!",
+    "subtitle": "Inicia sesión para comenzar",
+    "fields": {
+      "userName": {
+        "label": "Nombre de usuario",
+        "placeholder": "Ingresa tu nombre de usuario",
+        "information": "*Recuerda que tu email debe ser <highlight>corporativo</highlight>",
+        "errors": {
+          "required": "Ingresa un email válido",
+          "notFound": "Usuario no encontrado",
+          "notActive": "Usuario no activo, revisa tu email para activar tu cuenta",
+          "notInitialized": "Consultante no inicializado para turno online",
+          "genericError": "Error al iniciar sesión"
+        }
+      },
+      "password": {
+        "label": "Contraseña",
+        "errors": {
+          "minLength": "La contraseña debe tener al menos 8 caracteres",
+          "invalid": "La contraseña no es válida"
+        }
+      }
+    },
+    "dontHaveUser": "¿No tienes usuario?",
+    "buttons": {
+      "login": "Iniciar sesión",
+      "signUp": "Registrarte"
+    },
+    "activation": {
+      "loading": "Activando cuenta",
+      "success": "Cuenta activada exitosamente",
+      "error": "Error al activar cuenta"
+    } 
+  },
+  "signUp": {
+    "title": "Crea tu cuenta ahora",
+    "fields": {
+      "firstName": {
+        "label": "Nombre",
+        "placeholder": "Ingresa tu nombre",
+        "errors": {
+          "required": "Ingresa tu nombre"
+        }
+      },
+      "lastName": {
+        "label": "Apellido",
+        "placeholder": "Ingresa tu apellido",
+        "errors": {
+          "required": "Ingresa tu apellido"
+        }
+      },
+      "location": {
+        "label": "Sede",
+        "placeholder": "Ingresa tu sede",
+        "errors": {
+          "required": "Selecciona tu sede"
+        }
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Ingresa tu nombre de usuario",
+        "errors": {
+          "required": "Ingresa un email válido",
+          "alreadyExists": "Ya existe un usuario con este mail"        
+        }
+      },
+      "password": {
+        "label": "Contraseña",
+        "errors": {
+          "minLength": "La contraseña debe tener al menos 8 caracteres"
+        }
+      },
+      "confirmPassword": {
+        "label": "Confirmar contraseña",
+        "errors": {
+          "minLength": "La contraseña debe tener al menos 8 caracteres",
+          "match": "Las contraseñas no coinciden"
+        }
+      },
+      "birthdate": {
+        "label": "Fecha de nacimiento",
+        "placeholder": "Ingresa tu fecha de nacimiento",
+        "errors": {
+          "required": "Ingresa una fecha válida",
+          "under18": "Debes ser mayor de 18 años"
+        }
+      },
+      "pdp": {
+        "label": "Confirmo estar de acuerdo con compartir mis datos para esta y futuras comunicaciones del programa de asistencia. Es importante que revises la información detallada en nuestra política de protección de datos en www.eaplatina.com. Tu conformidad es necesaria para recibir nuestros servicios. Si decides proporcionar los datos mencionados, estarás dando tu consentimiento informado para que EAP Latina Corporation S.A. los trate y registre. Para solicitar cambios en tus datos o revocar tu consentimiento, contáctanos a protecciondedatospersonales@eaplatina.com.",
+        "errors": {
+          "required": "Debes aceptar los términos y condiciones"
+        }
+      },
+      "dataVeracity": {
+        "label": "Confirmo los datos ingresados y me declaro responsable de su veracidad",
+        "errors": {
+          "required": "Debes declarar la veracidad de los datos"
+        }
+      }
+    },
+    "buttons": {
+      "signUp": "Registrarse"
+    },
+    "alreadyHaveUser": "¿Ya tienes usuario?",
+    "login": "Ingresar",
+    "errors": {
+      "genericError": "Error al crear usuario"
+    }
+  },
+  "welcome": {
+    "title": "¡Te damos la bienvenida!",
+    "text": "En esta plataforma encontrarás una amplia selección de profesionales que te ayudarán a potenciar tu bienestar integral. <br></br><br></br> 100% online tus citas con profesionales de salud mental, física, legal y financiera.",
+    "start": "¿Comenzamos?",
+    "next": "Siguiente",
+    "validateAccount": {
+      "title": "¡Último paso!",
+      "message": "Pronto recibirás un correo electrónico de registro para validar tu cuenta. Una vez validada, podrás acceder a la plataforma utilizando tu cuenta personal y programar una cita con un profesional en nuestra agenda.",
+      "button": "Entendido"
+    }
+  },
+  "sidebar": {
+    "closeSidebar": "Cerrar menú",
+    "openSidebar": "Abrir menú",
+    "welcome": "Bienvenido",
+    "navigation": {
+      "platform": "Inicio",
+      "profile": "Perfil"
+    },
+    "exit": "Salir",
+    "profile": {
+      "openUserMenu": "Abrir menú de usuario",
+      "logout": "Cerrar sesión"
+    }
+  },
+  "localeSwitcher": {
+    "openLocaleMenu": "Abrir menú de idiomas",
+    "locale": "{locale, select, es {ES} en {EN} other {}}",
+    "language": "Idioma",
+    "localeFull": "{locale, select, es {Español} en {English} other {}}",
+    "changingLocale": "Cambiando idioma"
+  },
+  "help": {
+    "anyDoubts": "¿Tienes dudas?",
+    "call": "Llámanos gratuitamente",
+    "write": "Escríbenos",
+    "qrCode": "Código QR",
+    "email": "Envíanos un mail"
+  },
+  "platform": {
+    "agenda": "Agenda",
+    "title": "Revisa tus citas pendientes y agenda nuevas",
+    "upcomingAppointments": "Próximas citas",
+    "appointmentList": {
+      "agenda": "Agenda",
+      "reviewAndSchedule": "Revisa tus citas pendientes y agenda nuevas",
+      "scheduleOnline": "Agendar tu cita online",
+      "deletingAppointment": "Eliminando cita",
+      "appointmentDeleted": "Cita eliminada con éxito",
+      "errorDeleting": "Error al eliminar cita",
+      "to": "a",
+      "cancel": "Cancelar",
+      "emptyTitle": "No tienes citas pendientes",
+      "emptySubtitle": "Presiona aquí para agendar tu cita online",
+      "deleteAppointment": {
+        "title": "¿Seguro que quieres cancelar esta sesión?",
+        "subtitle": "La cita quedará sin efecto y tendrás que volver a coordinar para obtener un turno",
+        "back": "Volver",
+        "confirm": "Cancelar cita",
+        "lessThan24Hours": "No es posible cancelar con menos de 24 horas de antelación",
+        "lessThan24HoursSubtitle": "Para cancelar o reagendar esta cita, debes ponerte en contacto con alguno de los métodos que figuran en la sección de Ayuda.",
+        "close": "Cerrar",
+        "notification": {
+          "title": "Tu cita con {professionalName} ha sido eliminada con éxito",
+          "description": "Tu cita del día {date} a las {time} ha sido cancelada"
+        }
+      }
+    }
+  },
+  "specialties": {
+    "psychology": "Psicología",
+    "nutrition": "Nutrición",
+    "legal": "Legal",
+    "finance": "Finanzas",
+    "informative": "Informativa"
+  },
+  "modalities": {
+    "videocall": "Videollamada",
+    "phonecall": "Telefónica"
+  },
+  "timeRanges": {
+    "morning": "Mañana",
+    "afternoon": "Tarde",
+    "evening": "Noche"
+  },
+  "createAppointment": {
+    "areaOfAttention": "Área de atención",
+    "scheduleYourNextAppointment": "Agenda tu próxima cita",
+    "selectAssistanceType": "Selecciona un tipo de asistencia",
+    "selectDateAndTime": "Selecciona una fecha, un horario y un profesional",
+    "next": "Siguiente",
+    "back": "Atrás",
+    "updatingData": "Actualizando información de usuario",
+    "dataUpdatedSuccessfully": "Datos actualizados con éxito",
+    "errorUpdatingData": "Error al actualizar datos",
+    "filters": {
+      "location": "País",
+      "availability": "Disponibilidad",
+      "apply": "Aplicar",
+      "filters": "Filtros"
+    },
+    "select": "Seleccionar",
+    "noServicesFound": "No se encontraron servicios",
+    "loadingAppointments": "Cargando horarios disponibles",
+    "activeCaseError": "Ya tenes un caso activo. Por favor, comunicate con nuestra línea de ayuda en caso de requerir un cambio",
+    "mustSelectAssistanceType": "Debes seleccionar un tipo de asistencia",
+    "selectDate": "Debes seleccionar una fecha",
+    "selectTime": "Debes seleccionar un horario",
+    "selectProfessional": "Debes seleccionar un profesional",
+    "appointmentCreationError": "Error al crear la cita, selecciona todos los datos necesarios",
+    "creatingAppointment": "Creando cita",
+    "appointmentNotificationTitle": "Tu cita con {professionalName} ha sido agendada correctamente!",
+    "appointmentNotificationDescription": "Tu cita ha sido agendada para el día {date} a las {time}hs",
+    "noAvailableAppointments": "No hay horarios disponibles para los filtros seleccionados",
+    "selectADate": "Selecciona una fecha para ver los horarios disponibles",
+    "loadingProfessionals": "Cargando profesionales disponibles",
+    "selectATime": "Selecciona un horario para ver los profesionales disponibles",
+    "noAvailableProfessionals": "No se encontraron profesionales para los filtros seleccionados",
+    "errorGettingFreeAppointments": "Error al obtener las citas libres",
+    "errorGettingProfessionals": "Error al obtener los profesionales disponibles",
+    "errorGettingActiveCase": "Error al obtener el caso activo",
+    "errorGettingSAPUser": "Error al obtener el usuario SAP del profesional",
+    "SAPUserNotFound": "No se encontró el usuario SAP del profesional",
+    "errorCreatingCase": "Error al crear el caso",
+    "errorUpdatingCase": "Error al actualizar el caso",
+    "errorCreatingAppointment": "Error al crear la cita",
+    "appointmentCreated": "Cita creada con éxito",
+    "confirmationDialog": {
+      "close": "Cerrar",
+      "title": "¿Quieres confirmar tu cita?",
+      "description": "Tu cita en modalidad {modality} con",
+      "cancel": "Cancelar",
+      "schedule": "Agendar"
+    },
+    "appointmentCreatedDialog": {
+      "title": "Cita agendada con éxito",
+      "description": "Tienes una cita programada para el {date} de {timeFrom} a {timeTo} con {professionalName}",
+      "emailConfirmation": "Recibirás una confirmación por correo electrónico con todos los detalles necesarios.",
+      "close": "Finalizar",
+      "phonecall": {
+        "terms": "El profesional estará llamando al número que nos ha indicado en el horario pautado. Recuerda que la llamada puede provenir de un número privado. Si han pasado +10 min de la hora pautada o tiene llamadas perdidas registradas, por favor, contáctate con nosotros para que te pongamos en contacto con el profesional asignado."
+      },
+      "videocall": {
+        "terms1stPart": "Será necesario que puedas leer atentamente nuestro consentimiento informado con toda la información sobre los términos y condiciones asociados al tipo de consulta y modalidad:",
+        "termsLink": "Hacer clic aquí para conocer términos y condiciones",
+        "terms2ndPart": "Entendemos que al conectarte a la próxima cita aceptas voluntariamente los términos y condiciones de nuestros documentos. Es importante que al momento de la consulta puedas encontrarte en un lugar privado, cómodo y con buena conexión para garantizar la orientación profesional.",
+        "knowMore": "Si quieres conocer más acerca de nuestra Política de privacidad y tratamiento de datos puedes hacer clic aquí: <privacyNotice>Aviso de privacidad</privacyNotice>"        
+      }
+    },
+    "pdpConfirmationDialog": {
+      "close": "Cerrar",
+      "dataProtectionPolicy": "Política de protección de datos",
+      "notSignedOrExpired": "No has firmado la autorización de protección de datos o la misma venció",
+      "importantReview": "Es importante que revises la información detallada en nuestra política de protección de datos en www.eaplatina.com. Tu conformidad es necesaria para recibir nuestros servicios. Si decides proporcionar los datos mencionados, estarás dando tu consentimiento informado para que EAP Latina Corporation S.A. los trate y registre. Para solicitar cambios en tus datos o revocar tu consentimiento, contáctanos a protecciondedatospersonales@eaplatina.com.",
+      "confirmAgreement": "Confirmo estar de acuerdo con compartir mis datos para esta y futuras comunicaciones del programa de asistencia.",
+      "confirm": "Confirmar"
+    }
+  },
+  "profile": {
+    "personalInfo": "Información personal",
+    "completeProfile": "Por favor completa tu perfil",
+    "editHere": "Edita tu perfil aquí",
+    "imageInput": {
+      "altText": "Imagen de usuario",
+      "invalidImageFile": "Por favor, selecciona un archivo de imagen válido",
+      "imageTooLarge": "La imagen es demasiado grande",
+      "uploadImage": "Subir imagen",
+      "fileTypes": "JPG o PNG"
+    },
+    "fields": {
+      "firstName": {
+        "label": "Nombre",
+        "placeholder": "Ingresa tu nombre",
+        "errors": {
+          "required": "Ingresa tu nombre"
+        }
+      },
+      "lastName": {
+        "label": "Apellido",
+        "placeholder": "Ingresa tu apellido",
+        "errors": {
+          "required": "Ingresa tu apellido"
+        }
+      },
+      "location": {
+        "label": "País"
+      },
+      "gender": {
+        "label": "Género",
+        "placeholder": "No aplica"
+      },
+      "birthdate": {
+        "label": "Fecha de nacimiento",
+        "placeholder": "Ingresa tu fecha de nacimiento",
+        "errors": {
+          "required": "Ingresa una fecha válida",
+          "under18": "Debes ser mayor de 18 años"
+        }
+      }
+    },
+    "updatingUser": "Actualizando información de usuario",
+    "userUpdatedSuccessfully": "Datos actualizados con éxito",
+    "errorUpdatingUser": "Error al actualizar datos",
+    "save": "Guardar",
+    "genders": {
+      "male": "Masculino",
+      "female": "Femenino",
+      "lgbtq": "Comunidad LGBTQ+",
+      "non_binary": "No binario",
+      "no_answer": "Prefiero no responder"
+    }
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "noNotifications": "No tienes notificaciones",
+    "markAllAsRead": "Marcar como leídas"
+  }
+}

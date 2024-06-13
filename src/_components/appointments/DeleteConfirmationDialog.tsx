@@ -4,6 +4,7 @@ import { Button } from "../common/Button";
 import CancelIcon from "../icons/Cancel";
 import CloseIcon from "../icons/Close";
 import { format } from "date-fns";
+import { useTranslations } from "next-intl";
 
 interface DeleteConfirmationDialogProps {
   open: boolean;
@@ -23,6 +24,8 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
   const isLessThan24Hours =
     new Date(date).getTime() - Date.now() < 24 * 60 * 60 * 1000;
 
+  const t = useTranslations("platform.appointmentList.deleteAppointment");
+
   const DialogContent = () => {
     if (!isLessThan24Hours)
       return (
@@ -34,18 +37,13 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
                   <CancelIcon aria-hidden="true" />
                 </div>
 
-                <p className="text-2xl font-semibold leading-7">
-                  ¿Seguro que quieres cancelar esta sesión?
-                </p>
+                <p className="text-2xl font-semibold leading-7">{t("title")}</p>
 
                 <p className="text-lg leading-5 text-green">
                   {professional} {format(date, "dd/MM/yyyy")}
                 </p>
 
-                <p className="text-lg leading-5">
-                  La cita quedará sin efecto y tendrás que volver a coordinar
-                  para obtener un turno
-                </p>
+                <p className="text-lg leading-5">{t("subtitle")}</p>
               </div>
             </div>
           </div>
@@ -56,11 +54,11 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
               className="font-lato border-green text-green hover:bg-green/40 hover:text-white"
               onClick={onClose}
             >
-              Volver
+              {t("back")}
             </Button>
 
             <Button className="font-lato" onClick={onConfirm}>
-              Cancelar cita
+              {t("confirm")}
             </Button>
           </div>
         </>
@@ -72,12 +70,11 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
           <div className="mt-3 text-center sm:ml-4 sm:mt-0">
             <div className="mt-2 flex flex-col items-center space-y-4">
               <p className="text-xl font-bold leading-7">
-                No es posible cancelar con menos de 24 horas de antelación
+                {t("lessThan24Hours")}
               </p>
 
               <p className="text-lg leading-6">
-                Para cancelar o reagendar esta cita, debes ponerte en contacto
-                con alguno de los métodos que figuran en la sección de Ayuda.
+                {t("lessThan24HoursSubtitle")}
               </p>
             </div>
           </div>
@@ -125,7 +122,7 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
               <Dialog.Panel className="relative transform overflow-hidden rounded-2xl bg-white px-4 pb-4 pt-5 shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl sm:p-6">
                 <div className="absolute right-0 top-0 pr-4 pt-4 ">
                   <button type="button" onClick={onClose}>
-                    <span className="sr-only">Cerrar</span>
+                    <span className="sr-only">{t("close")}</span>
 
                     <CloseIcon aria-hidden="true" />
                   </button>
