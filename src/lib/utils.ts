@@ -1,6 +1,7 @@
 import clsx, { type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { type DecodedApiToken } from "~/types/users";
+import { toZonedTime } from "date-fns-tz";
 
 const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
 
@@ -28,6 +29,19 @@ const parseDateWithPreservedTimezone = (dateString: string): Date => {
   return utcDate;
 };
 
+const parseDateWithoutTimezone = (dateString: string): Date => {
+  // Specify the time zone you want to parse the date in
+  const timeZone = "UTC";
+
+  // Parse the date string into a Date object in UTC
+  const dateObj = new Date(dateString + "Z");
+
+  // Convert the date to the specified time zone
+  const zonedDate = toZonedTime(dateObj, timeZone);
+
+  return zonedDate;
+};
+
 const isOver18 = (date: Date) => {
   const ageDiff = Date.now() - date.getTime();
   const ageDate = new Date(ageDiff);
@@ -36,4 +50,10 @@ const isOver18 = (date: Date) => {
   return age >= 18;
 };
 
-export { cn, parseJwt, parseDateWithPreservedTimezone, isOver18 };
+export {
+  cn,
+  parseJwt,
+  parseDateWithPreservedTimezone,
+  parseDateWithoutTimezone,
+  isOver18,
+};
