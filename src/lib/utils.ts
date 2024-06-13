@@ -30,13 +30,10 @@ const parseDateWithPreservedTimezone = (dateString: string): Date => {
 };
 
 const parseDateWithoutTimezone = (dateString: string): Date => {
-  // Specify the time zone you want to parse the date in
   const timeZone = "UTC";
 
-  // Parse the date string into a Date object in UTC
   const dateObj = new Date(dateString + "Z");
 
-  // Convert the date to the specified time zone
   const zonedDate = toZonedTime(dateObj, timeZone);
 
   return zonedDate;
