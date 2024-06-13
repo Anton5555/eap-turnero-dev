@@ -1,14 +1,16 @@
 import { format } from "date-fns";
 import { type AddRelativeInputs } from "~/_components/forms/AddRelativeForm";
 import { type EditProfileInputs } from "~/_components/forms/EditProfileForm";
-import { type SignupFormInputs } from "~/_components/forms/SignUpForm";
 import { env } from "~/env";
-import type {
-  FamilyRelashionships,
-  FamilyRelative,
-  Gender,
+import {
+  GENDER_MAPPING,
+  type FamilyRelashionships,
+  type FamilyRelative,
+  type Gender,
+  GENDER,
 } from "~/types/users";
 import { locations } from "../constants";
+import { type SignupFormInputs } from "~/_components/forms/SignUpForm";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
 const CREATE_USER_TOKEN = env.NEXT_PUBLIC_CREATE_USER_TOKEN;
@@ -24,7 +26,6 @@ const CreateUserAdapter = (data: SignupFormInputs) => ({
   pais: locations.find(
     (location) => location.value.toString() === data.location,
   )?.country,
-  // TODO: change name when birthdate implemented in backend
   fecha_nacimiento: format(data.birthdate, "yyyy-MM-dd"),
 });
 
@@ -41,10 +42,11 @@ const createUser = async (data: SignupFormInputs) => {
   );
 
   if (!response.ok) {
-    if (response.status === 403)
-      throw new Error("Ya existe un usuario con este mail");
+    if (response.status === 403) throw new Error("userExists");
 
-    throw new Error("Error al registrarte");
+    const error = (await response.text()).trim();
+
+    throw new Error(error ?? "genericError");
   }
 
   return response;
@@ -242,7 +244,7 @@ type GenderApiData = {
 const parseGendersApiData = (genders: GenderApiData[]): Gender[] =>
   genders.map((gender) => ({
     id: gender.fs_id,
-    name: gender.fs_descripcion,
+    name: GENDER_MAPPING[gender.fs_descripcion] ?? GENDER.UNKNOWN,
   }));
 
 const getGenders = async (accessToken: string) => {
@@ -254,7 +256,7 @@ const getGenders = async (accessToken: string) => {
     headers,
   });
 
-  if (!response.ok) throw new Error("Error al recuperar los géneros");
+  if (!response.ok) throw new Error("Error getting genders");
 
   const gendersApiData = (await response.json()) as GenderApiData[];
 
@@ -275,7 +277,7 @@ const getUserImage = async (props: {
     { method: "GET", headers },
   );
 
-  if (!response.ok) throw new Error("Error al recuperar la imagen del usuario");
+  if (!response.ok) throw new Error("Error getting user image");
 
   const imageData = await response.blob();
 
@@ -376,8 +378,7 @@ const updateUserImage = async (props: {
     body: formData,
   });
 
-  if (!response.ok)
-    throw new Error("Error al actualizar la imagen del usuario");
+  if (!response.ok) throw new Error("Error updating user image");
 
   return response;
 };

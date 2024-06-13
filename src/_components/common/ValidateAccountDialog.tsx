@@ -4,9 +4,12 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 import { H3 } from "../common/Typography";
 import { Button } from "../common/Button";
+import { useTranslations } from "next-intl";
 
 const ValidateAccountDialog: React.FC = ({}) => {
   const [open, setOpen] = React.useState(true);
+
+  const t = useTranslations("welcome.validateAccount");
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -36,13 +39,10 @@ const ValidateAccountDialog: React.FC = ({}) => {
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-2xl bg-white p-6 shadow-xl transition-all sm:w-full sm:max-w-2xl">
                 <div className="mt-2 flex flex-col space-y-4 ">
-                  <H3>¡Último paso!</H3>
+                  <H3>{t("title")}</H3>
 
                   <p className="text-base font-medium leading-5">
-                    Pronto recibirás un correo electrónico de registro para
-                    validar tu cuenta. Una vez validada, podrás acceder a la
-                    plataforma utilizando tu cuenta personal y programar una
-                    cita con un profesional en nuestra agenda.
+                    {t("message")}
                   </p>
                 </div>
 
@@ -51,7 +51,7 @@ const ValidateAccountDialog: React.FC = ({}) => {
                     className="font-lato w-full lg:w-auto"
                     onClick={() => setOpen(false)}
                   >
-                    Entendido
+                    {t("button")}
                   </Button>
                 </div>
               </Dialog.Panel>

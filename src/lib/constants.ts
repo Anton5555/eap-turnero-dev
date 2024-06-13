@@ -1,4 +1,4 @@
-import { AppointmentModality } from "~/types/appointments";
+import { MODALITY } from "~/types/appointments";
 
 const locations = [
   {
@@ -41,30 +41,36 @@ const modalities = [
   // },
   {
     value: 2,
-    label: AppointmentModality.VIDEOCALL,
+    label: MODALITY.VIDEOCALL,
     durations: [30, 45, 60],
   },
   {
     value: 3,
-    label: AppointmentModality.PHONECALL,
+    label: MODALITY.PHONECALL,
     durations: [30],
   },
 ];
 
+enum TIME_RANGES {
+  MORNING = "morning",
+  AFTERNOON = "afternoon",
+  EVENING = "evening",
+}
+
 const timeRanges = [
   {
     value: 1,
-    label: "Mañana",
+    label: TIME_RANGES.MORNING,
     times: { start: 8, end: 12 },
   },
   {
     value: 2,
-    label: "Tarde",
+    label: TIME_RANGES.AFTERNOON,
     times: { start: 12, end: 18 },
   },
   {
     value: 3,
-    label: "Noche",
+    label: TIME_RANGES.EVENING,
     times: { start: 18, end: 22 },
   },
 ];

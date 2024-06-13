@@ -1,65 +1,72 @@
 import React, { useState } from "react";
 import { Button, buttonVariants } from "../common/Button";
 import { cn } from "~/lib/utils";
-import { format } from "date-fns";
 import CalendarIcon from "../icons/Calendar";
 import { DayPicker } from "react-day-picker";
 import { Popover, PopoverContent, PopoverTrigger } from "../common/Popover";
-import { es } from "date-fns/locale";
+import { useFormatter } from "next-intl";
+import useDateFnsLocale from "~/lib/hooks/useDateFnsLocale";
 
-type CalendarProps = React.ComponentProps<typeof DayPicker>;
+type CalendarProps = React.ComponentProps<typeof DayPicker> & {
+  dateFormatter: ReturnType<typeof useFormatter>;
+};
 
 const DatePickerCalendar: React.FC<CalendarProps> = ({
   className,
   classNames,
   showOutsideDays = true,
+  dateFormatter,
   ...props
-}: CalendarProps) => (
-  <DayPicker
-    showOutsideDays={showOutsideDays}
-    className={cn("p-3", className)}
-    locale={es}
-    captionLayout="dropdown"
-    fromYear={new Date().getFullYear() - 110}
-    toYear={new Date().getFullYear()}
-    formatters={{
-      formatMonthCaption: (date) => {
-        const formattedDate = format(date, "LLLL", { locale: es });
-        return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
-      },
-    }}
-    classNames={{
-      months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
-      month: "space-y-4",
-      caption_label: "hidden",
-      nav: "space-x-1 flex items-center",
-      caption: "flex pt-1 items-center px-2",
-      caption_dropdowns: "flex gap-2",
-      dropdown:
-        "flex bg-ultra-light-gray h-9 w-full rounded-lg pl-3 pr-0 text-sm font-bold text-green ring-0 lg:h-10 focus:ring-green focus:ring-2 focus:ring-inset focus:border-none",
-      dropdown_month: "w-32",
-      dropdown_year: "w-20",
-      table: "w-full border-collapse space-y-1",
-      head_row: "flex",
-      head_cell:
-        "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem] capitalize",
-      row: "flex w-full mt-2",
-      cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
-      day: cn(
-        buttonVariants({ variant: "ghost" }),
-        "h-9 w-9 p-0 font-normal aria-selected:opacity-100",
-      ),
-      day_selected:
-        "bg-green text-white hover:bg-green/80 hover:text-white focus:bg-green focus:text-white",
-      day_outside:
-        "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
-      day_disabled: "text-muted-foreground opacity-50",
-      day_hidden: "invisible",
-      ...classNames,
-    }}
-    {...props}
-  />
-);
+}: CalendarProps) => {
+  const locale = useDateFnsLocale();
+
+  return (
+    <DayPicker
+      showOutsideDays={showOutsideDays}
+      className={cn("p-3", className)}
+      captionLayout="dropdown"
+      fromYear={new Date().getFullYear() - 110}
+      toYear={new Date().getFullYear()}
+      formatters={{
+        formatMonthCaption: (date) => {
+          const formattedDate = dateFormatter.dateTime(date, { month: "long" });
+          return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+        },
+      }}
+      classNames={{
+        months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+        month: "space-y-4",
+        caption_label: "hidden",
+        nav: "space-x-1 flex items-center",
+        caption: "flex pt-1 items-center px-2",
+        caption_dropdowns: "flex gap-2",
+        dropdown:
+          "flex bg-ultra-light-gray h-9 w-full rounded-lg pl-3 pr-0 text-sm font-bold text-green ring-0 lg:h-10 focus:ring-green focus:ring-2 focus:ring-inset focus:border-none",
+        dropdown_month: "w-32",
+        dropdown_year: "w-20",
+        table: "w-full border-collapse space-y-1",
+        head_row: "flex",
+        head_cell:
+          "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem] capitalize",
+        row: "flex w-full mt-2",
+        cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+        day: cn(
+          buttonVariants({ variant: "ghost" }),
+          "h-9 w-9 p-0 font-normal aria-selected:opacity-100",
+        ),
+        day_selected:
+          "bg-green text-white hover:bg-green/80 hover:text-white focus:bg-green focus:text-white",
+        day_outside:
+          "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
+        day_disabled: "text-muted-foreground opacity-50",
+        day_hidden: "invisible",
+        ...classNames,
+      }}
+      locale={locale}
+      {...props}
+    />
+  );
+};
 
 DatePickerCalendar.displayName = "DatePickerCalendar";
 
@@ -71,11 +78,21 @@ const DatePicker = (props: {
   labelClassName?: string;
   name: string;
   errorText?: string;
+  placeholder?: string;
 }) => {
-  const { value, className, label, onChange, labelClassName, name, errorText } =
-    props;
+  const {
+    value,
+    className,
+    label,
+    onChange,
+    labelClassName,
+    name,
+    errorText,
+    placeholder,
+  } = props;
 
   const [calendarOpen, setCalendarOpen] = useState(false);
+  const format = useFormatter();
 
   return (
     <div>
@@ -102,9 +119,13 @@ const DatePicker = (props: {
             )}
           >
             {value ? (
-              format(value, "PPP", { locale: es })
+              format.dateTime(value, {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
             ) : (
-              <span>Fecha de nacimiento</span>
+              <span>{placeholder}</span>
             )}
 
             <CalendarIcon size={16} color={"#64748B"} />
@@ -121,6 +142,7 @@ const DatePicker = (props: {
               setCalendarOpen(false);
             }}
             disabled={(date) => date > new Date()}
+            dateFormatter={format}
           />
         </PopoverContent>
       </Popover>

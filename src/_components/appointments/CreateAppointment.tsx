@@ -23,6 +23,7 @@ import { useSession } from "next-auth/react";
 import useCreateAppointment from "~/lib/hooks/useCreateAppointment";
 import { type ContractService } from "~/types/services";
 import { type User } from "~/types/users";
+import { useTranslations } from "next-intl";
 
 const CreateAppointment: React.FC<{
   services: ContractService[];
@@ -64,6 +65,8 @@ const CreateAppointment: React.FC<{
 
   const { update } = useSession();
 
+  const t = useTranslations("createAppointment");
+
   const [isPdpConfirmationDialogOpen, setIsPdpConfirmationDialogOpen] =
     useState(false);
 
@@ -94,9 +97,9 @@ const CreateAppointment: React.FC<{
         accessToken: user.accessToken,
       }),
       {
-        loading: "Actualizando datos",
-        success: "Datos actualizados con éxito",
-        error: "Error al actualizar datos",
+        loading: t("updatingData"),
+        success: t("dataUpdatedSuccessfully"),
+        error: t("errorUpdatingData"),
       },
     );
 
@@ -107,13 +110,15 @@ const CreateAppointment: React.FC<{
 
         <div className="block space-y-4">
           <H3 className="text-green">
-            {currentStep === 1 ? "Área de atención" : "Agenda tu próxima cita"}
+            {currentStep === 1
+              ? t("areaOfAttention")
+              : t("scheduleYourNextAppointment")}
           </H3>
 
           <H6>
             {currentStep === 1
-              ? "Selecciona un tipo de asistencia"
-              : "Selecciona una fecha, un horario y un profesional"}
+              ? t("selectAssistanceType")
+              : t("selectDateAndTime")}
           </H6>
         </div>
 
@@ -236,7 +241,7 @@ const CreateAppointment: React.FC<{
 
         <div className="flex w-full flex-col space-y-2 lg:hidden">
           <Button className="h-12 w-full" onClick={nextStep}>
-            Siguiente
+            {t("next")}
           </Button>
 
           <Button
@@ -245,7 +250,7 @@ const CreateAppointment: React.FC<{
             disabled={currentStep === 1}
             onClick={() => currentStep !== 1 && setCurrentStep(currentStep - 1)}
           >
-            Atrás
+            {t("back")}
           </Button>
         </div>
       </div>

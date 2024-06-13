@@ -1,4 +1,8 @@
-import { type ContractService } from "~/types/services";
+import {
+  SPECIALTY_MAPPING,
+  type ContractService,
+  SPECIALTY,
+} from "~/types/services";
 import { env } from "~/env";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
@@ -20,8 +24,8 @@ interface ServiceApiData {
   rn: number;
 }
 
-const parseData = (services: ServiceApiData[]) => {
-  return services.map((service) => ({
+const parseData = (services: ServiceApiData[]) =>
+  services.map((service) => ({
     id: service.ID,
     companyId: service.ID_EMPRESA,
     serviceId: service.IDSERVICIO,
@@ -29,7 +33,7 @@ const parseData = (services: ServiceApiData[]) => {
     area: service.AREA,
     serviceName: service.NOMBRESERVICIO,
     specialtyId: service.IDESPECIALIDAD,
-    specialty: service.ESPECIALIDAD,
+    specialty: SPECIALTY_MAPPING[service.ESPECIALIDAD] ?? SPECIALTY.UNKNOWN,
     locationId: service.IDSEDE,
     locationName: service.NOMBRESEDE,
     processType: service.TIPOPROC,
@@ -37,7 +41,6 @@ const parseData = (services: ServiceApiData[]) => {
     positionName: service.NOMBREPUESTO,
     rn: service.rn,
   }));
-};
 
 const getContractServices = async (props: {
   companyId: number;
@@ -57,7 +60,7 @@ const getContractServices = async (props: {
     headers,
   });
 
-  if (!response.ok) throw new Error("Error al obtener los servicios");
+  if (!response.ok) throw new Error("Error getting contract services");
 
   const servicesApiData = (await response.json()) as ServiceApiData[];
 

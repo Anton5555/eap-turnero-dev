@@ -83,11 +83,11 @@ const authOptions: AuthOptions = {
         });
 
         if (!response.ok) {
-          if (response.status === 401) throw new Error("Contraseña incorrecta");
+          if (response.status === 401) throw new Error("invalidPassword");
 
           const error = (await response.text()).trim();
 
-          throw new Error(error ?? "Error al iniciar sesión");
+          throw new Error(error ?? "genericError");
         }
 
         const userData: AuthenticatedUserApiData =

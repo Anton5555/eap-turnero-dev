@@ -5,6 +5,7 @@ import { locations, modalities, timeRanges } from "~/lib/constants";
 import { H2 } from "~/_components/common/Typography";
 import { Button } from "~/_components/common/Button";
 import { useForm } from "react-hook-form";
+import { useTranslations } from "next-intl";
 
 interface FiltersFormData {
   location: number | undefined;
@@ -22,6 +23,18 @@ const Filters: React.FC<{
   ) => void;
 }> = ({ defaultLocation, defaultModality, onApply }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const t = useTranslations();
+
+  const localeModalities = modalities.map((modality) => ({
+    label: t(`modalities.${modality.label}`),
+    value: modality.value,
+  }));
+
+  const localeTimeRanges = timeRanges.map((timeRange) => ({
+    label: t(`timeRanges.${timeRange.label}`),
+    value: timeRange.value,
+  }));
 
   const { register, handleSubmit, watch } = useForm<FiltersFormData>({
     defaultValues: {
@@ -53,12 +66,12 @@ const Filters: React.FC<{
         value={location}
         id="location"
         className="h-9 w-80 rounded-md ring-light-gray lg:w-40"
-        placeholder="País"
+        placeholder={t("createAppointment.filters.location")}
       />
 
       <Select
         {...register("modality")}
-        options={modalities}
+        options={localeModalities}
         value={modality}
         id="modality"
         className="h-9 w-80 rounded-md ring-light-gray lg:w-40"
@@ -66,15 +79,15 @@ const Filters: React.FC<{
 
       <Select
         {...register("timeRange")}
-        options={timeRanges}
+        options={localeTimeRanges}
         value={timeRange}
         id="timeRange"
-        placeholder="Disponibilidad"
+        placeholder={t("createAppointment.filters.availability")}
         className="h-9 w-80 rounded-md ring-light-gray lg:w-40"
       />
 
       <Button className="h-9 w-80" variant={"outline"} type="submit">
-        Aplicar
+        {t("createAppointment.filters.apply")}
       </Button>
     </form>
   );
@@ -87,7 +100,7 @@ const Filters: React.FC<{
           variant={"ghost"}
           onClick={() => setIsDialogOpen(!isDialogOpen)}
         >
-          Filtros
+          {t("createAppointment.filters.filters")}
         </Button>
       </div>
 
@@ -117,7 +130,9 @@ const Filters: React.FC<{
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
-                  <H2 className="w-80 lg:hidden">Filtros</H2>
+                  <H2 className="w-80 lg:hidden">
+                    {t("createAppointment.filters.filters")}
+                  </H2>
 
                   {FiltersForm}
                 </Dialog.Panel>

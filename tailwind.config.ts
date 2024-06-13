@@ -25,6 +25,8 @@ export default {
         "dark-blue": "#64748B",
         yellow: "#FBBF24",
         purple: "#8C67DC",
+        blue: "#2563EB",
+        pink: "#FF6B81",
       },
       boxShadow: {
         "custom-light": "-4px 5px 10px 0px #4A4A4A0D",
@@ -33,6 +35,20 @@ export default {
         "gradient-linear":
           "linear-gradient(180.81deg, rgba(217, 217, 217, 0) 24.75%, #009D7D 123.9%)",
       }),
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],
