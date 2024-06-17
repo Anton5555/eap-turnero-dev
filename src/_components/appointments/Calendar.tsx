@@ -8,7 +8,6 @@ import ChevronLeftIcon from "../icons/ChevronLeft";
 import ChevronRightIcon from "../icons/ChevronRight";
 import { format } from "date-fns";
 import useDateFnsLocale from "~/lib/hooks/useDateFnsLocale";
-import { useFormatter } from "next-intl";
 
 const currentDay = new Date();
 
@@ -60,7 +59,6 @@ const Calendar: React.FC<CalendarProps> = ({
   ...props
 }) => {
   const locale = useDateFnsLocale();
-  const dateFormatter = useFormatter();
 
   return (
     <DayPicker
@@ -94,7 +92,7 @@ const Calendar: React.FC<CalendarProps> = ({
       }}
       formatters={{
         formatMonthCaption: (date) => {
-          const formattedDate = dateFormatter.dateTime(date, { month: "long" });
+          const formattedDate = format(date, "LLLL", { locale });
           return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
         },
       }}

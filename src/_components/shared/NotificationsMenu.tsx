@@ -14,7 +14,9 @@ import { useMutation } from "@tanstack/react-query";
 import { markAllAsRead } from "~/lib/api/notifications";
 import { cn } from "~/lib/utils";
 import { type User } from "~/types/users";
-import { useFormatter, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
+import useDateFnsLocale from "~/lib/hooks/useDateFnsLocale";
+import { format } from "date-fns";
 
 type SpecialtyColors = Record<string, string>;
 
@@ -33,7 +35,7 @@ const NotificationsMenu: React.FC<{
   const router = useRouter();
 
   const t = useTranslations();
-  const format = useFormatter();
+  const locale = useDateFnsLocale();
 
   const { mutate, isPending } = useMutation({
     mutationFn: markAllAsRead,
@@ -88,9 +90,8 @@ const NotificationsMenu: React.FC<{
                       </p>
 
                       <p className="text-xs font-light uppercase text-dark-gray">
-                        {format.dateTime(notification.dateCreated, {
-                          month: "short",
-                          day: "numeric",
+                        {format(notification.dateCreated, "MMM d", {
+                          locale,
                         })}
                       </p>
                     </div>
