@@ -325,5 +325,10 @@
     "title": "Notificaciones",
     "noNotifications": "No tienes notificaciones",
     "markAllAsRead": "Marcar como leídas"
+  },
+  "dateTimeStrings": {
+    "longDateTime": "{weekday}, {day} de {month} de {year}, {time}",
+    "shortDateTimeRange": "{day} {month} {year}, {timeFrom} a {timeTo}",
+    "longDateTimeRange": "{weekday}, {day} de {month} de {year}, {timeFrom} a {timeTo}"
   }
 }
