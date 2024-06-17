@@ -77,17 +77,20 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
         </p>
 
         <p className="text-sm lg:text-base">
-          {t.rich("videocall.knowMore", {
-            privacyNotice: (children) => (
-              <Link
-                href="https://www.eaplatina.com/pdf/aviso_privacidad_nov_2023.pdf"
-                className="text-blue underline"
-                target="_blank"
-              >
-                {children}
-              </Link>
-            ),
-          })}
+          {t.rich(
+            "createAppointment.appointmentCreatedDialog.videocall.knowMore",
+            {
+              privacyNotice: (children) => (
+                <Link
+                  href="https://www.eaplatina.com/pdf/aviso_privacidad_nov_2023.pdf"
+                  className="text-blue underline"
+                  target="_blank"
+                >
+                  {children}
+                </Link>
+              ),
+            },
+          )}
         </p>
       </>
     );
