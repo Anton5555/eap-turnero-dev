@@ -17,13 +17,8 @@ import { useMutation } from "@tanstack/react-query";
 import { updateUser } from "~/lib/api/users";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import {
-  isOver18,
-  parseDateWithPreservedTimezone,
-  parseDateWithoutTimezone,
-} from "~/lib/utils";
+import { isOver18 } from "~/lib/utils";
 import { useTranslations } from "next-intl";
-import { formatISO } from "date-fns";
 
 const editProfileSchema = z.object({
   name: z.string().min(1, { message: "fields.firstName.errors.required" }),
