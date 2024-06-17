@@ -4,7 +4,9 @@ import CloseIcon from "../icons/Close";
 import { Button } from "../common/Button";
 import CalendarIcon from "../icons/Calendar";
 import { modalities } from "~/lib/constants";
-import { useFormatter, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
+import useDateFnsLocale from "~/lib/hooks/useDateFnsLocale";
+import { getDisplayableDateAndTime } from "~/lib/utils";
 
 interface ConfirmationDialogProps {
   open: boolean;
@@ -24,7 +26,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
   modality,
 }) => {
   const t = useTranslations();
-  const format = useFormatter();
+  const locale = useDateFnsLocale();
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -85,15 +87,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
                       </p>
 
                       <p className="text-lg leading-5 first-letter:uppercase">
-                        {format.dateTime(date, {
-                          weekday: "long",
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                          hour: "numeric",
-                          minute: "numeric",
-                          hour12: false,
-                        })}
+                        {getDisplayableDateAndTime(t, locale, date)}
                       </p>
                     </div>
                   </div>

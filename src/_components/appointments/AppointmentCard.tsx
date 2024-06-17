@@ -6,7 +6,9 @@ import Image from "next/image";
 import { Button } from "../common/Button";
 import PhoneIcon from "../icons/Phone";
 import VideoIcon from "../icons/Video";
-import { useFormatter, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
+import { getDisplayableDateAndTime } from "~/lib/utils";
+import useDateFnsLocale from "~/lib/hooks/useDateFnsLocale";
 
 interface AppointmentCardProps {
   appointment: Appointment;
@@ -18,31 +20,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   onSelect,
 }) => {
   const t = useTranslations();
-  const format = useFormatter();
-
-  const getDisplayableDateAndTime = (
-    dateFrom: Date,
-    dateTo: Date,
-    mobile = false,
-  ) => {
-    const dateFromString = format.dateTime(dateFrom, {
-      weekday: mobile ? undefined : "long",
-      day: "numeric",
-      month: mobile ? "short" : "long",
-      year: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      hour12: false,
-    });
-
-    const dateToString = format.dateTime(dateTo, {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: false,
-    });
-
-    return `${dateFromString} ${t("platform.appointmentList.to")} ${dateToString}`;
-  };
+  const locale = useDateFnsLocale();
 
   return (
     <PlatformContainer className="w-full rounded-2xl lg:min-h-0 lg:px-6 lg:py-4">
@@ -83,16 +61,20 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
                 <h3 className="hidden lg:flex lg:flex-col">
                   <span className="first-letter:capitalize">
                     {getDisplayableDateAndTime(
-                      new Date(appointment.start),
-                      new Date(appointment.end),
+                      t,
+                      locale,
+                      appointment.start,
+                      appointment.end,
                     )}
                   </span>
                 </h3>
 
                 <h3 className="flex-col first-letter:capitalize lg:hidden">
                   {getDisplayableDateAndTime(
-                    new Date(appointment.start),
-                    new Date(appointment.end),
+                    t,
+                    locale,
+                    appointment.start,
+                    appointment.end,
                     true,
                   )}
                 </h3>

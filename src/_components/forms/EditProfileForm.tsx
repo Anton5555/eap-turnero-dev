@@ -8,7 +8,7 @@ import { Input } from "../common/Input";
 import { Select } from "../common/Select";
 import { Button } from "../common/Button";
 import ProfileImageInput from "../profile/ProfileImageInput";
-import type { Gender, User } from "~/types/users";
+import { type User } from "~/types/users";
 import useUserImage from "~/lib/hooks/useUserImage";
 import { locations } from "~/lib/constants";
 import { useState } from "react";
@@ -19,7 +19,6 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { isOver18 } from "~/lib/utils";
 import { useTranslations } from "next-intl";
-import { format } from "date-fns";
 
 const editProfileSchema = z.object({
   name: z.string().min(1, { message: "fields.firstName.errors.required" }),
@@ -78,10 +77,7 @@ const EditProfileForm: React.FC<{
       email,
       location: location.toString(),
       gender: gender?.toString(),
-      birthdate:
-        birthdate && new Date(birthdate) > new Date("1901-01-01")
-          ? new Date(birthdate)
-          : undefined,
+      birthdate: birthdate ? new Date(birthdate) : undefined,
     },
   });
 

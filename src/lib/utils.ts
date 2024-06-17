@@ -1,6 +1,9 @@
 import clsx, { type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { type DecodedApiToken } from "~/types/users";
+import { toZonedTime } from "date-fns-tz";
+import { type Locale, format } from "date-fns";
+import type { Formats, TranslationValues } from "next-intl";
 
 const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
 
@@ -28,6 +31,16 @@ const parseDateWithPreservedTimezone = (dateString: string): Date => {
   return utcDate;
 };
 
+const parseDateWithoutTimezone = (dateString: string): Date => {
+  const timeZone = "UTC";
+
+  const dateObj = new Date(dateString + "Z");
+
+  const zonedDate = toZonedTime(dateObj, timeZone);
+
+  return zonedDate;
+};
+
 const isOver18 = (date: Date) => {
   const ageDiff = Date.now() - date.getTime();
   const ageDate = new Date(ageDiff);
@@ -36,4 +49,58 @@ const isOver18 = (date: Date) => {
   return age >= 18;
 };
 
-export { cn, parseJwt, parseDateWithPreservedTimezone, isOver18 };
+const getDisplayableDateAndTime = (
+  t: <TargetKey>(
+    key: TargetKey,
+    values?: TranslationValues | undefined,
+    formats?: Partial<Formats>,
+  ) => string,
+  locale: Pick<Locale, "options" | "localize" | "formatLong">,
+  dateFrom: string | Date,
+  dateTo?: string | Date,
+  mobile?: boolean,
+) => {
+  const weekday = format(dateFrom, "EEEE", { locale });
+  const day = format(dateFrom, "d");
+  const month = format(dateFrom, mobile ? "LLL" : "LLLL", { locale });
+  const year = format(dateFrom, "yyyy");
+  const timeFrom = format(dateFrom, "H:mm");
+
+  if (!dateTo) {
+    return t("dateTimeStrings.longDateTime", {
+      weekday,
+      day,
+      month,
+      year,
+      time: timeFrom,
+    });
+  }
+
+  const timeTo = format(dateTo, "H:mm");
+  if (mobile)
+    return t("dateTimeStrings.shortDateTimeRange", {
+      day,
+      month,
+      year,
+      timeFrom,
+      timeTo,
+    });
+
+  return t("dateTimeStrings.longDateTimeRange", {
+    weekday,
+    day,
+    month,
+    year,
+    timeFrom,
+    timeTo,
+  });
+};
+
+export {
+  cn,
+  parseJwt,
+  parseDateWithPreservedTimezone,
+  parseDateWithoutTimezone,
+  isOver18,
+  getDisplayableDateAndTime,
+};
