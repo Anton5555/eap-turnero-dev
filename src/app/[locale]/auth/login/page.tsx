@@ -5,12 +5,17 @@ import { redirect } from "next/navigation";
 import { H4, H6 } from "~/_components/common/Typography";
 import Logo from "~/_components/shared/Logo";
 import { getTranslations } from "next-intl/server";
+import PasswordChangedDialog from "~/_components/common/PasswordChangedDialog";
 
-const Page = async ({ searchParams }: { searchParams: { uuid: string } }) => {
+const Page = async ({
+  searchParams,
+}: {
+  searchParams: { uuid: string; resetPassword: boolean };
+}) => {
   const session = await getServerSession();
   if (session?.user) redirect("/platform");
 
-  const { uuid } = searchParams;
+  const { uuid, resetPassword } = searchParams;
 
   const t = await getTranslations();
 
@@ -28,8 +33,8 @@ const Page = async ({ searchParams }: { searchParams: { uuid: string } }) => {
         <a className="z-1 absolute h-full w-full bg-gradient-linear"></a>
       </div>
 
-      <div className="mt-4 flex flex-1 flex-col items-center justify-center lg:mx-6 lg:mt-0">
-        <div className="mx-auto max-w-lg space-y-6">
+      <div className="mx-4 mt-4 flex flex-1 flex-col items-center justify-center lg:mx-6 lg:mt-0">
+        <div className="mx-auto w-full max-w-lg space-y-6">
           <div className="flex flex-col items-center space-y-6">
             <Logo width={107} height={51} />
 
@@ -51,6 +56,8 @@ const Page = async ({ searchParams }: { searchParams: { uuid: string } }) => {
           </div>
         </div>
       </div>
+
+      {resetPassword && <PasswordChangedDialog />}
     </div>
   );
 };
