@@ -5,15 +5,23 @@ import React, { Fragment } from "react";
 import { H3 } from "../common/Typography";
 import { Button } from "../common/Button";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 const PasswordChangedDialog: React.FC = () => {
   const [open, setOpen] = React.useState(true);
 
   const t = useTranslations("login.passwordChanged");
+  const router = useRouter();
+
+  const handleClose = () => {
+    router.replace("/auth/login", undefined);
+
+    setOpen(false);
+  };
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={() => setOpen(false)}>
+      <Dialog as="div" className="relative z-50" onClose={handleClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -49,7 +57,7 @@ const PasswordChangedDialog: React.FC = () => {
                 <div className="mt-5 flex justify-center lg:flex-row lg:justify-end">
                   <Button
                     className="font-lato w-full lg:w-auto"
-                    onClick={() => setOpen(false)}
+                    onClick={handleClose}
                   >
                     {t("button")}
                   </Button>
