@@ -14,12 +14,15 @@ import { buttonVariants } from "~/_components/common/Button";
 import ChevronLeft from "../icons/ChevronLeft";
 import ChevronRight from "../icons/ChevronRight";
 import { H6 } from "./Typography";
-import { useFormatter } from "next-intl";
 import useDateFnsLocale from "~/lib/hooks/useDateFnsLocale";
+import { type Locale, format } from "date-fns";
 
-function CustomCaption(props: CaptionProps) {
+type CustomCaptionProps = CaptionProps & {
+  locale: Locale;
+};
+
+function CustomCaption(props: CustomCaptionProps) {
   const { goToMonth, nextMonth, previousMonth } = useNavigation();
-  const dateFormatter = useFormatter();
 
   return (
     <div className="flex w-full justify-between">
@@ -31,7 +34,7 @@ function CustomCaption(props: CaptionProps) {
       </button>
 
       <H6 className="capitalize">
-        {dateFormatter.dateTime(props.displayMonth, { month: "long" })}
+        {format(props.displayMonth, "LLLL", { locale: props.locale })}
       </H6>
 
       <button
@@ -127,7 +130,9 @@ const NextAppointmentsCalendar: React.FC<CalendarProps> = ({
       components={{
         IconLeft: () => <ChevronLeft />,
         IconRight: () => <ChevronRight />,
-        Caption: CustomCaption,
+        Caption: (props: CaptionProps) => (
+          <CustomCaption {...props} locale={locale} />
+        ),
         DayContent: CustomDayContent,
       }}
       locale={locale}

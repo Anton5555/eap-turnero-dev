@@ -2,7 +2,7 @@ import { type AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import type { AuthenticatedUserApiData, User } from "~/types/users";
 import { env } from "~/env";
-import { parseDateWithoutTimezone, parseJwt } from "./utils";
+import { parseJwt } from "./utils";
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
 
@@ -22,9 +22,7 @@ const parseUser = (authenticatedUser: AuthenticatedUserApiData): User => {
     services: eapUser.services.map((service) => service.code),
     position: eapUser.puesto ? parseInt(eapUser.puesto) : undefined,
     timezone: eapUser.huso,
-    birthdate: eapUser.fecha_nacimiento
-      ? parseDateWithoutTimezone(eapUser.fecha_nacimiento)
-      : undefined,
+    birthdate: eapUser.fecha_nacimiento ?? undefined,
     gender: eapUser.sexo ?? undefined,
     accessToken: token,
     pdp: eapUser.pdp === "Y",

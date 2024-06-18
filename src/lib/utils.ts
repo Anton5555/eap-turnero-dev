@@ -32,13 +32,13 @@ const parseDateWithPreservedTimezone = (dateString: string): Date => {
 };
 
 const parseDateWithoutTimezone = (dateString: string): Date => {
-  const timeZone = "UTC";
+  const date = new Date(dateString);
 
-  const dateObj = new Date(dateString + "Z");
+  const year = date.getUTCFullYear();
+  const month = date.getUTCMonth();
+  const day = date.getUTCDate();
 
-  const zonedDate = toZonedTime(dateObj, timeZone);
-
-  return zonedDate;
+  return new Date(year, month, day);
 };
 
 const isOver18 = (date: Date) => {
