@@ -6,7 +6,7 @@ import { H3 } from "../common/Typography";
 import { Button } from "../common/Button";
 import { useTranslations } from "next-intl";
 
-const ValidateAccountDialog: React.FC = ({}) => {
+const ValidateAccountDialog: React.FC = () => {
   const [open, setOpen] = React.useState(true);
 
   const t = useTranslations("welcome.validateAccount");
@@ -41,7 +41,7 @@ const ValidateAccountDialog: React.FC = ({}) => {
                 <div className="mt-2 flex flex-col space-y-4 ">
                   <H3>{t("title")}</H3>
 
-                  <p className="text-base font-medium leading-5">
+                  <p className="text-base font-medium leading-5 text-dark-gray">
                     {t("message")}
                   </p>
                 </div>
