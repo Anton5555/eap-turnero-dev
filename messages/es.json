@@ -245,7 +245,7 @@
     },
     "appointmentCreatedDialog": {
       "title": "Cita agendada con éxito",
-      "description": "Tienes una cita programada para el {date} de {timeFrom} a {timeTo} con {professionalName}",
+      "description": "Tienes una cita programada para el {dateTimeRange} con {professionalName}",
       "emailConfirmation": "Recibirás una confirmación por correo electrónico con todos los detalles necesarios.",
       "close": "Finalizar",
       "phonecall": {
@@ -327,8 +327,8 @@
     "markAllAsRead": "Marcar como leídas"
   },
   "dateTimeStrings": {
-    "longDateTime": "{weekday}, {day} de {month} de {year}, {time}",
+    "longDateTime": "{weekday}, {day} de {month} de {year}, {time}hs",
     "shortDateTimeRange": "{day} {month} {year}, {timeFrom} a {timeTo}",
-    "longDateTimeRange": "{weekday}, {day} de {month} de {year}, {timeFrom} a {timeTo}"
+    "longDateTimeRange": "{weekday}, {day} de {month} de {year}, de {timeFrom} a {timeTo}hs"
   }
 }

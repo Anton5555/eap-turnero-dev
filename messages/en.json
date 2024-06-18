@@ -246,7 +246,7 @@
     },
     "appointmentCreatedDialog": {
       "title": "Appointment scheduled successfully",
-      "description": "You have a scheduled appointment for {date} from {timeFrom} to {timeTo} with {professionalName}",
+      "description": "You have a scheduled appointment for {dateTimeRange} with {professionalName}",
       "emailConfirmation": "You will receive an email confirmation shortly",
       "close": "Finish",
       "phonecall": {
@@ -330,6 +330,6 @@
   "dateTimeStrings": {
     "longDateTime": "{weekday}, {month} {day}, {year} at {time}",
     "shortDateTimeRange": "{month} {day}, {year}, {timeFrom} to {timeTo}",
-    "longDateTimeRange": "{weekday}, {month} {day}, {year} at {timeFrom} to {timeTo}"
+    "longDateTimeRange": "{weekday}, {month} {day}, {year} from {timeFrom} to {timeTo}"
   }
 }

@@ -9,7 +9,9 @@ import Link from "next/link";
 import { SPECIALTY } from "~/types/services";
 import { modalities } from "~/lib/constants";
 import { MODALITY } from "~/types/appointments";
-import { useFormatter, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
+import { getDisplayableDateAndTime } from "~/lib/utils";
+import useDateFnsLocale from "~/lib/hooks/useDateFnsLocale";
 
 interface AppointmentCreatedDialogProps {
   professional: string;
@@ -29,8 +31,8 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
   const [open, setOpen] = useState(true);
   const router = useRouter();
 
-  const t = useTranslations("createAppointment.appointmentCreatedDialog");
-  const format = useFormatter();
+  const t = useTranslations();
+  const locale = useDateFnsLocale();
 
   const handleClose = () => {
     router.replace("/platform", undefined);
@@ -38,13 +40,23 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
     setOpen(false);
   };
 
+  const dateTimeRange = getDisplayableDateAndTime(t, locale, dateFrom, dateTo);
+
   const TermsAndConditions = () => {
     if (modalities[Number(modality)]?.label === MODALITY.PHONECALL)
-      return <p className="text-sm lg:text-base">{t("phonecall.terms")}</p>;
+      return (
+        <p className="text-sm lg:text-base">
+          {t("createAppointment.appointmentCreatedDialog.phonecall.terms")}
+        </p>
+      );
 
     return (
       <>
-        <p className="text-sm lg:text-base">{t("videocall.terms1stPart")}</p>
+        <p className="text-sm lg:text-base">
+          {t(
+            "createAppointment.appointmentCreatedDialog.videocall.terms1stPart",
+          )}
+        </p>
 
         <Link
           href={
@@ -55,23 +67,30 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
           className="text-sm text-blue underline"
           target="_blank"
         >
-          {t("videocall.termsLink")}
+          {t("createAppointment.appointmentCreatedDialog.videocall.termsLink")}
         </Link>
 
-        <p className="text-sm lg:text-base">{t("videocall.terms2ndPart")}</p>
+        <p className="text-sm lg:text-base">
+          {t(
+            "createAppointment.appointmentCreatedDialog.videocall.terms2ndPart",
+          )}
+        </p>
 
         <p className="text-sm lg:text-base">
-          {t.rich("videocall.knowMore", {
-            privacyNotice: (children) => (
-              <Link
-                href="https://www.eaplatina.com/pdf/aviso_privacidad_nov_2023.pdf"
-                className="text-blue underline"
-                target="_blank"
-              >
-                {children}
-              </Link>
-            ),
-          })}
+          {t.rich(
+            "createAppointment.appointmentCreatedDialog.videocall.knowMore",
+            {
+              privacyNotice: (children) => (
+                <Link
+                  href="https://www.eaplatina.com/pdf/aviso_privacidad_nov_2023.pdf"
+                  className="text-blue underline"
+                  target="_blank"
+                >
+                  {children}
+                </Link>
+              ),
+            },
+          )}
         </p>
       </>
     );
@@ -105,32 +124,24 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-2xl bg-white px-4 pb-4 pt-5 shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-2xl sm:p-6">
                 <div className="mt-2 flex flex-col space-y-4 ">
-                  <H5>{t("title")}</H5>
+                  <H5>
+                    {t("createAppointment.appointmentCreatedDialog.title")}
+                  </H5>
 
                   <p className="text-sm lg:text-base">
-                    {t("description", {
-                      date: format.dateTime(dateFrom, {
-                        weekday: "long",
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      }),
-                      timeFrom: format.dateTime(dateFrom, {
-                        hour: "numeric",
-                        minute: "numeric",
-                        hour12: false,
-                      }),
-                      timeTo: format.dateTime(dateTo, {
-                        hour: "numeric",
-                        minute: "numeric",
-                        hour12: false,
-                      }),
-                      professionalName: professional,
-                    })}
+                    {t(
+                      "createAppointment.appointmentCreatedDialog.description",
+                      {
+                        dateTimeRange,
+                        professionalName: professional,
+                      },
+                    )}
                   </p>
 
                   <p className="text-sm lg:text-base">
-                    {t("emailConfirmation")}
+                    {t(
+                      "createAppointment.appointmentCreatedDialog.emailConfirmation",
+                    )}
                   </p>
 
                   <TermsAndConditions />
@@ -138,7 +149,7 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
 
                 <div className="mt-5 flex justify-center lg:flex-row">
                   <Button className="font-lato" onClick={handleClose}>
-                    {t("close")}
+                    {t("createAppointment.appointmentCreatedDialog.close")}
                   </Button>
                 </div>
               </Dialog.Panel>

@@ -11,7 +11,7 @@ export type User = {
   services: string[];
   position?: number;
   timezone: string;
-  birthdate?: Date;
+  birthdate?: string;
   gender?: number;
   accessToken: string;
   pdp: boolean;

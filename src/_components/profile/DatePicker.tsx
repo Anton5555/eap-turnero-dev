@@ -4,22 +4,18 @@ import { cn } from "~/lib/utils";
 import CalendarIcon from "../icons/Calendar";
 import { DayPicker } from "react-day-picker";
 import { Popover, PopoverContent, PopoverTrigger } from "../common/Popover";
-import { useFormatter } from "next-intl";
 import useDateFnsLocale from "~/lib/hooks/useDateFnsLocale";
+import { format } from "date-fns";
 
-type CalendarProps = React.ComponentProps<typeof DayPicker> & {
-  dateFormatter: ReturnType<typeof useFormatter>;
-};
+type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
 const DatePickerCalendar: React.FC<CalendarProps> = ({
   className,
   classNames,
   showOutsideDays = true,
-  dateFormatter,
+  locale,
   ...props
 }: CalendarProps) => {
-  const locale = useDateFnsLocale();
-
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
@@ -29,7 +25,7 @@ const DatePickerCalendar: React.FC<CalendarProps> = ({
       toYear={new Date().getFullYear()}
       formatters={{
         formatMonthCaption: (date) => {
-          const formattedDate = dateFormatter.dateTime(date, { month: "long" });
+          const formattedDate = format(date, "LLLL", { locale });
           return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
         },
       }}
@@ -92,7 +88,7 @@ const DatePicker = (props: {
   } = props;
 
   const [calendarOpen, setCalendarOpen] = useState(false);
-  const format = useFormatter();
+  const locale = useDateFnsLocale();
 
   return (
     <div>
@@ -119,11 +115,7 @@ const DatePicker = (props: {
             )}
           >
             {value ? (
-              format.dateTime(value, {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })
+              format(value, "PPP", { locale })
             ) : (
               <span>{placeholder}</span>
             )}
@@ -142,7 +134,7 @@ const DatePicker = (props: {
               setCalendarOpen(false);
             }}
             disabled={(date) => date > new Date()}
-            dateFormatter={format}
+            locale={locale}
           />
         </PopoverContent>
       </Popover>

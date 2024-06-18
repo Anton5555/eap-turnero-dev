@@ -17,7 +17,7 @@ import { useMutation } from "@tanstack/react-query";
 import { updateUser } from "~/lib/api/users";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { isOver18 } from "~/lib/utils";
+import { isOver18, parseDateWithoutTimezone } from "~/lib/utils";
 import { useTranslations } from "next-intl";
 
 const editProfileSchema = z.object({
@@ -77,7 +77,10 @@ const EditProfileForm: React.FC<{
       email,
       location: location.toString(),
       gender: gender?.toString(),
-      birthdate: birthdate ? new Date(birthdate) : undefined,
+      birthdate:
+        birthdate && new Date(birthdate) > new Date("1900-01-01")
+          ? parseDateWithoutTimezone(birthdate)
+          : undefined,
     },
   });
 
@@ -188,6 +191,7 @@ const EditProfileForm: React.FC<{
                 labelClassName="text-orange mb-2 text-sm leading-4 font-medium"
                 value={value}
                 onChange={onChange}
+                placeholder={t("fields.birthdate.placeholder")}
                 errorText={
                   errors.birthdate?.message && t(errors.birthdate?.message)
                 }
