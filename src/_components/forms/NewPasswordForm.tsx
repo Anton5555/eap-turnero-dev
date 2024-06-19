@@ -5,10 +5,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "../common/Input";
-import Link from "next/link";
 import { Button } from "../common/Button";
 import { useRouter } from "next/navigation";
-import { H4 } from "../common/Typography";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
@@ -59,7 +57,7 @@ const NewPasswordForm: React.FC<{
 
     toast.promise(mutateAsync({ email, password, uuid: resetPasswordUUID }), {
       loading: t("resettingPassword"),
-      error: (error) => t(`errors.${error.message}`),
+      error: ({ message }) => t(`errors.${message}`),
     });
   };
 
