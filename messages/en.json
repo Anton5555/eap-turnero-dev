@@ -1,6 +1,5 @@
-
 {
-  "login":  {
+  "login": {
     "title": "Schedule online appointments with professionals from your employee assistance program!",
     "subtitle": "Log in to start",
     "fields": {
@@ -33,7 +32,14 @@
       "loading": "Activating account",
       "success": "Account activated successfully",
       "error": "Error activating account"
-    } 
+    },
+    "forgotPassword": "Forgot your password?",
+    "recover": "Recover",
+    "passwordChanged": {
+      "title": "Password recovered successfully!",
+      "button": "Got it!",
+      "message": "Your password has been recovered successfully. Now you can login with your new password. Remember to keep your password safe and private."
+    }
   },
   "signUp": {
     "title": "Create your account now",
@@ -120,34 +126,35 @@
       "title": "Last step!",
       "message": "You will soon receive a registration email to validate your account. Once validated, you can access the platform using your personal account and schedule an appointment with a professional in our agenda.",
       "button": "Got it!"
-    }  },
-    "sidebar": {
-      "closeSidebar": "Close sidebar",
-      "openSidebar": "Open sidebar",
-      "welcome": "Welcome",
-      "navigation": {
-        "platform": "Home",
-        "profile": "Profile"
-      },
-      "exit": "Logout",
-      "profile": {
-        "openUserMenu": "Open user menu",
-        "logout": "Logout"
-      }
+    }
+  },
+  "sidebar": {
+    "closeSidebar": "Close sidebar",
+    "openSidebar": "Open sidebar",
+    "welcome": "Welcome",
+    "navigation": {
+      "platform": "Home",
+      "profile": "Profile"
     },
-    "localeSwitcher": {
+    "exit": "Logout",
+    "profile": {
+      "openUserMenu": "Open user menu",
+      "logout": "Logout"
+    }
+  },
+  "localeSwitcher": {
     "openLocaleMenu": "Open language menu",
-      "locale": "{locale, select, es {ES} en {EN} other {}}",
-      "language": "Language",
-      "localeFull": "{locale, select, es {Español} en {English} other {}}",
-      "changingLocale": "Changing language"
-    },
-    "help": {
-      "anyDoubts": "Any doubts?",
-      "call": "Call us for free",
-      "write": "Write us",
-      "qrCode": "QR code",
-      "email": "Email us"
+    "locale": "{locale, select, es {ES} en {EN} other {}}",
+    "language": "Language",
+    "localeFull": "{locale, select, es {Español} en {English} other {}}",
+    "changingLocale": "Changing language"
+  },
+  "help": {
+    "anyDoubts": "Any doubts?",
+    "call": "Call us for free",
+    "write": "Write us",
+    "qrCode": "QR code",
+    "email": "Email us"
   },
   "platform": {
     "agenda": "Schedule",
@@ -258,7 +265,7 @@
         "terms2ndPart": "We understand that by connecting to the next appointment you voluntarily accept the terms and conditions of our documents. It is important that at the time of the consultation you can be in a private, comfortable place with a good connection to guarantee professional guidance.",
         "knowMore": "If you want to know more about our Privacy Policy and data processing you can click here: <privacyNotice>Privacy Policy</privacyNotice>"
       }
-    }, 
+    },
     "pdpConfirmationDialog": {
       "close": "Close",
       "dataProtectionPolicy": "Data Protection Policy",
@@ -331,5 +338,47 @@
     "longDateTime": "{weekday}, {month} {day}, {year} at {time}",
     "shortDateTimeRange": "{month} {day}, {year}, {timeFrom} to {timeTo}",
     "longDateTimeRange": "{weekday}, {month} {day}, {year} from {timeFrom} to {timeTo}"
+  },
+  "passwordRecovery": {
+    "fields": {
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter your email",
+        "errors": {
+          "required": "Please enter a valid email",
+          "notFound": "User not found"
+        }
+      },
+      "password": {
+        "label": "Password",
+        "errors": {
+          "minLength": "Password should have at least 8 characters",
+          "invalid": "Password is not valid"
+        }
+      },
+      "confirmPassword": {
+        "label": "Confirm password",
+        "errors": {
+          "minLength": "Password should have at least 8 characters",
+          "match": "Passwords do not match"
+        }
+      }
+    },
+    "buttons": {
+      "recover": "Recover",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    },
+    "loading": "Recovering password",
+    "success": "An email has been sent to your inbox with instructions to recover your password",
+    "resettingPassword": "Resetting password",
+    "errors": {
+      "tokenInvalid": "The email doesn't exists or url is no longer valid, please request a new one",
+      "errorGettingToken": "Error getting token to reset password",
+      "errorResettingPassword": "Error resetting password"
+    },
+    "recoverPassword": "Recover password",
+    "enterEmail": "Enter your email to recover your password and we'll send an email with instructions to reset it",
+    "enterPassword": "Enter new password"
   }
 }

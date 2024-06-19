@@ -1,21 +1,17 @@
-import LoginForm from "~/_components/forms/LoginForm";
 import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { H4, H6 } from "~/_components/common/Typography";
 import Logo from "~/_components/shared/Logo";
 import { getTranslations } from "next-intl/server";
-import PasswordChangedDialog from "~/_components/common/PasswordChangedDialog";
+import PasswordRecoveryForm from "~/_components/forms/PasswordRecoveryForm";
+import NewPasswordForm from "~/_components/forms/NewPasswordForm";
 
-const Page = async ({
-  searchParams,
-}: {
-  searchParams: { uuid: string; resetPassword: boolean };
-}) => {
+const Page = async ({ searchParams }: { searchParams: { uuid: string } }) => {
   const session = await getServerSession();
   if (session?.user) redirect("/platform");
 
-  const { uuid, resetPassword } = searchParams;
+  const { uuid } = searchParams;
 
   const t = await getTranslations();
 
@@ -33,31 +29,37 @@ const Page = async ({
         <a className="z-1 absolute h-full w-full bg-gradient-linear"></a>
       </div>
 
-      <div className="mx-4 mt-4 flex flex-1 flex-col items-center justify-center lg:mx-6 lg:mt-0">
+      <div className="mx-4 mt-4 flex flex-1 flex-col items-center justify-center lg:mt-0">
         <div className="mx-auto w-full max-w-lg space-y-6">
           <div className="flex flex-col items-center space-y-6">
             <Logo width={107} height={51} />
 
-            <div className="flex w-full max-w-sm flex-row justify-center gap-6">
+            <div className="flex w-full max-w-sm flex-row justify-center">
               <div className="flex w-full flex-col rounded-full border-b-[3px] border-green"></div>
-
-              <div className="border-gray/10 flex w-full flex-col rounded-full border-b-[3px]"></div>
             </div>
 
-            <H4 className="hidden text-center lg:flex">{t("login.title")}</H4>
+            <H4 className="text-center">
+              {!uuid
+                ? t("passwordRecovery.recoverPassword")
+                : t("passwordRecovery.enterPassword")}
+            </H4>
 
-            <H4 className="lg:hidden">{t("login.subtitle")}!</H4>
-
-            <H6 className="hidden text-black lg:flex">{t("login.subtitle")}</H6>
+            {!uuid && (
+              <H6 className="text-center text-black">
+                {t("passwordRecovery.enterEmail")}{" "}
+              </H6>
+            )}
           </div>
 
           <div className="flex items-center justify-center">
-            <LoginForm accountActivationUUID={uuid} />
+            {!uuid ? (
+              <PasswordRecoveryForm />
+            ) : (
+              <NewPasswordForm resetPasswordUUID={uuid} />
+            )}
           </div>
         </div>
       </div>
-
-      {resetPassword && <PasswordChangedDialog />}
     </div>
   );
 };

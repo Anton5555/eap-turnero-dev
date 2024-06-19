@@ -32,7 +32,14 @@
       "loading": "Activando cuenta",
       "success": "Cuenta activada exitosamente",
       "error": "Error al activar cuenta"
-    } 
+    },
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "recover": "Recuperar",
+    "passwordChanged": {
+      "title": "¡Contraseña recuperada con éxito!",
+      "button": "Entendido",
+      "message": "Tu contraseña ha sido restablecida correctamente. Ahora puedes iniciar sesión con tu nueva contraseña. Recuerda mantener tu contraseña segura y no compartirla con nadie."
+    }
   },
   "signUp": {
     "title": "Crea tu cuenta ahora",
@@ -63,7 +70,7 @@
         "placeholder": "Ingresa tu nombre de usuario",
         "errors": {
           "required": "Ingresa un email válido",
-          "alreadyExists": "Ya existe un usuario con este mail"        
+          "alreadyExists": "Ya existe un usuario con este mail"
         }
       },
       "password": {
@@ -255,7 +262,7 @@
         "terms1stPart": "Será necesario que puedas leer atentamente nuestro consentimiento informado con toda la información sobre los términos y condiciones asociados al tipo de consulta y modalidad:",
         "termsLink": "Hacer clic aquí para conocer términos y condiciones",
         "terms2ndPart": "Entendemos que al conectarte a la próxima cita aceptas voluntariamente los términos y condiciones de nuestros documentos. Es importante que al momento de la consulta puedas encontrarte en un lugar privado, cómodo y con buena conexión para garantizar la orientación profesional.",
-        "knowMore": "Si quieres conocer más acerca de nuestra Política de privacidad y tratamiento de datos puedes hacer clic aquí: <privacyNotice>Aviso de privacidad</privacyNotice>"        
+        "knowMore": "Si quieres conocer más acerca de nuestra Política de privacidad y tratamiento de datos puedes hacer clic aquí: <privacyNotice>Aviso de privacidad</privacyNotice>"
       }
     },
     "pdpConfirmationDialog": {
@@ -330,5 +337,46 @@
     "longDateTime": "{weekday}, {day} de {month} de {year}, {time}hs",
     "shortDateTimeRange": "{day} {month} {year}, {timeFrom} a {timeTo}",
     "longDateTimeRange": "{weekday}, {day} de {month} de {year}, de {timeFrom} a {timeTo}hs"
+  },
+  "passwordRecovery": {
+    "fields": {
+      "email": {
+        "label": "Email",
+        "placeholder": "Ingresa tu mail",
+        "errors": {
+          "required": "Ingresa un email válido",
+          "notFound": "Usuario no encontrado"
+        }
+      },
+      "password": {
+        "label": "Contraseña",
+        "errors": {
+          "minLength": "La contraseña debe tener al menos 8 caracteres"
+        }
+      },
+      "confirmPassword": {
+        "label": "Confirmar contraseña",
+        "errors": {
+          "minLength": "La contraseña debe tener al menos 8 caracteres",
+          "match": "Las contraseñas no coinciden"
+        }
+      }
+    },
+    "buttons": {
+      "recover": "Recuperar",
+      "cancel": "Cancelar",
+      "confirm": "Aceptar"
+    },
+    "loading": "Enviando mail de recuperación",
+    "success": "Se ha enviado un mail con instrucciones para recuperar tu contraseña",
+    "resettingPassword": "Restableciendo contraseña",
+    "errors": {
+      "tokenInvalid": "El usuario no existe o la url de recuperación de contraseña es inválida o ha expirado, por favor solicita una nueva",
+      "errorGettingToken": "Error al obtener token para actualizar la contraseña",
+      "errorResettingPassword": "Error al restablecer contraseña"
+    },
+    "recoverPassword": "Recuperar contraseña",
+    "enterEmail": "Ingresa tu dirección de correo electronico y enviaremos un mail con instrucciones para recuperar contraseña.",
+    "enterPassword": "Ingresa nueva contraseña"
   }
 }

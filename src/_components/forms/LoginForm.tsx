@@ -130,15 +130,14 @@ const LoginForm: React.FC<{
         errorText={errors.password?.message}
       />
 
-      {/* TODO: code to use in second fase of the application*/}
-      {/* <div className="flex justify-end lg:justify-center">
+      <div className="flex justify-end lg:justify-center">
         <H4 className="text-base font-semibold text-black">
-          ¿Olvidaste tu contraseña?{" "}
-          <Link href={""} className="text-green">
-            Recuperar
+          {t("login.forgotPassword")}{" "}
+          <Link href={"password-recovery"} className="text-green">
+            {t("login.recover")}
           </Link>
         </H4>
-      </div> */}
+      </div>
 
       <Button size="full" type="submit" disabled={isSubmitting}>
         {t("login.buttons.login")}
