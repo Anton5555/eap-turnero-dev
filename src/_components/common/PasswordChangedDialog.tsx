@@ -5,7 +5,7 @@ import React, { Fragment } from "react";
 import { H3 } from "../common/Typography";
 import { Button } from "../common/Button";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter } from "~/navigation";
 
 const PasswordChangedDialog: React.FC = () => {
   const [open, setOpen] = React.useState(true);

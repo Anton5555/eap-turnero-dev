@@ -4,7 +4,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useState } from "react";
 import { H5 } from "../common/Typography";
 import { Button } from "../common/Button";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { SPECIALTY } from "~/types/services";
 import { modalities } from "~/lib/constants";
@@ -12,6 +11,7 @@ import { MODALITY } from "~/types/appointments";
 import { useTranslations } from "next-intl";
 import { getDisplayableDateAndTime } from "~/lib/utils";
 import useDateFnsLocale from "~/lib/hooks/useDateFnsLocale";
+import { useRouter } from "~/navigation";
 
 interface AppointmentCreatedDialogProps {
   professional: string;

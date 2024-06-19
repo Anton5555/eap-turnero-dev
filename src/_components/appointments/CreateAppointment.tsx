@@ -10,7 +10,6 @@ import Link from "next/link";
 import ArrowIcon from "../icons/Arrow";
 import { toast } from "sonner";
 import ConfirmationDialog from "./ConfirmationDialog";
-import { useRouter } from "next/navigation";
 import Filters from "./CreateAppointmentComponents/Filters";
 import ServiceSelector from "./CreateAppointmentComponents/ServiceSelector";
 import DateSelector from "./CreateAppointmentComponents/DateSelector";
@@ -24,6 +23,7 @@ import useCreateAppointment from "~/lib/hooks/useCreateAppointment";
 import { type ContractService } from "~/types/services";
 import { type User } from "~/types/users";
 import { useTranslations } from "next-intl";
+import { useRouter } from "~/navigation";
 
 const CreateAppointment: React.FC<{
   services: ContractService[];

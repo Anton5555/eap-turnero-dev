@@ -1,7 +1,7 @@
 import LoginForm from "~/_components/forms/LoginForm";
 import Image from "next/image";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import { redirect } from "~/navigation";
 import { H4, H6 } from "~/_components/common/Typography";
 import Logo from "~/_components/shared/Logo";
 import { getTranslations } from "next-intl/server";

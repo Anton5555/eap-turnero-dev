@@ -5,9 +5,7 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "../common/Input";
-import Link from "next/link";
 import { Button } from "../common/Button";
-import { useRouter } from "next/navigation";
 import { Select } from "../common/Select";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -18,6 +16,7 @@ import { Checkbox } from "../common/Checkbox";
 import { useTranslations } from "next-intl";
 import DatePicker from "../profile/DatePicker";
 import { isOver18 } from "~/lib/utils";
+import { Link, useRouter } from "~/navigation";
 
 const signupFormSchema = z
   .object({

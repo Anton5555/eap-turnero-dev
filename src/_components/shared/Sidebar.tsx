@@ -6,20 +6,20 @@ import UserIcon from "../icons/User";
 import { cn } from "~/lib/utils";
 import BarsIcon from "../icons/Bars";
 import CloseIcon from "../icons/Close";
-import Link from "next/link";
 import { signOut } from "next-auth/react";
 import ExitIcon from "../icons/Exit";
 import Profile from "./Profile";
 import NotificationsMenu from "./NotificationsMenu";
 import { H6 } from "../common/Typography";
 import Logo from "./Logo";
-import { usePathname } from "next/navigation";
 import Help from "../common/Help";
 import { type AppointmentNotification } from "~/types/notifications";
 import { type User } from "~/types/users";
 import { useTranslations } from "next-intl";
 import LocaleSwitcher from "./LocaleSwitcher";
 import LocaleSwitcherMobile from "./LocaleSwitcherMobile";
+import { Link as LocaleLink, usePathname } from "~/navigation";
+import Link from "next/link";
 
 const navigation = [
   { href: "/platform", icon: HomeIcon, path: "platform" },
@@ -63,7 +63,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
           <ul role="list" className="space-y-4 lg:mt-8">
             {navigation.map((navigationItem) => (
               <li key={navigationItem.path}>
-                <Link
+                <LocaleLink
                   href={navigationItem.href}
                   onClick={() => {
                     if (sidebarOpen) setSidebarOpen(false);
@@ -81,9 +81,10 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
                   />
 
                   <span>{t(`navigation.${navigationItem.path}`)}</span>
-                </Link>
+                </LocaleLink>
               </li>
             ))}
+
             <li className="block lg:hidden">
               <LocaleSwitcherMobile />
             </li>

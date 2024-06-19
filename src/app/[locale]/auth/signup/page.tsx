@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
-import { redirect } from "next/navigation";
+import { redirect } from "~/navigation";
 import { H4 } from "~/_components/common/Typography";
 import SignUpForm from "~/_components/forms/SignUpForm";
 import Logo from "~/_components/shared/Logo";

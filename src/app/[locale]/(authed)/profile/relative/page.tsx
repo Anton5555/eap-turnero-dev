@@ -3,7 +3,7 @@ import { H3, H6 } from "~/_components/common/Typography";
 import AddRelativeForm from "~/_components/forms/AddRelativeForm";
 import { getFamilyRelashionships, getGenders } from "~/lib/api/users";
 import authOptions from "~/lib/authOptions";
-import { redirect } from "next/navigation";
+import { redirect } from "~/navigation";
 
 const Page = async () => {
   const session = await getServerSession(authOptions);

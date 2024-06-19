@@ -9,7 +9,6 @@ import {
   PopoverTrigger,
 } from "../common/Popover";
 import { Button } from "../common/Button";
-import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { markAllAsRead } from "~/lib/api/notifications";
 import { cn } from "~/lib/utils";
@@ -17,6 +16,7 @@ import { type User } from "~/types/users";
 import { useTranslations } from "next-intl";
 import useDateFnsLocale from "~/lib/hooks/useDateFnsLocale";
 import { format } from "date-fns";
+import { useRouter } from "~/navigation";
 
 type SpecialtyColors = Record<string, string>;
 

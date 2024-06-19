@@ -7,16 +7,15 @@ import { deleteAppointment } from "~/lib/api/appointments";
 import { useMutation } from "@tanstack/react-query";
 import AppointmentCard from "./AppointmentCard";
 import { H1, H6 } from "../common/Typography";
-import Link from "next/link";
 import { Button } from "../common/Button";
 import { useState } from "react";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { cn } from "~/lib/utils";
 import { format } from "date-fns";
 import { type User } from "~/types/users";
 import { useTranslations } from "next-intl";
+import { Link, useRouter } from "~/navigation";
 
 const AppointmentList: React.FC<{
   appointments: Appointment[];

@@ -10,8 +10,8 @@ import { Button } from "../common/Button";
 import type { FamilyRelashionships, Gender, User } from "~/types/users";
 import { useMutation } from "@tanstack/react-query";
 import { addFamilyRelative } from "~/lib/api/users";
-import { useRouter } from "next/navigation";
 import DatePicker from "../profile/DatePicker";
+import { useRouter } from "~/navigation";
 
 const addRelativeSchema = z.object({
   name: z.string().min(1, { message: "Ingresa tu nombre" }),

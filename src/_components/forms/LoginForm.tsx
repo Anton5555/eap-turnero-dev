@@ -5,15 +5,14 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "../common/Input";
-import Link from "next/link";
 import { Button } from "../common/Button";
-import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { H4 } from "../common/Typography";
 import { toast } from "sonner";
 import { activateAccount } from "~/lib/api/users";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
+import { Link, useRouter } from "~/navigation";
 
 const LoginForm: React.FC<{
   accountActivationUUID?: string;
@@ -133,7 +132,7 @@ const LoginForm: React.FC<{
       <div className="flex justify-end lg:justify-center">
         <H4 className="text-base font-semibold text-black">
           {t("login.forgotPassword")}{" "}
-          <Link href={"password-recovery"} className="text-green">
+          <Link href="/auth/password-recovery" className="text-green">
             {t("login.recover")}
           </Link>
         </H4>
@@ -146,7 +145,7 @@ const LoginForm: React.FC<{
       <div className="flex justify-center">
         <H4 className="text-base font-semibold text-black">
           {t("login.dontHaveUser")}{" "}
-          <Link href={"/auth/signup"} className="text-green">
+          <Link href="/auth/signup" className="text-green">
             {t("login.buttons.signUp")}
           </Link>
         </H4>
