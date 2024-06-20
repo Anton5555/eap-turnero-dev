@@ -4,7 +4,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useState } from "react";
 import { H5 } from "../common/Typography";
 import { Button } from "../common/Button";
-import Link from "next/link";
 import { SPECIALTY } from "~/types/services";
 import { modalities } from "~/lib/constants";
 import { MODALITY } from "~/types/appointments";
@@ -58,7 +57,7 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
           )}
         </p>
 
-        <Link
+        <a
           href={
             specialty === SPECIALTY.PSICOLOGY
               ? "https://drive.google.com/drive/u/0/folders/1y9V5JEHQpQnfkH2tZAG_WPo4Or-gsPzb"
@@ -68,7 +67,7 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
           target="_blank"
         >
           {t("createAppointment.appointmentCreatedDialog.videocall.termsLink")}
-        </Link>
+        </a>
 
         <p className="text-sm lg:text-base">
           {t(
@@ -81,13 +80,13 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
             "createAppointment.appointmentCreatedDialog.videocall.knowMore",
             {
               privacyNotice: (children) => (
-                <Link
+                <a
                   href="https://www.eaplatina.com/pdf/aviso_privacidad_nov_2023.pdf"
                   className="text-blue underline"
                   target="_blank"
                 >
                   {children}
-                </Link>
+                </a>
               ),
             },
           )}

@@ -38,6 +38,18 @@ const config = {
           "attributes": false
         }
       }
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "name": "next/link",
+        "message": "Please import from `~/navigation` instead."
+      },
+      {
+        "name": "next/navigation",
+        "importNames": ["redirect", "useRouter", "usePathname"],
+        "message": "Please import from `~/navigation` instead."
+      }
     ]
   }
 }

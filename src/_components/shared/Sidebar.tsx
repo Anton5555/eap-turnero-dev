@@ -18,8 +18,7 @@ import { type User } from "~/types/users";
 import { useTranslations } from "next-intl";
 import LocaleSwitcher from "./LocaleSwitcher";
 import LocaleSwitcherMobile from "./LocaleSwitcherMobile";
-import { Link as LocaleLink, usePathname } from "~/navigation";
-import Link from "next/link";
+import { Link, usePathname } from "~/navigation";
 
 const navigation = [
   { href: "/platform", icon: HomeIcon, path: "platform" },
@@ -63,7 +62,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
           <ul role="list" className="space-y-4 lg:mt-8">
             {navigation.map((navigationItem) => (
               <li key={navigationItem.path}>
-                <LocaleLink
+                <Link
                   href={navigationItem.href}
                   onClick={() => {
                     if (sidebarOpen) setSidebarOpen(false);
@@ -81,7 +80,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
                   />
 
                   <span>{t(`navigation.${navigationItem.path}`)}</span>
-                </LocaleLink>
+                </Link>
               </li>
             ))}
 
@@ -97,7 +96,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
           </div>
 
           <div className="flex flex-row justify-between">
-            <Link
+            <a
               href="#"
               onClick={() => signOut()}
               className="group -mx-2 flex items-center gap-x-2 p-2 text-very-dark-blue"
@@ -105,7 +104,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
               <ExitIcon />
 
               <H6>{t("exit")}</H6>
-            </Link>
+            </a>
           </div>
         </li>
       </ul>

@@ -7,8 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { deleteFamilyRelative } from "~/lib/api/users";
 import { toast } from "sonner";
 import DeleteFamilyMemberDialog from "./DeleteFamilyMemberDialog";
-import Link from "next/link";
-import { useRouter } from "~/navigation";
+import { Link, useRouter } from "~/navigation";
 
 interface FamilyRelativesProps {
   relatives: FamilyRelative[];
