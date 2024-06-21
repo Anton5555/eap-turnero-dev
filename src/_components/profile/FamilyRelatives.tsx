@@ -5,10 +5,9 @@ import type { FamilyRelashionships, FamilyRelative, User } from "~/types/users";
 import { Button } from "../common/Button";
 import { useMutation } from "@tanstack/react-query";
 import { deleteFamilyRelative } from "~/lib/api/users";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import DeleteFamilyMemberDialog from "./DeleteFamilyMemberDialog";
-import Link from "next/link";
+import { Link, useRouter } from "~/navigation";
 
 interface FamilyRelativesProps {
   relatives: FamilyRelative[];

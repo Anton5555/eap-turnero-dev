@@ -5,9 +5,7 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "../common/Input";
-import Link from "next/link";
 import { Button } from "../common/Button";
-import { useRouter } from "next/navigation";
 import { Select } from "../common/Select";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -18,34 +16,41 @@ import { Checkbox } from "../common/Checkbox";
 import { useTranslations } from "next-intl";
 import DatePicker from "../profile/DatePicker";
 import { isOver18 } from "~/lib/utils";
+import { Link, useRouter } from "~/navigation";
 
 const signupFormSchema = z
   .object({
-    name: z.string().min(1, { message: "fields.firstName.errors.required" }),
-    lastName: z.string().min(1, { message: "fields.lastName.errors.required" }),
-    location: z.string().min(1, { message: "fields.location.errors.required" }),
-    email: z.string().email({ message: "fields.email.errors.required" }),
+    name: z
+      .string()
+      .min(1, { message: "signUp.fields.firstName.errors.required" }),
+    lastName: z
+      .string()
+      .min(1, { message: "signUp.fields.lastName.errors.required" }),
+    location: z
+      .string()
+      .min(1, { message: "signUp.fields.location.errors.required" }),
+    email: z.string().email({ message: "signUp.fields.email.errors.required" }),
     password: z
       .string()
-      .min(8, { message: "fields.password.errors.minLength" }),
+      .min(8, { message: "signUp.fields.password.errors.minLength" }),
     confirmPassword: z
       .string()
-      .min(8, { message: "fields.password.errors.minLength" }),
+      .min(8, { message: "signUp.fields.password.errors.minLength" }),
     pdp: z.boolean().refine((val) => val === true, {
-      message: "fields.pdp.errors.required",
+      message: "signUp.fields.pdp.errors.required",
     }),
     birthdate: z
       .date({
-        required_error: "fields.birthdate.errors.required",
+        required_error: "signUp.fields.birthdate.errors.required",
       })
-      .refine(isOver18, { message: "fields.birthdate.errors.under18" }),
+      .refine(isOver18, { message: "signUp.fields.birthdate.errors.under18" }),
     dataVeracity: z.boolean().refine((val) => val === true, {
-      message: "fields.dataVeracity.errors.required",
+      message: "signUp.fields.dataVeracity.errors.required",
     }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
-    message: "fields.confirmPassword.errors.match",
+    message: "signUp.fields.confirmPassword.errors.match",
   });
 
 export type SignupFormInputs = z.infer<typeof signupFormSchema>;
@@ -53,7 +58,7 @@ export type SignupFormInputs = z.infer<typeof signupFormSchema>;
 const SignUpForm: React.FC = () => {
   const router = useRouter();
 
-  const t = useTranslations("signUp");
+  const t = useTranslations();
 
   const {
     register,
@@ -72,12 +77,14 @@ const SignUpForm: React.FC = () => {
     mutationFn: createUser,
     onError: (error) => {
       if (error.message === "userExists") {
-        setError("email", { message: t("fields.email.errors.alreadyExists") });
+        setError("email", {
+          message: t("signUp.fields.email.errors.alreadyExists"),
+        });
 
         return;
       }
 
-      toast.error(t("errors.genericError"));
+      toast.error(t("signUp.errors.genericError"));
     },
     onSuccess: () => {
       router.push("/auth/welcome");
@@ -96,8 +103,8 @@ const SignUpForm: React.FC = () => {
         type="text"
         id="name"
         {...register("name")}
-        placeholder={t("fields.firstName.placeholder")}
-        label={t("fields.firstName.label")}
+        placeholder={t("signUp.fields.firstName.placeholder")}
+        label={t("signUp.fields.firstName.label")}
         errorText={errors.name?.message && t(errors.name.message)}
       />
 
@@ -105,8 +112,8 @@ const SignUpForm: React.FC = () => {
         type="text"
         id="lastName"
         {...register("lastName")}
-        placeholder={t("fields.lastName.placeholder")}
-        label={t("fields.lastName.label")}
+        placeholder={t("signUp.fields.lastName.placeholder")}
+        label={t("signUp.fields.lastName.label")}
         errorText={errors.lastName?.message && t(errors.lastName.message)}
       />
 
@@ -114,8 +121,8 @@ const SignUpForm: React.FC = () => {
         type="email"
         id="email"
         {...register("email")}
-        placeholder={t("fields.email.placeholder")}
-        label={t("fields.email.label")}
+        placeholder={t("signUp.fields.email.placeholder")}
+        label={t("signUp.fields.email.label")}
         errorText={errors.email?.message && t(errors.email?.message)}
       />
 
@@ -124,8 +131,8 @@ const SignUpForm: React.FC = () => {
         {...register("location")}
         options={locations}
         value={location}
-        label={t("fields.location.label")}
-        placeholder={t("fields.location.placeholder")}
+        label={t("signUp.fields.location.label")}
+        placeholder={t("signUp.fields.location.placeholder")}
         errorText={errors.location?.message && t(errors.location?.message)}
       />
 
@@ -134,7 +141,7 @@ const SignUpForm: React.FC = () => {
         id="password"
         {...register("password")}
         placeholder="********"
-        label={t("fields.password.label")}
+        label={t("signUp.fields.password.label")}
         errorText={errors.password?.message && t(errors.password?.message)}
       />
 
@@ -143,7 +150,7 @@ const SignUpForm: React.FC = () => {
         id="confirmPassword"
         {...register("confirmPassword")}
         placeholder="********"
-        label={t("fields.confirmPassword.label")}
+        label={t("signUp.fields.confirmPassword.label")}
         errorText={
           errors.confirmPassword?.message && t(errors.confirmPassword?.message)
         }
@@ -154,12 +161,12 @@ const SignUpForm: React.FC = () => {
         name="birthdate"
         render={({ field: { value, onChange } }) => (
           <DatePicker
-            label={t("fields.birthdate.label")}
+            label={t("signUp.fields.birthdate.label")}
             name="birthdate"
             className="ring-black"
             value={value}
             onChange={onChange}
-            placeholder={t("fields.birthdate.placeholder")}
+            placeholder={t("signUp.fields.birthdate.placeholder")}
             errorText={
               errors.birthdate?.message && t(errors.birthdate?.message)
             }
@@ -168,7 +175,7 @@ const SignUpForm: React.FC = () => {
       />
 
       <Checkbox
-        label={t("fields.dataVeracity.label")}
+        label={t("signUp.fields.dataVeracity.label")}
         {...register("dataVeracity")}
         errorText={
           errors.dataVeracity?.message && t(errors.dataVeracity?.message)
@@ -176,21 +183,21 @@ const SignUpForm: React.FC = () => {
       />
 
       <Checkbox
-        label={t("fields.pdp.label")}
+        label={t("signUp.fields.pdp.label")}
         {...register("pdp")}
         labelClassName="overflow-y-scroll h-16 "
         errorText={errors.pdp?.message && t(errors.pdp?.message)}
       />
 
       <Button size="full" type="submit" disabled={isSubmitting}>
-        {t("buttons.signUp")}
+        {t("signUp.buttons.signUp")}
       </Button>
 
       <div className="flex justify-center">
         <H4 className="text-base font-semibold text-black">
-          {t("alreadyHaveUser")}{" "}
+          {t("signUp.alreadyHaveUser")}{" "}
           <Link href={"/auth/login"} className="text-green">
-            {t("login")}
+            {t("signUp.login")}
           </Link>
         </H4>
       </div>

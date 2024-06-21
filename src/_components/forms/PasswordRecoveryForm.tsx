@@ -6,12 +6,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "../common/Input";
 import { Button } from "../common/Button";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { requestPasswordRecovery } from "~/lib/api/password-recovery";
-import Link from "next/link";
+import { Link, useRouter } from "~/navigation";
 
 const PasswordRecoveryForm: React.FC = () => {
   const router = useRouter();

@@ -1,17 +1,17 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "~/_components/common/Button";
-import Link from "next/link";
 import { H4, H6 } from "~/_components/common/Typography";
 import Logo from "~/_components/shared/Logo";
 import { getServerSession } from "next-auth";
 import ValidateAccountDialog from "~/_components/common/ValidateAccountDialog";
 import { getTranslations } from "next-intl/server";
+import { Link } from "~/navigation";
 
 const Page = async () => {
   const session = await getServerSession();
 
-  const t = await getTranslations("welcome");
+  const t = await getTranslations();
 
   return (
     <>
@@ -28,7 +28,7 @@ const Page = async () => {
           <a className="z-1 absolute h-full w-full bg-gradient-linear"></a>
         </div>
 
-        <div className="mx-6 mt-4 flex flex-1 flex-col items-center justify-center lg:mx-0 lg:mx-6 lg:mt-0 lg:h-[628px] lg:items-stretch">
+        <div className="mx-6 mt-4 flex flex-1 flex-col items-center justify-center lg:mx-0 lg:mt-0 lg:h-[628px] lg:items-stretch">
           <div className="mx-auto flex max-w-lg flex-grow flex-col justify-between">
             <div className="flex flex-col items-center space-y-6">
               <Logo width={107} height={51} />
@@ -40,15 +40,15 @@ const Page = async () => {
               </div>
 
               <div className="max-w-sm justify-center space-y-6">
-                <H4 className="text-center">{t("title")}</H4>
+                <H4 className="text-center">{t("welcome.title")}</H4>
 
                 <H6 className="text-center font-normal lg:text-start">
-                  {t.rich("text", {
+                  {t.rich("welcome.text", {
                     br: () => <br />,
                   })}
                 </H6>
 
-                <H6 className="text-center font-bold">{t("start")}</H6>
+                <H6 className="text-center font-bold">{t("welcome.start")}</H6>
               </div>
             </div>
 
@@ -58,7 +58,7 @@ const Page = async () => {
                   variant="default"
                   className="mt-2 w-full font-normal lg:w-auto"
                 >
-                  {t("next")}
+                  {t("welcome.next")}
                 </Button>
               </Link>
             </div>

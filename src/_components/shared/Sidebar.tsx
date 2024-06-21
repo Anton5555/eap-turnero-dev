@@ -6,20 +6,19 @@ import UserIcon from "../icons/User";
 import { cn } from "~/lib/utils";
 import BarsIcon from "../icons/Bars";
 import CloseIcon from "../icons/Close";
-import Link from "next/link";
 import { signOut } from "next-auth/react";
 import ExitIcon from "../icons/Exit";
 import Profile from "./Profile";
 import NotificationsMenu from "./NotificationsMenu";
 import { H6 } from "../common/Typography";
 import Logo from "./Logo";
-import { usePathname } from "next/navigation";
 import Help from "../common/Help";
 import { type AppointmentNotification } from "~/types/notifications";
 import { type User } from "~/types/users";
 import { useTranslations } from "next-intl";
 import LocaleSwitcher from "./LocaleSwitcher";
 import LocaleSwitcherMobile from "./LocaleSwitcherMobile";
+import { Link, usePathname } from "~/navigation";
 
 const navigation = [
   { href: "/platform", icon: HomeIcon, path: "platform" },
@@ -84,6 +83,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
                 </Link>
               </li>
             ))}
+
             <li className="block lg:hidden">
               <LocaleSwitcherMobile />
             </li>
@@ -96,7 +96,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
           </div>
 
           <div className="flex flex-row justify-between">
-            <Link
+            <a
               href="#"
               onClick={() => signOut()}
               className="group -mx-2 flex items-center gap-x-2 p-2 text-very-dark-blue"
@@ -104,7 +104,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, user, notifications }) => {
               <ExitIcon />
 
               <H6>{t("exit")}</H6>
-            </Link>
+            </a>
           </div>
         </li>
       </ul>

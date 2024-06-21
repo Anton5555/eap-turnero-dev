@@ -6,11 +6,9 @@ import { H3, H6 } from "../common/Typography";
 import Stepper from "../common/Stepper";
 import React, { useEffect, useState } from "react";
 import { cn } from "~/lib/utils";
-import Link from "next/link";
 import ArrowIcon from "../icons/Arrow";
 import { toast } from "sonner";
 import ConfirmationDialog from "./ConfirmationDialog";
-import { useRouter } from "next/navigation";
 import Filters from "./CreateAppointmentComponents/Filters";
 import ServiceSelector from "./CreateAppointmentComponents/ServiceSelector";
 import DateSelector from "./CreateAppointmentComponents/DateSelector";
@@ -24,6 +22,7 @@ import useCreateAppointment from "~/lib/hooks/useCreateAppointment";
 import { type ContractService } from "~/types/services";
 import { type User } from "~/types/users";
 import { useTranslations } from "next-intl";
+import { useRouter } from "~/navigation";
 
 const CreateAppointment: React.FC<{
   services: ContractService[];
@@ -224,7 +223,7 @@ const CreateAppointment: React.FC<{
         </div>
 
         <div className="hidden justify-end gap-8 pt-4 lg:flex">
-          <Link
+          <a
             href="#"
             className={`${currentStep === 1 && "pointer-events-none"}`}
             aria-disabled={currentStep === 1}
@@ -232,11 +231,11 @@ const CreateAppointment: React.FC<{
             onClick={() => currentStep !== 1 && setCurrentStep(currentStep - 1)}
           >
             <ArrowIcon direction="left" disabled={currentStep === 1} />
-          </Link>
+          </a>
 
-          <Link href="#" onClick={nextStep}>
+          <a href="#" onClick={nextStep}>
             <ArrowIcon direction="right" />
-          </Link>
+          </a>
         </div>
 
         <div className="flex w-full flex-col space-y-2 lg:hidden">

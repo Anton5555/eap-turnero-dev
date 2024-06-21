@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import {
   createAppointment,
   getAvailableProfessionalsByDateAndTime,
@@ -17,6 +16,7 @@ import { endOfMonth, format, startOfMonth } from "date-fns";
 import { toast } from "sonner";
 import { getActiveCase } from "../api/cases";
 import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "~/navigation";
 
 const filterAppointmentsByTimeRange = (
   appointments: FreeAppointment[],

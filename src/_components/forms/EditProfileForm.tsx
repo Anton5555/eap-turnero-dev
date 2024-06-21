@@ -16,9 +16,9 @@ import DatePicker from "../profile/DatePicker";
 import { useMutation } from "@tanstack/react-query";
 import { updateUser } from "~/lib/api/users";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { isOver18, parseDateWithoutTimezone } from "~/lib/utils";
 import { useTranslations } from "next-intl";
+import { useRouter } from "~/navigation";
 
 const editProfileSchema = z.object({
   name: z.string().min(1, { message: "fields.firstName.errors.required" }),
