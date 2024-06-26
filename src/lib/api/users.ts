@@ -27,6 +27,7 @@ const CreateUserAdapter = (data: SignupFormInputs) => ({
     (location) => location.value.toString() === data.location,
   )?.country,
   fecha_nacimiento: format(data.birthdate, "yyyy-MM-dd"),
+  tipo: 1,
 });
 
 const createUser = async (data: SignupFormInputs) => {
