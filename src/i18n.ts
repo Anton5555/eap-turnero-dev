@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { getRequestConfig } from "next-intl/server";
-
-const locales = ["en", "es"];
+import { locales } from "./config";
 
 export default getRequestConfig(async ({ locale }) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
