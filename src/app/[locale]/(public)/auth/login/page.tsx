@@ -5,7 +5,7 @@ import { redirect } from "~/navigation";
 import { H4, H6 } from "~/_components/common/Typography";
 import Logo from "~/_components/shared/Logo";
 import { getTranslations } from "next-intl/server";
-import PasswordChangedDialog from "~/_components/common/PasswordChangedDialog";
+import PasswordChangedDialog from "~/_components/users/PasswordChangedDialog";
 
 const Page = async ({
   searchParams,

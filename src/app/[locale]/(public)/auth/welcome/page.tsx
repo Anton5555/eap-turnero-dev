@@ -4,7 +4,7 @@ import { Button } from "~/_components/common/Button";
 import { H4, H6 } from "~/_components/common/Typography";
 import Logo from "~/_components/shared/Logo";
 import { getServerSession } from "next-auth";
-import ValidateAccountDialog from "~/_components/common/ValidateAccountDialog";
+import ValidateAccountDialog from "~/_components/users/ValidateAccountDialog";
 import { getTranslations } from "next-intl/server";
 import { Link } from "~/navigation";
 
