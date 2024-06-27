@@ -1,8 +1,8 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
-import { Button } from "../common/Button";
-import CloseIcon from "../icons/Close";
-import { H5 } from "../common/Typography";
+import { Button } from "../../common/Button";
+import CloseIcon from "../../icons/Close";
+import { H5 } from "../../common/Typography";
 import { useTranslations } from "next-intl";
 
 interface PdpConfirmationDialogProps {

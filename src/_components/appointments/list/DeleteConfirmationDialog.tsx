@@ -1,8 +1,8 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
-import { Button } from "../common/Button";
-import CancelIcon from "../icons/Cancel";
-import CloseIcon from "../icons/Close";
+import { Button } from "../../common/Button";
+import CancelIcon from "../../icons/Cancel";
+import CloseIcon from "../../icons/Close";
 import { format } from "date-fns";
 import { useTranslations } from "next-intl";
 

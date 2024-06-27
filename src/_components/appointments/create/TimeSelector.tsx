@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Button } from "~/_components/common/Button";
-import PlatformContainer from "~/_components/common/PlatformContainer";
+import PlatformContainer from "~/_components/appointments/list/PlatformContainer";
 import { H6 } from "~/_components/common/Typography";
 
 const TimeSelector = (props: {

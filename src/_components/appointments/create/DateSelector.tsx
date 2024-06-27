@@ -1,5 +1,5 @@
-import PlatformContainer from "~/_components/common/PlatformContainer";
-import Calendar from "../Calendar";
+import PlatformContainer from "~/_components/appointments/list/PlatformContainer";
+import Calendar from "./Calendar";
 import { H6 } from "~/_components/common/Typography";
 import { type FreeAppointmentsByDay } from "~/types/appointments";
 import { type DayClickEventHandler } from "react-day-picker";

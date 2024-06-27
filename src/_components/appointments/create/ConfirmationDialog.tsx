@@ -1,8 +1,8 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
-import CloseIcon from "../icons/Close";
-import { Button } from "../common/Button";
-import CalendarIcon from "../icons/Calendar";
+import CloseIcon from "../../icons/Close";
+import { Button } from "../../common/Button";
+import CalendarIcon from "../../icons/Calendar";
 import { modalities } from "~/lib/constants";
 import { useTranslations } from "next-intl";
 import useDateFnsLocale from "~/lib/hooks/useDateFnsLocale";

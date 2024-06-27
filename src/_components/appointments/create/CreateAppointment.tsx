@@ -1,19 +1,19 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { Button } from "../common/Button";
-import { H3, H6 } from "../common/Typography";
-import Stepper from "../common/Stepper";
+import { Button } from "../../common/Button";
+import { H3, H6 } from "../../common/Typography";
+import Stepper from "../../common/Stepper";
 import React, { useEffect, useState } from "react";
 import { cn } from "~/lib/utils";
-import ArrowIcon from "../icons/Arrow";
+import ArrowIcon from "../../icons/Arrow";
 import { toast } from "sonner";
 import ConfirmationDialog from "./ConfirmationDialog";
-import Filters from "./CreateAppointmentComponents/Filters";
-import ServiceSelector from "./CreateAppointmentComponents/ServiceSelector";
-import DateSelector from "./CreateAppointmentComponents/DateSelector";
-import TimeSelector from "./CreateAppointmentComponents/TimeSelector";
-import ProfessionalSelector from "./CreateAppointmentComponents/ProfessionalSelector";
+import Filters from "./Filters";
+import ServiceSelector from "./ServiceSelector";
+import DateSelector from "./DateSelector";
+import TimeSelector from "./TimeSelector";
+import ProfessionalSelector from "./ProfessionalSelector";
 import PdpConfirmationDialog from "./PdpConfirmationDialog";
 import { timeRanges } from "~/lib/constants";
 import { updateUserPdp } from "~/lib/api/users";

@@ -16,8 +16,8 @@ import Help from "../common/Help";
 import { type AppointmentNotification } from "~/types/notifications";
 import { type User } from "~/types/users";
 import { useTranslations } from "next-intl";
-import LocaleSwitcher from "./LocaleSwitcher";
-import LocaleSwitcherMobile from "./LocaleSwitcherMobile";
+import LocaleSwitcher from "./locale-switcher/LocaleSwitcher";
+import LocaleSwitcherMobile from "./locale-switcher/LocaleSwitcherMobile";
 import { Link, usePathname } from "~/navigation";
 
 const navigation = [

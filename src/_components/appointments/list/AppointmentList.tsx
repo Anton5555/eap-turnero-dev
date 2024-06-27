@@ -1,13 +1,13 @@
 "use client";
 
-import PlatformContainer from "../common/PlatformContainer";
+import PlatformContainer from "./PlatformContainer";
 import AppointmentsEmpty from "./AppointmentsEmpty";
 import { type Appointment } from "~/types/appointments";
 import { deleteAppointment } from "~/lib/api/appointments";
 import { useMutation } from "@tanstack/react-query";
 import AppointmentCard from "./AppointmentCard";
-import { H1, H6 } from "../common/Typography";
-import { Button } from "../common/Button";
+import { H1, H6 } from "../../common/Typography";
+import { Button } from "../../common/Button";
 import { useState } from "react";
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog";
 import { toast } from "sonner";

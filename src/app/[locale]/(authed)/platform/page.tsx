@@ -1,10 +1,10 @@
 import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";
-import AppointmentCreatedDialog from "~/_components/appointments/AppointmentCreatedDialog";
-import AppointmentList from "~/_components/appointments/AppointmentList";
+import AppointmentCreatedDialog from "~/_components/appointments/list/AppointmentCreatedDialog";
+import AppointmentList from "~/_components/appointments/list/AppointmentList";
 import Help from "~/_components/common/Help";
-import NextAppointmentsCalendar from "~/_components/common/NextAppointmentsCalendar";
-import PlatformContainer from "~/_components/common/PlatformContainer";
+import NextAppointmentsCalendar from "~/_components/appointments/list/NextAppointmentsCalendar";
+import PlatformContainer from "~/_components/appointments/list/PlatformContainer";
 import { H3, H5, H6 } from "~/_components/common/Typography";
 import { getAppointmentsByPatient } from "~/lib/api/appointments";
 import authOptions from "~/lib/authOptions";

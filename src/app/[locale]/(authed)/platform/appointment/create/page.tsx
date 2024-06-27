@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth";
-import CreateAppointment from "~/_components/appointments/CreateAppointment";
+import CreateAppointment from "~/_components/appointments/create/CreateAppointment";
 import { getContractServices } from "~/lib/api/services";
 import authOptions from "~/lib/authOptions";
 

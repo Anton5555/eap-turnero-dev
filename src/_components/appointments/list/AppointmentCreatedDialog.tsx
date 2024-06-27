@@ -2,8 +2,8 @@
 
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useState } from "react";
-import { H5 } from "../common/Typography";
-import { Button } from "../common/Button";
+import { H5 } from "../../common/Typography";
+import { Button } from "../../common/Button";
 import { SPECIALTY } from "~/types/services";
 import { modalities } from "~/lib/constants";
 import { MODALITY } from "~/types/appointments";
