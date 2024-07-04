@@ -11,8 +11,6 @@ const requestPasswordRecovery = async (email: string) => {
   );
 
   if (!response.ok) throw new Error();
-
-  return true;
 };
 
 type userTokenAPIData = {
@@ -66,8 +64,6 @@ const resetPassword = async (props: {
   });
 
   if (!response.ok) throw new Error("errorResettingPassword");
-
-  return true;
 };
 
 export { requestPasswordRecovery, resetPassword };

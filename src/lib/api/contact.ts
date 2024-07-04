@@ -38,8 +38,6 @@ const sendContactInformation = async (props: {
   });
 
   if (!response.ok) throw new Error();
-
-  return true;
 };
 
 export { sendContactInformation };
