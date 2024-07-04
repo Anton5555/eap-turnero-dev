@@ -1,7 +1,7 @@
 import LocaleSwitcherSelect from "./LocaleSwitcherSelect";
 import { locales } from "~/config";
 import { Menu } from "@headlessui/react";
-import { Button } from "../common/Button";
+import { Button } from "../../common/Button";
 import { useLocaleSwitcher } from "~/lib/hooks/useLocaleSwitcher";
 
 const LocaleSwitcher = () => {

@@ -1,4 +1,4 @@
-import PlatformContainer from "~/_components/common/PlatformContainer";
+import PlatformContainer from "~/_components/appointments/list/PlatformContainer";
 import { H6 } from "~/_components/common/Typography";
 import { type Professional } from "~/types/professionals";
 import ProfessionalInfo from "./ProfessionalInfo";

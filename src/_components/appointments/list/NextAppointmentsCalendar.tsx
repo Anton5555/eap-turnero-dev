@@ -11,9 +11,9 @@ import {
 
 import { cn, parseDateWithPreservedTimezone } from "~/lib/utils";
 import { buttonVariants } from "~/_components/common/Button";
-import ChevronLeft from "../icons/ChevronLeft";
-import ChevronRight from "../icons/ChevronRight";
-import { H6 } from "./Typography";
+import ChevronLeft from "../../icons/ChevronLeft";
+import ChevronRight from "../../icons/ChevronRight";
+import { H6 } from "../../common/Typography";
 import useDateFnsLocale from "~/lib/hooks/useDateFnsLocale";
 import { type Locale, format } from "date-fns";
 

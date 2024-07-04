@@ -2,7 +2,7 @@
 
 import React, { Fragment, type ReactNode } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import LocaleIcon from "../icons/Locale";
+import LocaleIcon from "../../icons/Locale";
 import { useTranslations } from "next-intl";
 
 type Props = {

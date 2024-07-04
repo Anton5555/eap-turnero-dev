@@ -1,7 +1,7 @@
 import { Link } from "~/navigation";
-import { Button } from "../common/Button";
-import { H6 } from "../common/Typography";
-import PlusIcon from "../icons/Plus";
+import { Button } from "../../common/Button";
+import { H6 } from "../../common/Typography";
+import PlusIcon from "../../icons/Plus";
 import { useTranslations } from "next-intl";
 
 const AppointmentsEmpty = () => {

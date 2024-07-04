@@ -1,4 +1,4 @@
-import PlatformContainer from "~/_components/common/PlatformContainer";
+import PlatformContainer from "~/_components/appointments/list/PlatformContainer";
 import { Button } from "~/_components/common/Button";
 import { type ContractService } from "~/types/services";
 import { H6 } from "~/_components/common/Typography";

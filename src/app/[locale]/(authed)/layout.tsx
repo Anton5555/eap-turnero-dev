@@ -1,5 +1,7 @@
 import { getServerSession } from "next-auth";
+import { getLocale } from "next-intl/server";
 import React from "react";
+import LanguageNotImplementedDialog from "~/_components/common/LanguageNotImplementedDialog";
 import Sidebar from "~/_components/shared/Sidebar";
 import { getNotifications } from "~/lib/api/notifications";
 import authOptions from "~/lib/authOptions";
@@ -16,6 +18,8 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
 
   const { user } = session;
 
+  const currentLocale = await getLocale();
+
   const notifications: AppointmentNotification[] = await getNotifications({
     patientId: Number(session.user.id),
     accessToken: user.accessToken,
@@ -28,6 +32,8 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
           {children}
         </div>
       </Sidebar>
+
+      {currentLocale === "pt" && <LanguageNotImplementedDialog />}
     </section>
   );
 };

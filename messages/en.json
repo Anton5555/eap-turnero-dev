@@ -144,9 +144,9 @@
   },
   "localeSwitcher": {
     "openLocaleMenu": "Open language menu",
-    "locale": "{locale, select, es {ES} en {EN} other {}}",
+    "locale": "{locale, select, es {ES} en {EN} pt {PT} other {}}",
     "language": "Language",
-    "localeFull": "{locale, select, es {Español} en {English} other {}}",
+    "localeFull": "{locale, select, es {Español} en {English} pt {Português} other {}}",
     "changingLocale": "Changing language"
   },
   "help": {
@@ -380,5 +380,46 @@
     "recoverPassword": "Recover password",
     "enterEmail": "Enter your email to recover your password and we'll send an email with instructions to reset it",
     "enterPassword": "Enter new password"
+  },
+  "landing": {
+    "welcome": "Welcome!",
+    "message": "Please, fill in the contact form",
+    "fields": {
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter your email",
+        "errors": {
+          "required": "Please enter a valid email"
+        }
+      },
+      "specialty": {
+        "label": "Specialty",
+        "placeholder": "Select a specialty",
+        "errors": {
+          "required": "Select a specialty"
+        }
+      },
+      "availability": {
+        "label": "Availability",
+        "placeholder": "Please write here your availability, indicate at least 3 possible days and times to coordinate an appointment.",
+        "errors": {
+          "required": "Please write your availability"
+        }
+      }
+    },
+    "button": "Confirm",
+    "confirmationDialog": {
+      "title": "Thank you!",
+      "message": "We've received your information and we'll get in touch with you in the next <highlight>24 hours.</highlight>",
+      "button": "Got it"
+    },
+    "loading": "Sending information",
+    "error": "Error sending information",
+    "subject": "Service request Mercado Libre Direction"
+  },
+  "languageNotImplementedDialog": {
+    "title": "Language not implemented",
+    "message": "This language is not implemented yet, please select another language",
+    "button": "Got it"
   }
 }

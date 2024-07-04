@@ -76,7 +76,8 @@
       "password": {
         "label": "Contraseña",
         "errors": {
-          "minLength": "La contraseña debe tener al menos 8 caracteres"
+          "minLength": "La contraseña debe tener al menos 8 caracteres",
+          "invalid": "La contraseña no es válida"
         }
       },
       "confirmPassword": {
@@ -143,9 +144,9 @@
   },
   "localeSwitcher": {
     "openLocaleMenu": "Abrir menú de idiomas",
-    "locale": "{locale, select, es {ES} en {EN} other {}}",
+    "locale": "{locale, select, es {ES} en {EN} pt {PT} other {}}",
     "language": "Idioma",
-    "localeFull": "{locale, select, es {Español} en {English} other {}}",
+    "localeFull": "{locale, select, es {Español} en {English} pt {Português} other {}}",
     "changingLocale": "Cambiando idioma"
   },
   "help": {
@@ -351,7 +352,8 @@
       "password": {
         "label": "Contraseña",
         "errors": {
-          "minLength": "La contraseña debe tener al menos 8 caracteres"
+          "minLength": "La contraseña debe tener al menos 8 caracteres",
+          "invalid": "La contraseña no es válida"
         }
       },
       "confirmPassword": {
@@ -378,5 +380,46 @@
     "recoverPassword": "Recuperar contraseña",
     "enterEmail": "Ingresa tu dirección de correo electronico y enviaremos un mail con instrucciones para recuperar contraseña.",
     "enterPassword": "Ingresa nueva contraseña"
+  },
+  "landing": {
+    "welcome": "¡Bienvenidos!",
+    "message": "Por favor, completa el formulario de contacto",
+    "fields": {
+      "email": {
+        "label": "Email",
+        "placeholder": "Ingresa tu email",
+        "errors": {
+          "required": "Ingresa un email válido"
+        }
+      },
+      "specialty": {
+        "label": "Especialidad",
+        "placeholder": "Selecciona una especialidad",
+        "errors": {
+          "required": "Selecciona una especialidad"
+        }
+      },
+      "availability": {
+        "label": "Disponibilidad",
+        "placeholder": "Por favor escriba aquí como es su disponibilidad, indique por lo menos 3 días y horarios posibles para coordinar una cita.",
+        "errors": {
+          "required": "Por favor escriba como es su disponibilidad"
+        }
+      }
+    },
+    "button": "Confirmar",
+    "confirmationDialog": {
+      "title": "¡Gracias!",
+      "message": "Hemos recibido tu información y nos pondremos en contacto contigo en las próximas <highlight>24 horas.</highlight>",
+      "button": "Entendido"
+    },
+    "loading": "Enviando información...",
+    "error": "Error al enviar información",
+    "subject": "Solicitud de servicio Dirección Mercado Libre"
+  },
+  "languageNotImplementedDialog": {
+    "title": "Idioma no implementado",
+    "message": "Lo sentimos, el idioma seleccionado está en proceso de desarrollo. Por favor, selecciona otro idioma.",
+    "button": "Entendido"
   }
 }

@@ -5,10 +5,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@radix-ui/react-accordion";
-import { Button } from "../common/Button";
-import LocaleFilledIcon from "../icons/LocaleFilled";
+import { Button } from "../../common/Button";
+import LocaleFilledIcon from "../../icons/LocaleFilled";
 import { cn } from "~/lib/utils";
-import ChevronIcon from "../icons/Chevron";
+import ChevronIcon from "../../icons/Chevron";
 import { useLocaleSwitcher } from "~/lib/hooks/useLocaleSwitcher";
 
 const LocaleSwitcherMobile = () => {

@@ -8,6 +8,7 @@ const publicPages = [
   "/auth/signup",
   "/auth/welcome",
   "/auth/password-recovery",
+  "/landing",
 ];
 
 const intlMiddleware = createIntlMiddleware({

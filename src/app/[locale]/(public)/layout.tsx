@@ -1,5 +1,5 @@
 import React from "react";
-import LocaleSwitcherContainer from "~/_components/shared/LocaleSwitcherContainer";
+import LocaleSwitcherContainer from "~/_components/shared/locale-switcher/LocaleSwitcherContainer";
 
 const Layout = ({ children }: { children: React.ReactNode }) => (
   <div className="relative flex flex-col ">

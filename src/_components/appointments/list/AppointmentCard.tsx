@@ -1,11 +1,11 @@
 "use client";
 
 import { MODALITY, type Appointment } from "~/types/appointments";
-import PlatformContainer from "../common/PlatformContainer";
+import PlatformContainer from "./PlatformContainer";
 import Image from "next/image";
-import { Button } from "../common/Button";
-import PhoneIcon from "../icons/Phone";
-import VideoIcon from "../icons/Video";
+import { Button } from "../../common/Button";
+import PhoneIcon from "../../icons/Phone";
+import VideoIcon from "../../icons/Video";
 import { useTranslations } from "next-intl";
 import { getDisplayableDateAndTime } from "~/lib/utils";
 import useDateFnsLocale from "~/lib/hooks/useDateFnsLocale";
