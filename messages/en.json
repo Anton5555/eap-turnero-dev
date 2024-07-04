@@ -401,7 +401,7 @@
       },
       "availability": {
         "label": "Availability",
-        "placeholder": "Please write how is your availability",
+        "placeholder": "Please write here your availability, indicate at least 3 possible days and times to coordinate an appointment.",
         "errors": {
           "required": "Please write your availability"
         }
@@ -414,7 +414,8 @@
       "button": "Got it"
     },
     "loading": "Sending information",
-    "error": "Error sending information"
+    "error": "Error sending information",
+    "subject": "Service request Mercado Libre Direction"
   },
   "languageNotImplementedDialog": {
     "title": "Language not implemented",

@@ -97,7 +97,7 @@
           "required": "Por favor escreva sua disponibilidade"
         },
         "label": "Disponibilidade",
-        "placeholder": "Por favor escreva como está sua disponibilidade"
+        "placeholder": "Por favor escreva sua disponibilidade, indique pelo menos 3 dias e horários possíveis para coordenar um compromisso."
       },
       "email": {
         "errors": {
@@ -117,7 +117,8 @@
     "message": "Por favor, preencha o formulário de contato",
     "welcome": "Bem-vindo!",
     "loading": "Enviando informações",
-    "error": "Erro ao enviar informações"
+    "error": "Erro ao enviar informações",
+    "subject": "Solicitação de serviço Direção Mercado Livre"
   },
   "localeSwitcher": {
     "changingLocale": "Mudando de idioma",
@@ -420,5 +421,6 @@
     "title": "Idioma não implementado",
     "message": "Desculpe, mas o idioma selecionado ainda não foi implementado. Por favor, selecione outro idioma para continuar.",
     "button": "Entendi"
-  }
+  },
+  "newModule": {}
 }

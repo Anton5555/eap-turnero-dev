@@ -6,29 +6,35 @@ const API_URL = env.NEXT_PUBLIC_API_URL;
 const parseContactForm = (
   contactFormData: ContactFormInputs,
   currentLocale: string,
+  subject: string,
 ) => {
   const { email, specialty, availability } = contactFormData;
 
   return {
+    lang: currentLocale,
+    body: availability,
+    asunto: subject,
+    especialidad: specialty,
     email,
-    specialty,
-    availability,
-    language: currentLocale,
   };
 };
 
 const sendContactInformation = async (props: {
   contactFormData: ContactFormInputs;
   currentLocale: string;
+  subject: string;
 }) => {
-  const { contactFormData, currentLocale } = props;
+  const { contactFormData, currentLocale, subject } = props;
 
-  // TODO: remove mocked response when endpoint is implemented
-  return true;
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
 
-  const response = await fetch(`${API_URL}/contact`, {
+  const response = await fetch(`${API_URL}/misc/sendEmailLang`, {
     method: "POST",
-    body: JSON.stringify(parseContactForm(contactFormData, currentLocale)),
+    body: JSON.stringify(
+      parseContactForm(contactFormData, currentLocale, subject),
+    ),
+    headers,
   });
 
   if (!response.ok) throw new Error();

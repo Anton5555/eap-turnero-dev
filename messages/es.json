@@ -401,7 +401,7 @@
       },
       "availability": {
         "label": "Disponibilidad",
-        "placeholder": "Por favor escriba aquí como es su disponibilidad",
+        "placeholder": "Por favor escriba aquí como es su disponibilidad, indique por lo menos 3 días y horarios posibles para coordinar una cita.",
         "errors": {
           "required": "Por favor escriba como es su disponibilidad"
         }
@@ -414,7 +414,8 @@
       "button": "Entendido"
     },
     "loading": "Enviando información...",
-    "error": "Error al enviar información"
+    "error": "Error al enviar información",
+    "subject": "Solicitud de servicio Dirección Mercado Libre"
   },
   "languageNotImplementedDialog": {
     "title": "Idioma no implementado",

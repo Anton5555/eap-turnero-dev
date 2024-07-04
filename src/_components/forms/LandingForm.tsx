@@ -81,6 +81,7 @@ const ContactForm: React.FC = () => {
       mutateAsync({
         contactFormData: data,
         currentLocale,
+        subject: t("landing.subject"),
       }),
       {
         loading: t("landing.loading"),
