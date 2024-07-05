@@ -21,7 +21,7 @@ import { useRouter } from "~/navigation";
 type SpecialtyColors = Record<string, string>;
 
 const specialtyColors: SpecialtyColors = {
-  informative: "bg-green",
+  information: "bg-green",
   legal: "bg-blue",
   finance: "bg-pink",
   nutrition: "bg-purple",
