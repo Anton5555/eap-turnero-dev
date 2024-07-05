@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { getActiveCase } from "../api/cases";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "~/navigation";
+import { toLocalISOString } from "../utils";
 
 const filterAppointmentsByTimeRange = (
   appointments: FreeAppointment[],
@@ -209,7 +210,7 @@ const useCreateAppointment = (user: User) => {
       if (!selectedService || !selectedTime) return;
 
       return getAvailableProfessionalsByDateAndTime({
-        date: selectedTime.dateFrom?.toISOString(),
+        date: toLocalISOString(selectedTime.dateFrom),
         timezone: user.timezone,
         specialtyId: selectedService.specialtyId,
         serviceId: selectedService.serviceId,
