@@ -22,27 +22,22 @@ import { toLocalISOString } from "../utils";
 const filterAppointmentsByTimeRange = (
   appointments: FreeAppointment[],
   timeRangeFilter: { start: number; end: number },
-): FreeAppointment[] => {
-  return appointments
-    .map((appointment) => {
-      const appointmentStartHour = new Date(appointment.start).getHours();
-      const appointmentEndHour = new Date(appointment.end).getHours();
+): FreeAppointment[] =>
+  appointments.filter((appointment) => {
+    const appointmentStartHour = new Date(appointment.start).getHours();
 
-      if (
-        appointmentStartHour < timeRangeFilter.start ||
-        appointmentEndHour > timeRangeFilter.end
-      )
-        return undefined;
+    const appointmentEndHour = new Date(appointment.end).getHours();
 
-      const appointmentEnd = new Date(appointment.end);
-      const lastAppointmentEndHour = appointmentEnd.getHours();
+    const isStartHourInRange =
+      appointmentStartHour >= timeRangeFilter.start &&
+      appointmentStartHour < timeRangeFilter.end;
 
-      if (lastAppointmentEndHour > timeRangeFilter.end) return undefined;
+    const isEndHourInRange =
+      appointmentEndHour > timeRangeFilter.start &&
+      appointmentEndHour <= timeRangeFilter.end;
 
-      return appointment;
-    })
-    .filter(Boolean) as FreeAppointment[];
-};
+    return isStartHourInRange && isEndHourInRange;
+  });
 
 const useCreateAppointment = (user: User) => {
   const router = useRouter();
@@ -157,6 +152,8 @@ const useCreateAppointment = (user: User) => {
       }
 
       if (selectedTime) setSelectedTime(undefined);
+
+      setCurrentStep(2);
 
       return filteredFreeAppointments;
     },
