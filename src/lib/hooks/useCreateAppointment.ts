@@ -12,7 +12,7 @@ import type {
   FreeAppointment,
   FreeAppointmentsByDay,
 } from "~/types/appointments";
-import { endOfMonth, format, startOfMonth } from "date-fns";
+import { addDays, endOfMonth, format, startOfMonth } from "date-fns";
 import { toast } from "sonner";
 import { getActiveCase } from "../api/cases";
 import { useLocale, useTranslations } from "next-intl";
@@ -113,7 +113,7 @@ const useCreateAppointment = (user: User) => {
       const freeAppointmentsResponse = await getFreeAppointments({
         dateFrom:
           displayedMonth.getMonth() === new Date().getMonth()
-            ? format(new Date(), "yyyy-MM-dd")
+            ? format(addDays(new Date(), 1), "yyyy-MM-dd")
             : format(startOfMonth(displayedMonth), "yyyy-MM-dd"),
         dateTo: format(endOfMonth(displayedMonth), "yyyy-MM-dd"),
         timezone: user.timezone,
