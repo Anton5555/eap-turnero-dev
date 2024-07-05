@@ -40,6 +40,12 @@ const parseDateWithoutTimezone = (dateString: string): Date => {
   return new Date(year, month, day);
 };
 
+const toLocalizedISOString = (date: Date) => {
+  const pad = (num: number) => num.toString().padStart(2, "0");
+
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+};
+
 const isOver18 = (date: Date) => {
   const ageDiff = Date.now() - date.getTime();
   const ageDate = new Date(ageDiff);
@@ -100,6 +106,7 @@ export {
   parseJwt,
   parseDateWithPreservedTimezone,
   parseDateWithoutTimezone,
+  toLocalizedISOString as toLocalISOString,
   isOver18,
   getDisplayableDateAndTime,
 };
