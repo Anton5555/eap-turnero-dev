@@ -60,8 +60,10 @@ const AppointmentCreatedDialog: React.FC<AppointmentCreatedDialogProps> = ({
         <a
           href={
             specialty === SPECIALTY.PSICOLOGY
-              ? "https://drive.google.com/drive/u/0/folders/1y9V5JEHQpQnfkH2tZAG_WPo4Or-gsPzb"
-              : "https://drive.google.com/drive/u/0/folders/1y9V5JEHQpQnfkH2tZAG_WPo4Or-gsPzb"
+              ? "./assets/terms/psychology.pdf"
+              : specialty === SPECIALTY.NUTRITION
+                ? "./assets/terms/nutrition.pdf"
+                : "./assets/terms/other.pdf"
           }
           className="text-sm text-blue underline"
           target="_blank"
